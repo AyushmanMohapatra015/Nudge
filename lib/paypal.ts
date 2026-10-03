@@ -55,6 +55,36 @@ export async function sendInvoice(invoice: Invoice): Promise<Invoice> {
   await paypal(`/v2/invoicing/invoices/${invoice.id}/send`, 'POST', { send_to_recipient: true, send_to_invoicer: true }, `send-${invoice.id}`);
   return { ...current, status: 'UNPAID', remoteStatus: 'SENT' };
 }
+export async function recoverInvoice(agreement: Agreement, proposal: Proposal, invoiceId: string): Promise<Invoice> {
+  if (mode() !== 'sandbox') throw new Error('Invoice recovery is available only in sandbox mode.');
+  if (!/^INV2-[A-Z0-9-]+$/.test(invoiceId)) throw new Error('Enter the PayPal sandbox invoice ID.');
+  const key = `invoice-${proposal.id}`;
+  const attempt = cachedOperation<{ startedAt: string; invoiceNumber: string }>(`attempt-${key}`);
+  if (!attempt) throw new Error('No unresolved creation attempt exists for this work.');
+  const saved = cachedOperation<Invoice>(key);
+  if (saved && saved.id !== invoiceId) throw new Error('A different invoice ID is already recorded for this work.');
+  const remote = await paypal(`/v2/invoicing/invoices/${invoiceId}`);
+  const item = remote.items?.[0];
+  const value = (proposal.amountCents / 100).toFixed(2);
+  const expectedName = proposal.id.startsWith('base-') ? 'Approved project work' : 'Approved additional work';
+  if (remote.id !== invoiceId || remote.detail?.invoice_number !== attempt.invoiceNumber ||
+      remote.detail?.currency_code !== 'USD' || remote.amount?.currency_code !== 'USD' || remote.amount?.value !== value ||
+      remote.invoicer?.email_address?.toLowerCase() !== process.env.PAYPAL_MERCHANT_EMAIL?.toLowerCase() ||
+      remote.primary_recipients?.length !== 1 || remote.primary_recipients[0].billing_info?.email_address?.toLowerCase() !== agreement.clientEmail.toLowerCase() ||
+      remote.items?.length !== 1 || item.name !== expectedName || item.description !== proposal.deliverables.join('; ').slice(0, 1000) ||
+      Number(item.quantity) !== 1 || item.unit_amount?.currency_code !== 'USD' || item.unit_amount?.value !== value) {
+    throw new Error('This invoice does not match the approved work, recipient, currency, and amount. Recovery blocked.');
+  }
+  const dueDate = remote.detail?.payment_term?.due_date;
+  if (typeof dueDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(dueDate) ||
+      !['DRAFT', 'SENT', 'SCHEDULED', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(remote.status)) {
+    throw new Error('Invoice status or due date requires manual review. Recovery blocked.');
+  }
+  const invoice = reconcileInvoice({ id: invoiceId, proposalId: proposal.id, status: 'DRAFT', amountCents: proposal.amountCents,
+    outstandingCents: proposal.amountCents, createdAt: attempt.startedAt, dueDate, reminders: 0 }, remote);
+  cacheOperation(key, invoice);
+  return invoice;
+}
 export function reconcileInvoice(invoice: Invoice, remote: Record<string, any>): Invoice {
   const status = ['DRAFT', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(remote.status) ? remote.status as Invoice['status'] : remote.status === 'SENT' || remote.status === 'SCHEDULED' ? 'UNPAID' : 'OTHER';
   const rawOutstanding = remote.due_amount?.value;

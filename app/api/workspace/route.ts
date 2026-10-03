@@ -5,7 +5,7 @@ import { agreementSchema, reminderGate, utcDate, money, type Proposal } from '@/
 import { read, mutate, log, requireIdle, mode, seed } from '@/lib/store';
 import { authorized, sameOrigin } from '@/lib/auth';
 import { analyze } from '@/lib/ai';
-import { createInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
+import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
 import { reconcileOutstanding } from '@/lib/reconciliation';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -17,6 +17,7 @@ const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('analyze'), request: z.string().trim().min(10).max(5000) }),
   z.object({ type: z.literal('approveProposal'), id: z.string(), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
   z.object({ type: z.literal('createInvoice'), id: z.string() }),
+  z.object({ type: z.literal('recoverInvoice'), id: z.string(), invoiceId: z.string().regex(/^INV2-[A-Z0-9-]+$/) }),
   z.object({ type: z.literal('sendInvoice'), id: z.string() }),
   z.object({ type: z.literal('syncInvoice'), id: z.string() }),
   z.object({ type: z.literal('simulatePayment'), id: z.string() }),
@@ -58,9 +59,10 @@ export async function POST(request: NextRequest) {
       const snapshot = mutate(s => {
         requireIdle(s);
         if (action.type === 'analyze' && s.agreementStatus !== 'accepted') throw new Error('The client must accept the agreement before scope comparison.');
-        if (action.type === 'createInvoice') {
+        if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
           if (action.id === 'base' ? s.agreementStatus !== 'accepted' : !s.proposals.some(p => p.id === action.id && p.status === 'accepted')) throw new Error('Client acceptance is required before invoicing.');
           if (s.invoices.some(i => i.proposalId === action.id)) throw new Error('An invoice already exists for this accepted work.');
+          if (action.type === 'recoverInvoice' && s.invoices.some(i => i.id === action.invoiceId)) throw new Error('This invoice is already linked to another work item.');
         }
         if (['sendInvoice', 'syncInvoice'].includes(action.type)) {
           const invoice = s.invoices.find(i => i.id === ('id' in action ? action.id : ''));
@@ -79,10 +81,11 @@ export async function POST(request: NextRequest) {
       if (action.type === 'analyze') {
         const result = await analyze(action.request, snapshot.agreement);
         mutate(s => { s.proposals.unshift({ id: randomUUID(), request: action.request, analysis: result, amountCents: 0, deliverables: result.deliverables, status: 'draft' }); log(s, result.source === 'claude' ? 'Claude' : 'Simulation', 'Scope comparison ready', result.summary); });
-      } else if (action.type === 'createInvoice') {
+      } else if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
         const proposal: Proposal = action.id === 'base' ? { id: `base-${snapshot.clientToken.slice(0, 16)}`, request: 'Original agreement', analysis: { classification: 'included', summary: 'Original approved project scope.', references: [], questions: [], deliverables: [], source: 'simulation' }, amountCents: snapshot.agreement.amountCents, deliverables: [snapshot.agreement.title], status: 'accepted' } : snapshot.proposals.find(p => p.id === action.id)!;
-        const invoice = await createInvoice(snapshot.agreement, proposal); invoice.proposalId = action.id;
-        mutate(s => { s.invoices.push(invoice); log(s, 'You', 'Invoice created', `${money(invoice.amountCents)} draft. Sending requires a separate approval.`, `invoice-${proposal.id}`); });
+        const invoice = action.type === 'recoverInvoice' ? await recoverInvoice(snapshot.agreement, proposal, action.invoiceId) : await createInvoice(snapshot.agreement, proposal);
+        invoice.proposalId = action.id;
+        mutate(s => { s.invoices.push(invoice); log(s, 'You', action.type === 'recoverInvoice' ? 'Existing invoice recovered' : 'Invoice created', action.type === 'recoverInvoice' ? `${invoice.id}: ${invoice.status}. Verified against approved work; no create or send request made.` : `${money(invoice.amountCents)} draft. Sending requires a separate approval.`, `invoice-${proposal.id}`); });
       } else if (action.type === 'sendInvoice' || action.type === 'syncInvoice') {
         let invoice = snapshot.invoices.find(i => i.id === action.id)!;
         if (action.type === 'sendInvoice') {
