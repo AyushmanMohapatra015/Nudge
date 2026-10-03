@@ -2,6 +2,8 @@
 
 Updated 2026-10-03. Workspace: D:\Nudge, Windows PowerShell, Node 24. User has one month and values careful implementation over speed.
 
+Current priority audit: see PROJECT_STATUS.md for authoritative current readiness and next steps. Historical paragraphs below preserve milestones but some earlier statuses are superseded. Core direction is sound; do not automatically extend the recovery-feature sequence. Immediate next task is freelancer validation materials and scope-decision acceptance criteria (included/ambiguous work must not accidentally become a paid extra). Real AI remains a required unfinished milestone, on hold pending Elastic support. Brief extraction, classification correction, crash-lock recovery, client-link controls, genuine webhooks, clean-checkout/judge access, user testing, and final submission remain open. Earlier percentage was not a readiness metric.
+
 ## Active checkpoint: resume Elastic after support replies
 
 - Status: WAITING FOR ELASTIC SUPPORT. User submitted questions about trial AI allowance, remaining quota, the hackathon extension, and demo access during judging. Revisit this checkpoint as soon as the user shares the reply.
