@@ -33,4 +33,4 @@ The project is on track in direction, but not submission-ready. An earlier 50–
 
 Elastic AI calls remain on hold pending support clarification. No paid billing, real payments, or public deployment is authorized by this status review. Local mocks and documentation can proceed. Do not expose secrets in judge instructions or public GitHub: provide controlled access or instructions for local private configuration.
 
-Immediate next task: prepare freelancer validation materials and scope-decision acceptance criteria; do not start another retry feature automatically. User feedback and the live AI checkpoint determine the next substantial implementation work.
+Validation materials and scope-decision acceptance criteria are now prepared in FREELANCER_VALIDATION.md and SCOPE_DECISION_RULES.md. No interviews conducted or scope-decision changes implemented yet. Immediate next implementation task: the bounded scope review/clarification gate before extra-work pricing, with preserved analysis and server enforcement. The owner can conduct interviews in parallel; real AI remains behind its allowance checkpoint. Do not start another retry feature automatically.
