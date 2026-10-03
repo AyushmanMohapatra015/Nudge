@@ -85,7 +85,12 @@ export async function POST(request: NextRequest) {
         mutate(s => { s.invoices.push(invoice); log(s, 'You', 'Invoice created', `${money(invoice.amountCents)} draft. Sending requires a separate approval.`, `invoice-${proposal.id}`); });
       } else if (action.type === 'sendInvoice' || action.type === 'syncInvoice') {
         let invoice = snapshot.invoices.find(i => i.id === action.id)!;
-        if (action.type === 'sendInvoice') { await sendInvoice(invoice); invoice = { ...invoice, status: 'UNPAID' }; }
+        if (action.type === 'sendInvoice') {
+          invoice = await sendInvoice(invoice);
+          // Keep the confirmed send/recovered state even if the subsequent detail lookup fails.
+          const sent = invoice;
+          mutate(s => { s.invoices = s.invoices.map(i => i.id === sent.id ? sent : i); });
+        }
         invoice = await syncInvoice(invoice);
         mutate(s => { s.invoices = s.invoices.map(i => i.id === invoice.id ? invoice : i); log(s, 'PayPal', action.type === 'sendInvoice' ? 'Invoice sent' : 'Invoice reconciled', mode() === 'demo' ? `${invoice.id}: ${invoice.status} (local simulation).` : `${invoice.id}: ${invoice.remoteStatus || invoice.status}.`, key); });
       } else if (action.type === 'sendReminder') {

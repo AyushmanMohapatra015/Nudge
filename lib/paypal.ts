@@ -30,6 +30,10 @@ export async function createInvoice(agreement: Agreement, proposal: Proposal): P
   if (mode() === 'sandbox') {
     if (!process.env.PAYPAL_MERCHANT_EMAIL) throw new Error('PAYPAL_MERCHANT_EMAIL is required.');
     if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(process.env.PAYPAL_MERCHANT_EMAIL)) throw new Error('PAYPAL_MERCHANT_EMAIL must contain only the sandbox business email, without a dashboard URL, account ID, or extra text.');
+    const attemptKey = `attempt-${key}`;
+    if (cachedOperation(attemptKey)) throw new Error('An earlier invoice creation has an unresolved outcome. Inspect the PayPal sandbox invoice list before retrying; automatic recreation is blocked.');
+    // A lost creation response must not trigger another POST merely because no ID was saved.
+    cacheOperation(attemptKey, { startedAt: new Date().toISOString(), invoiceNumber: `N-${proposal.id.slice(0, 16)}` });
     const data = await paypal('/v2/invoicing/invoices', 'POST', { detail: { invoice_number: `N-${proposal.id.slice(0, 16)}`, currency_code: 'USD', note: `${originalProject ? 'Approved project' : 'Approved change to'} ${agreement.title}. ${proposal.deliverables.join('; ')}`.slice(0, 4000), payment_term: { term_type: 'DUE_ON_DATE_SPECIFIED', due_date: dueDate } }, invoicer: { email_address: process.env.PAYPAL_MERCHANT_EMAIL }, primary_recipients: [{ billing_info: { email_address: agreement.clientEmail } }], items: [{ name: originalProject ? 'Approved project work' : 'Approved additional work', description: proposal.deliverables.join('; ').slice(0, 1000), quantity: '1', unit_amount: { currency_code: 'USD', value: (proposal.amountCents / 100).toFixed(2) } }], configuration: { allow_tip: false } }, key);
     const selfLink = data.href || data.links?.find((l: { rel: string }) => l.rel === 'self')?.href;
     id = data.id || selfLink?.split('/').pop();
@@ -42,8 +46,14 @@ export async function createInvoice(agreement: Agreement, proposal: Proposal): P
   const invoice: Invoice = { id, proposalId: proposal.id, status: 'DRAFT', amountCents: proposal.amountCents, outstandingCents: proposal.amountCents, payUrl, createdAt: new Date().toISOString(), dueDate, reminders: 0 };
   cacheOperation(key, invoice); return invoice;
 }
-export async function sendInvoice(invoice: Invoice) {
-  if (mode() === 'sandbox') await paypal(`/v2/invoicing/invoices/${invoice.id}/send`, 'POST', { send_to_recipient: true, send_to_invoicer: true }, `send-${invoice.id}`);
+export async function sendInvoice(invoice: Invoice): Promise<Invoice> {
+  if (mode() === 'demo') return { ...invoice, status: 'UNPAID' };
+  // Recover a previous successful send before considering another notification.
+  const current = await syncInvoice(invoice);
+  if (['UNPAID', 'PARTIALLY_PAID', 'PAID'].includes(current.status)) return current;
+  if (current.status !== 'DRAFT') throw new Error('PayPal invoice is not a sendable draft. Reconcile its status before proceeding.');
+  await paypal(`/v2/invoicing/invoices/${invoice.id}/send`, 'POST', { send_to_recipient: true, send_to_invoicer: true }, `send-${invoice.id}`);
+  return { ...current, status: 'UNPAID', remoteStatus: 'SENT' };
 }
 export function reconcileInvoice(invoice: Invoice, remote: Record<string, any>): Invoice {
   const status = ['DRAFT', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(remote.status) ? remote.status as Invoice['status'] : remote.status === 'SENT' || remote.status === 'SCHEDULED' ? 'UNPAID' : 'OTHER';

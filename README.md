@@ -174,3 +174,8 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the one-month milestones and submissi
 - [Reminder API](https://developer.paypal.com/api/invoicing/v2/invoices-remind/)
 - [Claude tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)
 - [Hackathon rules](https://paypalaihackathon.devpost.com/rules)
+# Invoice recovery safeguards
+
+Before sending a sandbox invoice, Nudge retrieves its PayPal status. An already sent, partially paid, or paid invoice is reconciled without another send notification. Failed status lookups block sending. A confirmed send is saved locally before subsequent detail lookup.
+
+Invoice creation records an attempt before contacting PayPal. If the response does not yield a saved invoice ID, another creation attempt is blocked: inspect the sandbox invoice list using the recorded invoice number first. This intentionally conservative block also applies to rejected requests. A reviewed operator recovery flow is still pending; do not clear operation records blindly. Known invoice IDs are retained if a later lookup fails.
