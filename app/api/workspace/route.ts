@@ -101,8 +101,18 @@ export async function POST(request: NextRequest) {
         let invoice = await syncInvoice(snapshot.invoices.find(i => i.id === draft.invoiceId)!);
         const reasons = reminderGate(invoice, read().policies, read().promiseDate);
         if (reasons.length) { mutate(s => { s.invoices = s.invoices.map(i => i.id === invoice.id ? invoice : i); }); throw new Error(reasons.join(' ')); }
-        if (mode() === 'sandbox') await paypal(`/v2/invoicing/invoices/${invoice.id}/remind`, 'POST', { note: action.note, send_to_recipient: true, send_to_invoicer: true }, `remind-${draft.id}`);
+        if (mode() === 'sandbox') {
+          // Persist before contacting PayPal. A timeout or process exit may hide a successful send.
+          invoice = { ...invoice, pendingReminder: { draftId: draft.id, startedAt: new Date().toISOString() } };
+          const pending = invoice;
+          mutate(s => {
+            s.invoices = s.invoices.map(i => i.id === pending.id ? pending : i);
+            log(s, 'You', 'Reminder delivery started', `Approved note: ${action.note}. Outcome remains unconfirmed until PayPal responds.`, `remind-${draft.id}`);
+          });
+          await paypal(`/v2/invoicing/invoices/${invoice.id}/remind`, 'POST', { note: action.note, send_to_recipient: true, send_to_invoicer: true }, `remind-${draft.id}`);
+        }
         invoice = { ...invoice, reminders: invoice.reminders + 1, lastRemindedAt: new Date().toISOString() };
+        delete invoice.pendingReminder;
         mutate(s => { s.invoices = s.invoices.map(i => i.id === invoice.id ? invoice : i); s.reminderDraft = undefined; log(s, 'You', 'Reminder approved and sent', `${mode() === 'demo' ? 'Simulated: ' : ''}${action.note}`, `remind-${draft.id}`); });
       }
       mutate(s => { if (s.processing?.key === key) s.processing = undefined; }); runningKey = undefined;

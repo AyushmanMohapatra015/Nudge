@@ -17,7 +17,7 @@ export const analysisSchema = z.object({
 });
 export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'simulation' };
 export type InvoiceStatus = 'DRAFT' | 'UNPAID' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED' | 'OTHER';
-export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string };
+export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string; pendingReminder?: { draftId: string; startedAt: string } };
 export type Proposal = { id: string; request: string; analysis: Analysis; amountCents: number; deliverables: string[]; status: 'draft' | 'approved' | 'accepted' | 'declined'; approvedAt?: string; acceptedAt?: string };
 export type Audit = { id: string; time: string; actor: string; title: string; detail: string; key?: string };
 export type Policies = { protectedClient: boolean; reminderLimit: number; cooldownDays: number };
@@ -32,6 +32,7 @@ export const money = (cents: number) => new Intl.NumberFormat('en-US', { style: 
 export const utcDate = (d = new Date()) => d.toISOString().slice(0, 10);
 export function reminderGate(invoice: Invoice, policies: Policies, promiseDate?: string, now = new Date()) {
   const reasons: string[] = [];
+  if (invoice.pendingReminder) reasons.push('A previous reminder has an uncertain delivery outcome. Further reminders are blocked pending manual review.');
   if (!['UNPAID', 'PARTIALLY_PAID'].includes(invoice.status) || invoice.outstandingCents <= 0) reasons.push('Only an unpaid outstanding balance can be chased.');
   if (invoice.dueDate >= utcDate(now)) reasons.push('The invoice is not overdue yet.');
   if (policies.protectedClient) reasons.push('This client is protected from reminders.');
