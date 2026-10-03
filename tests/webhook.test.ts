@@ -24,7 +24,7 @@ test('webhook rejects forged events, reconciles partial payments, deduplicates a
     throw Error('Unexpected request');
   };
   const headers = { 'content-type': 'application/json', 'paypal-auth-algo': 'SHA256withRSA', 'paypal-cert-url': 'https://api.sandbox.paypal.com/test', 'paypal-transmission-id': 'test', 'paypal-transmission-sig': 'test', 'paypal-transmission-time': new Date().toISOString() };
-  const request = (id: string, signed = true) => new NextRequest('http://localhost/api/paypal/webhook', { method: 'POST', headers: signed ? headers : { 'content-type': 'application/json' }, body: JSON.stringify({ id, event_type: 'INVOICING.INVOICE.PAID', resource: { id: invoiceId, status: 'PAID' } }) });
+  const request = (id: string, signed = true, nested = false) => new NextRequest('http://localhost/api/paypal/webhook', { method: 'POST', headers: signed ? headers : { 'content-type': 'application/json' }, body: JSON.stringify({ id, event_type: 'INVOICING.INVOICE.PAID', resource: nested ? { invoice: { id: invoiceId, status: 'PAID' } } : { id: invoiceId, status: 'PAID' } }) });
   try {
     mutate(s => { s.invoices.push({ id: invoiceId, proposalId: 'base', status: 'UNPAID', amountCents: 1000, outstandingCents: 1000, createdAt: new Date().toISOString(), dueDate: '2026-10-10', reminders: 0 }); });
     assert.equal((await POST(request('missing', false))).status, 401);
@@ -43,7 +43,7 @@ test('webhook rejects forged events, reconciles partial payments, deduplicates a
     assert.equal((await POST(request('retry'))).status, 503);
     assert.equal(db().prepare('SELECT id FROM webhook_events WHERE id = ?').get('retry'), undefined);
     mutate(s => { delete s.processing; });
-    assert.equal((await POST(request('retry'))).status, 200);
+    assert.equal((await POST(request('retry', true, true))).status, 200);
     assert.equal(read().invoices[0].status, 'PAID');
     assert.equal(read().invoices[0].outstandingCents, 0);
   } finally {

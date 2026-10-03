@@ -6,6 +6,7 @@ import { read, mutate, log, requireIdle, mode, seed } from '@/lib/store';
 import { authorized, sameOrigin } from '@/lib/auth';
 import { analyze } from '@/lib/ai';
 import { createInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
+import { reconcileOutstanding } from '@/lib/reconciliation';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
@@ -32,6 +33,7 @@ function view() {
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
+  await reconcileOutstanding();
   return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
 }
 export async function POST(request: NextRequest) {

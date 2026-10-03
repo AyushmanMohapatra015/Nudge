@@ -35,5 +35,15 @@ test('invoice identity survives a failing follow-up; webhook signature failures 
     verification = 'SUCCESS'; assert.equal(await verifyWebhook(headers, event), true);
     assert.deepEqual(verificationPayload?.webhook_event, event);
     assert.equal(verificationPayload?.webhook_id, 'webhook-test');
+    const rawBody = '{ "create_time": "2026-10-03", "id": "event1", "event_type": "INVOICING.INVOICE.PAID" }';
+    const priorFetch = globalThis.fetch;
+    globalThis.fetch = async (input, init) => {
+      if (String(input).endsWith('/verify-webhook-signature')) {
+        assert.ok(String(init?.body).includes(`"webhook_event":${rawBody}`));
+        return Response.json({ verification_status: 'SUCCESS' });
+      }
+      return priorFetch(input, init);
+    };
+    assert.equal(await verifyWebhook(headers, JSON.parse(rawBody), rawBody), true);
   } finally { globalThis.fetch = originalFetch; for (const n of names) { if (before[n] === undefined) delete process.env[n]; else process.env[n] = before[n]; } }
 });

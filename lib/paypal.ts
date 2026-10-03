@@ -13,7 +13,7 @@ async function token() {
   const data = await response.json(); cachedToken = { token: data.access_token, expires: Date.now() + (data.expires_in - 60) * 1000 }; return cachedToken.token;
 }
 export async function paypal(path: string, method = 'GET', body?: unknown, key?: string): Promise<Record<string, any>> {
-  const response = await fetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
+  const response = await fetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: typeof body === 'string' ? body : JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
   const text = await response.text(); const data = text ? JSON.parse(text) : {};
   if (!response.ok) {
     const details = data.details?.map((d: { field?: string; issue?: string; description?: string }) => [d.field, d.issue, d.description].filter(Boolean).join(': ')).join('; ');
@@ -52,10 +52,13 @@ export function reconcileInvoice(invoice: Invoice, remote: Record<string, any>):
   return { ...invoice, status, remoteStatus: remote.status, outstandingCents, payUrl: remote.detail?.metadata?.recipient_view_url || invoice.payUrl };
 }
 export async function syncInvoice(invoice: Invoice) { return mode() === 'demo' ? invoice : reconcileInvoice(invoice, await paypal(`/v2/invoicing/invoices/${invoice.id}`)); }
-export async function verifyWebhook(headers: Headers, event: unknown) {
+export async function verifyWebhook(headers: Headers, event: unknown, rawBody?: string) {
   if (!process.env.PAYPAL_WEBHOOK_ID) throw new Error('PAYPAL_WEBHOOK_ID is required for verification.');
   const required = ['paypal-auth-algo', 'paypal-cert-url', 'paypal-transmission-id', 'paypal-transmission-sig', 'paypal-transmission-time'];
   if (required.some(h => !headers.get(h))) return false;
-  const result = await paypal('/v1/notifications/verify-webhook-signature', 'POST', { auth_algo: headers.get(required[0]), cert_url: headers.get(required[1]), transmission_id: headers.get(required[2]), transmission_sig: headers.get(required[3]), transmission_time: headers.get(required[4]), webhook_id: process.env.PAYPAL_WEBHOOK_ID, webhook_event: event });
+  const metadata = { auth_algo: headers.get(required[0]), cert_url: headers.get(required[1]), transmission_id: headers.get(required[2]), transmission_sig: headers.get(required[3]), transmission_time: headers.get(required[4]), webhook_id: process.env.PAYPAL_WEBHOOK_ID };
+  // Preserve the signed event bytes: validation/parsing must not reorder or reformat them.
+  const body = rawBody === undefined ? { ...metadata, webhook_event: event } : `${JSON.stringify(metadata).slice(0, -1)},"webhook_event":${rawBody}}`;
+  const result = await paypal('/v1/notifications/verify-webhook-signature', 'POST', body);
   return result.verification_status === 'SUCCESS';
 }
