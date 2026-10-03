@@ -72,6 +72,18 @@ The endpoint verifies PayPal's signature using the verification API, deduplicate
 
 Reference: [Invoicing events](https://developer.paypal.com/api/invoicing/webhooks/), [verification](https://developer.paypal.com/api/rest/webhooks/rest/).
 
+The sandbox-only helper `scripts/manage-sandbox-webhook.mjs` supports registration, invoice-event lookup, authentic redelivery, and removal of its own temporary registration. It never prints credentials or full event payloads. For example, after approving a tunnel:
+
+```sh
+node --env-file=.env.local scripts/manage-sandbox-webhook.mjs register https://YOUR-HOST.trycloudflare.com/api/paypal/webhook
+# Restart Nudge to load the registered webhook ID.
+node --env-file=.env.local scripts/manage-sandbox-webhook.mjs events YOUR-SANDBOX-INVOICE-ID
+node --env-file=.env.local scripts/manage-sandbox-webhook.mjs resend YOUR-ACTUAL-EVENT-ID
+node --env-file=.env.local scripts/manage-sandbox-webhook.mjs cleanup
+```
+
+Registration creates only an event subscription, not a payment. An empty event lookup is not proof of delivery. A payment completed before registration may require a separate, explicitly labelled sandbox invoice test. Completion requires a matching **Verified PayPal webhook** audit record, not just a successful registration or resend request. Stop the tunnel after testing and remove its temporary subscription with `cleanup`; restart Nudge after configuration changes.
+
 ## What is implemented
 
 - Editable draft agreement with immutable approved clauses and price.
