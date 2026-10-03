@@ -62,6 +62,25 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 
 The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Authentic webhook delivery and an actual AI provider response remain unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
 
+## Sponsor AI gateway setup
+
+Nudge can use Claude through Astropods without a separate paid Anthropic API key. The adapter supports the documented Anthropic passthrough endpoint, gateway-specific authentication, and Bedrock model IDs. The same clause validation and human approval rules apply. This integration has passed mocked tests; account authentication and a real model response remain to be verified.
+
+Set these only in your private local environment when Astropods supplies them:
+
+```dotenv
+NUDGE_AI_PROVIDER=astropods
+ASTRO_GATEWAY_URL=https://YOUR_PROVIDER_SUPPLIED_GATEWAY_HOST
+ASTRO_GATEWAY_API_KEY=YOUR_MANAGED_GATEWAY_SECRET
+ASTRO_MODEL=bedrock/claude-haiku-4-5
+```
+
+Do not copy a guessed gateway address or use your ordinary account login token as a gateway key. Keep the existing direct Anthropic configuration for optional `NUDGE_AI_PROVIDER=anthropic`; neither provider silently replaces errors with simulation.
+
+The official Windows local-agent path requires Docker and the Astropods CLI. Sign in with the CLI's browser/device flow; the platform injects managed gateway configuration into local agent containers. This does not automatically inject credentials into a separately running Next.js process. Complete and verify that local-agent setup before connecting this adapter. No local credential extraction is implemented. Start with a fictional agreement and one model request, compare the reported credits before/after, and do not add a payment method automatically.
+
+References: [CLI and Windows prerequisites](https://docs.astropods.com/install-cli), [First project](https://docs.astropods.com/get-started), [Anthropic API compatibility](https://docs.astropods.com/ai-gateway/anthropic).
+
 ## Webhooks
 
 Sponsor offers and the proposed no-cash setup are documented in [SPONSOR_RESOURCES.md](SPONSOR_RESOURCES.md). A read-only Postman collection is available at [postman/nudge-sandbox.postman_collection.json](postman/nudge-sandbox.postman_collection.json). Import it, set sandbox credentials privately and `invoice_id`, and run its three requests in order using the Collection Runner. The access token is kept in run-local variables; no payment operation is included. Clear secret variable values before sharing/exporting a collection. Preparing this collection is not a claim that a Postman run or a sponsor credit redemption has already been performed.

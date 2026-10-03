@@ -29,7 +29,7 @@ const actionSchema = z.discriminatedUnion('type', [
 ]);
 function view() {
   const s = read();
-  return { ...s, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
+  return { ...s, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: process.env.NUDGE_AI_PROVIDER === 'astropods' ? !!(process.env.ASTRO_GATEWAY_URL && process.env.ASTRO_GATEWAY_API_KEY && process.env.ASTRO_MODEL) : !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
