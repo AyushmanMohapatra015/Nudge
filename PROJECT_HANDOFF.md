@@ -3,6 +3,7 @@
 Updated 2026-10-03. Workspace: D:\Nudge, Windows PowerShell, Node 24. User has one month and values careful implementation over speed.
 
 ## Product
+Sponsor-first plan researched and saved in SPONSOR_RESOURCES.md; prioritize Astropods managed AI signup credits (amount unknown until user signup), $50 Render hackathon credits, APIMatic PayPal Context Plugin, and Postman. No account/credits claimed or sponsor runtime integration verified yet. Prepared read-only Postman collection in postman/ with empty secrets; import/run remains pending. Do not buy Claude credits before checking sponsor AI access. User wants relevant sponsor resources used and spending explicitly approved.
 Freelancer scope and payments workspace: approved agreement, AI comparison of change requests against clauses, human-priced changes, client acceptance, PayPal invoicing, policy-gated reminders and audit history. Next.js/TypeScript, built-in SQLite, Claude tool-use adapter. See PROJECT_PLAN.md and README.md.
 
 ## Verified milestone

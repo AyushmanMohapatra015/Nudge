@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "Nudge - read-only PayPal sandbox checks",
+    "description": "Authentication and read-only invoice checks. No invoice creation, sending, payment, refund, or cancellation. Fill secrets locally only; clear them before exporting. Import into Postman and run requests in order.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "paypal_client_id", "value": "" },
+    { "key": "paypal_client_secret", "value": "" },
+    { "key": "invoice_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1 - Get sandbox access token",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "basic", "basic": [
+          { "key": "username", "value": "{{paypal_client_id}}", "type": "string" },
+          { "key": "password", "value": "{{paypal_client_secret}}", "type": "string" }
+        ] },
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "body": { "mode": "urlencoded", "urlencoded": [{ "key": "grant_type", "value": "client_credentials" }] },
+        "url": "https://api-m.sandbox.paypal.com/v1/oauth2/token"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Sandbox authentication succeeds', function () { pm.response.to.have.status(200); });",
+        "if (pm.response.code === 200) { pm.variables.set('paypal_access_token', pm.response.json().access_token); } else { pm.variables.unset('paypal_access_token'); }"
+      ] } }]
+    },
+    {
+      "name": "2 - List sandbox invoices",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{paypal_access_token}}", "type": "string" }] },
+        "url": "https://api-m.sandbox.paypal.com/v2/invoicing/invoices?page_size=10"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Invoice list accessible', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "3 - Verify a sandbox invoice",
+      "event": [
+        { "listen": "prerequest", "script": { "type": "text/javascript", "exec": ["if (!/^INV2-[A-Z0-9-]+$/.test(pm.variables.get('invoice_id') || '')) { throw new Error('Set invoice_id to your sandbox INV2 invoice ID.'); }"] } },
+        { "listen": "test", "script": { "type": "text/javascript", "exec": [
+          "pm.test('Invoice lookup succeeds', function () { pm.response.to.have.status(200); });",
+          "pm.test('Expected invoice returned', function () { pm.expect(pm.response.json().id).to.eql(pm.variables.get('invoice_id')); });"
+        ] } }
+      ],
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{paypal_access_token}}", "type": "string" }] },
+        "url": "https://api-m.sandbox.paypal.com/v2/invoicing/invoices/{{invoice_id}}"
+      }
+    }
+  ]
+}

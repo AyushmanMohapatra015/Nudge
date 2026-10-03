@@ -64,6 +64,8 @@ The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer
 
 ## Webhooks
 
+Sponsor offers and the proposed no-cash setup are documented in [SPONSOR_RESOURCES.md](SPONSOR_RESOURCES.md). A read-only Postman collection is available at [postman/nudge-sandbox.postman_collection.json](postman/nudge-sandbox.postman_collection.json). Import it, set sandbox credentials privately and `invoice_id`, and run its three requests in order using the Collection Runner. The access token is kept in run-local variables; no payment operation is included. Clear secret variable values before sharing/exporting a collection. Preparing this collection is not a claim that a Postman run or a sponsor credit redemption has already been performed.
+
 While the authenticated owner workspace is open, a read-only recovery check runs at most once every 30 seconds for up to ten outstanding invoices. This keeps payment status current when webhook delivery is delayed. Results are audited as **PayPal reconciliation**, never as verified webhook delivery. Recovery skips busy workspaces and discards results if a newer action changed the workspace. PayPal failures preserve the last known state for a later retry. This is a local-prototype fallback, not a background scheduler when the workspace is closed.
 
 For local testing, run `node scripts/webhook-relay.mjs` while the app is running on port 3000. The relay listens on loopback port 3001 and forwards only `POST /api/paypal/webhook`; dashboard, session, and client routes are blocked. It preserves PayPal signature headers and the request body, strips authorization and cookies, and limits payloads to 256 KiB. Starting the relay does not open a public connection.
