@@ -15,14 +15,17 @@ export async function GET(_request: NextRequest, context: Context) {
 }
 export async function POST(request: NextRequest, context: Context) {
   if (!sameOrigin(request)) return NextResponse.json({ error: 'Cross-site request rejected.' }, { status: 403 });
-  if (!equal((await context.params).token, read().clientToken)) return NextResponse.json({ error: 'Client link not found.' }, { status: 404 });
+  const token = (await context.params).token;
+  if (!equal(token, read().clientToken)) return NextResponse.json({ error: 'Client link not found.' }, { status: 404 });
   try {
     const action = z.object({ type: z.enum(['acceptAgreement', 'acceptProposal', 'declineProposal']), id: z.string().optional() }).parse(await request.json());
     mutate(s => {
+      // Recheck after reading the body: the owner may have replaced the link meanwhile.
+      if (!equal(token, s.clientToken)) throw new Error('Client link is no longer valid.');
       requireIdle(s);
       if (action.type === 'acceptAgreement') { if (s.agreementStatus !== 'approved') throw new Error('Only an approved agreement can be accepted.'); s.agreementStatus = 'accepted'; s.agreementAcceptedAt = new Date().toISOString(); log(s, 'Client link holder', 'Agreement accepted', 'Approved scope version 1 accepted through the private client link.'); }
       else { const p = s.proposals.find(p => p.id === action.id); if (!p || p.status !== 'approved') throw new Error('Proposal is no longer awaiting a decision.'); p.status = action.type === 'acceptProposal' ? 'accepted' : 'declined'; if (p.status === 'accepted') p.acceptedAt = new Date().toISOString(); log(s, 'Client link holder', p.status === 'accepted' ? 'Change accepted' : 'Change declined', 'The client link holder recorded a decision on the reviewed proposal.', p.id); }
     });
-    return NextResponse.json(clientView());
+    return NextResponse.json(clientView(), { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) { return NextResponse.json({ error: e instanceof Error ? e.message : 'Unable to record acceptance.' }, { status: 400 }); }
 }
