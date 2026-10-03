@@ -4,7 +4,7 @@
 
 - Windows x64, 16 GB RAM, hypervisor present.
 - WSL 2.5.10.0 is installed (Docker documentation requires 2.1.5 or later).
-- Docker Desktop was not found at the system or per-user install location; Docker and Astropods CLI were not found on PATH.
+- Docker Desktop is now installed in the per-user location. User verified Docker client and engine version 29.8.1. The initial PATH issue was resolved in their terminal; they were given permanent user-PATH instructions. Astropods CLI remains unavailable.
 - User has reported USD 10 Astropods signup credit.
 - No model calls, cloud deployment, or credit usage occurred during these checks.
 
@@ -26,6 +26,8 @@ The second command must return a server version, not just confirm the CLI exists
 The [official CLI guide](https://docs.astropods.com/install-cli) points to the installer at https://astropods.com/install.ps1. That installer was downloaded for inspection only to ignored `data/tools/astropods-install.ps1`; it was not executed. It downloads from `https://download.astropods.ai/latest`, checks SHA256, then installs in the user's profile and changes their PATH.
 
 Both PowerShell and curl requests to the official checksum host failed with connection/TLS resets from this machine. The executable was not installed. Do not disable TLS verification, run an unverified binary, or execute a downloaded installer repeatedly. Retry the official host later or use the sponsor's documented support channel if the failure persists. No support message was sent by Codex.
+
+After Docker verification, a fresh Node HTTPS download attempt also failed with ECONNRESET. The documented astropods.com/download binary and checksum URLs redirect to the same failing host. No accessible official GitHub binary release was found. Next check whether the browser can open https://download.astropods.ai/latest/checksums.txt; report only whether it loads or the displayed error. A browser download alone is not checksum verification. Keep the CLI setup pending until both an official executable and its published checksum are available.
 
 When the host is reachable, verify the official checksum before running the CLI. Use a browser/device login controlled by the user; do not copy passwords or gateway keys into chat. The documented Windows local project runs inside Docker. Generate the agent harness in a separate subdirectory so it does not overwrite Nudge's Next.js AGENTS.md, package.json, or source.
 
