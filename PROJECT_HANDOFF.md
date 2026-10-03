@@ -2,6 +2,17 @@
 
 Updated 2026-10-03. Workspace: D:\Nudge, Windows PowerShell, Node 24. User has one month and values careful implementation over speed.
 
+## Active checkpoint: resume Elastic after support replies
+
+- Status: WAITING FOR ELASTIC SUPPORT. User submitted questions about trial AI allowance, remaining quota, the hackathon extension, and demo access during judging. Revisit this checkpoint as soon as the user shares the reply.
+- Elasticsearch Serverless trial is active in Google Cloud Mumbai (asia-south1). Trial expires October 17, 2026 at 19:07 UTC. Agent Builder is accessible; Elastic is not yet integrated into Nudge and no Elastic AI test has been verified.
+- HOLD: do not make Elastic AI calls or start integration tests until support clarifies the included allowance. Do not subscribe, add a payment method, or enable paid billing without explicit user approval.
+- On reply: confirm managed LLM allowance and how to monitor it; confirm whether the additional 30-day hackathon extension covers Agent Builder/managed LLM usage and how to activate it; establish demo access during judging. Do not assume the extension provides unlimited AI usage.
+- Then select an available model, run one small fictional scope-analysis test within the confirmed free allowance, inspect usage and clause accuracy, and only then decide whether to integrate Elastic as the AI provider.
+- Independent work can continue: product design, fictional evaluation cases, approval safeguards, mocked tests, and documentation. Astropods remains an unresolved alternative; avoid consuming its reported $10 credits while waiting.
+- Calendar checkpoint: October 16, 2026, follow up on the extension before expiry. This is a documentation reminder only; no automated notification has been scheduled.
+- Sponsor offer: https://paypalaihackathon.devpost.com/details/elastic
+
 ## Product
 Docker prerequisite is now VERIFIED by user's terminal: docker client and server both 29.8.1. Installation: C:\Users\ayush\AppData\Local\Programs\DockerDesktop; no Docker account signup. User temporarily added resources/bin to PATH and received permanent user-PATH instructions. Astropods CLI retry still fails ECONNRESET; documented .com/download endpoints redirect to failing official .ai host. No accessible GitHub binary release found. CLI not installed, no login or model call, no credits consumed. Next user browser check of official checksums URL, or official sponsor support, while independent work can continue. Never disable TLS checks.
 Local setup checks saved in ASTROPODS_SETUP.md: 16 GB RAM, hypervisor present, WSL 2.5.10 installed. Docker Desktop absent at known system/per-user paths. Official Astropods installer downloaded for inspection only to ignored data/tools; its binary/checksum host download.astropods.ai resets connections via PowerShell and curl, so CLI NOT installed. No model call or credit usage. Next install/start Docker Desktop using official Windows x64 per-user WSL2 setup, then retry the official CLI host and verify checksum. Do not overwrite root Nudge files when generating an agent harness. User must approve/perform system installation outside workspace; no TLS bypass or unsupported secret extraction.
