@@ -46,6 +46,7 @@ test('uncertain sandbox reminder blocks retries and replacement drafts; confirme
     let response = await invoke({ type: 'sendReminder', id: draft.id, note: draft.note });
     assert.match((await response.json()).error, /uncertain delivery/);
     assert.equal(sends, 1);
+
     assert.equal((await invoke({ type: 'syncInvoice', id: 'INV2-REMINDER-TEST' })).status, 200);
     assert.ok(read().invoices[0].pendingReminder, 'payment reconciliation cannot prove reminder delivery');
     await invoke({ type: 'dismissReminder', id: draft.id });
@@ -53,6 +54,32 @@ test('uncertain sandbox reminder blocks retries and replacement drafts; confirme
     assert.equal(response.status, 400);
     assert.match((await response.json()).error, /uncertain delivery/);
     assert.equal(sends, 1);
+    const review = { type: 'resolveReminder', id: 'INV2-REMINDER-TEST', draftId: draft.id,
+      outcome: 'countAsSent', evidence: 'Uncertain delivery: conservatively counting the attempted reminder as sent.', confirmed: true };
+    assert.equal((await invoke({ ...review, confirmed: false })).status, 400);
+    assert.equal((await invoke({ ...review, evidence: 'guess' })).status, 400);
+    assert.equal((await invoke({ ...review, draftId: 'stale-attempt' })).status, 400);
+    assert.ok(read().invoices[0].pendingReminder);
+    assert.equal((await invoke(review)).status, 200);
+    assert.equal(read().invoices[0].pendingReminder, undefined);
+    assert.equal(read().invoices[0].reminders, 1);
+    assert.match(read().audit[0].detail, /not API-verified delivery/);
+    assert.equal((await invoke(review)).status, 400);
+    assert.equal(read().invoices[0].reminders, 1);
+    response = await invoke({ type: 'draftReminder', id: 'INV2-REMINDER-TEST' });
+    assert.match((await response.json()).error, /cooldown/);
+    assert.equal(sends, 1);
+
+    setup();
+    await invoke({ type: 'draftReminder', id: 'INV2-REMINDER-TEST' });
+    draft = read().reminderDraft!;
+    await invoke({ type: 'sendReminder', id: draft.id, note: draft.note });
+    assert.equal((await invoke({ ...review, draftId: draft.id, outcome: 'confirmedNotSent', evidence: 'Fictional support response confirms this attempt was rejected before sending.' })).status, 200);
+    assert.equal(read().invoices[0].reminders, 0);
+    assert.equal(read().reminderDraft, undefined);
+    assert.equal(sends, 2, 'review must not send another reminder');
+    assert.equal((await invoke({ type: 'draftReminder', id: 'INV2-REMINDER-TEST' })).status, 200);
+    assert.notEqual(read().reminderDraft!.id, draft.id);
 
     setup(); // Separate fixture, not an operator instruction to clear uncertain outcomes.
     loseResponse = false;
@@ -62,7 +89,7 @@ test('uncertain sandbox reminder blocks retries and replacement drafts; confirme
     assert.equal(read().invoices[0].reminders, 1);
     assert.equal(read().invoices[0].pendingReminder, undefined);
     assert.equal(read().reminderDraft, undefined);
-    assert.equal(sends, 2);
+    assert.equal(sends, 3);
   } finally {
     globalThis.fetch = originalFetch;
     for (const name of names) { if (before[name] === undefined) delete process.env[name]; else process.env[name] = before[name]; }

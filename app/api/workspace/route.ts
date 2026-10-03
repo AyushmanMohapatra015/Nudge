@@ -13,6 +13,7 @@ const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('saveAgreement'), agreement: agreementSchema }),
   z.object({ type: z.literal('approveAgreement') }),
   z.object({ type: z.literal('dismissReminder'), id: z.string() }),
+  z.object({ type: z.literal('resolveReminder'), id: z.string(), draftId: z.string(), outcome: z.enum(['countAsSent', 'confirmedNotSent']), evidence: z.string().trim().min(20).max(1000), confirmed: z.literal(true) }),
   z.object({ type: z.literal('dismissProposal'), id: z.string() }),
   z.object({ type: z.literal('analyze'), request: z.string().trim().min(10).max(5000) }),
   z.object({ type: z.literal('approveProposal'), id: z.string(), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
@@ -46,6 +47,20 @@ export async function POST(request: NextRequest) {
     if (action.type === 'saveAgreement') mutate(s => { requireIdle(s); if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked. Start a separate change instead.'); s.agreement = action.agreement; log(s, 'You', 'Agreement updated', 'Draft scope and client details saved.'); });
     else if (action.type === 'approveAgreement') mutate(s => { requireIdle(s); if (s.agreementStatus !== 'draft') throw new Error('Agreement is already approved.'); agreementSchema.parse(s.agreement); s.agreementStatus = 'approved'; log(s, 'You', 'Agreement approved', 'Version 1 locked and ready for client acceptance.'); });
     else if (action.type === 'dismissReminder') mutate(s => { requireIdle(s); if (s.reminderDraft?.id !== action.id) throw new Error('Reminder draft has changed.'); s.reminderDraft = undefined; log(s, 'You', 'Reminder dismissed', 'The draft was discarded without contacting the client.'); });
+    else if (action.type === 'resolveReminder') mutate(s => {
+      requireIdle(s);
+      const invoice = s.invoices.find(i => i.id === action.id);
+      if (!invoice?.pendingReminder || invoice.pendingReminder.draftId !== action.draftId) throw new Error('This reminder outcome is no longer awaiting review.');
+      if (action.outcome === 'countAsSent') {
+        invoice.reminders++;
+        // Start a conservative cooldown at review time, without claiming a known delivery time.
+        invoice.lastRemindedAt = new Date().toISOString();
+      }
+      delete invoice.pendingReminder;
+      if (s.reminderDraft?.id === action.draftId) s.reminderDraft = undefined;
+      log(s, 'You', 'Reminder outcome manually reviewed', `${invoice.id}: ${action.outcome === 'countAsSent' ? 'counted as sent; cooldown starts at review' : 'operator confirmed not sent'}. Evidence: ${action.evidence}. Operator judgement, not API-verified delivery. No message sent by this review.`, `review-remind-${action.draftId}`);
+      s.integrationError = undefined;
+    });
     else if (action.type === 'dismissProposal') mutate(s => { requireIdle(s); const p = s.proposals.find(p => p.id === action.id); if (!p || p.status !== 'draft') throw new Error('Only draft proposals can be dismissed.'); s.proposals = s.proposals.filter(item => item.id !== p.id); log(s, 'You', 'Scope draft dismissed', `No proposal was shared with the client. Request: ${p.request}. Analysis: ${p.analysis.summary}`, p.id); });
     else if (action.type === 'approveProposal') mutate(s => { requireIdle(s); const p = s.proposals.find(p => p.id === action.id); if (!p || p.status !== 'draft') throw new Error('Only draft proposals can be approved.'); p.amountCents = action.amountCents; p.deliverables = action.deliverables; p.status = 'approved'; p.approvedAt = new Date().toISOString(); log(s, 'You', 'Change proposal approved', `You set ${money(p.amountCents)}. Awaiting client acceptance.`, p.id); });
     else if (action.type === 'policies') mutate(s => { requireIdle(s); s.policies = { protectedClient: action.protectedClient, reminderLimit: action.reminderLimit, cooldownDays: action.cooldownDays }; log(s, 'You', 'Rules updated', 'All reminders will be checked against these rules at execution.'); });
