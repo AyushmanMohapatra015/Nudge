@@ -12,6 +12,7 @@ Freelancer scope and payments workspace: approved agreement, AI comparison of ch
 Actual PayPal sandbox invoice [historical sandbox invoice redacted], USD 10.00, paid through sandbox buyer checkout. PayPal GET reconciliation returned PAID and updated Nudge on 2026-10-03. This was simulated money, not a real purchase. Indian sandbox merchant and generated US personal sandbox buyer were used after domestic invoicing was rejected. No real financial details were added.
 
 ## Safety and configuration
+Astropods budget rule explicitly confirmed by user: preserve the reported $10 signup credits for later demo/judging. Verify current model and runtime rates plus balance before real usage; start with one small fictional request and measure balance/cost afterward. Use mocked responses for most development, stop unused agents, and configure available spend controls after checking their behavior. Do not assume $10 covers the project and never add paid billing or exceed free allowance without explicit user approval.
 Sandbox only. User is a student in India. Ask before paid services, live payments, or public deployment/tunneling. Never print or commit secrets. Local .env.local is Git-ignored; it holds sandbox credentials and an admin token. Data, screenshots and cache backups are ignored under data/. Do not expose the dashboard through a tunnel; scripts/webhook-relay.mjs exposes only POST /api/paypal/webhook on loopback port 3001. Launching that relay alone does not expose anything publicly.
 
 ## Pending work
