@@ -17,7 +17,7 @@ export const analysisSchema = z.object({
 });
 export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'simulation' };
 export type InvoiceStatus = 'DRAFT' | 'UNPAID' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED' | 'OTHER';
-export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string };
+export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string };
 export type Proposal = { id: string; request: string; analysis: Analysis; amountCents: number; deliverables: string[]; status: 'draft' | 'approved' | 'accepted' | 'declined'; approvedAt?: string; acceptedAt?: string };
 export type Audit = { id: string; time: string; actor: string; title: string; detail: string; key?: string };
 export type Policies = { protectedClient: boolean; reminderLimit: number; cooldownDays: number };

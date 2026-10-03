@@ -6,6 +6,7 @@ if (missing.length) {
   process.exitCode = 1;
 } else {
   try {
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(process.env.PAYPAL_MERCHANT_EMAIL)) throw new Error('PAYPAL_MERCHANT_EMAIL must contain only the sandbox business email, not an account ID, dashboard link, or extra text.');
     const base = 'https://api-m.sandbox.paypal.com';
     const response = await fetch(`${base}/v1/oauth2/token`, {
       method: 'POST',

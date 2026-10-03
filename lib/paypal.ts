@@ -15,7 +15,10 @@ async function token() {
 export async function paypal(path: string, method = 'GET', body?: unknown, key?: string): Promise<Record<string, any>> {
   const response = await fetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
   const text = await response.text(); const data = text ? JSON.parse(text) : {};
-  if (!response.ok) throw new Error(`PayPal ${data.name || response.status}: ${data.details?.[0]?.description || data.message || 'Request failed'}. Reference: ${data.debug_id || 'unavailable'}`);
+  if (!response.ok) {
+    const details = data.details?.map((d: { field?: string; issue?: string; description?: string }) => [d.field, d.issue, d.description].filter(Boolean).join(': ')).join('; ');
+    throw new Error(`PayPal ${data.name || response.status}: ${details || data.message || 'Request failed'}. Reference: ${data.debug_id || 'unavailable'}`);
+  }
   return data;
 }
 export async function createInvoice(agreement: Agreement, proposal: Proposal): Promise<Invoice> {
@@ -26,7 +29,8 @@ export async function createInvoice(agreement: Agreement, proposal: Proposal): P
   let id = `SIM-${proposal.id.slice(0, 8)}`, payUrl: string | undefined;
   if (mode() === 'sandbox') {
     if (!process.env.PAYPAL_MERCHANT_EMAIL) throw new Error('PAYPAL_MERCHANT_EMAIL is required.');
-    const data = await paypal('/v2/invoicing/invoices', 'POST', { detail: { invoice_number: `N-${proposal.id.slice(0, 16)}`, currency_code: 'USD', note: `${originalProject ? 'Approved project' : 'Approved change to'} ${agreement.title}. ${proposal.deliverables.join('; ')}`.slice(0, 4000), payment_term: { term_type: 'DUE_ON_DATE_SPECIFIED', due_date: dueDate } }, invoicer: { email_address: process.env.PAYPAL_MERCHANT_EMAIL }, primary_recipients: [{ billing_info: { email_address: agreement.clientEmail } }], items: [{ name: originalProject ? 'Approved project work' : 'Approved additional work', description: proposal.deliverables.join('; ').slice(0, 1000), quantity: '1', unit_amount: { currency_code: 'USD', value: (proposal.amountCents / 100).toFixed(2) } }], configuration: { allow_tip: false, partial_payment: { allow_partial_payment: true } } }, key);
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(process.env.PAYPAL_MERCHANT_EMAIL)) throw new Error('PAYPAL_MERCHANT_EMAIL must contain only the sandbox business email, without a dashboard URL, account ID, or extra text.');
+    const data = await paypal('/v2/invoicing/invoices', 'POST', { detail: { invoice_number: `N-${proposal.id.slice(0, 16)}`, currency_code: 'USD', note: `${originalProject ? 'Approved project' : 'Approved change to'} ${agreement.title}. ${proposal.deliverables.join('; ')}`.slice(0, 4000), payment_term: { term_type: 'DUE_ON_DATE_SPECIFIED', due_date: dueDate } }, invoicer: { email_address: process.env.PAYPAL_MERCHANT_EMAIL }, primary_recipients: [{ billing_info: { email_address: agreement.clientEmail } }], items: [{ name: originalProject ? 'Approved project work' : 'Approved additional work', description: proposal.deliverables.join('; ').slice(0, 1000), quantity: '1', unit_amount: { currency_code: 'USD', value: (proposal.amountCents / 100).toFixed(2) } }], configuration: { allow_tip: false } }, key);
     const selfLink = data.href || data.links?.find((l: { rel: string }) => l.rel === 'self')?.href;
     id = data.id || selfLink?.split('/').pop();
     if (!id || !/^INV2-[A-Z0-9-]+$/.test(id)) throw new Error('PayPal invoice ID missing from response. Inspect the sandbox invoice list before retrying.');

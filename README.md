@@ -60,11 +60,13 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 5. Open that link and pay with the sandbox personal buyer. Do not manually record an external payment as a substitute for demonstrating checkout.
 6. Click **Refresh status** to retrieve the authoritative invoice state. For automatic reconciliation, follow the webhook setup below.
 
-The initial integration is implemented but **has not been verified against your account or a live provider response**. Setting credentials is not proof of working integration; record an actual invoice ID, sandbox buyer payment, and reconciliation to establish that milestone. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
+The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Authentic webhook delivery and an actual AI provider response remain unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
 
 ## Webhooks
 
-Expose the app on HTTPS (a deployment or an explicitly configured local tunnel). Register `/api/paypal/webhook` on the **same sandbox REST app**, subscribe to the invoicing events listed in PayPal's current documentation, and set the returned webhook ID in `.env.local`.
+For local testing, run `node scripts/webhook-relay.mjs` while the app is running on port 3000. The relay listens on loopback port 3001 and forwards only `POST /api/paypal/webhook`; dashboard, session, and client routes are blocked. It preserves PayPal signature headers and the request body, strips authorization and cookies, and limits payloads to 256 KiB. Starting the relay does not open a public connection.
+
+After explicitly approving a temporary HTTPS tunnel, point it at `http://127.0.0.1:3001`, not the app on port 3000. Register the resulting HTTPS URL plus `/api/paypal/webhook` on the **same sandbox REST app**, subscribe to the invoicing events listed in PayPal's current documentation, and set the returned webhook ID in `.env.local`. Restart the app to load that ID. Stop the tunnel after testing; a temporary URL may change on restart and require updating the registration.
 
 The endpoint verifies PayPal's signature using the verification API, deduplicates event IDs, and fetches the current invoice. It does not equate every `INVOICING.INVOICE.PAID` event with full settlement: partial payments use the authoritative outstanding amount. During another action it returns 503, allowing PayPal to retry rather than racing the local update. Simulator events are not a substitute for verified real sandbox invoice events.
 
