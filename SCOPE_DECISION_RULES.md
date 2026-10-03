@@ -1,6 +1,8 @@
 # Scope-decision acceptance criteria
 
-Status: specification only, not implemented. The current draft approval endpoint accepts prices regardless of analysis classification. This document defines the next bounded implementation task, alongside the fictional cases in AI_EVALUATION.md. Real AI calls remain on hold.
+Status: initial scope-review gate implemented October 3, 2026. Original analysis is preserved; a separate owner review stores classification, rationale, valid clause references and/or clarification, exact deliverables, actor, timestamp, and a unique review ID. Approval checks reviewed additional classification, matching ID/deliverables, and explicit extras-only confirmation at the server. Included/ambiguous reviews block paid-extra approval. Real AI calls remain on hold.
+
+Validation: 17 server tests, three simulation browser tests, and production build pass. Browser checks cover included/ambiguous blocks and the additional-work client-acceptance-to-payment journey. Semantic separation of mixed requests remains a human responsibility; the gate verifies explicit review and exact deliverables, not the truth of a contractual interpretation. Existing approved/accepted records remain compatible without retroactive review metadata; draft approvals require the new review.
 
 ## Product rule
 

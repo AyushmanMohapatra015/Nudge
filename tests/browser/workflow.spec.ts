@@ -16,7 +16,11 @@ test('client acceptance gates changes and invoicing; reminders obey current poli
   await expect(page.getByRole('button', { name: 'Compare with agreement' })).toBeEnabled({ timeout: 10000 });
   await page.getByRole('button', { name: 'Compare with agreement' }).click();
   await expect(page.getByText('Outside agreed scope')).toBeVisible();
+  await page.getByLabel('Decision rationale').fill('Booking systems are explicitly excluded by clause S3; quote only the new booking work.');
+  await page.getByRole('button', { name: 'Record scope decision' }).click();
+  await expect(page.getByPlaceholder('e.g. 300.00')).toBeEnabled();
   await page.getByPlaceholder('e.g. 300.00').fill('300.00');
+  await page.getByLabel('This quote contains only reviewed additional work.').check();
   await page.getByRole('button', { name: 'Approve proposal' }).click();
   data = await (await request.get('/api/workspace')).json();
   response = await request.post('/api/workspace', { data: { type: 'createInvoice', id: data.proposals[0].id } }); expect(response.status()).toBe(400);
@@ -52,6 +56,25 @@ test('client acceptance gates changes and invoicing; reminders obey current poli
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/workspace-mobile.png', fullPage: true });
   await client.close();
+});
+test('included and ambiguous scope decisions keep additional pricing blocked', async ({ page, request }) => {
+  await request.post('/api/workspace', { data: { type: 'reset' } });
+  await request.post('/api/workspace', { data: { type: 'approveAgreement' } });
+  const data = await (await request.get('/api/workspace')).json();
+  await request.post(`/api/client/${data.clientToken}`, { data: { type: 'acceptAgreement' } });
+  await request.post('/api/workspace', { data: { type: 'analyze', request: 'Please adjust the existing page layout.' } });
+  await page.goto('/');
+  await expect(page.getByPlaceholder('e.g. 300.00')).toBeDisabled();
+  await page.getByLabel('Decision rationale').fill('The exact requested layout changes need clarification before a quote.');
+  await page.getByRole('button', { name: 'Record scope decision' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Recorded decision:' })).toContainText('ambiguous');
+  await expect(page.getByRole('button', { name: 'Approve proposal' })).toBeDisabled();
+  await page.getByLabel('Reviewed classification').selectOption('included');
+  await page.getByLabel('Decision rationale').fill('Owner review confirms this adjustment is included in the five-page website.');
+  await page.getByRole('button', { name: 'Record scope decision' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Recorded decision:' })).toContainText('included');
+  await expect(page.getByPlaceholder('e.g. 300.00')).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Approve proposal' })).toBeDisabled();
 });
 test('invalid private links, cross-origin mutations, and fabricated webhook events are rejected', async ({ request }) => {
   expect((await request.get('/api/client/invalid')).status()).toBe(404);

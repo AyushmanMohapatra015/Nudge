@@ -25,7 +25,7 @@ Open http://127.0.0.1:3000. By default the app runs in **simulation mode**. No A
 2. Click **Approve scope**. The approved agreement locks.
 3. Open **Client view** in another tab, check the review checkbox, and accept the scope. Client decisions appear in the workspace within five seconds.
 4. Paste a booking-page request into the scope assistant and choose **Compare with agreement**. Local analysis is an explicitly labeled deterministic simulation, not a working AI integration.
-5. Review the cited clauses and questions. Set an additional price, edit deliverables, and approve the proposal.
+5. Review the cited clauses and questions. In **Your scope decision**, record included, unclear, or additional work with a rationale and supporting clauses or documented clarification. Included/unclear decisions cannot become a paid extra. For mixed requests, edit deliverables to include only extras, then record the decision. Set the additional price, confirm the quote contains only reviewed extra work, and approve the proposal. Editing deliverables requires another scope review.
 6. In Client view, accept the change and price.
 7. In the workspace, create the change invoice. In **Payments**, approve and send it. In simulation this changes local state only.
 8. Choose **Simulate payment**. The client view updates and reminder checks reject paid invoices.

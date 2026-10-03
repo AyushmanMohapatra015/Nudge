@@ -16,7 +16,8 @@ const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('resolveReminder'), id: z.string(), draftId: z.string(), outcome: z.enum(['countAsSent', 'confirmedNotSent']), evidence: z.string().trim().min(20).max(1000), confirmed: z.literal(true) }),
   z.object({ type: z.literal('dismissProposal'), id: z.string() }),
   z.object({ type: z.literal('analyze'), request: z.string().trim().min(10).max(5000) }),
-  z.object({ type: z.literal('approveProposal'), id: z.string(), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
+  z.object({ type: z.literal('reviewScope'), id: z.string(), expectedReviewId: z.string(), classification: z.enum(['included', 'additional', 'ambiguous']), rationale: z.string().trim().min(20).max(800), references: z.array(z.string().regex(/^S\d+$/)).max(12), clarification: z.string().trim().max(800), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
+  z.object({ type: z.literal('approveProposal'), id: z.string(), reviewId: z.string(), extrasConfirmed: z.literal(true), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
   z.object({ type: z.literal('createInvoice'), id: z.string() }),
   z.object({ type: z.literal('recoverInvoice'), id: z.string(), invoiceId: z.string().regex(/^INV2-[A-Z0-9-]+$/) }),
   z.object({ type: z.literal('sendInvoice'), id: z.string() }),
@@ -62,7 +63,27 @@ export async function POST(request: NextRequest) {
       s.integrationError = undefined;
     });
     else if (action.type === 'dismissProposal') mutate(s => { requireIdle(s); const p = s.proposals.find(p => p.id === action.id); if (!p || p.status !== 'draft') throw new Error('Only draft proposals can be dismissed.'); s.proposals = s.proposals.filter(item => item.id !== p.id); log(s, 'You', 'Scope draft dismissed', `No proposal was shared with the client. Request: ${p.request}. Analysis: ${p.analysis.summary}`, p.id); });
-    else if (action.type === 'approveProposal') mutate(s => { requireIdle(s); const p = s.proposals.find(p => p.id === action.id); if (!p || p.status !== 'draft') throw new Error('Only draft proposals can be approved.'); p.amountCents = action.amountCents; p.deliverables = action.deliverables; p.status = 'approved'; p.approvedAt = new Date().toISOString(); log(s, 'You', 'Change proposal approved', `You set ${money(p.amountCents)}. Awaiting client acceptance.`, p.id); });
+    else if (action.type === 'reviewScope') mutate(s => {
+      requireIdle(s);
+      const p = s.proposals.find(p => p.id === action.id);
+      if (!p || p.status !== 'draft') throw new Error('Only draft scope decisions can be reviewed.');
+      if ((p.scopeReview?.id || '') !== action.expectedReviewId) throw new Error('Scope review has changed. Refresh before reviewing again.');
+      const clauseIds = new Set(s.agreement.clauses.map(c => c.id));
+      if (action.references.some(id => !clauseIds.has(id))) throw new Error('Review cites a clause that does not exist.');
+      if (action.classification === 'additional' && !action.references.length && action.clarification.length < 20) throw new Error('Additional work needs supporting clauses or documented clarification.');
+      p.scopeReview = { id: randomUUID(), classification: action.classification, rationale: action.rationale, references: [...new Set(action.references)], clarification: action.clarification, deliverables: action.deliverables, reviewedAt: new Date().toISOString(), actor: 'You' };
+      p.deliverables = action.deliverables;
+      log(s, 'You', 'Scope decision reviewed', `${action.classification}: ${action.rationale}. References: ${action.references.join(', ') || 'none'}. Clarification: ${action.clarification || 'none'}. Original analysis preserved; no client approval implied.`, p.scopeReview.id);
+    });
+    else if (action.type === 'approveProposal') mutate(s => {
+      requireIdle(s); const p = s.proposals.find(p => p.id === action.id);
+      if (!p || p.status !== 'draft') throw new Error('Only draft proposals can be approved.');
+      if (!p.scopeReview || p.scopeReview.id !== action.reviewId) throw new Error('Review the current scope decision before pricing.');
+      if (p.scopeReview.classification !== 'additional') throw new Error('Included or unclear work cannot be approved as a paid extra.');
+      if (JSON.stringify(p.scopeReview.deliverables) !== JSON.stringify(action.deliverables)) throw new Error('Deliverables changed after scope review. Review the revised work first.');
+      p.amountCents = action.amountCents; p.deliverables = action.deliverables; p.status = 'approved'; p.approvedAt = new Date().toISOString();
+      log(s, 'You', 'Change proposal approved', `You set ${money(p.amountCents)} for reviewed additional work only. Awaiting client acceptance.`, p.id);
+    });
     else if (action.type === 'policies') mutate(s => { requireIdle(s); s.policies = { protectedClient: action.protectedClient, reminderLimit: action.reminderLimit, cooldownDays: action.cooldownDays }; log(s, 'You', 'Rules updated', 'All reminders will be checked against these rules at execution.'); });
     else if (action.type === 'promise') mutate(s => { requireIdle(s); if (action.date < utcDate()) throw new Error('Choose today or a future payment date.'); s.promiseDate = action.date; log(s, 'You', 'Payment promise confirmed', `Reminders paused through ${action.date}. This is a recorded promise, not a payment.`); });
     else if (action.type === 'reset') mutate(s => { requireIdle(s); if (mode() !== 'demo') throw new Error('Reset is available only in simulation.'); Object.assign(s, seed()); });
