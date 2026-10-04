@@ -66,7 +66,7 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 5. Open that link and pay with the sandbox personal buyer. Do not manually record an external payment as a substitute for demonstrating checkout.
 6. Click **Refresh status** to retrieve the authoritative invoice state. For automatic reconciliation, follow the webhook setup below.
 
-The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Authentic webhook delivery and an actual AI provider response remain unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
+The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Genuine signed delivery and deduplication have also been verified by redelivering an existing SENT event for an already-paid sandbox invoice; a fresh payment-triggered PAID delivery remains pending. See [WEBHOOK_VERIFICATION.md](WEBHOOK_VERIFICATION.md). An actual AI provider response remains unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
 
 ## Sponsor AI gateway setup
 
@@ -124,7 +124,7 @@ Registration creates only an event subscription, not a payment. An empty event l
 - Actual Claude tool-use adapter for scope classification, evidence references, and clarification questions. Zod validates the shape and the referenced clause IDs.
 - Human-priced and human-approved change proposals.
 - PayPal sandbox Invoicing adapter: draft creation, separate sending, status retrieval, and reminders.
-- Signature-verification and deduplicated webhook reconciliation code, tested with mocks; genuine delivery remains unverified.
+- Signature-verified webhook reconciliation and deduplication, verified with genuine redelivery of an existing sandbox event; fresh payment-triggered delivery remains pending.
 - A single server execution gate and persistent activity trail.
 - Same-host interrupted-process recovery, stale-result ownership checks and persisted uncertain-send blocking; see [PROCESSING_RECOVERY.md](PROCESSING_RECOVERY.md).
 - Reminder template review, protected clients, maximum reminders, cooldown, overdue check, and confirmed payment promises.

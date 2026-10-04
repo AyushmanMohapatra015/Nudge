@@ -25,6 +25,6 @@ node --env-file=.env.local --import tsx scripts/verify-sandbox-payment.ts [histo
 
 The arguments are the invoice ID, independently known approved total in cents, and optional expected normalized status. The script uses only sandbox OAuth authentication and a GET invoice lookup. It validates the response in memory and never writes Nudge records. Use only invoices belonging to your configured sandbox app; never supply secrets as arguments. Lookup errors are intentionally summarized to avoid printing provider details.
 
-Genuine signed webhook delivery remains to be verified. These checks do not establish settlement finality or handle refunds, fees, taxes, multiple currencies, or external invoice edits. Unexpected data requires review rather than automatic correction. Background failures currently preserve state without a dedicated user-facing failure history.
+Genuine signed webhook redelivery and deduplication were subsequently verified against the already-paid USD 1 fixture; see WEBHOOK_VERIFICATION.md. A fresh payment-triggered PAID event and unpaid-to-paid transition remain pending. These checks do not establish settlement finality or handle refunds, fees, taxes, multiple currencies, or external invoice edits. Unexpected data requires review rather than automatic correction. Background failures currently preserve state without a dedicated user-facing failure history.
 
 Reference: [PayPal show invoice details](https://developer.paypal.com/api/invoicing/v2/invoices-get).

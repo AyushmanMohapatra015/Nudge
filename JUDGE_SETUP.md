@@ -1,6 +1,6 @@
 # Run and review Nudge locally
 
-This guide runs the current public-source prototype in clearly labelled simulation. It verifies product behavior without a PayPal or AI account. Simulation does **not** demonstrate the final hackathon requirement for real AI integration. Actual sandbox checkout has been verified during development; a live model response and genuine webhook delivery remain pending. Final submission instructions must update these checkpoints when verified.
+This guide runs the current public-source prototype in clearly labelled simulation. It verifies product behavior without a PayPal or AI account. Simulation does **not** demonstrate the final hackathon requirement for real AI integration. Actual sandbox checkout and genuine signed webhook redelivery/deduplication have been verified during development; a live model response and fresh payment-triggered webhook transition remain pending. See WEBHOOK_VERIFICATION.md for delivery evidence and limits. Final submission instructions must update these checkpoints when verified.
 
 ## Setup
 

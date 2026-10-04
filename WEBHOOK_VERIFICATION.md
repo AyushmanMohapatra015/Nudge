@@ -1,5 +1,15 @@
 # Genuine sandbox webhook verification checkpoint
 
+## Verified signed delivery and cleanup: October 4, 2026
+
+The bounded replay test succeeded using a newly reachable HTTP/2 tunnel. Public dashboard, workspace, session and client paths returned 404. An unsigned notification was rejected with 401. Nudge ran on separate loopback port 3102; the existing port 3000 app was left untouched. AI was explicitly disabled in the test app.
+
+PayPal authentically redelivered the existing SENT event identified below. The application verified its signature, fetched current authoritative invoice details, and recorded exactly one **Verified PayPal webhook** audit entry matching the event ID. The USD 1 invoice remained PAID with zero due. A second genuine delivery received HTTP 200 and did not add another matching audit entry, verifying deduplication for that event.
+
+Cleanup was separately checked through a read-only PayPal subscription listing: the test registration is absent. The local webhook ID is cleared, ports 3001 and 3102 are closed, and no cloudflared process remains. No invoice was created, sent or paid by this replay; no real money or AI allowance was used. The ignored local session scripts are operational aids rather than judge dependencies.
+
+This verifies genuine signed notification delivery, authoritative reconciliation and repeated-event handling. It does **not** verify a fresh buyer payment generating a PAID notification and changing a previously unpaid local invoice. The historical attempt and diagnosis sections below preserve the earlier failures; this section is the current delivery status.
+
 ## Connectivity diagnosis: October 4, 2026
 
 A separate bounded diagnostic session used the webhook relay with a stub forwarding function, so it could not contact Nudge, PayPal, the database or any model. No environment credentials were loaded. Local root GET returned 404 and webhook GET returned 405.
