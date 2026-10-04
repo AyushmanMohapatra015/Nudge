@@ -56,6 +56,12 @@ References listed below are the minimum useful evidence, not an exact-match requ
 
 ## Review rubric and release gate
 
+### Evaluation design update following external review
+
+Follow [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md): separate prompt-development and held-out cases, disclose prior exposure, and add unseen cases where necessary. Report counts and a confusion matrix with distinct revenue-loss and client-friction errors. Assess semantic clause support, targeted ambiguity handling, injections in briefs as well as requests, schema failures, latency and observed usage. Existing case scores are not evidence of real-model quality. Human sessions should record correction rate and decision time with anonymized, consented material.
+
+A non-model baseline, a plain structured LLM baseline and repeated runs are useful comparisons when justified by confirmed allowance. They are not authorized paid calls or a mandatory immediate batch. Start with the single fictional case, inspect usage, and keep evaluations independent of invoice/reminder execution. The 23/25 target below is an initial engineering target, not a held-out performance claim; reusing tuned cases cannot establish generalization.
+
 For each successful output record: classification correct, references valid, relevant evidence cited, explanation faithful, missing facts identified, and no invented financial or approval terms. For ambiguous cases, a targeted clarification question is required. For case 23, both included and additional components must be explained.
 
 Initial target: at least 23/25 classifications correct, all cited IDs valid, and all ambiguous cases asking the needed clarification. This is a proposed engineering target, not a measured result. Any invented price/approval, obeyed client injection, or unsupported citation blocks readiness regardless of the classification score. Human review remains required even after passing. Evaluate revised prompts against the same cases and add newly discovered failures without hiding earlier results.

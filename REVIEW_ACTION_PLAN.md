@@ -1,0 +1,49 @@
+# Nudge: external review decisions
+
+October 4, 2026. Planning update only: no application changes, provider calls, spending, deployment or new payment fixtures.
+
+## Product decision
+
+Keep the approved-scope-to-payment workflow. The review identifies an important hypothesis: the difficult part may be explaining an extra to the client, rather than classifying it. Validate this with freelancers before expanding features. Our differentiation to test is clause-supported reasoning connected to human review, client approval and PayPal invoicing; do not claim novelty without comparison evidence.
+
+Passing tests establish behavior under tested conditions, not product demand, semantic AI quality or production readiness. Completion estimates are informal and must not imply submission readiness.
+
+## Priority order and evidence required
+
+1. Verify live Elastic scope analysis. Confirm managed-model allowance, expiry and judging-period access; review the dedicated agent and permissions. Run one fictional case, inspect usage, then authorize a bounded evaluation. The adapter is mock-tested, not live-verified. The enable flag is not a spending cap.
+2. Finish fresh payment-triggered webhook verification with stable, authorized public connectivity. Genuine signed replay and duplicate suppression are already verified; fresh checkout and owner reconciliation are verified separately. Preserve the paid fixture; do not ask for another payment or create a replacement without separate authorization.
+3. Validate usefulness with freelancers. Aim for five to eight conversations, starting with three. Request anonymized past disputes, observe the workflow, and record overrides, decision time, confusing steps and existing workarounds. The user conducts outreach unless explicitly authorized otherwise. Obtain permission before transmitting any participant content to an AI provider; fictional data remains the demo default. Do not invent quotes, findings or savings.
+4. Close specific release gaps after inspecting current code and tests: client-link expiry, AI data disclosure/minimization, endpoint abuse controls, sanitized logging, retention/deletion and backup/restore, persistent deployment storage, and accessibility/error states on the core journey. These are review tasks and implementation candidates, not claims that every safeguard is absent or every proposed fix is mandatory under the hackathon rules.
+5. Prove the complete real-AI-to-sandbox-payment journey and prepare judging access. Complete setup instructions or a hosted build satisfy the supplied functional-demo requirement; hosting is optional. A public endpoint is needed to demonstrate genuine webhook delivery. Verify provider access through judging, repository privacy before public release, clean setup, tool attribution, and a functioning video under three minutes.
+
+## Corrections to the external review
+
+- Acceptance already requires POST and server-side validation; viewing a link does not accept work. Rotation exists; expiry remains outstanding. Bearer links do not verify identity.
+- Client acceptance is a recorded workflow decision, not a claim of legally binding electronic signature. AI-drafted scope is not legal advice; review product wording without adding a legal guarantee.
+- Existing tests cover several provider failures, concurrency, stale actions, uncertain operations and payment-state checks. Inventory coverage before adding tests. Distinguish mocks from actual provider behavior.
+- A replayed signed event is different evidence from a fresh payment-triggered transition. Do not merge these claims.
+- Sponsor tools are optional under the supplied requirements. Consider relevant tools, verify their allowances, and claim only demonstrable use.
+
+## AI evaluation improvements
+
+Use the existing 25 scope cases and 12 brief cases as groundwork, not measured results. Separate prompt-development cases from held-out evaluation before tuning; document which cases have already influenced prompts and avoid calling them unseen. Add unseen cases when needed.
+
+Record counts and a confusion matrix, distinguishing included-to-additional errors (client friction) from additional-to-included errors (lost revenue). Manually assess whether cited clauses support the claim, not only whether IDs exist. Record targeted clarification, injection resistance in both briefs and requests, schema failures, latency, usage and human overrides. No fabricated scores or cost estimates.
+
+Compare with a simple non-model baseline and a plain structured LLM prompt where useful. Repeated runs can measure disagreement, but multiple baselines and three runs per case are conditional on confirmed allowance; they are not permission to spend or an immediate required batch. Inspect one-call usage first. Save sanitized outputs; evaluation must never create invoices or send reminders.
+
+## Optional improvements after core verification
+
+1. Editable client-facing change explanation with evidence: addresses the awkward conversation; owner reviews before sharing, and AI cannot invent price or approval.
+2. Evidence panel showing the relevant clause text and an explicit insufficient-information state. Inspect existing UI before adding duplicate controls.
+3. Agreement ambiguity/risk flags, such as undefined revision limits, without claiming legal assessment.
+4. Execute and document the prepared read-only Postman collection.
+5. Display actual evaluation results if useful to judges. Any recorded replay fallback must be explicitly labelled and cannot replace a working meaningful AI integration.
+
+Forecasting, payouts, MCP, refunds and additional checkout APIs remain deferred. Prioritize verified usefulness and a coherent demonstration over feature count.
+
+## Current verification baseline
+
+Latest implementation checkpoint: 44 server tests, eight browser tests, TypeScript checks and production build passed. Live Elastic use, real-model evaluation, automated website brief extraction, freelancer findings and fresh payment-triggered webhook delivery remain outstanding. The brief schema/evidence pipeline exists; its live provider and website action do not. Current local persistence and processing safeguards are for a single-host prototype, not a distributed multi-tenant service.
+
+This plan supersedes older priority lists in PROJECT_STATUS.md and PROJECT_HANDOFF.md. Preserve historical verification records; consult their newest checkpoints for actual evidence.

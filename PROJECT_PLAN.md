@@ -2,6 +2,8 @@
 
 ## Product decision
 
+Current sequencing and accepted external-review feedback are recorded in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md). Its evidence requirements supersede the original calendar sequence below. The schedule is an initial plan, not a completion record. Prioritize verified live AI, payment delivery and user value before optional features.
+
 Nudge helps freelancers get paid for everything they agreed to—and everything that changed.
 
 Initial audience: freelance web designers and small design agencies working on fixed-price client projects. Their deliverables, revision limits, and requested additions are concrete enough to demonstrate scope comparison. This audience choice is a hypothesis to validate, not a claim of research findings.
