@@ -29,7 +29,11 @@ test('client expiry rejects legacy/invalid/expired links and expiry during accep
     }
     mutate(s => { s.clientLinkExpiresAt = newClientLinkExpiry(); });
     const stale = request();
-    stale.json = async () => { mutate(s => { s.clientLinkExpiresAt = new Date(0).toISOString(); }); return { type: 'acceptAgreement' }; };
+    const staleReader = stale.body!.getReader(); let changed = false;
+    Object.defineProperty(stale, 'body', { value: { getReader: () => ({
+      read: async () => { if (!changed) { changed = true; mutate(s => { s.clientLinkExpiresAt = new Date(0).toISOString(); }); } return staleReader.read(); },
+      cancel: () => staleReader.cancel(), releaseLock: () => staleReader.releaseLock(),
+    }) } });
     const auditCount = read().audit.length;
     assert.equal((await POST(stale, context)).status, 400);
     assert.equal(read().agreementStatus, 'approved'); assert.equal(read().agreementAcceptedAt, undefined);

@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { db, read, mutate, log, mode, requireIdle } from '@/lib/store';
 import { verifyWebhook, syncInvoice } from '@/lib/paypal';
+import { boundedRequestText, webhookWindow, RequestGuardError } from '@/lib/request-guards';
 export const runtime = 'nodejs';
 export async function POST(request: NextRequest) {
   if (mode() !== 'sandbox') return NextResponse.json({ error: 'Webhooks are disabled in simulation mode.' }, { status: 400 });
+  const signedHeaders = ['paypal-auth-algo', 'paypal-cert-url', 'paypal-transmission-id', 'paypal-transmission-sig', 'paypal-transmission-time'];
+  if (signedHeaders.some(name => !request.headers.get(name))) return NextResponse.json({ error: 'Invalid webhook signature.' }, { status: 401 });
+  const retry = webhookWindow.take();
+  if (retry) return NextResponse.json({ error: 'Webhook capacity exceeded; retry delivery.' }, { status: 503, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
   try {
-    const rawBody = await request.text();
+    const rawBody = await boundedRequestText(request, 262144);
     const event = z.object({ id: z.string().min(1).max(200), event_type: z.string(), resource: z.record(z.unknown()).optional() }).passthrough().parse(JSON.parse(rawBody));
     if (!await verifyWebhook(request.headers, event, rawBody)) return NextResponse.json({ error: 'Invalid webhook signature.' }, { status: 401 });
     if (db().prepare('SELECT id FROM webhook_events WHERE id = ?').get(event.id)) return NextResponse.json({ duplicate: true });
@@ -28,5 +33,8 @@ export async function POST(request: NextRequest) {
       log(s, 'Verified PayPal webhook', 'Payment status reconciled', `${invoice.id}: ${invoice.status}. Event: ${event.event_type}`, event.id);
     });
     return NextResponse.json({ received: true });
-  } catch { return NextResponse.json({ error: 'Webhook processing failed; retry delivery.' }, { status: 503 }); }
+  } catch (e) {
+    if (e instanceof RequestGuardError) return NextResponse.json({ error: e.message }, { status: e.status === 408 ? 503 : e.status, headers: { 'Cache-Control': 'no-store', ...(e.status === 408 ? { 'Retry-After': '10' } : {}) } });
+    return NextResponse.json({ error: 'Webhook processing failed; retry delivery.' }, { status: 503 });
+  }
 }

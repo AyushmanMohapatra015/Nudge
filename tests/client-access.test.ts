@@ -54,10 +54,11 @@ test('private client API hides owner records and enforces current links and one-
 
     mutate(s => { s.agreementStatus = 'approved'; });
     const stale = request({ type: 'acceptAgreement' });
-    stale.json = async () => {
-      mutate(s => { s.clientToken = randomUUID(); });
-      return { type: 'acceptAgreement' };
-    };
+    const staleReader = stale.body!.getReader(); let changed = false;
+    Object.defineProperty(stale, 'body', { value: { getReader: () => ({
+      read: async () => { if (!changed) { changed = true; mutate(s => { s.clientToken = randomUUID(); }); } return staleReader.read(); },
+      cancel: () => staleReader.cancel(), releaseLock: () => staleReader.releaseLock(),
+    }) } });
     response = await POST(stale, context(token));
     assert.equal(response.status, 400);
     assert.match((await response.json()).error, /no longer valid/);

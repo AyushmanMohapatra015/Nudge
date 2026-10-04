@@ -181,6 +181,8 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the one-month milestones and submissi
 
 ## Official references
 
+See [PUBLIC_REQUEST_CONTROLS.md](PUBLIC_REQUEST_CONTROLS.md) for client/webhook rate and body limits and the remaining hosted ingress review.
+
 See [AI_DATA_HANDLING.md](AI_DATA_HANDLING.md) for scope-comparison payloads, the owner disclosure and remaining privacy-review boundaries. Free text is not automatically anonymized; use fictional demo content.
 
 - [PayPal Invoicing](https://developer.paypal.com/api/invoicing/)
