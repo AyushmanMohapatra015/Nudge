@@ -23,6 +23,7 @@ test('replacing client links revokes old access and preserves legacy invoice cac
     assert.equal((await replace(old)).status, 200);
     const current = read().clientToken;
     assert.match(current, /^[a-f0-9]{48}$/); assert.notEqual(current, old);
+    assert.ok(Date.parse(read().clientLinkExpiresAt!) > Date.now());
     assert.equal(read().baseInvoiceKey, key); assert.equal(read().agreementAcceptedAt, acceptedAt);
     assert.equal((await client(old)).status, 404); assert.equal((await client(current)).status, 200);
     assert.equal((await clientPost(request({ type: 'acceptAgreement' }), { params: Promise.resolve({ token: old }) })).status, 404);

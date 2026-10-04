@@ -18,7 +18,7 @@ Passing tests establish behavior under tested conditions, not product demand, se
 
 ## Corrections to the external review
 
-- Acceptance already requires POST and server-side validation; viewing a link does not accept work. Rotation exists; expiry remains outstanding. Bearer links do not verify identity.
+- Acceptance already requires POST and server-side validation; viewing a link does not accept work. Rotation and 30-day expiry now exist (see CLIENT_ACCESS.md). Legacy links without expiry require owner-confirmed replacement. Bearer links do not verify identity.
 - Client acceptance is a recorded workflow decision, not a claim of legally binding electronic signature. AI-drafted scope is not legal advice; review product wording without adding a legal guarantee.
 - Existing tests cover several provider failures, concurrency, stale actions, uncertain operations and payment-state checks. Inventory coverage before adding tests. Distinguish mocks from actual provider behavior.
 - A replayed signed event is different evidence from a fresh payment-triggered transition. Do not merge these claims.

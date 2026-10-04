@@ -10,6 +10,7 @@ import { reconcileOutstanding } from '@/lib/reconciliation';
 import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } from '@/lib/brief';
 import { processingOwner, processingRecovery } from '@/lib/processing';
 import { realAiEnabled, requireRealAiAccess } from '@/lib/ai-access';
+import { newClientLinkExpiry } from '@/lib/client-access';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
@@ -65,6 +66,7 @@ export async function POST(request: NextRequest) {
       if (s.clientToken !== action.expectedToken) throw new Error('Client link has already changed. Refresh before replacing it.');
       baseInvoiceIdentity(s);
       s.clientToken = randomBytes(24).toString('hex');
+      s.clientLinkExpiresAt = newClientLinkExpiry();
       log(s, 'You', 'Client link replaced', 'Previous Nudge link revoked. Existing decisions and invoice identities preserved. Share the replacement privately; no message sent.');
     });
     else if (action.type === 'stageBrief') mutate(s => {

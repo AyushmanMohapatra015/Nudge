@@ -3,6 +3,7 @@ import { mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { randomUUID, randomBytes } from 'node:crypto';
 import type { Workspace } from './domain';
+import { newClientLinkExpiry } from './client-access';
 
 export const mode = () => process.env.NUDGE_MODE === 'sandbox' ? 'sandbox' as const : 'demo' as const;
 let connection: DatabaseSync | undefined;
@@ -16,7 +17,7 @@ export function db() {
   return connection;
 }
 export function seed(): Workspace {
-  return { version: 1, mode: mode(), clientToken: randomBytes(24).toString('hex'),
+  return { version: 1, mode: mode(), clientToken: randomBytes(24).toString('hex'), clientLinkExpiresAt: newClientLinkExpiry(),
     agreement: { title: 'Website redesign', clientName: 'Olivia Chen', clientEmail: 'olivia@example.com', amountCents: 120000,
       clauses: [{ id: 'S1', text: 'Design and build a five-page marketing website: Home, About, Services, Work, and Contact.' }, { id: 'S2', text: 'Includes two rounds of revisions to the agreed pages.' }, { id: 'S3', text: 'Booking systems, e-commerce, and additional pages are excluded.' }, { id: 'S4', text: 'Additional work requires a separately priced proposal approved by the client before invoicing.' }] },
     agreementStatus: 'draft', proposals: [], invoices: [], policies: { protectedClient: false, reminderLimit: 3, cooldownDays: 7 },

@@ -68,7 +68,7 @@ export default function WorkspaceApp() {
         {view === 'Payments' && data.mode === 'sandbox' && <InvoiceRecovery data={data} act={act} busy={locked} />}
         {view === 'Payments' && data.invoices.filter(i => i.pendingReminder).map(i => <ReminderOutcome key={i.pendingReminder!.draftId} invoice={i} act={act} busy={locked} />)}
         {view === 'Activity' && <><div className="trust-banner"><History size={21} /><div><strong>A record you can follow.</strong><p>Human approvals, client decisions, policy updates, and payment confirmations.</p></div></div><Activity items={data.audit} full /></>}
-        {view === 'Rules' && <><Rules data={data} act={act} busy={locked} /><ClientLinkSettings key={data.clientToken} token={data.clientToken} busy={locked} act={act} /></>}
+        {view === 'Rules' && <><Rules data={data} act={act} busy={locked} /><ClientLinkSettings key={data.clientToken} token={data.clientToken} expiresAt={data.clientLinkExpiresAt} busy={locked} act={act} /></>}
         <footer className="page-footer"><span>Agreed work. Paid work.</span><span><LockKeyhole size={12} />{data.mode === 'demo' ? 'No real payments or emails' : 'Sandbox only · approval required'}</span></footer>
       </main>
     </div>{notice && <div className="toast" role="status"><Check size={16} />{notice}</div>}
