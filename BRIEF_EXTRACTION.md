@@ -53,6 +53,10 @@ Candidate edits are human edits; keep their attribution distinct from extracted 
 
 ## Fictional evaluation cases
 
+The executable fixture definitions are in `evaluation/brief-cases.ts`. `scoreBrief(caseId, rawStructuredOutput)` in `evaluation/score-brief.ts` validates the raw response against that case's exact notes, checks expected fields and required issue categories, and returns failure reasons plus mandatory manual checks. No model is invoked, no agreement is changed, and no accuracy percentage is reported. Feed it the raw output before human correction, not the edited agreement. A rejected/failed provider response counts as a failed attempt in the eventual run log, not a reason for silent retry.
+
+Automated passing is provisional. A reviewer must assess scope fidelity, omitted/invented terms, whether clarification questions are useful, and the evidence's meaning. Record each case's provider/model/date, actual response or failure, automated report, and reviewer findings. Keep unrun cases marked unrun. Start with a single allowance-approved real request, inspect consumption, and authorize any broader evaluation separately. Scorer tests demonstrate that literal-source-supported budget and recipient mistakes fail; they are not measured model performance.
+
 These are human-labelled expectations, not measured model results. Cases use no real client details. Run one small case only after provider access and allowance are confirmed; do not automatically run a batch or retry calls.
 
 | ID | Notes | Expected candidate / required warning |
