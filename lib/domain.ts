@@ -18,7 +18,7 @@ export const analysisSchema = z.object({
 });
 export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'simulation' };
 export type InvoiceStatus = 'DRAFT' | 'UNPAID' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED' | 'OTHER';
-export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string; pendingReminder?: { draftId: string; startedAt: string } };
+export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string; pendingSend?: { key: string; startedAt: string }; pendingReminder?: { draftId: string; startedAt: string } };
 export type ScopeReview = { id: string; classification: Analysis['classification']; rationale: string; references: string[]; clarification: string; deliverables: string[]; reviewedAt: string; actor: 'You' };
 export type Proposal = { id: string; request: string; analysis: Analysis; amountCents: number; deliverables: string[]; status: 'draft' | 'approved' | 'accepted' | 'declined'; approvedAt?: string; acceptedAt?: string; scopeReview?: ScopeReview };
 export type Audit = { id: string; time: string; actor: string; title: string; detail: string; key?: string };
@@ -28,7 +28,7 @@ export type Workspace = {
   baseInvoiceKey?: string;
   agreement: Agreement; agreementStatus: 'draft' | 'approved' | 'accepted'; agreementAcceptedAt?: string;
   proposals: Proposal[]; invoices: Invoice[]; audit: Audit[]; policies: Policies;
-  promiseDate?: string; processing?: { key: string; operation: string; startedAt: string }; integrationError?: string;
+  promiseDate?: string; processing?: { key: string; operation: string; startedAt: string; owner?: { pid: number; host: string } }; integrationError?: string;
   reminderDraft?: { id: string; invoiceId: string; note: string; createdAt: string };
   briefDraft?: BriefDraft;
 };

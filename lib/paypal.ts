@@ -89,7 +89,9 @@ export function reconcileInvoice(invoice: Invoice, remote: Record<string, any>):
   const status = ['DRAFT', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(remote.status) ? remote.status as Invoice['status'] : remote.status === 'SENT' || remote.status === 'SCHEDULED' ? 'UNPAID' : 'OTHER';
   const rawOutstanding = remote.due_amount?.value;
   const outstandingCents = status === 'PAID' || status === 'CANCELLED' ? 0 : typeof rawOutstanding === 'string' && /^\d+(\.\d{1,2})?$/.test(rawOutstanding) ? Math.round(Number(rawOutstanding) * 100) : invoice.outstandingCents;
-  return { ...invoice, status, remoteStatus: remote.status, outstandingCents, payUrl: remote.detail?.metadata?.recipient_view_url || invoice.payUrl };
+  const reconciled = { ...invoice, status, remoteStatus: remote.status, outstandingCents, payUrl: remote.detail?.metadata?.recipient_view_url || invoice.payUrl };
+  if (['UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(status)) delete reconciled.pendingSend;
+  return reconciled;
 }
 export async function syncInvoice(invoice: Invoice) { return mode() === 'demo' ? invoice : reconcileInvoice(invoice, await paypal(`/v2/invoicing/invoices/${invoice.id}`)); }
 export async function verifyWebhook(headers: Headers, event: unknown, rawBody?: string) {

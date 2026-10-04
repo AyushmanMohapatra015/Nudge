@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       requireIdle(s); // Return 503 below so PayPal retries during an owner action rather than race its state update.
       if (db().prepare('SELECT id FROM webhook_events WHERE id = ?').get(event.id)) return;
       const latest = s.invoices.find(i => i.id === invoice.id)!;
-      s.invoices = s.invoices.map(i => i.id === invoice.id ? { ...latest, status: invoice.status, remoteStatus: invoice.remoteStatus, outstandingCents: invoice.outstandingCents, payUrl: invoice.payUrl } : i);
+      s.invoices = s.invoices.map(i => i.id === invoice.id ? { ...latest, status: invoice.status, remoteStatus: invoice.remoteStatus, outstandingCents: invoice.outstandingCents, payUrl: invoice.payUrl, pendingSend: invoice.pendingSend } : i);
       db().prepare('INSERT INTO webhook_events (id, received_at) VALUES (?, ?)').run(event.id, new Date().toISOString());
       log(s, 'Verified PayPal webhook', 'Payment status reconciled', `${invoice.id}: ${invoice.status}. Event: ${event.event_type}`, event.id);
     });
