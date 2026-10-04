@@ -18,7 +18,7 @@ test('lost invoice send response blocks repeat sends until authoritative status 
       assert.ok(read().invoices[0].pendingSend); sends++;
       throw new Error('Mock lost send response');
     }
-    if (url.endsWith('/INV2-SEND-OUTCOME')) { assert.equal(init?.method, 'GET'); return Response.json({ status, due_amount: { value: '100.00' } }); }
+    if (url.endsWith('/INV2-SEND-OUTCOME')) { assert.equal(init?.method, 'GET'); return Response.json({ id: 'INV2-SEND-OUTCOME', amount: { currency_code: 'USD', value: '100.00' }, status, due_amount: { currency_code: 'USD', value: '100.00' } }); }
     throw new Error('Unexpected mocked request');
   };
   const invoke = (type: string) => POST(new NextRequest('http://localhost:3000/api/workspace', { method: 'POST', headers: { host: 'localhost:3000', origin: 'http://localhost:3000', cookie: `nudge_session=${sessionToken()}`, 'content-type': 'application/json' }, body: JSON.stringify({ type, id: 'INV2-SEND-OUTCOME' }) }));

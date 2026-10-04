@@ -20,7 +20,7 @@ test('webhook rejects forged events, reconciles partial payments, deduplicates a
     assert.ok(url.startsWith('https://api-m.sandbox.paypal.com/'));
     if (url.endsWith('/v1/oauth2/token')) return Response.json({ access_token: 'test', expires_in: 3600 });
     if (url.endsWith('/verify-webhook-signature')) return Response.json({ verification_status: verification });
-    if (url.endsWith(`/invoices/${invoiceId}`)) { lookups++; return Response.json({ status: remoteStatus, due_amount: { value: '4.00' } }); }
+    if (url.endsWith(`/invoices/${invoiceId}`)) { lookups++; return Response.json({ id: invoiceId, amount: { currency_code: 'USD', value: '10.00' }, status: remoteStatus, due_amount: { currency_code: 'USD', value: remoteStatus === 'PAID' ? '0.00' : '4.00' } }); }
     throw Error('Unexpected request');
   };
   const headers = { 'content-type': 'application/json', 'paypal-auth-algo': 'SHA256withRSA', 'paypal-cert-url': 'https://api.sandbox.paypal.com/test', 'paypal-transmission-id': 'test', 'paypal-transmission-sig': 'test', 'paypal-transmission-time': new Date().toISOString() };

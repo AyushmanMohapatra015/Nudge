@@ -27,7 +27,7 @@ test('lost create and send responses cannot cause blind duplicate operations', a
     }
     if (url.endsWith('/INV2-RECOVERY')) {
       if (failRead) throw new Error('Status lookup unavailable');
-      return Response.json({ status: remoteStatus, due_amount: { value: '100.00' } });
+      return Response.json({ id: 'INV2-RECOVERY', amount: { currency_code: 'USD', value: '100.00' }, status: remoteStatus, due_amount: { currency_code: 'USD', value: remoteStatus === 'PAID' ? '0.00' : '100.00' } });
     }
     throw new Error('Unexpected mocked request');
   };

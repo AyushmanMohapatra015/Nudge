@@ -35,8 +35,9 @@ test('agreement validation rejects fractional cents and duplicate clause IDs', (
   assert.equal(agreementSchema.safeParse({ ...agreement, clauses: [agreement.clauses[0], agreement.clauses[0]] }).success, false);
 });
 test('a partial PayPal payment preserves remaining balance rather than marking settled', () => {
-  const invoice = reconcileInvoice(unpaid, { status: 'PARTIALLY_PAID', due_amount: { value: '600.01' } });
+  const remote = { id: unpaid.id, amount: { currency_code: 'USD', value: '1200.00' } };
+  const invoice = reconcileInvoice(unpaid, { ...remote, status: 'PARTIALLY_PAID', due_amount: { currency_code: 'USD', value: '600.01' } });
   assert.equal(invoice.status, 'PARTIALLY_PAID'); assert.equal(invoice.outstandingCents, 60001);
-  assert.equal(reconcileInvoice(unpaid, { status: 'PAID' }).outstandingCents, 0);
-  assert.equal(reconcileInvoice(unpaid, { status: 'REFUNDED' }).status, 'OTHER');
+  assert.equal(reconcileInvoice(unpaid, { ...remote, status: 'PAID' }).outstandingCents, 0);
+  assert.equal(reconcileInvoice(unpaid, { ...remote, status: 'REFUNDED' }).status, 'OTHER');
 });

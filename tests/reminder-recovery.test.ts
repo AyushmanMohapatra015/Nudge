@@ -23,7 +23,7 @@ test('uncertain sandbox reminder blocks retries and replacement drafts; confirme
       if (loseResponse) throw new Error('Reminder response lost');
       return new Response(null, { status: 202 });
     }
-    if (url.endsWith('/INV2-REMINDER-TEST')) return Response.json({ status: 'SENT', due_amount: { value: '100.00' } });
+    if (url.endsWith('/INV2-REMINDER-TEST')) return Response.json({ id: 'INV2-REMINDER-TEST', amount: { currency_code: 'USD', value: '100.00' }, status: 'SENT', due_amount: { currency_code: 'USD', value: '100.00' } });
     throw new Error('Unexpected mocked request');
   };
   const invoke = (body: unknown) => POST(new NextRequest('http://localhost:3000/api/workspace', {

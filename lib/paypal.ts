@@ -85,10 +85,26 @@ export async function recoverInvoice(agreement: Agreement, proposal: Proposal, i
   cacheOperation(key, invoice);
   return invoice;
 }
+export function paypalUsdCents(value: unknown, currency: unknown): number {
+  if (currency !== 'USD' || typeof value !== 'string' || !/^(?:0|[1-9]\d{0,5})(?:\.\d{1,2})?$/.test(value)) throw new Error('PayPal amount must be a supported USD decimal string.');
+  const [whole, fraction = ''] = value.split('.');
+  const cents = Number(whole) * 100 + Number(fraction.padEnd(2, '0'));
+  if (cents > 10000000) throw new Error('PayPal amount exceeds the supported range.');
+  return cents;
+}
 export function reconcileInvoice(invoice: Invoice, remote: Record<string, any>): Invoice {
+  if (!Number.isSafeInteger(invoice.amountCents) || invoice.amountCents < 100 || invoice.amountCents > 10000000 || !Number.isSafeInteger(invoice.outstandingCents) || invoice.outstandingCents < 0 || invoice.outstandingCents > invoice.amountCents) throw new Error('Stored invoice amounts require review.');
+  if (!remote || remote.id !== invoice.id) throw new Error('PayPal invoice identity does not match the linked invoice.');
+  if (paypalUsdCents(remote.amount?.value, remote.amount?.currency_code) !== invoice.amountCents) throw new Error('PayPal total differs from the approved work. Reconciliation blocked.');
+  if (remote.detail?.currency_code !== undefined && remote.detail.currency_code !== 'USD') throw new Error('PayPal invoice currency differs from the approved work.');
+  if (typeof remote.status !== 'string' || !remote.status.length) throw new Error('PayPal invoice status is missing.');
   const status = ['DRAFT', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(remote.status) ? remote.status as Invoice['status'] : remote.status === 'SENT' || remote.status === 'SCHEDULED' ? 'UNPAID' : 'OTHER';
-  const rawOutstanding = remote.due_amount?.value;
-  const outstandingCents = status === 'PAID' || status === 'CANCELLED' ? 0 : typeof rawOutstanding === 'string' && /^\d+(\.\d{1,2})?$/.test(rawOutstanding) ? Math.round(Number(rawOutstanding) * 100) : invoice.outstandingCents;
+  const due = remote.due_amount === undefined ? undefined : paypalUsdCents(remote.due_amount?.value, remote.due_amount?.currency_code);
+  if (due !== undefined && due > invoice.amountCents) throw new Error('PayPal balance exceeds the approved invoice total.');
+  if (status === 'PAID' && due !== undefined && due !== 0) throw new Error('PayPal paid status conflicts with its outstanding balance.');
+  if (status === 'PARTIALLY_PAID' && (due === undefined || due <= 0 || due >= invoice.amountCents)) throw new Error('PayPal partial payment needs a valid remaining balance.');
+  if (status === 'UNPAID' && due !== invoice.amountCents) throw new Error('PayPal unpaid status requires the full approved balance.');
+  const outstandingCents = status === 'PAID' || status === 'CANCELLED' ? 0 : due ?? invoice.outstandingCents;
   const reconciled = { ...invoice, status, remoteStatus: remote.status, outstandingCents, payUrl: remote.detail?.metadata?.recipient_view_url || invoice.payUrl };
   if (['UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED'].includes(status)) delete reconciled.pendingSend;
   return reconciled;

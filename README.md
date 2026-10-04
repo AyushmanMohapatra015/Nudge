@@ -6,6 +6,8 @@ Nudge is a scope and payments workspace for freelance designers. A client approv
 
 This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
+Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
+
 ## Run locally
 
 Requires Node.js **22.13 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice.
