@@ -1,5 +1,19 @@
 # Fresh sandbox payment transition test
 
+## Current result: paid, fresh PAID notification still unverified
+
+On October 4, a new reachable HTTP/2 endpoint passed the public route guards and unsigned-notification rejection. The approved USD 1 fixture was created as a draft and sent through the normal authenticated owner send action. Nudge's baseline was UNPAID with 100 cents due. The private payment link was saved only under ignored data/ for the operator's sandbox checkout.
+
+The user completed payment. A separate read-only PayPal lookup validated the approved USD total and returned PAID/zero due without changing Nudge. No matching verified INVOICING.INVOICE.PAID audit appeared within the bounded session, and no fallback audit ran for this invoice. The event-list page queried during the session returned a SENT event, not PAID; this is not an exhaustive history search or proof no payment notification exists.
+
+The ten-minute limit began when the fixture became ready, not after checkout. Payment was confirmed near the end of that window, so this result does not establish a persistent delivery failure. The temporary registration was removed and processes stopped. An independent remote listing confirmed subscription absence, local webhook ID cleared, and ports 3001/3102 closed. The existing app on port 3000 was preserved.
+
+After the observation session ended, Nudge's normal owner sync action retrieved authoritative PayPal state and updated this invoice to PAID/zero due. This is **owner reconciliation**, not a passed fresh-payment webhook transition. No real funds or AI credits were used. The previous signed-event replay/deduplication evidence remains verified.
+
+Preserve this paid fixture; never issue an automatic replacement or ask the user to pay it again. Any later authentic PAID-event redelivery must be labelled redelivery rather than automatic initial delivery. Another fresh-payment fixture would require separate approval. A stable endpoint with a longer appropriate observation window is preferable to repeated short-lived tunnels.
+
+Connectivity diagnosis preceding the successful attempt compared local DNS and independent Cloudflare DNS-over-HTTPS; both reached an isolated relay with normal certificate validation. An earlier new hostname still failed ENOTFOUND. The session driver gained a process-local, certificate-checked resolver option for probes, but the successful payment-test run did not report needing that option. System DNS, firewall, antivirus and TLS settings were unchanged.
+
 ## Authorized execution attempt: October 4, 2026
 
 The user approved the one USD 1 sandbox fixture and its normal owner-action send. Two bounded HTTP/2 tunnel sessions were attempted. Both failed public reachability checks before PayPal registration, fixture creation or sending. Their owned processes were stopped. The planned new fixture has not been created and buyer payment has not been requested. No configuration, payment or AI usage occurred. The earlier successful signed replay remains valid evidence; this new payment-transition scenario remains pending.

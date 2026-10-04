@@ -13,6 +13,8 @@ An invalid owner sync returns an error. Background reconciliation preserves the 
 
 ## Verification and remaining limits
 
+A further USD 1 sandbox checkout was completed on October 4. Its authoritative response passed total/currency/balance validation and normal owner sync recorded PAID/zero due. The bounded session did not verify a fresh PAID notification; see FRESH_PAYMENT_WEBHOOK_TEST.md. The fixture must not be paid again.
+
 On October 4, 2026, all 38 server tests and the production build passed. Four new tests cover exact money parsing, contradictory details, supported status transitions, and unchanged workspace state across mocked sync, fallback and webhook paths followed by a corrected retry. No real PayPal or AI request was made for this task.
 
 Later on October 4, the read-only script retrieved both existing paid sandbox invoices using the configured sandbox app. [historical sandbox invoice redacted] matched USD 10.00; [historical sandbox invoice redacted] matched USD 1.00. Both passed the actual reconciliation function and returned PAID with zero outstanding. No workspace database was opened or written, no invoice was created/sent/paid, and no raw provider payload or credentials were printed. TypeScript checks passed. This verifies compatibility with these two paid responses, not every remote state or automatic delivery path.
