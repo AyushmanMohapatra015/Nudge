@@ -37,6 +37,8 @@ You can also create an invoice for the accepted original agreement from Payments
 
 ## Connect actual PayPal sandbox and AI
 
+Real AI requests are **disabled by default**, even with configured keys. Leave `NUDGE_AI_ENABLED=false` while sponsor allowance is unresolved. Only set it to `true` locally after confirming provider access, usage allowance and the scope of the first test, then restart the server. The owner UI shows paused usage and the server rejects attempts to bypass it. This switch is not a token/dollar cap: provider controls and consumption review are still required. PayPal sandbox operation and credential-free simulation do not depend on this AI flag.
+
 Copy `.env.example` to `.env.local` and configure it locally. Do not commit or paste secrets into chat.
 
 ```dotenv

@@ -39,4 +39,6 @@ Open the same local URL after starting the production build. Run dev and start s
 
 Use README.md for private sandbox configuration and read-only connectivity checks. Use only sandbox merchant/buyer accounts, never real cards or live API credentials. Real AI needs a separately confirmed provider allowance; current Elastic access is on hold pending support clarification. Do not assume the simulation meets the AI requirement or claim prepared sponsor tools as integrations already used.
 
+Model calls also require the server's explicit `NUDGE_AI_ENABLED=true` setting; the default is paused regardless of configured credentials. Enable it only within a confirmed allowance and test plan. It is an access switch, not a spending cap.
+
 For final judging, provide either complete verified local integration instructions with a usable allowance/access arrangement or a hosted functional build. Do not publish provider keys or owner tokens in GitHub. Access must cover the judging period, not only the submission deadline. Hosted SQLite requires one Node host and persistent disk; shared simulation currently does not isolate public visitors.

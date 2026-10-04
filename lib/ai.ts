@@ -1,8 +1,10 @@
 import { analysisSchema, simulatedAnalysis, validateReferences, type Agreement, type Analysis } from './domain';
 import { mode } from './store';
+import { requireRealAiAccess } from './ai-access';
 
 export async function analyze(request: string, agreement: Agreement): Promise<Analysis> {
   if (mode() === 'demo') return simulatedAnalysis(request, agreement);
+  requireRealAiAccess();
   const provider = process.env.NUDGE_AI_PROVIDER || 'anthropic';
   if (!['anthropic', 'astropods'].includes(provider)) throw new Error('NUDGE_AI_PROVIDER must be anthropic or astropods.');
   let endpoint = 'https://api.anthropic.com/v1/messages';

@@ -9,6 +9,7 @@ import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from 
 import { reconcileOutstanding } from '@/lib/reconciliation';
 import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } from '@/lib/brief';
 import { processingOwner, processingRecovery } from '@/lib/processing';
+import { realAiEnabled, requireRealAiAccess } from '@/lib/ai-access';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
@@ -38,7 +39,7 @@ const actionSchema = z.discriminatedUnion('type', [
 ]);
 function view() {
   const s = read();
-  return { ...s, processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: process.env.NUDGE_AI_PROVIDER === 'astropods' ? !!(process.env.ASTRO_GATEWAY_URL && process.env.ASTRO_GATEWAY_API_KEY && process.env.ASTRO_MODEL) : !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
+  return { ...s, aiEnabled: realAiEnabled(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: process.env.NUDGE_AI_PROVIDER === 'astropods' ? !!(process.env.ASTRO_GATEWAY_URL && process.env.ASTRO_GATEWAY_API_KEY && process.env.ASTRO_MODEL) : !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
@@ -136,7 +137,10 @@ export async function POST(request: NextRequest) {
       runningKey = randomUUID(); const key = runningKey;
       const snapshot = mutate(s => {
         requireIdle(s);
-        if (action.type === 'analyze' && s.agreementStatus !== 'accepted') throw new Error('The client must accept the agreement before scope comparison.');
+        if (action.type === 'analyze') {
+          if (s.agreementStatus !== 'accepted') throw new Error('The client must accept the agreement before scope comparison.');
+          if (mode() === 'sandbox') requireRealAiAccess();
+        }
         if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
           if (action.id === 'base') baseInvoiceIdentity(s);
           if (action.id === 'base' ? s.agreementStatus !== 'accepted' : !s.proposals.some(p => p.id === action.id && p.status === 'accepted')) throw new Error('Client acceptance is required before invoicing.');
@@ -206,7 +210,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(view());
   } catch (error) {
     const message = error instanceof z.ZodError ? error.issues.map(i => i.message).join(' ') : error instanceof Error ? error.message : 'Action failed.';
-    if (runningKey) mutate(s => { if (s.processing?.key === runningKey) { s.processing = undefined; s.integrationError = message; log(s, 'System', 'Action did not finish', `${message} For ambiguous remote errors, reconcile the invoice before repeating an external action.`, runningKey); } });
+    if (runningKey && read().processing?.key === runningKey) mutate(s => { if (s.processing?.key === runningKey) { s.processing = undefined; s.integrationError = message; log(s, 'System', 'Action did not finish', `${message} For ambiguous remote errors, reconcile the invoice before repeating an external action.`, runningKey); } });
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

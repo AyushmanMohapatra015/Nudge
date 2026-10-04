@@ -4,10 +4,10 @@ import { analyze } from '../lib/ai';
 import type { Agreement } from '../lib/domain';
 
 test('Astropods uses its documented auth and tool format, rejects bad citations and never hides failure', async () => {
-  const names = ['NUDGE_MODE', 'NUDGE_AI_PROVIDER', 'ASTRO_GATEWAY_URL', 'ASTRO_GATEWAY_API_KEY', 'ASTRO_MODEL'];
+  const names = ['NUDGE_MODE', 'NUDGE_AI_ENABLED', 'NUDGE_AI_PROVIDER', 'ASTRO_GATEWAY_URL', 'ASTRO_GATEWAY_API_KEY', 'ASTRO_MODEL'];
   const before = Object.fromEntries(names.map(n => [n, process.env[n]]));
   const originalFetch = globalThis.fetch;
-  Object.assign(process.env, { NUDGE_MODE: 'sandbox', NUDGE_AI_PROVIDER: 'astropods', ASTRO_GATEWAY_URL: 'https://gateway.example.com', ASTRO_GATEWAY_API_KEY: 'test-key', ASTRO_MODEL: 'bedrock/claude-haiku-4-5' });
+  Object.assign(process.env, { NUDGE_MODE: 'sandbox', NUDGE_AI_ENABLED: 'true', NUDGE_AI_PROVIDER: 'astropods', ASTRO_GATEWAY_URL: 'https://gateway.example.com', ASTRO_GATEWAY_API_KEY: 'test-key', ASTRO_MODEL: 'bedrock/claude-haiku-4-5' });
   const agreement: Agreement = { title: 'Example website', clientName: 'Fictional client', clientEmail: 'fictional@example.com', amountCents: 10000, clauses: [{ id: 'S1', text: 'Five marketing pages included.' }, { id: 'S2', text: 'Booking systems excluded.' }] };
   let reference = 'S2';
   let status = 200;

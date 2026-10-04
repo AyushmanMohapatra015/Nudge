@@ -6,7 +6,7 @@ import BriefReview from './brief-review';
 import ClientLinkSettings from './client-link-settings';
 import ProcessingRecovery from './processing-recovery';
 
-type Data = Workspace & { processingRecovery?: { status: 'running' | 'exited' | 'unknown'; reason: string }; connections: { paypal: boolean; ai: boolean; webhook: boolean } };
+type Data = Workspace & { aiEnabled: boolean; processingRecovery?: { status: 'running' | 'exited' | 'unknown'; reason: string }; connections: { paypal: boolean; ai: boolean; webhook: boolean } };
 type Action = Record<string, unknown>;
 type View = 'Overview' | 'Project' | 'Approvals' | 'Payments' | 'Activity' | 'Rules';
 const iconMap = { Overview: LayoutDashboard, Project: FileText, Approvals: ShieldCheck, Payments: Wallet, Activity: History, Rules: Settings2 };
@@ -99,7 +99,8 @@ function ProjectCard({ data, act, busy, clientUrl, onEdit }: Shared & { clientUr
 function RequestCard({ data, act, busy }: Shared) {
   const [request, setRequest] = useState('Could we add a booking page so clients can schedule appointments? Also, I’d like one more revision round.');
   const available = data.agreementStatus === 'accepted';
-  return <section className="card request-card"><div className="ai-heading"><span className="sparkle-icon"><Sparkles size={18} /></span><div><h3>A little clarity goes a long way.</h3><small>{data.mode === 'demo' ? 'Scope assistant · simulated' : 'Scope assistant · Claude'}</small></div></div><p>Paste your client’s new request. We’ll check it against the scope they approved.</p><label className="input-label" htmlFor="request">CLIENT REQUEST</label><textarea id="request" value={request} onChange={e => setRequest(e.target.value)} rows={6} maxLength={5000} /><button className="btn primary full" disabled={busy || !available || request.trim().length < 10} onClick={() => act({ type: 'analyze', request })}>{busy ? <Loader2 className="spin" size={16} /> : <Sparkles size={16} />}Compare with agreement <ArrowRight size={15} /></button><div className="input-hint"><LockKeyhole size={12} />{available ? 'A draft only. Nothing is sent to your client.' : 'First approve the scope and accept it in Client view.'}</div></section>;
+  const aiPaused = data.mode === 'sandbox' && !data.aiEnabled;
+  return <section className="card request-card"><div className="ai-heading"><span className="sparkle-icon"><Sparkles size={18} /></span><div><h3>A little clarity goes a long way.</h3><small>{data.mode === 'demo' ? 'Scope assistant · simulated' : aiPaused ? 'Scope assistant · AI calls paused' : 'Scope assistant · Claude'}</small></div></div><p>Paste your client’s new request. We’ll check it against the scope they approved.</p><label className="input-label" htmlFor="request">CLIENT REQUEST</label><textarea id="request" value={request} onChange={e => setRequest(e.target.value)} rows={6} maxLength={5000} /><button className="btn primary full" disabled={busy || aiPaused || !available || request.trim().length < 10} onClick={() => act({ type: 'analyze', request })}>{busy ? <Loader2 className="spin" size={16} /> : <Sparkles size={16} />}Compare with agreement <ArrowRight size={15} /></button><div className="input-hint"><LockKeyhole size={12} />{aiPaused ? 'AI calls are paused until provider allowance is confirmed.' : available ? 'A draft only. Nothing is sent to your client.' : 'First approve the scope and accept it in Client view.'}</div></section>;
 }
 function ProposalCard({ proposal: p, data, busy, act }: Shared & { proposal: Proposal }) {
   const [price, setPrice] = useState(p.amountCents ? (p.amountCents / 100).toFixed(2) : ''); const [deliverables, setDeliverables] = useState(p.deliverables.join('\n'));
