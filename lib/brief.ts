@@ -1,4 +1,12 @@
 import { z } from 'zod';
+import { createHash } from 'node:crypto';
+import type { Agreement } from './domain';
+
+export const agreementFingerprint = (agreement: Agreement) => createHash('sha256').update(JSON.stringify(agreement)).digest('hex');
+export type BriefDraft = {
+  id: string; createdAt: string; source: 'manual'; notes: string; candidate: BriefCandidate; agreementFingerprint: string;
+  review?: { reviewedAt: string; note: string; resolutions: { issueIndex: number; explanation: string }[]; agreement: Agreement; currency: 'USD' };
+};
 
 const fields = ['title', 'clientName', 'clientEmail', 'amountCents', 'currency', 'clause'] as const;
 export const briefCandidateSchema = z.object({

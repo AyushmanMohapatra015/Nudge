@@ -71,3 +71,8 @@ These are human-labelled expectations, not measured model results. Cases use no 
 5. Verify source fidelity on B01–B12 and browser behavior for incomplete notes, conflict correction, stale apply, discard, locked agreements, and client visibility. No extraction evaluation should send an invoice or reminder.
 
 Results: **not run**. Current agreement editing and scope review continue unchanged.
+# Implemented review storage (October 4)
+
+The owner API supports `stageBrief` (current workspace version, source notes, validated candidate) and `applyBrief` (current candidate ID, complete reviewed agreement, explicit USD and review confirmation, review note, and one explanation per unresolved issue). Staging leaves the saved agreement unchanged. Applying saves only a draft, preserves the original candidate and reviewed snapshot, and rejects changed agreements, replaced/already-used candidates, approved agreements, and non-USD candidates. Missing fields must be completed in the reviewed agreement; no currency conversion occurs.
+
+This is backend infrastructure with manually supplied candidates, labelled `manual`; it is not AI extraction. Review UI and a provider are still pending. Source notes remain owner-only workspace data and are not copied into the audit summary or client API. Human resolutions are recorded judgments, not proof that terms are legally correct. Payment terms outside the agreement schema are documented in resolutions, not implemented as deposit scheduling.

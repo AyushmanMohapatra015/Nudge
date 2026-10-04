@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { BriefDraft } from './brief';
 
 export const agreementSchema = z.object({
   title: z.string().trim().min(3).max(120),
@@ -28,6 +29,7 @@ export type Workspace = {
   proposals: Proposal[]; invoices: Invoice[]; audit: Audit[]; policies: Policies;
   promiseDate?: string; processing?: { key: string; operation: string; startedAt: string }; integrationError?: string;
   reminderDraft?: { id: string; invoiceId: string; note: string; createdAt: string };
+  briefDraft?: BriefDraft;
 };
 export const money = (cents: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(cents / 100);
 export const utcDate = (d = new Date()) => d.toISOString().slice(0, 10);

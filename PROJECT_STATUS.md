@@ -1,5 +1,7 @@
 # Nudge: current status and priority order
 
+Latest checkpoint (October 4): separate brief-candidate storage and guarded owner review/application are implemented in the workspace API. Manually supplied candidates are labelled manual; source evidence and original candidate are preserved. Application requires a complete reviewed USD agreement and explicit issue resolutions, and leaves it in draft status. Stale/repeated applications and locked agreements are rejected. All 22 server tests and the production build pass. Next bounded step: the brief review interface; provider integration and real AI verification remain pending Elastic allowance clarification. Older brief endpoint status below is superseded by this checkpoint.
+
 Reviewed October 3, 2026 against PROJECT_PLAN.md, the implementation, and https://paypalaihackathon.devpost.com/rules. This is the current summary; older milestone paragraphs in PROJECT_HANDOFF.md are historical and may describe superseded states.
 
 ## Direction

@@ -7,9 +7,12 @@ import { authorized, sameOrigin } from '@/lib/auth';
 import { analyze } from '@/lib/ai';
 import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
 import { reconcileOutstanding } from '@/lib/reconciliation';
+import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } from '@/lib/brief';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('stageBrief'), expectedVersion: z.number().int(), notes: z.string().min(1).max(10000), candidate: briefCandidateSchema }),
+  z.object({ type: z.literal('applyBrief'), id: z.string(), confirmed: z.literal(true), currency: z.literal('USD'), note: z.string().trim().min(20).max(1000), agreement: agreementSchema, resolutions: z.array(z.object({ issueIndex: z.number().int().min(0).max(19), explanation: z.string().trim().min(20).max(1000) }).strict()).max(20) }),
   z.object({ type: z.literal('saveAgreement'), agreement: agreementSchema }),
   z.object({ type: z.literal('approveAgreement') }),
   z.object({ type: z.literal('dismissReminder'), id: z.string() }),
@@ -45,7 +48,28 @@ export async function POST(request: NextRequest) {
   let runningKey: string | undefined;
   try {
     const action = actionSchema.parse(await request.json());
-    if (action.type === 'saveAgreement') mutate(s => { requireIdle(s); if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked. Start a separate change instead.'); s.agreement = action.agreement; log(s, 'You', 'Agreement updated', 'Draft scope and client details saved.'); });
+    if (action.type === 'stageBrief') mutate(s => {
+      requireIdle(s);
+      if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked.');
+      if (s.version !== action.expectedVersion) throw new Error('Workspace has changed. Refresh before staging a brief.');
+      const candidate = validateBriefCandidate(action.candidate, action.notes);
+      s.briefDraft = { id: randomUUID(), createdAt: new Date().toISOString(), source: 'manual', notes: action.notes, candidate, agreementFingerprint: agreementFingerprint(s.agreement) };
+      log(s, 'You', 'Brief candidate staged', 'Manually supplied candidate stored separately; saved agreement unchanged. No AI extraction performed.', s.briefDraft.id);
+    });
+    else if (action.type === 'applyBrief') mutate(s => {
+      requireIdle(s);
+      if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked.');
+      const draft = s.briefDraft;
+      if (!draft || draft.id !== action.id || draft.review) throw new Error('Brief candidate has changed or was already used.');
+      if (draft.agreementFingerprint !== agreementFingerprint(s.agreement)) throw new Error('Agreement changed after staging. Stage a fresh candidate before applying.');
+      if (draft.candidate.currency !== null && draft.candidate.currency !== 'USD') throw new Error('Non-USD briefs cannot be applied or converted.');
+      const indexes = new Set(action.resolutions.map(r => r.issueIndex));
+      if (indexes.size !== action.resolutions.length || indexes.size !== draft.candidate.unresolved.length || [...indexes].some(i => i >= draft.candidate.unresolved.length)) throw new Error('Record one explicit resolution for every reported issue.');
+      draft.review = { reviewedAt: new Date().toISOString(), note: action.note, resolutions: action.resolutions, agreement: structuredClone(action.agreement), currency: action.currency };
+      s.agreement = action.agreement;
+      log(s, 'You', 'Reviewed brief applied', 'Owner-reviewed USD agreement saved as a draft. Original candidate preserved; separate approval and client acceptance still required.', draft.id);
+    });
+    else if (action.type === 'saveAgreement') mutate(s => { requireIdle(s); if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked. Start a separate change instead.'); s.agreement = action.agreement; log(s, 'You', 'Agreement updated', 'Draft scope and client details saved.'); });
     else if (action.type === 'approveAgreement') mutate(s => { requireIdle(s); if (s.agreementStatus !== 'draft') throw new Error('Agreement is already approved.'); agreementSchema.parse(s.agreement); s.agreementStatus = 'approved'; log(s, 'You', 'Agreement approved', 'Version 1 locked and ready for client acceptance.'); });
     else if (action.type === 'dismissReminder') mutate(s => { requireIdle(s); if (s.reminderDraft?.id !== action.id) throw new Error('Reminder draft has changed.'); s.reminderDraft = undefined; log(s, 'You', 'Reminder dismissed', 'The draft was discarded without contacting the client.'); });
     else if (action.type === 'resolveReminder') mutate(s => {
