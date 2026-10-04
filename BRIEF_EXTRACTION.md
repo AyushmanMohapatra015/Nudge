@@ -1,8 +1,16 @@
 # Brief-to-agreement design and evaluation
 
-Prepared October 4, 2026. Status: candidate validation, manual staging/application endpoints and review UI implemented. Automatic extraction, provider integration and live AI evaluation remain pending. Elastic model calls remain paused pending the support checkpoint.
+Prepared October 4, 2026. Status: candidate validation, manual staging/application endpoints, review UI, and provider-independent structured extraction boundary implemented. Automatic extraction is not wired to the website or a live provider. Elastic model calls remain paused pending the support checkpoint.
 
 Foundation and backend verification: all 22 server tests passed at the previous checkpoint. Missing fields remain null; strict schemas reject unexpected action fields; exact USD parsing uses integer arithmetic; source excerpts/indices and evidence coverage are validated; missing terms, non-USD currency, and reported conflicts block readiness. These checks do not prove that a model interpreted a budget as an agreed price correctly or identified every conflict. Provider/model/time/candidate ID provenance will be attached by the server integration, not trusted from model output. Manual review UI is available; automatic extraction and model calls are not enabled.
+
+## Structured extraction boundary — implemented with mocks
+
+`lib/brief-extraction.ts` provides the output schema, untrusted-notes instructions, response validation, and an explicitly injected transport boundary. It contains no fetch, credentials, default provider, or workspace mutations. Future adapters must return a complete/refused/truncated envelope. A timeout aborts the adapter signal and does not retry; a provider that ignores cancellation could still complete its own request, so this is not a billing guarantee.
+
+The model supplies decimal amount text rather than calculating cents. The server computes supported USD cents exactly; non-USD values are preserved as source amount text but never converted into the agreement amount. Literal evidence is required for amount, currency and recipient; reported conflicting or missing financial/recipient fields must remain null. Missing-field/scope questions are added deterministically. Reported conflict and unsupported-payment questions are preserved. Malformed schemas, injected action fields, mismatched evidence, excessive USD precision, refusal, truncation, oversized output and transport failures reject the result without simulation or retry.
+
+Five new server tests use mocked transports and authored outputs. They do not measure whether a model identifies budgets, contacts, conflicts, or deposits correctly. Evidence validation checks the source excerpt, not the meaning or truth of an agreement. Real inference and B01–B12 model evaluation remain mandatory before claiming extraction accuracy. Provider/model attribution comes from server-supplied options, not response fields. Returned candidates still require the existing separate owner review, approval, and client acceptance.
 
 ## Purpose and journey
 
