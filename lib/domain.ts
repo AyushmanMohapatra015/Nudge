@@ -25,6 +25,7 @@ export type Audit = { id: string; time: string; actor: string; title: string; de
 export type Policies = { protectedClient: boolean; reminderLimit: number; cooldownDays: number };
 export type Workspace = {
   version: number; mode: 'demo' | 'sandbox'; clientToken: string;
+  baseInvoiceKey?: string;
   agreement: Agreement; agreementStatus: 'draft' | 'approved' | 'accepted'; agreementAcceptedAt?: string;
   proposals: Proposal[]; invoices: Invoice[]; audit: Audit[]; policies: Policies;
   promiseDate?: string; processing?: { key: string; operation: string; startedAt: string }; integrationError?: string;

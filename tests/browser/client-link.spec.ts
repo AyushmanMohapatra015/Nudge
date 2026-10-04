@@ -1,0 +1,21 @@
+import { test, expect } from '@playwright/test';
+test('owner replaces client link with explicit confirmation and UI points to the new URL', async ({ page, request }) => {
+  await request.post('/api/workspace', { data: { type: 'reset' } });
+  const original = await (await request.get('/api/workspace')).json();
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Agent rules', exact: true }).click();
+  const button = page.getByRole('button', { name: 'Replace client link', exact: true });
+  await expect(button).toBeDisabled();
+  const confirmation = page.getByLabel('I understand the old Nudge link will stop working');
+  await confirmation.check();
+  await button.click();
+  await expect(confirmation).not.toBeChecked();
+  await expect(button).toBeDisabled();
+  const current = await (await request.get('/api/workspace')).json();
+  expect(current.clientToken).not.toBe(original.clientToken);
+  expect((await request.get(`/api/client/${original.clientToken}`)).status()).toBe(404);
+  expect((await request.get(`/api/client/${current.clientToken}`)).status()).toBe(200);
+  await expect(page.getByRole('link', { name: 'Client view', exact: true })).toHaveAttribute('href', `/client/${current.clientToken}`);
+  expect(current.agreementStatus).toBe('draft');
+  expect(current.invoices).toHaveLength(0);
+});

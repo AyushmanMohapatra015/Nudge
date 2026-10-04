@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import { agreementSchema, reminderGate, utcDate, money, type Proposal } from '@/lib/domain';
-import { read, mutate, log, requireIdle, mode, seed } from '@/lib/store';
+import { read, mutate, log, requireIdle, mode, seed, baseInvoiceIdentity } from '@/lib/store';
 import { authorized, sameOrigin } from '@/lib/auth';
 import { analyze } from '@/lib/ai';
 import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
@@ -11,6 +11,7 @@ import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } fr
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('replaceClientLink'), expectedToken: z.string().min(1).max(100), confirmed: z.literal(true) }),
   z.object({ type: z.literal('stageBrief'), expectedVersion: z.number().int(), notes: z.string().min(1).max(10000), candidate: briefCandidateSchema }),
   z.object({ type: z.literal('applyBrief'), id: z.string(), confirmed: z.literal(true), currency: z.literal('USD'), note: z.string().trim().min(20).max(1000), agreement: agreementSchema, resolutions: z.array(z.object({ issueIndex: z.number().int().min(0).max(19), explanation: z.string().trim().min(20).max(1000) }).strict()).max(20) }),
   z.object({ type: z.literal('saveAgreement'), agreement: agreementSchema }),
@@ -48,7 +49,14 @@ export async function POST(request: NextRequest) {
   let runningKey: string | undefined;
   try {
     const action = actionSchema.parse(await request.json());
-    if (action.type === 'stageBrief') mutate(s => {
+    if (action.type === 'replaceClientLink') mutate(s => {
+      requireIdle(s);
+      if (s.clientToken !== action.expectedToken) throw new Error('Client link has already changed. Refresh before replacing it.');
+      baseInvoiceIdentity(s);
+      s.clientToken = randomBytes(24).toString('hex');
+      log(s, 'You', 'Client link replaced', 'Previous Nudge link revoked. Existing decisions and invoice identities preserved. Share the replacement privately; no message sent.');
+    });
+    else if (action.type === 'stageBrief') mutate(s => {
       requireIdle(s);
       if (s.agreementStatus !== 'draft') throw new Error('Approved agreements are locked.');
       if (s.version !== action.expectedVersion) throw new Error('Workspace has changed. Refresh before staging a brief.');
@@ -120,6 +128,7 @@ export async function POST(request: NextRequest) {
         requireIdle(s);
         if (action.type === 'analyze' && s.agreementStatus !== 'accepted') throw new Error('The client must accept the agreement before scope comparison.');
         if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
+          if (action.id === 'base') baseInvoiceIdentity(s);
           if (action.id === 'base' ? s.agreementStatus !== 'accepted' : !s.proposals.some(p => p.id === action.id && p.status === 'accepted')) throw new Error('Client acceptance is required before invoicing.');
           if (s.invoices.some(i => i.proposalId === action.id)) throw new Error('An invoice already exists for this accepted work.');
           if (action.type === 'recoverInvoice' && s.invoices.some(i => i.id === action.invoiceId)) throw new Error('This invoice is already linked to another work item.');
@@ -142,7 +151,7 @@ export async function POST(request: NextRequest) {
         const result = await analyze(action.request, snapshot.agreement);
         mutate(s => { s.proposals.unshift({ id: randomUUID(), request: action.request, analysis: result, amountCents: 0, deliverables: result.deliverables, status: 'draft' }); log(s, result.source === 'claude' ? 'Claude' : 'Simulation', 'Scope comparison ready', result.summary); });
       } else if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
-        const proposal: Proposal = action.id === 'base' ? { id: `base-${snapshot.clientToken.slice(0, 16)}`, request: 'Original agreement', analysis: { classification: 'included', summary: 'Original approved project scope.', references: [], questions: [], deliverables: [], source: 'simulation' }, amountCents: snapshot.agreement.amountCents, deliverables: [snapshot.agreement.title], status: 'accepted' } : snapshot.proposals.find(p => p.id === action.id)!;
+        const proposal: Proposal = action.id === 'base' ? { id: snapshot.baseInvoiceKey!, request: 'Original agreement', analysis: { classification: 'included', summary: 'Original approved project scope.', references: [], questions: [], deliverables: [], source: 'simulation' }, amountCents: snapshot.agreement.amountCents, deliverables: [snapshot.agreement.title], status: 'accepted' } : snapshot.proposals.find(p => p.id === action.id)!;
         const invoice = action.type === 'recoverInvoice' ? await recoverInvoice(snapshot.agreement, proposal, action.invoiceId) : await createInvoice(snapshot.agreement, proposal);
         invoice.proposalId = action.id;
         mutate(s => { s.invoices.push(invoice); log(s, 'You', action.type === 'recoverInvoice' ? 'Existing invoice recovered' : 'Invoice created', action.type === 'recoverInvoice' ? `${invoice.id}: ${invoice.status}. Verified against approved work; no create or send request made.` : `${money(invoice.amountCents)} draft. Sending requires a separate approval.`, `invoice-${proposal.id}`); });

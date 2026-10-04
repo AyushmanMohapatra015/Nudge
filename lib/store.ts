@@ -41,6 +41,8 @@ export function log(s: Workspace, actor: string, title: string, detail: string, 
   s.audit.unshift({ id: randomUUID(), time: new Date().toISOString(), actor, title, detail, key });
 }
 export function requireIdle(s: Workspace) { if (s.processing) throw new Error('An action is already running. Refresh its status before starting another.'); }
+// Freeze the legacy identity before changing its token, preserving existing remote caches.
+export function baseInvoiceIdentity(s: Workspace) { return s.baseInvoiceKey ||= `base-${s.clientToken.slice(0, 16)}`; }
 export function cachedOperation<T>(key: string): T | undefined {
   const row = db().prepare('SELECT body FROM remote_operations WHERE key = ?').get(key) as { body: string } | undefined;
   return row ? JSON.parse(row.body) : undefined;

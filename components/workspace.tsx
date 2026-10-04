@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowDownLeft, Check, ChevronRight, CircleHelp, Clock3, FileText, History, LayoutDashboard, Loader2, LockKeyhole, Plus, Send, Settings2, ShieldCheck, Sparkles, Wallet, X, CheckCheck, PanelLeftClose, Link2, ExternalLink, AlertCircle, CircleDot } from 'lucide-react';
 import { money, reminderGate, type Agreement, type Proposal, type Workspace, type Invoice } from '@/lib/domain';
 import BriefReview from './brief-review';
+import ClientLinkSettings from './client-link-settings';
 
 type Data = Workspace & { connections: { paypal: boolean; ai: boolean; webhook: boolean } };
 type Action = Record<string, unknown>;
@@ -64,7 +65,7 @@ export default function WorkspaceApp() {
         {view === 'Payments' && data.mode === 'sandbox' && <InvoiceRecovery data={data} act={act} busy={locked} />}
         {view === 'Payments' && data.invoices.filter(i => i.pendingReminder).map(i => <ReminderOutcome key={i.pendingReminder!.draftId} invoice={i} act={act} busy={locked} />)}
         {view === 'Activity' && <><div className="trust-banner"><History size={21} /><div><strong>A record you can follow.</strong><p>Human approvals, client decisions, policy updates, and payment confirmations.</p></div></div><Activity items={data.audit} full /></>}
-        {view === 'Rules' && <Rules data={data} act={act} busy={locked} />}
+        {view === 'Rules' && <><Rules data={data} act={act} busy={locked} /><ClientLinkSettings key={data.clientToken} token={data.clientToken} busy={locked} act={act} /></>}
         <footer className="page-footer"><span>Agreed work. Paid work.</span><span><LockKeyhole size={12} />{data.mode === 'demo' ? 'No real payments or emails' : 'Sandbox only · approval required'}</span></footer>
       </main>
     </div>{notice && <div className="toast" role="status"><Check size={16} />{notice}</div>}
