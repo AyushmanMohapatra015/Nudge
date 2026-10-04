@@ -1,5 +1,7 @@
 # Nudge project handoff
 
+Newest October 4 checkpoint: scripts/verify-sandbox-payment.ts performed read-only GET verification of the two existing sandbox paid fixtures (USD 10 and USD 1). Both passed the stricter identity/total/currency/balance reconciliation and returned PAID/zero due. Workspace unchanged, no model usage or payments, TypeScript passed. PAYMENT_INTEGRITY.md records the procedure and limits. Genuine webhook delivery remains pending; other live status shapes have not been tested. Elastic/Astropods replies still pending and real AI stays paused. Do not open a public tunnel or create another payment fixture without the established authorization checkpoint.
+
 Latest checkpoint, October 4: payment reconciliation now rejects mismatched invoice IDs/totals/currencies and contradictory balances across owner sync, fallback and webhooks; malformed data cannot mark an invoice paid or release a pending-send marker. All 38 server tests and production build pass using mocks. See PAYMENT_INTEGRITY.md. Fresh sandbox verification of these stricter checks and genuine webhook delivery remain pending. User confirms no Elastic/Astropods support reply yet; keep real AI paused and revisit provider allowance when replies arrive. Prioritize real-user feedback and eventual live scope evaluation alongside sandbox integration verification. Historical task lists below are superseded by PROJECT_STATUS.md.
 
 Updated 2026-10-03. Workspace: D:\Nudge, Windows PowerShell, Node 24. User has one month and values careful implementation over speed.
