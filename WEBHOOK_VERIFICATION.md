@@ -1,5 +1,13 @@
 # Genuine sandbox webhook verification checkpoint
 
+## Authorized attempt outcome: October 4, 2026
+
+The user approved a brief public webhook-only test. An existing app on port 3000 was detected and left untouched. The test used a separate loopback app port 3102 and relay port 3001. Local relay checks returned 404 for dashboard, workspace, session and client routes.
+
+The temporary tunnel produced a hostname, but public requests could not establish the required 404 route-boundary checks, including a bounded readiness retry. The test stopped before PayPal registration, configuration changes or authentic event replay. No new invoice or payment was created and no AI call was made. Session-owned relay/tunnel processes were stopped. No subscription cleanup was necessary because none was registered. The existing port 3000 app was not stopped or reconfigured.
+
+Genuine webhook delivery remains **unverified**. A tunnel hostname is not proof of reachability; no signature verification or deduplication result is claimed. The exact connectivity cause was not established. Next attempt should first diagnose tunnel reachability or use an approved hosted webhook endpoint, before registering anything or replaying an event. The ignored local driver is data/verify-webhook-session.mjs and is not part of judge setup.
+
 ## Read-only preflight: October 4, 2026
 
 PayPal returned an existing INVOICING.INVOICE.SENT event for paid sandbox fixture [historical sandbox invoice redacted]:
