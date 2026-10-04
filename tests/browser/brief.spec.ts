@@ -42,3 +42,46 @@ test('manual brief review preserves draft status, resets confirmations and hides
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
+
+test('reported price conflicts and deposit terms require review; foreign currency stays blocked', async ({ page, request }) => {
+  await request.post('/api/workspace', { data: { type: 'reset' } });
+  const notes = 'Initial quote USD 1,200; later USD 1,500 is unapproved. Requested 50% deposit.';
+  const candidate = { title: null, suggestedTitle: false, clientName: null, clientEmail: null, amountCents: null, currency: null, clauses: [], evidence: [], unresolved: [
+    { field: 'amountCents', kind: 'conflict', question: 'Which quoted price has the client actually agreed to?' },
+    { field: 'paymentTerms', kind: 'unsupported', question: 'How should the unsupported deposit request be resolved?' },
+  ] };
+  let state = await (await request.get('/api/workspace')).json();
+  expect((await request.post('/api/workspace', { data: { type: 'stageBrief', expectedVersion: state.version, notes, candidate } })).status()).toBe(200);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'My project', exact: true }).click();
+  const panel = page.getByRole('region', { name: 'Brief review' });
+  await expect(panel.getByLabel('Reviewed total price (USD)')).toHaveValue('');
+  await panel.getByLabel('Reviewed project name').fill('Fictional reviewed website');
+  await panel.getByLabel('Reviewed client name').fill('Fictional Studio');
+  await panel.getByLabel('Reviewed client email').fill('buyer@example.com');
+  await panel.getByLabel('Reviewed total price (USD)').fill('1200');
+  await panel.getByLabel('Reviewed scope clauses').fill('Five marketing pages included.\nTwo minor revision rounds included.');
+  await panel.getByLabel('Brief review note').fill('Reviewed fictional client clarification and supported invoice terms.');
+  await panel.getByRole('checkbox').nth(0).check();
+  await panel.getByRole('checkbox').nth(1).check();
+  const apply = panel.getByRole('button', { name: 'Use reviewed draft' });
+  await expect(apply).toBeDisabled();
+  await panel.getByLabel('Resolve: Which quoted price').fill('Fictional client confirmed the original USD 1,200 quote.');
+  await panel.getByLabel('Resolve: How should').fill('Fictional client agreed to one full invoice, with no deposit schedule.');
+  await panel.getByRole('checkbox').nth(0).check();
+  await panel.getByRole('checkbox').nth(1).check();
+  await expect(apply).toBeEnabled();
+  state = await (await request.get('/api/workspace')).json();
+  expect((await request.post('/api/workspace', { data: { type: 'saveAgreement', agreement: { ...state.agreement, title: 'Changed in another tab' } } })).status()).toBe(200);
+  await apply.click();
+  await expect(page.locator('.error-banner[role=alert]')).toContainText('Agreement changed after staging');
+  await expect(panel.getByLabel('Reviewed project name')).toHaveValue('Fictional reviewed website');
+  state = await (await request.get('/api/workspace')).json();
+  expect(state.agreement.title).toBe('Changed in another tab');
+  const foreignNotes = 'Agreed website price INR 25,000.';
+  expect((await request.post('/api/workspace', { data: { type: 'stageBrief', expectedVersion: state.version, notes: foreignNotes, candidate: { ...candidate, currency: 'INR', unresolved: [], evidence: [{ field: 'currency', clauseIndex: null, excerpt: 'INR', start: 21, end: 24 }] } } })).status()).toBe(200);
+  await page.reload();
+  await page.getByRole('button', { name: 'My project', exact: true }).click();
+  await expect(panel.getByRole('alert')).toContainText('INR');
+  await expect(apply).toBeDisabled();
+});

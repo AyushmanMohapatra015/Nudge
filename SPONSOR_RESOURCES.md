@@ -1,5 +1,9 @@
 # Nudge: sponsor resources and zero-cash plan
 
+## Sponsor checkpoint — October 4
+
+The user wants every sponsor resource considered throughout development. Keep the table below as a fit assessment, not a requirement to integrate every tool. Record actual use separately from planned use. Elastic is now the preferred AI candidate: a Mumbai Serverless trial is created, but calls remain paused pending support answers about managed LLM allowance, the extension and judging access. Astropods' $10 balance remains reserved while its CLI access issue awaits feedback. Postman's read-only collection is prepared, not yet verified by execution; Render and APIMatic remain planned. AG Grid, Bryntum, Channel3, Kernel and Zapier remain optional fits under review. Do not activate trials or consume credits simply to add sponsor names.
+
 Checked against the official hackathon resources on 2026-10-03. Offers are published benefits, not credits already claimed by this project.
 
 ## Required outcome
