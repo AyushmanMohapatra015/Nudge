@@ -22,6 +22,12 @@ The future adapter should accept only completed responses containing valid struc
 
 ## Order of work
 
+### Offline configuration preflight
+
+After locally configuring the existing placeholders, leave NUDGE_AI_ENABLED=false and run `npm run elastic:check`. This checks only provider selection and the shape/presence of the endpoint, key, agent and optional space. It prints no values, makes no network request and writes no files. CHECK results require local configuration review; PASS does not prove authentication, permissions, allowance, model identity or runtime compatibility. Do not share the environment file or keys. The first model call still requires confirmed allowance.
+
+Before the first fictional case, record non-sensitive evidence of the free managed-model allowance, expiry, dedicated agent with no payment tools, and key permissions. Record provider/model identity, test time, latency, actual output, available usage before/after and manual citation review. Leave unknown usage explicitly unknown; do not infer cost from token counts. Pause again after the single call and review before any retry or batch. No invoice or reminder should be created by this evaluation.
+
 1. Confirm Agent Builder still opens in the existing trial. Identify its Kibana endpoint, chosen agent and exact model; keep API keys local and out of chat/Git.
 2. Check Agent Builder key permissions from official docs and create a narrowly scoped key only when needed for local configuration. Do not enable a paid subscription or grant account-wide access just to make a request succeed.
 3. Implement the server-side adapter with mocks, preserving the explicit AI enable hold, strict analysis schema and citation validation.
