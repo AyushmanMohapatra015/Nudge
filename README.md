@@ -181,6 +181,8 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the one-month milestones and submissi
 
 ## Official references
 
+See [AI_DATA_HANDLING.md](AI_DATA_HANDLING.md) for scope-comparison payloads, the owner disclosure and remaining privacy-review boundaries. Free text is not automatically anonymized; use fictional demo content.
+
 - [PayPal Invoicing](https://developer.paypal.com/api/invoicing/)
 - [Create invoice](https://developer.paypal.com/api/invoicing/v2/invoices-create/)
 - [Send invoice](https://developer.paypal.com/api/invoicing/v2/invoices-send/)

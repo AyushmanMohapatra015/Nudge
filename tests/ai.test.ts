@@ -17,6 +17,10 @@ test('Astropods uses its documented auth and tool format, rejects bad citations 
     assert.equal(headers.get('x-bf-vk'), 'test-key');
     assert.equal(headers.get('x-api-key'), null);
     const payload = JSON.parse(String(init?.body));
+    const sent = JSON.parse(payload.messages[0].content);
+    assert.deepEqual(sent.approvedAgreement, { title: agreement.title, clauses: agreement.clauses });
+    assert.equal(sent.clientRequest, 'Please add a booking system.');
+    for (const field of ['clientName', 'clientEmail', 'amountCents']) assert.equal(field in sent.approvedAgreement, false);
     assert.equal(payload.model, 'bedrock/claude-haiku-4-5');
     assert.deepEqual(payload.tool_choice, { type: 'tool', name: 'report_scope' });
     return Response.json({ content: [{ type: 'tool_use', name: 'report_scope', input: { classification: 'additional', summary: 'Booking systems are excluded under the approved agreement.', references: [reference], questions: [], deliverables: ['Booking integration'] } }] }, { status });

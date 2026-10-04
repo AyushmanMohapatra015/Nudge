@@ -12,6 +12,8 @@ test('sandbox UI distinguishes configured credentials from permission to call AI
   await expect(page.getByText('Scope assistant · AI calls paused')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Compare with agreement' })).toBeDisabled();
   await expect(page.getByText('AI calls are paused until provider allowance is confirmed.')).toBeVisible();
+  await expect(page.getByText('your configured AI provider', { exact: false })).toBeVisible();
+  await expect(page.getByText('Text is not automatically anonymized.', { exact: false })).toBeVisible();
   enabled = true;
   await page.reload();
   await expect(page.getByRole('button', { name: 'Compare with agreement' })).toBeEnabled();
