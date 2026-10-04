@@ -1,6 +1,8 @@
 # Brief-to-agreement design and evaluation
 
-Prepared October 4, 2026. Status: design complete, implementation and live AI evaluation pending. This is not an implemented feature. Elastic model calls remain paused pending the support checkpoint.
+Prepared October 4, 2026. Status: candidate-validation foundation implemented in lib/brief.ts; extraction endpoints, review UI, provider integration, and live AI evaluation pending. Elastic model calls remain paused pending the support checkpoint.
+
+Foundation verification: all 21 server tests and TypeScript checks pass. Missing fields remain null; strict schemas reject unexpected action fields; exact USD parsing uses integer arithmetic; source excerpts/indices and evidence coverage are validated; missing terms, non-USD currency, and reported conflicts block readiness. These checks do not prove that a model interpreted a budget as an agreed price correctly or identified every conflict. Provider/model/time/candidate ID provenance will be attached by the server integration, not trusted from model output. No extraction UI or model call is enabled yet.
 
 ## Purpose and journey
 
