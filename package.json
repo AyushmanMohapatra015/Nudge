@@ -10,6 +10,9 @@
     "test:browser": "playwright test",
     "paypal:check": "node --env-file=.env.local scripts/check-paypal.mjs",
     "elastic:check": "node --env-file=.env.local scripts/check-elastic-config.mjs",
+    "db:backup": "node scripts/database-maintenance.mjs backup",
+    "db:verify": "node scripts/database-maintenance.mjs verify",
+    "db:restore": "node scripts/database-maintenance.mjs restore",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -28,6 +31,6 @@
     "typescript": "^5.8.0"
   },
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=22.16.0"
   }
 }

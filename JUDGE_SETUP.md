@@ -5,7 +5,7 @@ This guide runs the current public-source prototype in clearly labelled simulati
 ## Setup
 
 1. Clone or download the repository and open a terminal in its root (the folder containing package.json).
-2. Install Node.js 22.13 or later; Node 24 is the tested version. Check `node --version` and `npm --version`.
+2. Install Node.js 22.16 or later; Node 24 is the tested version. Check `node --version` and `npm --version`. The minimum includes SQLite's backup API for maintenance and recovery tests.
 3. Run `npm ci`, then `npm run dev`. On Windows PowerShell use `npm.cmd` if npm.ps1 is blocked.
 4. Open http://127.0.0.1:3000. No .env file is needed. Do not bring over an existing .env.local. If your shell already defines NUDGE_MODE, remove it or set it to demo before starting.
 

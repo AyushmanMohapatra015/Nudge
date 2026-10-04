@@ -10,7 +10,7 @@ Payment reconciliation validates invoice identity, approved USD totals and consi
 
 ## Run locally
 
-Requires Node.js **22.13 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice.
+Requires Node.js **22.16 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice. The minimum includes the database backup API used by maintenance tools and their tests.
 
 ```sh
 npm ci
@@ -152,6 +152,8 @@ flowchart LR
 Amounts are stored as integer cents; USD only. AI has no payment credentials or execution tool. SQLite transactions serialize local changes, and a processing lock prevents simultaneous owner actions. A stable invoice number, a persisted remote result cache, and stable hashed PayPal request identifiers aid recovery. Creation and sending remain separate because their failure modes differ.
 
 SQLite was chosen for the first local slice so it is runnable without infrastructure. Before deployment use **one Node instance with a persistent disk** and a database backup, or migrate to Postgres. Do not deploy this SQLite version on ephemeral/serverless storage or multiple replicas. The current build is a single-workspace prototype, not a multi-tenant SaaS.
+
+Local snapshot/verification/offline-recovery commands are documented in [DATABASE_RECOVERY.md](DATABASE_RECOVERY.md). They preserve webhook and remote-operation records and never replace the active database automatically. Maintenance needs Node 22.16+; Node 24 is recommended. Recovery copies contain private data and need remote-state review before any promotion.
 
 ## Checks
 
