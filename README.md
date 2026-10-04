@@ -4,20 +4,22 @@
 
 Nudge is a scope and payments workspace for freelance designers. A client approves an agreement, AI compares a new request against the actual clauses, the freelancer sets a change price, and the client accepts that price before a PayPal invoice can be created. Payment follow-ups obey explicit rules and require human approval.
 
-This is the first working slice of a hackathon prototype, not a production financial service. MIT licensed.
+This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
 ## Run locally
 
 Requires Node.js **22.13 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
 On Windows PowerShell, use `npm.cmd` if script execution policy blocks `npm.ps1`.
 
 Open http://127.0.0.1:3000. By default the app runs in **simulation mode**. No AI provider call, email, or PayPal transaction occurs in this mode. The UI explicitly labels simulation. Records persist in `data/nudge.sqlite`, which is excluded from Git.
+
+The committed lockfile is required for `npm ci`. Do not copy another developer's `.env.local` or database. Docker, sponsor accounts and API keys are not needed for simulation. Stop the local server with Ctrl+C. For a production-mode local check, run `npm run build`, then `npm run start -- --hostname 127.0.0.1`; use the same URL.
 
 ## Explore the workflow (no credentials)
 
@@ -63,6 +65,8 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Authentic webhook delivery and an actual AI provider response remain unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
 
 ## Sponsor AI gateway setup
+
+Current sponsor checkpoint: Elastic is the preferred candidate for real AI, but its managed model allowance, extension and judging access remain under support review. No Elastic adapter is enabled. Astropods has a mocked adapter and reserved signup credits; real gateway access remains unverified. Sponsor setup is optional for local simulation. See [SPONSOR_RESOURCES.md](SPONSOR_RESOURCES.md) for all sponsor fit assessments; do not activate billing or assume a trial covers model costs.
 
 Nudge can use Claude through Astropods without a separate paid Anthropic API key. The adapter supports the documented Anthropic passthrough endpoint, gateway-specific authentication, and Bedrock model IDs. The same clause validation and human approval rules apply. This integration has passed mocked tests; account authentication and a real model response remain to be verified.
 
@@ -110,12 +114,15 @@ Registration creates only an event subscription, not a payment. An empty event l
 ## What is implemented
 
 - Editable draft agreement with immutable approved clauses and price.
+- Manual brief review with source notes, issue resolutions, exact USD validation and separate draft application. Structured extraction and evaluation fixtures are prepared and mock-tested; automatic extraction is not connected to the website or a provider.
 - Private random-token client page with agreement acceptance and change acceptance/decline.
+- Owner-confirmed client-link replacement that preserves acceptance and stable invoice identity.
 - Actual Claude tool-use adapter for scope classification, evidence references, and clarification questions. Zod validates the shape and the referenced clause IDs.
 - Human-priced and human-approved change proposals.
 - PayPal sandbox Invoicing adapter: draft creation, separate sending, status retrieval, and reminders.
-- Verified, deduplicated webhook reconciliation.
+- Signature-verification and deduplicated webhook reconciliation code, tested with mocks; genuine delivery remains unverified.
 - A single server execution gate and persistent activity trail.
+- Same-host interrupted-process recovery, stale-result ownership checks and persisted uncertain-send blocking; see [PROCESSING_RECOVERY.md](PROCESSING_RECOVERY.md).
 - Reminder template review, protected clients, maximum reminders, cooldown, overdue check, and confirmed payment promises.
 - Responsive freelancer/client UI, local persistence, sandbox administrator sign-in, and same-origin mutation checks.
 
@@ -159,8 +166,8 @@ Unit tests cover financial validation, clause citation validation, ambiguous sco
 - Verify real sandbox buyer payments and signed webhook delivery with your credentials.
 - Evaluate Claude on a labeled set of included/additional/ambiguous requests; valid citations alone do not establish correct interpretation.
 - Add rejection/revision of freelancer-side drafts, versioned agreements, onboarding, cancellation, and robust timeout recovery.
-- An ambiguous external timeout requires checking PayPal before retrying. The app does not promise exactly-once external execution on every endpoint. A process crash while an action is locked may require manual recovery; do not blindly clear a lock and resend.
-- Private client links are bearer capabilities: whoever holds the link can decide. This is not verified identity or a claim of legal contract enforceability. Keep links private; revocation/expiration and client authentication are future work.
+- An ambiguous external timeout requires checking PayPal before retrying. The app does not promise exactly-once external execution on every endpoint. Guarded recovery is available for new locks whose owning process is confirmed exited on the same host; legacy/unverifiable locks remain blocked. Unknown invoice sends cannot be repeated just because PayPal still shows DRAFT.
+- Private client links are bearer capabilities: whoever holds the link can decide. This is not verified identity or a claim of legal contract enforceability. Keep links private. Replacement revokes the old Nudge URL; expiry and client authentication remain future work. See [CLIENT_ACCESS.md](CLIENT_ACCESS.md).
 - Protect actual sandbox mutation access when hosting. Simulation is for local exploration; the current shared simulation workspace does not isolate public visitors.
 - Payouts, natural-language policy compilation, MCP, forecasts, and dispute/refund decisions are not implemented or advertised as working.
 
