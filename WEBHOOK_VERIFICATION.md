@@ -1,5 +1,20 @@
 # Genuine sandbox webhook verification checkpoint
 
+## Connectivity diagnosis: October 4, 2026
+
+A separate bounded diagnostic session used the webhook relay with a stub forwarding function, so it could not contact Nudge, PayPal, the database or any model. No environment credentials were loaded. Local root GET returned 404 and webhook GET returned 405.
+
+Two temporary tunnels were tested sequentially:
+
+- Default/auto transport: Cloudflare registered the connector, but the generated public hostname failed both operating-system lookup and DNS A-record resolution with ENOTFOUND. Node fetch failed ENOTFOUND; Windows curl (default and IPv4) returned exit code 6, a hostname-resolution failure. No TLS connection was established by these probes.
+- Explicit HTTP/2 transport with a new temporary hostname: the connector registered, DNS queries succeeded, and Node plus both curl probes reached the relay and returned the expected webhook GET 405 with normal certificate validation.
+
+This isolates the observed default-attempt failure to public-hostname resolution. It does **not** prove QUIC was blocked or that HTTP/2 repairs DNS: the hostname and timing changed between attempts. A fresh HTTP/2 tunnel is a tested option for another bounded verification, but each new hostname must pass readiness and route-boundary checks before PayPal registration. Wait for an actual registered connector, not just a printed hostname. Preserve certificate validation; do not change system DNS, firewall or antivirus settings based on this observation.
+
+Both tunnel processes and the diagnostic relay were stopped. No PayPal registration, replay, payment, configuration change or AI usage occurred. Genuine signed delivery remains unverified. The next task is the previously approved bounded event replay with a newly checked reachable webhook-only endpoint and guaranteed cleanup.
+
+References: [Cloudflare run parameters](https://developers.cloudflare.com/tunnel/reference/run-parameters/) and [Quick Tunnel testing limitations](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
+
 ## Authorized attempt outcome: October 4, 2026
 
 The user approved a brief public webhook-only test. An existing app on port 3000 was detected and left untouched. The test used a separate loopback app port 3102 and relay port 3001. Local relay checks returned 404 for dashboard, workspace, session and client routes.
