@@ -64,5 +64,15 @@ These cases evaluate model analysis only. Existing mocked provider tests do not 
 
 ## Results
 
+October 4 offline checkpoint: evaluation/scope-cases.ts now contains the exact seven-clause agreement and all 25 cases above as executable fixtures. evaluation/score-scope.ts checks strict output shape, classification, real/required clause references, duplicate citations, presence of clarification questions and simulation labels. All 41 server tests and TypeScript checks pass. No model output, accuracy result or credit usage is claimed.
+
+To score a saved, sanitized analysis object after an authorized model test:
+
+```powershell
+node --import tsx scripts/score-scope.ts 08 data/evaluation/scope-08.json
+```
+
+This does not call a model or access the workspace. No sample result file has been created. Exit code 0 means automated checks passed, not release approval. Human review must detect irrelevant questions, invented price/approval text, mixed-work mistakes, prompt-injection compliance and misleading explanations. Tests deliberately demonstrate that structurally valid but semantically unsafe text can pass automated checks; manualReviewRequired remains true and modelRunVerified remains false. Record genuine provider/model/usage evidence separately. The planned 23/25 target still requires the manual safety gates; this scorer cannot establish it by itself.
+
 Not run. Provider selection, live AI quality, usage cost, and Elastic integration are still unverified.
 
