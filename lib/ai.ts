@@ -1,12 +1,21 @@
 import { analysisSchema, simulatedAnalysis, validateReferences, type Agreement, type Analysis } from './domain';
 import { mode } from './store';
 import { requireRealAiAccess } from './ai-access';
+import { analyzeWithElastic } from './elastic-ai';
+
+export function aiCredentialsConfigured() {
+  const provider = process.env.NUDGE_AI_PROVIDER || 'anthropic';
+  if (provider === 'elastic') return !!(process.env.ELASTIC_KIBANA_URL && process.env.ELASTIC_API_KEY && process.env.ELASTIC_AGENT_ID);
+  if (provider === 'astropods') return !!(process.env.ASTRO_GATEWAY_URL && process.env.ASTRO_GATEWAY_API_KEY && process.env.ASTRO_MODEL);
+  return provider === 'anthropic' && !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL);
+}
 
 export async function analyze(request: string, agreement: Agreement): Promise<Analysis> {
   if (mode() === 'demo') return simulatedAnalysis(request, agreement);
   requireRealAiAccess();
   const provider = process.env.NUDGE_AI_PROVIDER || 'anthropic';
-  if (!['anthropic', 'astropods'].includes(provider)) throw new Error('NUDGE_AI_PROVIDER must be anthropic or astropods.');
+  if (provider === 'elastic') return analyzeWithElastic(request, agreement);
+  if (!['anthropic', 'astropods'].includes(provider)) throw new Error('NUDGE_AI_PROVIDER must be anthropic, astropods or elastic.');
   let endpoint = 'https://api.anthropic.com/v1/messages';
   let model = process.env.ANTHROPIC_MODEL;
   const headers: Record<string, string> = { 'content-type': 'application/json', 'anthropic-version': '2023-06-01' };

@@ -1,6 +1,16 @@
 # Elastic integration: next checkpoint
 
-User wants to proceed with Elastic despite pending support replies. We can implement and mock-test an adapter now; this does not establish a free managed-LLM allowance or authorize paid billing. The current runtime still supports Anthropic/Astropods only. No Elastic adapter is connected and NUDGE_AI_ENABLED stays false.
+User wants to proceed with Elastic despite pending support replies. The server-side adapter is now implemented and mock-tested alongside Anthropic/Astropods; this does not establish a free managed-LLM allowance or authorize paid billing. No actual Elastic project connection or model response has been verified. NUDGE_AI_ENABLED stays false, and local secret configuration was not changed.
+
+## Implemented adapter checkpoint
+
+Set NUDGE_AI_PROVIDER=elastic only when configuring locally. Blank placeholders are in .env.example: ELASTIC_KIBANA_URL, ELASTIC_API_KEY, ELASTIC_AGENT_ID and optional ELASTIC_SPACE_ID. Use the Kibana HTTPS origin on Elastic Cloud, a dedicated scope agent ID (the general default agent is rejected), and its encoded API key. Do not paste keys into chat or the frontend. Keep the AI enable flag false until the free first-test allowance is confirmed.
+
+The adapter requests a private, new conversation per comparison and documented runtime overrides disabling selected tools, skills and built-in capabilities. It sends project title, clauses and the client request, excluding separate client name/email and agreement price fields; notes inside clauses/request can still contain personal data. First testing must use the fictional scope benchmark.
+
+It rejects redirects, invalid Cloud origins, incomplete or approval-prompt responses, reported tool calls, responses over 128 KiB, markdown/non-JSON analysis, extra analysis fields and invalid clause IDs. Failures do not retry or substitute simulation. Direct adapter access also enforces the AI enable hold. Accepted output creates a zero-price draft; owner/client approval gates remain enforced and the audit/interface say Elastic AI.
+
+All 44 server tests, eight browser tests and a production build pass. Build/browser checks ran from an isolated source snapshot without secrets or existing data, reusing installed dependencies, so the owner's active dev cache was preserved. Timeout/error/usage-hold behavior uses mocks, not real-model evaluation. Check the actual project's API supports these overrides and the completed-response shape before enabling calls. Request-time restrictions are not proof a previously misconfigured remote agent never executed a tool; review the dedicated agent and key privileges independently. The adapter does not persist provider reasoning, usage counts or claim dollar-cost measurements, and its enable flag is not a spending cap.
 
 ## Verified API direction
 

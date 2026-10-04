@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { agreementSchema, reminderGate, utcDate, money, type Proposal } from '@/lib/domain';
 import { read, mutate, mutateOwned, log, requireIdle, mode, seed, baseInvoiceIdentity } from '@/lib/store';
 import { authorized, sameOrigin } from '@/lib/auth';
-import { analyze } from '@/lib/ai';
+import { analyze, aiCredentialsConfigured } from '@/lib/ai';
 import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from '@/lib/paypal';
 import { reconcileOutstanding } from '@/lib/reconciliation';
 import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } from '@/lib/brief';
@@ -39,7 +39,7 @@ const actionSchema = z.discriminatedUnion('type', [
 ]);
 function view() {
   const s = read();
-  return { ...s, aiEnabled: realAiEnabled(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: process.env.NUDGE_AI_PROVIDER === 'astropods' ? !!(process.env.ASTRO_GATEWAY_URL && process.env.ASTRO_GATEWAY_API_KEY && process.env.ASTRO_MODEL) : !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_MODEL), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
+  return { ...s, aiEnabled: realAiEnabled(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: aiCredentialsConfigured(), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
       });
       if (action.type === 'analyze') {
         const result = await analyze(action.request, snapshot.agreement);
-        mutateOwned(key, s => { s.proposals.unshift({ id: randomUUID(), request: action.request, analysis: result, amountCents: 0, deliverables: result.deliverables, status: 'draft' }); log(s, result.source === 'claude' ? 'Claude' : 'Simulation', 'Scope comparison ready', result.summary); });
+        mutateOwned(key, s => { s.proposals.unshift({ id: randomUUID(), request: action.request, analysis: result, amountCents: 0, deliverables: result.deliverables, status: 'draft' }); log(s, result.source === 'elastic' ? 'Elastic AI' : result.source === 'claude' ? 'Claude' : 'Simulation', 'Scope comparison ready', result.summary); });
       } else if (action.type === 'createInvoice' || action.type === 'recoverInvoice') {
         const proposal: Proposal = action.id === 'base' ? { id: snapshot.baseInvoiceKey!, request: 'Original agreement', analysis: { classification: 'included', summary: 'Original approved project scope.', references: [], questions: [], deliverables: [], source: 'simulation' }, amountCents: snapshot.agreement.amountCents, deliverables: [snapshot.agreement.title], status: 'accepted' } : snapshot.proposals.find(p => p.id === action.id)!;
         const invoice = action.type === 'recoverInvoice' ? await recoverInvoice(snapshot.agreement, proposal, action.invoiceId) : await createInvoice(snapshot.agreement, proposal);

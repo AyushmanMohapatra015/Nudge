@@ -16,7 +16,7 @@ export const analysisSchema = z.object({
   questions: z.array(z.string().min(3).max(250)).max(5),
   deliverables: z.array(z.string().min(3).max(250)).min(1).max(8),
 });
-export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'simulation' };
+export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'elastic' | 'simulation' };
 export type InvoiceStatus = 'DRAFT' | 'UNPAID' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED' | 'OTHER';
 export type Invoice = { id: string; proposalId: string; status: InvoiceStatus; amountCents: number; outstandingCents: number; payUrl?: string; createdAt: string; dueDate: string; reminders: number; lastRemindedAt?: string; remoteStatus?: string; recipientEmail?: string; pendingSend?: { key: string; startedAt: string }; pendingReminder?: { draftId: string; startedAt: string } };
 export type ScopeReview = { id: string; classification: Analysis['classification']; rationale: string; references: string[]; clarification: string; deliverables: string[]; reviewedAt: string; actor: 'You' };

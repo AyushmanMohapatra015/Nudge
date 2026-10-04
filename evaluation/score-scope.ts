@@ -3,7 +3,7 @@ import { analysisSchema, validateReferences } from '../lib/domain';
 import { scopeAgreement, scopeCases } from './scope-cases';
 
 // Evaluates saved analysis only: no model calls, database access or payment actions.
-const outputSchema = analysisSchema.extend({ source: z.enum(['claude', 'simulation']).optional() }).strict();
+const outputSchema = analysisSchema.extend({ source: z.enum(['claude', 'elastic', 'simulation']).optional() }).strict();
 export function scoreScope(caseId: string, rawOutput: unknown) {
   const fixture = scopeCases.find(c => c.id === caseId);
   if (!fixture) throw Error('Unknown scope evaluation case.');

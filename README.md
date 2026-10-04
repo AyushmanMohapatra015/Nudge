@@ -61,7 +61,7 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 
 1. Create/select a sandbox REST app in the PayPal Developer Dashboard. Use its business sandbox account as the invoicer and a separate personal sandbox account as buyer.
 2. Before locking the agreement, replace the example email with your **sandbox buyer email**. The app's invoice recipient is that address.
-3. Complete the approval and client acceptance flow. In sandbox mode scope comparison makes an actual Claude tool-use request. A provider failure is surfaced; it never silently falls back to a simulation.
+3. Complete the approval and client acceptance flow. Sandbox scope comparison uses the selected AI provider only after the explicit enable checkpoint. A provider failure is surfaced; it never silently falls back to a simulation.
 4. Create and send the invoice. Both are actual PayPal sandbox API operations. The client page links to PayPal's hosted invoice payment page.
 5. Open that link and pay with the sandbox personal buyer. Do not manually record an external payment as a substitute for demonstrating checkout.
 6. Click **Refresh status** to retrieve the authoritative invoice state. For automatic reconciliation, follow the webhook setup below.
@@ -69,6 +69,8 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 The PayPal invoice flow has been verified with an actual USD 10.00 sandbox buyer checkout and authoritative reconciliation to PAID. Genuine signed delivery and deduplication have also been verified by redelivering an existing SENT event for an already-paid sandbox invoice; a fresh payment-triggered PAID delivery remains pending. See [WEBHOOK_VERIFICATION.md](WEBHOOK_VERIFICATION.md). An actual AI provider response remains unverified. AI API usage may cost money; use provider spend limits and sponsor credits where available. No paid services are provisioned by this repository.
 
 ## Sponsor AI gateway setup
+
+Elastic Cloud Agent Builder is supported through the server-side converse adapter, with strict JSON/clause validation, private isolated requests, disabled tool/skill overrides and zero-price human-review drafts. This is mock-tested, not live-verified. Keep `NUDGE_AI_ENABLED=false` until allowance is confirmed. See [ELASTIC_INTEGRATION.md](ELASTIC_INTEGRATION.md) for configuration and limitations; provider credentials stay local and do not belong in frontend code.
 
 Current sponsor checkpoint: Elastic is the preferred candidate for real AI, but its managed model allowance, extension and judging access remain under support review. No Elastic adapter is enabled. Astropods has a mocked adapter and reserved signup credits; real gateway access remains unverified. Sponsor setup is optional for local simulation. See [SPONSOR_RESOURCES.md](SPONSOR_RESOURCES.md) for all sponsor fit assessments; do not activate billing or assume a trial covers model costs.
 
