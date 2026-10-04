@@ -1,5 +1,11 @@
 # Fresh sandbox payment transition test
 
+## Authorized execution attempt: October 4, 2026
+
+The user approved the one USD 1 sandbox fixture and its normal owner-action send. Two bounded HTTP/2 tunnel sessions were attempted. Both failed public reachability checks before PayPal registration, fixture creation or sending. Their owned processes were stopped. The planned new fixture has not been created and buyer payment has not been requested. No configuration, payment or AI usage occurred. The earlier successful signed replay remains valid evidence; this new payment-transition scenario remains pending.
+
+Do not repeatedly reopen Quick Tunnels hoping for success. A stable, reachable webhook endpoint or a more precise resolution/connectivity diagnosis is needed before executing this test. The approval for this single USD 1 fixture persists; do not ask again merely because connectivity delayed its creation, and do not create a replacement if the first attempt later has an uncertain outcome. Hosted deployment or billing still requires its own review/authorization. No system DNS, TLS validation, firewall or antivirus settings were changed.
+
 ## Why this follows the completed replay test
 
 Signed redelivery and deduplication are verified. The missing scenario is a newly paid invoice moving from UNPAID to PAID because of a genuine payment notification, rather than polling or manual refresh. This completes the payment portion of the primary demonstration; real AI integration remains separately pending.
