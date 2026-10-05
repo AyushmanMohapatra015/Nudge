@@ -44,6 +44,8 @@ Forecasting, payouts, MCP, refunds and additional checkout APIs remain deferred.
 
 ## Current verification baseline
 
+October 5 broader accessibility update: contrast, labels, focus restoration and narrow-layout/error-recovery fixes now have seven dedicated checks. Full 15-browser suite passed; final editor-focus refinement passed its affected test; TypeScript and isolated build pass. Prior 66 server tests remain current for unchanged backend. ACCESSIBILITY_REVIEW.md separates browser evidence from pending actual screen-reader and real zoom/forced-colors sign-off. These improvements address the review's Design/release gaps; they do not establish user demand, live model quality or submission readiness.
+
 October 5 AI privacy update: fixed errors added for Anthropic/Astropods transport/URL/JSON/schema failures and provider-independent brief extraction; redirects rejected, no retries added. All 64 server tests, TypeScript and isolated production build pass. AI_ERROR_PRIVACY.md distinguishes reviewed logging surfaces from pending helper, client-link path, runtime and infrastructure limits. This supersedes the test count below; live-model quality and full privacy auditing remain unproven.
 
 October 5 update: Postman's reviewed read-only collection is now verified through Newman (three HTTP 200 responses, four assertions; POSTMAN_VERIFICATION.md). Owner session expiry and API quotas are implemented; targeted PayPal error/relay-log privacy fixes pass all 62 server tests, TypeScript and isolated production build. Existing eight browser tests remain latest for unchanged UI. These supersede the older maintenance count below; broader privacy, live AI and fresh payment-triggered webhook evidence remain outstanding.
