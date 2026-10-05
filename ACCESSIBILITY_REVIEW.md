@@ -1,5 +1,11 @@
 # Core keyboard and load-recovery checkpoint
 
+## High-contrast checkpoint
+
+October 5: one additional Edge/Playwright check passed in explicitly verified forced-colors mode for the owner and client documents. Keyboard skip navigation, editor field names/focus, narrow owner reflow, client consent gating and unchanged approved agreement were verified. Consent was toggled but not accepted; no invoice or payment resulted. Screenshots of the fictional owner editor and client scope were inspected, showing system-colored text, field/card boundaries and visible focus. Emulation was explicitly reapplied after client navigation to ensure its screenshot represented forced colors.
+
+No application code needed changing. TypeScript passes; prior 70 server tests and production build remain current for unchanged application code. The focused new browser test was run, not a new full-suite run. No real credentials/workspace, provider calls, configuration changes or credits used. Real Windows contrast themes, actual browser zoom, other browsers and hands-on screen-reader sign-off remain pending; emulation is not a complete accessibility audit.
+
 ## Agreement-save recovery follow-up
 
 October 5: fixed the editor closing immediately on Save, before the server response. The editor now closes only on a confirmed successful workspace response. Validation rejection or connection failure leaves title, client name/email, price and clauses in the open form. Fields, cancel and save are disabled during the request, with a submission guard. Existing alert and heading-focus behavior remain in use; no automatic retry, approval or provider action was added.

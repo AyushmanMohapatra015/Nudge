@@ -1,5 +1,36 @@
 import { test, expect } from '@playwright/test';
 
+test('forced-colors owner and client workflows retain focus, labels and explicit consent', async ({ page, request }) => {
+  await request.post('/api/workspace', { data: { type: 'reset' } });
+  await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 640, height: 900 });
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to workspace content' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await page.getByRole('button', { name: 'My project', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit agreement' }).click();
+  await expect(page.getByLabel('Project name', { exact: true })).toBeFocused();
+  await expect(page.getByLabel('Project name', { exact: true })).toHaveCSS('outline-style', 'solid');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.screenshot({ path: test.info().outputPath('owner-forced-colors.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await request.post('/api/workspace', { data: { type: 'approveAgreement' } });
+  const state = await (await request.get('/api/workspace')).json();
+  await page.goto(`/client/${state.clientToken}`);
+  await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+  expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Your project scope' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Accept project scope' })).toBeDisabled();
+  await page.getByRole('checkbox').focus();
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('button', { name: 'Accept project scope' })).toBeEnabled();
+  await page.screenshot({ path: test.info().outputPath('client-forced-colors.png'), fullPage: true });
+  expect((await (await request.get('/api/workspace')).json()).agreementStatus).toBe('approved');
+});
+
 test('agreement save rejection and connection failure preserve every edit until successful retry', async ({ page, request }) => {
   await request.post('/api/workspace', { data: { type: 'reset' } });
   const original = await (await request.get('/api/workspace')).json();
