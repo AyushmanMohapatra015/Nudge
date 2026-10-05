@@ -13,6 +13,7 @@
     "db:backup": "node scripts/database-maintenance.mjs backup",
     "db:verify": "node scripts/database-maintenance.mjs verify",
     "db:restore": "node scripts/database-maintenance.mjs restore",
+    "postman:check": "node --env-file=.env.local scripts/check-postman.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
