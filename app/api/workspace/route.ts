@@ -9,7 +9,7 @@ import { createInvoice, recoverInvoice, sendInvoice, syncInvoice, paypal } from 
 import { reconcileOutstanding } from '@/lib/reconciliation';
 import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } from '@/lib/brief';
 import { processingOwner, processingRecovery } from '@/lib/processing';
-import { realAiEnabled, requireRealAiAccess } from '@/lib/ai-access';
+import { realAiEnabled, requireRealAiAccess, aiProviderLabel } from '@/lib/ai-access';
 import { newClientLinkExpiry } from '@/lib/client-access';
 import { boundedRequestText, ownerReadWindow, ownerActionWindow, ownerBodyMaxBytes, RequestGuardError } from '@/lib/request-guards';
 export const runtime = 'nodejs';
@@ -41,7 +41,7 @@ const actionSchema = z.discriminatedUnion('type', [
 ]);
 function view() {
   const s = read();
-  return { ...s, aiEnabled: realAiEnabled(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: aiCredentialsConfigured(), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
+  return { ...s, aiEnabled: realAiEnabled(), aiProviderLabel: aiProviderLabel(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: aiCredentialsConfigured(), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });

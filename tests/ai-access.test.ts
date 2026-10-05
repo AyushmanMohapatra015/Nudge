@@ -31,6 +31,11 @@ test('configured credentials cannot consume AI allowance without a server enable
     const view = await (await GET(request())).json();
     assert.equal(view.connections.ai, true, 'credentials can be configured while usage is paused');
     assert.equal(view.aiEnabled, false);
+    assert.equal(view.aiProviderLabel, 'Elastic Agent Builder');
+    process.env.NUDGE_AI_PROVIDER = 'private-invalid-provider-value';
+    const invalidView = await (await GET(request())).json();
+    assert.equal(invalidView.aiProviderLabel, 'Unrecognized AI provider');
+    assert.equal(JSON.stringify(invalidView).includes('private-invalid-provider-value'), false);
     assert.equal(calls, 0);
     process.env.NUDGE_MODE = 'demo';
     assert.equal((await analyze('Add appointment booking.', original.agreement)).source, 'simulation');

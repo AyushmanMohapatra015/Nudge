@@ -1,5 +1,7 @@
 # Nudge: current status and priority order
 
+October 5 integration-status clarity: owner API supplies only a fixed allowlisted provider label, never arbitrary configuration text. Agent rules names Elastic/Astropods/Anthropic correctly, distinguishes simulation and AI enable/configuration states, and reports webhook-ID presence without implying verified delivery. Sandbox banner no longer claims connectivity. All 70 server tests and TypeScript pass; nine accessibility checks passed, three integration checks passed after punctuation correction; isolated production build passed. Actual provider permissions, allowance and connection remain unverified; no calls/credits/config changes/private workspace reads. JUDGE_SETUP.md explains these display boundaries. Elastic return checkpoint remains active.
+
 ## Return checkpoint: Elastic
 
 October 5: user confirms no support reply or verified free managed-model allowance yet and requests independent work meanwhile. Keep live AI paused; do not change local enable/configuration flags or infer free usage from trial access. Return as soon as non-sensitive official/dashboard/support evidence confirms included model usage, limit and expiry. Review dedicated-agent permissions, run one fictional case (08), inspect actual usage, then pause and review before any batch/retry. Judging-period access remains a separate checkpoint. This is a project checkpoint, not an automatic timed notification.

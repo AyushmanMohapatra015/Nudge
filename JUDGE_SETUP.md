@@ -41,4 +41,6 @@ Use README.md for private sandbox configuration and read-only connectivity check
 
 Model calls also require the server's explicit `NUDGE_AI_ENABLED=true` setting; the default is paused regardless of configured credentials. Enable it only within a confirmed allowance and test plan. It is an access switch, not a spending cap.
 
+The Agent rules integration panel names the selected AI provider and distinguishes simulation, paused/enabled calls, credential presence and webhook-ID presence. None of those labels prove a live model response or a fresh payment webhook. Consult verification documents for actual evidence. An unrecognized provider name is reported generically rather than exposing its configuration value.
+
 For final judging, provide either complete verified local integration instructions with a usable allowance/access arrangement or a hosted functional build. Do not publish provider keys or owner tokens in GitHub. Access must cover the judging period, not only the submission deadline. Hosted SQLite requires one Node host and persistent disk; shared simulation currently does not isolate public visitors.
