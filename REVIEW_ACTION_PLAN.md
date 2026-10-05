@@ -26,6 +26,8 @@ Passing tests establish behavior under tested conditions, not product demand, se
 
 ## AI evaluation improvements
 
+October 5 non-model baseline completed: `npm run evaluation:baseline` measured generic lexical rules on all 25 existing fictional cases, 16/25 classification matches and 12/25 automated-check passes. BASELINE_EVALUATION.md records method, confusion matrix and exposure. This closes the simple baseline preparation/run, not the live-model comparison, semantic review or unseen evaluation. No paid/model calls occurred.
+
 October 5: offline counts/confusion matrix/error directions are available through `npm run evaluation:summary -- <saved-results.json>` (AI_EVALUATION.md). It excludes simulation, exposes invalid/missing cases and does not authenticate live runs or held-out provenance. Reporting preparation is complete; baselines, actual model measurements and semantic human review remain pending.
 
 Use the existing 25 scope cases and 12 brief cases as groundwork, not measured results. Separate prompt-development cases from held-out evaluation before tuning; document which cases have already influenced prompts and avoid calling them unseen. Add unseen cases when needed.

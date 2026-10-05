@@ -4,6 +4,8 @@ Prepared October 3, 2026. These are fictional, human-labelled evaluation cases, 
 
 ## Offline aggregate report — October 5
 
+Non-model comparison now runs with `npm run evaluation:baseline`. See BASELINE_EVALUATION.md for version-1 method, its measured 16/25 classification and 12/25 automated-check counts on already-visible cases, confusion matrix and limitations. This is not AI performance or proof an LLM adds value. Compare matched future live outputs without tuning on reported held-out cases; no live baseline calls authorized here.
+
 Run `npm run evaluation:summary -- ./data/scope-results.json` on a locally saved JSON array of `{ "caseId": "08", "output": { ...saved analysis fields... } }` records. Input must be under 256 KiB with one to 25 unique known IDs; repeated runs require separate reports. The script reads only the supplied file and prints sanitized counts/check failures. It does not load environment keys or make model/payment/workspace calls. Keep results in ignored data with fictional content.
 
 The report includes submitted/classified/correct counts, missing case IDs, invalid outputs, excluded simulation and an expected-row/predicted-column confusion matrix. Separate counts identify additional work predicted included (potential missed revenue), included work predicted additional (potential client friction), and ambiguity errors. These are error directions, not measured dollar losses. Required-evidence checks can fail even when classification is correct. Invalid schema/clause outputs remain outside the matrix; simulation is excluded. No percentages, real-model verification, unseen-case claims, semantic scores, latency or cost are inferred.
