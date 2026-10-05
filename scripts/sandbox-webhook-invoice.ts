@@ -44,4 +44,4 @@ async function main() {
     throw error;
   }
 }
-main().catch(error => { console.error(error instanceof Error ? error.message : 'Sandbox fixture failed.'); process.exitCode = 1; });
+main().catch(() => { console.error('Sandbox fixture stopped. Reconcile the existing fixture and uncertain outcomes before retrying; no replacement is authorized.'); process.exitCode = 1; });

@@ -33,4 +33,4 @@ try {
   state = await call('/api/workspace', { type: 'syncInvoice', id: invoice.id }); invoice = state.invoices.find(i => i.id === invoice.id);
   if (invoice.status === 'DRAFT') { state = await call('/api/workspace', { type: 'sendInvoice', id: invoice.id }); invoice = state.invoices.find(i => i.id === invoice.id); }
   console.log(JSON.stringify({ invoiceId: invoice.id, amount: '10.00', currency: 'USD', status: invoice.status, paymentUrl: invoice.payUrl || null, environment: 'sandbox', buyerPaymentCompleted: invoice.status === 'PAID' }, null, 2));
-} catch (error) { console.error(error instanceof Error ? error.message : 'Sandbox test failed.'); process.exitCode = 1; }
+} catch { console.error('Sandbox test stopped. Check local configuration and reconcile the existing invoice before retrying; prior actions may have completed.'); process.exitCode = 1; }

@@ -39,4 +39,4 @@ async function main() {
     throw error;
   }
 }
-main().catch(error => { console.error(error instanceof Error ? error.message : 'Sandbox recovery failed.'); process.exitCode = 1; });
+main().catch(() => { console.error('Sandbox recipient correction stopped. Inspect the existing draft and local configuration before retrying; do not create a replacement invoice.'); process.exitCode = 1; });

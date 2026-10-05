@@ -2,15 +2,19 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 const base = 'https://api-m.sandbox.paypal.com';
 const [command, argument] = process.argv.slice(2);
+try {
+if (!['register', 'events', 'resend', 'cleanup'].includes(command)) throw Error('Unknown operation.');
 if (process.env.NUDGE_MODE !== 'sandbox') throw Error('Sandbox mode required.');
+if (!process.env.PAYPAL_CLIENT_ID?.trim() || !process.env.PAYPAL_CLIENT_SECRET?.trim()) throw Error('Sandbox credentials required.');
 const response = await fetch(`${base}/v1/oauth2/token`, {
-  method: 'POST', headers: { authorization: `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`, 'content-type': 'application/x-www-form-urlencoded' },
+  method: 'POST', redirect: 'error', headers: { authorization: `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`, 'content-type': 'application/x-www-form-urlencoded' },
   body: 'grant_type=client_credentials', signal: AbortSignal.timeout(20000),
 });
 if (!response.ok) throw Error(`Sandbox authentication failed (${response.status}).`);
 const { access_token } = await response.json();
+if (typeof access_token !== 'string' || !access_token.trim()) throw Error('Invalid authentication response.');
 async function api(path, method = 'GET', body) {
-  const result = await fetch(base + path, { method, headers: { authorization: `Bearer ${access_token}`, 'content-type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000) });
+  const result = await fetch(base + path, { method, redirect: 'error', headers: { authorization: `Bearer ${access_token}`, 'content-type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000) });
   if (!result.ok) throw Error(`Sandbox webhook request failed (${result.status}).`);
   const text = await result.text();
   return text ? JSON.parse(text) : {};
@@ -45,3 +49,7 @@ if (command === 'register') {
   writeFileSync('.env.local', env.replace(/^PAYPAL_WEBHOOK_ID=.*$/m, 'PAYPAL_WEBHOOK_ID='));
   console.log('Temporary sandbox webhook removed; restart the app to reload configuration.');
 } else throw Error('Use register, events, resend, or cleanup.');
+} catch {
+  console.error('Sandbox webhook operation stopped. Check the requested operation, local configuration and remote registration before retrying. An earlier remote action may have completed; no automatic retry was made.');
+  process.exitCode = 1;
+}
