@@ -26,6 +26,8 @@ Passing tests establish behavior under tested conditions, not product demand, se
 
 ## AI evaluation improvements
 
+October 5: offline counts/confusion matrix/error directions are available through `npm run evaluation:summary -- <saved-results.json>` (AI_EVALUATION.md). It excludes simulation, exposes invalid/missing cases and does not authenticate live runs or held-out provenance. Reporting preparation is complete; baselines, actual model measurements and semantic human review remain pending.
+
 Use the existing 25 scope cases and 12 brief cases as groundwork, not measured results. Separate prompt-development cases from held-out evaluation before tuning; document which cases have already influenced prompts and avoid calling them unseen. Add unseen cases when needed.
 
 Record counts and a confusion matrix, distinguishing included-to-additional errors (client friction) from additional-to-included errors (lost revenue). Manually assess whether cited clauses support the claim, not only whether IDs exist. Record targeted clarification, injection resistance in both briefs and requests, schema failures, latency, usage and human overrides. No fabricated scores or cost estimates.

@@ -2,6 +2,14 @@
 
 Prepared October 3, 2026. These are fictional, human-labelled evaluation cases, not model results or customer research. No AI calls are needed to prepare or review them. Elastic testing remains on hold pending support's allowance clarification in PROJECT_HANDOFF.md.
 
+## Offline aggregate report — October 5
+
+Run `npm run evaluation:summary -- ./data/scope-results.json` on a locally saved JSON array of `{ "caseId": "08", "output": { ...saved analysis fields... } }` records. Input must be under 256 KiB with one to 25 unique known IDs; repeated runs require separate reports. The script reads only the supplied file and prints sanitized counts/check failures. It does not load environment keys or make model/payment/workspace calls. Keep results in ignored data with fictional content.
+
+The report includes submitted/classified/correct counts, missing case IDs, invalid outputs, excluded simulation and an expected-row/predicted-column confusion matrix. Separate counts identify additional work predicted included (potential missed revenue), included work predicted additional (potential client friction), and ambiguity errors. These are error directions, not measured dollar losses. Required-evidence checks can fail even when classification is correct. Invalid schema/clause outputs remain outside the matrix; simulation is excluded. No percentages, real-model verification, unseen-case claims, semantic scores, latency or cost are inferred.
+
+All 68 server tests and TypeScript checks pass with fictional outputs. Those counts verify the reporting tool, not AI performance. Unsafe explanations can pass automated checks, so manualReviewRequired stays true and modelRunVerified stays false. Actual model evaluation, baseline comparisons and allowance confirmation remain pending. Preserve development/held-out provenance separately; this tool cannot authenticate it.
+
 ## Fixed approved agreement
 
 Use this exact agreement for every case. Preserve these clause IDs when constructing the test fixture in Nudge's agreement format.
