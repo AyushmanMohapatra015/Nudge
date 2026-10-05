@@ -20,6 +20,9 @@ export const clientReadWindow = new RequestWindow(600);
 export const clientDecisionWindow = new RequestWindow(60);
 export const webhookWindow = new RequestWindow(120);
 export const ownerLoginWindow = new RequestWindow(10);
+export const ownerReadWindow = new RequestWindow(120);
+export const ownerActionWindow = new RequestWindow(60);
+export const ownerBodyMaxBytes = 1024 * 1024;
 
 export async function boundedRequestText(request: Request, maxBytes: number, timeoutMs = 10000) {
   const declared = request.headers.get('content-length');

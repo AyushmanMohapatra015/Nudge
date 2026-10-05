@@ -11,6 +11,7 @@ import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } fr
 import { processingOwner, processingRecovery } from '@/lib/processing';
 import { realAiEnabled, requireRealAiAccess } from '@/lib/ai-access';
 import { newClientLinkExpiry } from '@/lib/client-access';
+import { boundedRequestText, ownerReadWindow, ownerActionWindow, ownerBodyMaxBytes, RequestGuardError } from '@/lib/request-guards';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const actionSchema = z.discriminatedUnion('type', [
@@ -44,15 +45,19 @@ function view() {
 }
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
+  const retry = ownerReadWindow.take();
+  if (retry) return NextResponse.json({ error: 'Too many workspace reads. Try again shortly.' }, { status: 429, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
   await reconcileOutstanding();
   return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
 }
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ error: 'Cross-site request rejected.' }, { status: 403 });
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
+  const retry = ownerActionWindow.take();
+  if (retry) return NextResponse.json({ error: 'Too many workspace actions. Try again shortly.' }, { status: 429, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
   let runningKey: string | undefined;
   try {
-    const action = actionSchema.parse(await request.json());
+    const action = actionSchema.parse(JSON.parse(await boundedRequestText(request, ownerBodyMaxBytes)));
     if (action.type === 'recoverProcessing') mutate(s => {
       const pending = s.processing;
       if (!pending || pending.key !== action.key) throw new Error('Interrupted action has changed. Refresh before recovering.');
@@ -209,10 +214,10 @@ export async function POST(request: NextRequest) {
       }
       mutateOwned(key, s => { if (s.processing?.key === key) s.processing = undefined; }); runningKey = undefined;
     }
-    return NextResponse.json(view());
+    return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     const message = error instanceof z.ZodError ? error.issues.map(i => i.message).join(' ') : error instanceof Error ? error.message : 'Action failed.';
     if (runningKey && read().processing?.key === runningKey) mutate(s => { if (s.processing?.key === runningKey) { s.processing = undefined; s.integrationError = message; log(s, 'System', 'Action did not finish', `${message} For ambiguous remote errors, reconcile the invoice before repeating an external action.`, runningKey); } });
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: message }, { status: error instanceof RequestGuardError ? error.status : 400, headers: { 'Cache-Control': 'no-store' } });
   }
 }
