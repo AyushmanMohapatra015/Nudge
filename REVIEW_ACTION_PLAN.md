@@ -44,6 +44,8 @@ Forecasting, payouts, MCP, refunds and additional checkout APIs remain deferred.
 
 ## Current verification baseline
 
+October 5 update: Postman's reviewed read-only collection is now verified through Newman (three HTTP 200 responses, four assertions; POSTMAN_VERIFICATION.md). Owner session expiry and API quotas are implemented; targeted PayPal error/relay-log privacy fixes pass all 62 server tests, TypeScript and isolated production build. Existing eight browser tests remain latest for unchanged UI. These supersede the older maintenance count below; broader privacy, live AI and fresh payment-triggered webhook evidence remain outstanding.
+
 Latest maintenance checkpoint: 55 server tests and TypeScript checks passed. Eight browser tests and the production build passed for the preceding public-request controls; the newer database tools do not change application/UI code. Local snapshot/offline recovery is tested with fictional records (DATABASE_RECOVERY.md); protected retention, off-device storage and actual recovery promotion remain separate tasks. Live Elastic use, real-model evaluation, automated website brief extraction, freelancer findings and fresh payment-triggered webhook delivery remain outstanding. The brief schema/evidence pipeline exists; its live provider and website action do not. Current local persistence and processing safeguards are for a single-host prototype, not a distributed multi-tenant service.
 
 This plan supersedes older priority lists in PROJECT_STATUS.md and PROJECT_HANDOFF.md. Preserve historical verification records; consult their newest checkpoints for actual evidence.

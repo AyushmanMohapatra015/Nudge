@@ -3,23 +3,35 @@ import { utcDate } from './domain';
 import { cacheOperation, cachedOperation, mode } from './store';
 import { createHash } from 'node:crypto';
 const base = 'https://api-m.sandbox.paypal.com';
+async function safeFetch(url: string, init: RequestInit): Promise<Response> {
+  try { return await fetch(url, { ...init, redirect: 'error' }); }
+  catch { throw new Error('PayPal request failed or timed out. Reconcile any uncertain action before retrying.'); }
+}
+async function safeJson(response: Response): Promise<Record<string, any>> {
+  try {
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+    if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error();
+    return data;
+  } catch { throw new Error('PayPal returned an invalid response. Reconcile any uncertain action before retrying.'); }
+}
 let cachedToken: { token: string; expires: number } | undefined;
 async function token() {
   if (cachedToken && cachedToken.expires > Date.now()) return cachedToken.token;
   const id = process.env.PAYPAL_CLIENT_ID, secret = process.env.PAYPAL_CLIENT_SECRET;
   if (!id || !secret) throw new Error('Set PayPal sandbox client ID and secret in .env.local.');
-  const response = await fetch(`${base}/v1/oauth2/token`, { method: 'POST', headers: { Authorization: `Basic ${Buffer.from(`${id}:${secret}`).toString('base64')}`, 'content-type': 'application/x-www-form-urlencoded' }, body: 'grant_type=client_credentials', signal: AbortSignal.timeout(20000) });
+  const response = await safeFetch(`${base}/v1/oauth2/token`, { method: 'POST', headers: { Authorization: `Basic ${Buffer.from(`${id}:${secret}`).toString('base64')}`, 'content-type': 'application/x-www-form-urlencoded' }, body: 'grant_type=client_credentials', signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new Error(`PayPal authentication failed (${response.status}). Check sandbox credentials.`);
-  const data = await response.json(); cachedToken = { token: data.access_token, expires: Date.now() + (data.expires_in - 60) * 1000 }; return cachedToken.token;
+  const data = await safeJson(response);
+  if (typeof data.access_token !== 'string' || !data.access_token.length || !Number.isFinite(data.expires_in) || data.expires_in <= 60) throw new Error('PayPal returned an invalid authentication response. Check sandbox access.');
+  cachedToken = { token: data.access_token, expires: Date.now() + (data.expires_in - 60) * 1000 }; return cachedToken.token;
 }
 export async function paypal(path: string, method = 'GET', body?: unknown, key?: string): Promise<Record<string, any>> {
-  const response = await fetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: typeof body === 'string' ? body : JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
-  const text = await response.text(); const data = text ? JSON.parse(text) : {};
+  const response = await safeFetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: typeof body === 'string' ? body : JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
   if (!response.ok) {
-    const details = data.details?.map((d: { field?: string; issue?: string; description?: string }) => [d.field, d.issue, d.description].filter(Boolean).join(': ')).join('; ');
-    throw new Error(`PayPal ${data.name || response.status}: ${details || data.message || 'Request failed'}. Reference: ${data.debug_id || 'unavailable'}`);
+    throw new Error(`PayPal request failed (${response.status}). Check sandbox access and reconcile any uncertain action before retrying.`);
   }
-  return data;
+  return safeJson(response);
 }
 export async function createInvoice(agreement: Agreement, proposal: Proposal): Promise<Invoice> {
   const key = `invoice-${proposal.id}`;

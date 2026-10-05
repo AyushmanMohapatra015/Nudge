@@ -32,10 +32,8 @@ export function createWebhookRelay(target = 'http://127.0.0.1:3000', forward = f
         method: 'POST', headers, body: Buffer.concat(chunks),
         redirect: 'error', signal: AbortSignal.timeout(28000),
       });
-      let eventId;
-      let eventType;
-      try { const event = JSON.parse(Buffer.concat(chunks).toString('utf8')); eventId = event.id; eventType = event.event_type; } catch { /* No payload logging. */ }
-      console.log(JSON.stringify({ component: 'webhook-relay', eventId, eventType, signed: headers.has('paypal-transmission-sig'), status: upstream.status }));
+      // Header presence is not proof of signature verification. Never log payload fields.
+      console.log(JSON.stringify({ component: 'webhook-relay', signatureHeadersPresent: headers.has('paypal-transmission-sig'), status: upstream.status }));
       response.writeHead(upstream.status, { 'content-type': 'application/json' });
       response.end(await upstream.text());
     } catch {

@@ -36,7 +36,7 @@ test('lost create and send responses cannot cause blind duplicate operations', a
       clauses: [{ id: 'S1', text: 'Five brochure pages.' }, { id: 'S2', text: 'Booking is excluded.' }] };
     const proposal: Proposal = { id: randomUUID(), request: 'Booking', amountCents: 10000, deliverables: ['Booking page'], status: 'accepted',
       analysis: { classification: 'additional', summary: 'Booking is explicitly excluded.', references: ['S2'], questions: [], deliverables: ['Booking page'], source: 'simulation' } };
-    await assert.rejects(createInvoice(agreement, proposal), /response lost/);
+    await assert.rejects(createInvoice(agreement, proposal), /PayPal request failed or timed out/);
     await assert.rejects(createInvoice(agreement, proposal), /unresolved outcome/);
     assert.equal(creates, 1);
     recoveryDetails = { id: 'INV2-RECOVER-CREATE', status: 'DRAFT', detail: { invoice_number: `N-${proposal.id.slice(0, 16)}`,
@@ -59,7 +59,7 @@ test('lost create and send responses cannot cause blind duplicate operations', a
     assert.equal(creates, 1);
     const draft: Invoice = { id: 'INV2-RECOVERY', proposalId: proposal.id, status: 'DRAFT', amountCents: 10000, outstandingCents: 10000,
       dueDate: '2026-11-01', createdAt: new Date().toISOString(), reminders: 0 };
-    await assert.rejects(sendInvoice(draft), /Send response lost/);
+    await assert.rejects(sendInvoice(draft), /PayPal request failed or timed out/);
     assert.equal((await sendInvoice(draft)).status, 'UNPAID');
     assert.equal(sends, 1);
     remoteStatus = 'PAID';
@@ -68,7 +68,7 @@ test('lost create and send responses cannot cause blind duplicate operations', a
     remoteStatus = 'CANCELLED';
     await assert.rejects(sendInvoice(draft), /not a sendable draft/);
     failRead = true;
-    await assert.rejects(sendInvoice(draft), /lookup unavailable/);
+    await assert.rejects(sendInvoice(draft), /PayPal request failed/);
     assert.equal(sends, 1);
   } finally {
     globalThis.fetch = originalFetch;

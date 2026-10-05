@@ -26,7 +26,7 @@ test('invoice identity survives a failing follow-up; webhook signature failures 
   try {
     const agreement: Agreement = { title: 'Website', clientName: 'Buyer', clientEmail: 'buyer@example.com', amountCents: 120000, clauses: [{ id: 'S1', text: 'Five marketing pages.' }, { id: 'S2', text: 'No booking systems.' }] };
     const proposal: Proposal = { id: randomUUID(), request: 'Booking page', analysis: { classification: 'additional', summary: 'Booking is excluded.', references: ['S2'], questions: [], deliverables: ['Booking page'], source: 'claude' }, amountCents: 30000, deliverables: ['Booking page'], status: 'accepted' };
-    await assert.rejects(createInvoice(agreement, proposal), /temporary detail lookup failure/);
+    await assert.rejects(createInvoice(agreement, proposal), /PayPal request failed \(503\)/);
     const invoice = await createInvoice(agreement, proposal); assert.equal(invoice.id, 'INV2-TEST-0001'); assert.equal(creates, 1);
     const event = { id: 'event1', event_type: 'INVOICING.INVOICE.PAID', resource: { id: invoice.id, status: 'PARTIALLY_PAID' } };
     assert.equal(await verifyWebhook(new Headers(), event), false);

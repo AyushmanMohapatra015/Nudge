@@ -32,7 +32,7 @@ test('fresh payment fixture needs confirmation and registered sandbox, creates o
     assert.equal(calls, 0);
     mutate(s => { s.agreement.title = 'Sandbox integration test'; s.invoices = [{ id: '[historical sandbox invoice redacted]', proposalId: 'base', status: 'PAID', amountCents: 1000, outstandingCents: 0, recipientEmail: 'sb-fictional@personal.example.com', createdAt: '2026-10-04', dueDate: '2026-10-11', reminders: 0 }]; });
     process.env.PAYPAL_WEBHOOK_ID = 'mock-registration';
-    await assert.rejects(preparePaymentWebhookFixture(true), /Lost follow-up/);
+    await assert.rejects(preparePaymentWebhookFixture(true), /PayPal request failed or timed out/);
     assert.equal(read().invoices.length, 1); assert.equal(read().processing, undefined);
     const result = await preparePaymentWebhookFixture(true);
     assert.equal(result.status, 'DRAFT'); assert.equal(result.sentByScript, false); assert.equal(result.paidByScript, false);
