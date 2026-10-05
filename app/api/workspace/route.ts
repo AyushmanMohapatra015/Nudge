@@ -43,13 +43,13 @@ function view() {
   return { ...s, aiEnabled: realAiEnabled(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: aiCredentialsConfigured(), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
 export async function GET(request: NextRequest) {
-  if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
+  if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
   await reconcileOutstanding();
   return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
 }
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ error: 'Cross-site request rejected.' }, { status: 403 });
-  if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401 });
+  if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
   let runningKey: string | undefined;
   try {
     const action = actionSchema.parse(await request.json());
