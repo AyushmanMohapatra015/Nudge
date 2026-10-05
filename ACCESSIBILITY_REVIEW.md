@@ -1,5 +1,13 @@
 # Core keyboard and load-recovery checkpoint
 
+## Agreement-save recovery follow-up
+
+October 5: fixed the editor closing immediately on Save, before the server response. The editor now closes only on a confirmed successful workspace response. Validation rejection or connection failure leaves title, client name/email, price and clauses in the open form. Fields, cancel and save are disabled during the request, with a submission guard. Existing alert and heading-focus behavior remain in use; no automatic retry, approval or provider action was added.
+
+One additional browser check holds a mocked response to verify pending-state controls, rejects it, then aborts a second request and verifies every field plus unchanged persisted agreement. An explicit successful retry saves the exact cents as a draft, closes the editor and restores heading focus; no invoice is created. The test initially used an unsuitable textarea label selector, corrected to its accessible textbox name. The corrected focused test passed; all 15 existing checks passed in the preceding full run. Final isolated production build and TypeScript pass. Backend unchanged; previous 66 server tests remain current. No live providers, credits, actual workspace/configuration access or development-server changes.
+
+Edits are retained only while the editor remains mounted in this browser session; page reload, navigation away, cancellation or session expiry can still discard unsaved edits. This is not autosave, conflict resolution or proof of recovery after a lost successful server response. Manual screen-reader/real-zoom sign-off below remains pending.
+
 ## Broader review completed October 5
 
 Preserved the green palette while darkening pale supporting text and the shared muted-text token. The logo retains white lettering on dark green. Added a label to the reminder message, improved field/textarea text size, allowed long text and button labels to wrap, tightened narrow-layout reflow, and enlarged icon/dismiss targets. Owner view switching focuses the new page heading. Opening the agreement editor focuses its first field; cancelling restores heading focus. When an initiating action control disappears, owner/client focus returns to the heading without moving focus during routine polling. Client actions also ignore a repeated click while busy.

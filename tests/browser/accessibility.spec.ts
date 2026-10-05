@@ -1,5 +1,58 @@
 import { test, expect } from '@playwright/test';
 
+test('agreement save rejection and connection failure preserve every edit until successful retry', async ({ page, request }) => {
+  await request.post('/api/workspace', { data: { type: 'reset' } });
+  const original = await (await request.get('/api/workspace')).json();
+  await page.goto('/');
+  await page.getByRole('button', { name: 'My project', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit agreement' }).click();
+  const values = { title: 'Fictional recovery project', name: 'Fictional buyer', email: 'fictional-recovery@example.com', price: '456.78', clauses: 'Three informational pages are included.\nBooking systems are excluded.' };
+  await page.getByLabel('Project name', { exact: true }).fill(values.title);
+  await page.getByLabel('Client name', { exact: true }).fill(values.name);
+  await page.getByLabel('Client email', { exact: true }).fill(values.email);
+  await page.getByLabel('Project price (USD)', { exact: true }).fill(values.price);
+  await page.getByRole('textbox', { name: 'Scope clauses (one per line; at least two)', exact: true }).fill(values.clauses);
+  let attempt = 0;
+  let release: (() => void) | undefined;
+  await page.route('**/api/workspace', async route => {
+    if (route.request().method() !== 'POST') return route.continue();
+    attempt++;
+    if (attempt === 1) {
+      await new Promise<void>(resolve => { release = resolve; });
+      return route.fulfill({ status: 400, contentType: 'application/json', body: JSON.stringify({ error: 'Fictional validation failure. Review your agreement.' }) });
+    }
+    if (attempt === 2) return route.abort('failed');
+    return route.continue();
+  });
+  const pendingClick = page.getByRole('button', { name: 'Save agreement' }).click();
+  await expect(page.getByLabel('Project name', { exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Cancel', exact: true })).toBeDisabled();
+  await expect.poll(() => Boolean(release)).toBe(true);
+  release!();
+  await pendingClick;
+  await expect(page.getByRole('main').getByRole('alert')).toContainText('Fictional validation failure.');
+  for (const failure of [1, 2]) {
+    if (failure === 2) { await page.getByRole('button', { name: 'Save agreement' }).click(); await expect(page.getByRole('main').getByRole('alert')).toBeVisible(); }
+    await expect(page.getByLabel('Project name', { exact: true })).toHaveValue(values.title);
+    await expect(page.getByLabel('Client name', { exact: true })).toHaveValue(values.name);
+    await expect(page.getByLabel('Client email', { exact: true })).toHaveValue(values.email);
+    await expect(page.getByLabel('Project price (USD)', { exact: true })).toHaveValue(values.price);
+    await expect(page.getByRole('textbox', { name: 'Scope clauses (one per line; at least two)', exact: true })).toHaveValue(values.clauses);
+    const unchanged = await (await request.get('/api/workspace')).json();
+    expect(unchanged.agreement).toEqual(original.agreement);
+    expect(unchanged.agreementStatus).toBe('draft');
+  }
+  await page.getByRole('button', { name: 'Save agreement' }).click();
+  await expect(page.getByRole('heading', { name: 'Make the agreement yours.' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: values.title, exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'One agreement. A clear way forward.' })).toBeFocused();
+  const saved = await (await request.get('/api/workspace')).json();
+  expect(saved.agreement.amountCents).toBe(45678);
+  expect(saved.agreementStatus).toBe('draft');
+  expect(saved.invoices).toHaveLength(0);
+  expect(attempt).toBe(3);
+});
+
 // Solid-color rendered text check; not a substitute for a full accessibility scanner.
 async function contrastFailures(page: import('@playwright/test').Page) {
   return page.evaluate(() => {
