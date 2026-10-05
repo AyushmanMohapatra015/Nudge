@@ -83,11 +83,17 @@ export async function extractBrief(notes: string, options: { provider: string; m
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const timeout = new Promise<never>((_, reject) => { timer = setTimeout(() => { controller.abort(); reject(new Error('Brief extraction timed out. No automatic retry was made.')); }, timeoutMs); });
-    const response = await Promise.race([options.transport({ instructions: briefInstructions, notes, responseSchema: structuredClone(briefResponseSchema), maxOutputTokens: 4000 }, controller.signal), timeout]);
+    let response: Awaited<ReturnType<BriefTransport>>;
+    try { response = await Promise.race([options.transport({ instructions: briefInstructions, notes, responseSchema: structuredClone(briefResponseSchema), maxOutputTokens: 4000 }, controller.signal), timeout]); }
+    catch { throw new Error(controller.signal.aborted ? 'Brief extraction timed out. No automatic retry was made.' : 'Brief extraction request failed. Check provider access and allowance; no automatic retry.'); }
     if (response.status !== 'complete') throw new Error('Brief extraction was refused or incomplete. Saved agreement unchanged.');
-    const serialized = JSON.stringify(response.output);
+    let serialized: string | undefined;
+    try { serialized = JSON.stringify(response.output); }
+    catch { throw new Error('Invalid brief response. Saved agreement unchanged.'); }
     if (!serialized || serialized.length > 100000) throw new Error('Invalid or oversized brief response.');
-    const result = validateStructuredBrief(response.output, notes);
+    let result: ReturnType<typeof validateStructuredBrief>;
+    try { result = validateStructuredBrief(response.output, notes); }
+    catch { throw new Error('Brief response failed schema or evidence validation. Review the source manually; saved agreement unchanged.'); }
     return { ...result, source: 'model', provider: options.provider, model: options.model, extractedAt: new Date().toISOString() };
   } finally { if (timer) clearTimeout(timer); }
 }

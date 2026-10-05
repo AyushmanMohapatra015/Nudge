@@ -76,7 +76,7 @@ test('refusal, truncation, quota failure and timeout do not retry or substitute 
     assert.equal(calls, 1);
   }
   let calls = 0;
-  await assert.rejects(extractBrief('Fictional notes', { provider: 'mock', model: 'mock', transport: async () => { calls++; throw new Error('Mock quota exhausted'); } }), /quota exhausted/);
+  await assert.rejects(extractBrief('Fictional notes', { provider: 'mock', model: 'mock', transport: async () => { calls++; throw new Error('Mock quota exhausted'); } }), /Check provider access and allowance/);
   assert.equal(calls, 1);
   let aborted = false;
   await assert.rejects(extractBrief('Fictional notes', { provider: 'mock', model: 'mock', timeoutMs: 5, transport: async (_, signal) => { calls++; signal.addEventListener('abort', () => { aborted = true; }); return new Promise(() => {}); } }), /timed out/);
