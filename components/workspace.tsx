@@ -32,7 +32,7 @@ export default function WorkspaceApp() {
   }
   async function signIn(e: React.FormEvent) { e.preventDefault(); setBusy(true); try { const r = await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setToken(''); await refresh(); } catch (e) { setError(e instanceof Error ? e.message : 'Unable to sign in.'); } finally { setBusy(false); } }
   if (login) return <div className="login-wrap"><form className="login-card" onSubmit={signIn}><div className="wordmark"><span className="brand-icon">n</span>nudge<span className="brand-dot">.</span></div><h1>Your workspace, protected.</h1><p>Enter the administrator token configured on this server to access the PayPal sandbox workspace.</p><label>Workspace token<input type="password" autoComplete="current-password" value={token} onChange={e => setToken(e.target.value)} required /></label>{error && <p role="alert" className="error-text">{error}</p>}<button className="btn primary" disabled={busy}>{busy ? 'Signing in…' : 'Open workspace'}<ArrowRight size={16} /></button></form></div>;
-  if (!data) return <div className="loading"><Loader2 className="spin" /><p>{error || 'Getting your workspace ready…'}</p>{error && <button onClick={refresh} className="btn">Try again</button>}</div>;
+  if (!data) return <main className="loading"><Loader2 className="spin" aria-hidden="true" /><p role={error ? 'alert' : 'status'}>{error || 'Getting your workspace ready…'}</p>{error && <button onClick={refresh} className="btn">Try again</button>}</main>;
   const pending = data.proposals.filter(p => p.status === 'draft').length + (data.reminderDraft ? 1 : 0);
   const outstanding = data.invoices.reduce((n, i) => n + (['UNPAID', 'PARTIALLY_PAID'].includes(i.status) ? i.outstandingCents : 0), 0);
   const paid = data.invoices.reduce((n, i) => n + (['PAID', 'PARTIALLY_PAID'].includes(i.status) ? i.amountCents - i.outstandingCents : 0), 0);
@@ -40,6 +40,7 @@ export default function WorkspaceApp() {
   const clientUrl = `/client/${data.clientToken}`;
   const locked = busy || !!data.processing;
   return <div className="app-shell">
+    <a className="skip-link" href="#workspace-content">Skip to workspace content</a>
     <aside className="sidebar">
       <a className="wordmark" href="/"><span className="brand-icon">n</span>nudge<span className="brand-dot">.</span></a>
       <div className="workspace-switch"><span className="studio-avatar">S</span><div><strong>Studio workspace</strong><small>Independent by design</small></div><PanelLeftClose size={15} /></div>
@@ -49,7 +50,7 @@ export default function WorkspaceApp() {
     </aside>
     <div className="main-shell">
       <header className="topbar"><div className="breadcrumb">Workspace <ChevronRight size={13} /><strong>{view}</strong></div><div className="topbar-right"><span className={`mode-indicator ${data.mode}`}><span />{data.mode === 'demo' ? 'Simulation mode' : 'PayPal sandbox'}</span><button className="icon-btn" title="Read project setup instructions" aria-label="Read project setup instructions" onClick={() => { setView('Rules'); setNotice('Setup instructions are in README.md in the project folder.'); }}><CircleHelp size={19} /></button><span className="tiny-avatar">YO</span></div></header>
-      <main>
+      <main id="workspace-content" tabIndex={-1}>
         <div className="mode-banner"><CircleDot size={14} /><span>{data.mode === 'demo' ? 'Explore the complete workflow with illustrative data. AI analysis and payments are simulated; no messages are sent.' : 'Connected sandbox mode. PayPal uses test money; approved invoice and reminder actions call the sandbox API.'}</span></div>
         {error && <div className="error-banner" role="alert"><AlertCircle size={18} /><span>{error}</span><button onClick={() => setError('')} aria-label="Dismiss error"><X size={16} /></button></div>}
         {data.processing && <div className="mode-banner"><Loader2 className="spin" size={14} />Processing {data.processing.operation}. Other actions are temporarily locked.</div>}
