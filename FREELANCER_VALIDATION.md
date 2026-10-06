@@ -1,5 +1,7 @@
 # Freelancer validation guide
 
+Use [VALIDATION_SESSION_KIT.md](VALIDATION_SESSION_KIT.md) for moderator task cards, a private worksheet, observation rules and evidence-based sponsor/product decisions. The kit is prepared; sessions and findings remain pending.
+
 Status: prepared, not conducted. No findings, testimonials, or impact metrics have been collected. Aim for three independent freelance web designers or small agency owners who have completed a fixed-price client project recently. A small interview set gives direction, not statistically representative evidence.
 
 ## Arrange a conversation
