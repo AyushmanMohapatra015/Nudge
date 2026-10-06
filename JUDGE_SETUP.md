@@ -39,7 +39,9 @@ Open the same local URL after starting the production build. Run dev and start s
 
 ## Real integrations and judging access
 
-Use README.md for private sandbox configuration and read-only connectivity checks. Use only sandbox merchant/buyer accounts, never real cards or live API credentials. Real AI needs a separately confirmed provider allowance; current Elastic access is on hold pending support clarification. Do not assume the simulation meets the AI requirement or claim prepared sponsor tools as integrations already used.
+Use README.md for private sandbox configuration and read-only connectivity checks. Use only sandbox merchant/buyer accounts, never real cards or live API credentials. Elastic live scope responses are verified separately; further calls and website AI remain paused pending the owner usage/allowance checkpoint. See ELASTIC_VERIFICATION.md. Do not assume simulation meets the AI requirement or claim prepared sponsor tools as integrations already used.
+
+Optional backend verification: follow POSTMAN_WORKFLOW_VERIFICATION.md to install the pinned Newman runner and run `npm run postman:workflow`. This creates a separate production copy, local server and synthetic database; 31 requests/50 assertions have passed. It requires no provider credentials and does not use your configured workspace. Payments and model inference in this collection are simulated, so it supplements the functional walkthrough rather than proving live provider behavior.
 
 Model calls also require the server's explicit `NUDGE_AI_ENABLED=true` setting; the default is paused regardless of configured credentials. Enable it only within a confirmed allowance and test plan. It is an access switch, not a spending cap.
 

@@ -1,5 +1,7 @@
 # Nudge issue checkpoints
 
+October 7 offline sponsor verification: Postman's isolated HTTP workflow passed 31 requests/50 assertions against an actual production Nudge server. The runner's first source snapshot omitted components; fixed before the successful run. All 81 server tests/typecheck/build pass. No AI/PayPal requests, ordinary data/config edits or billing changes. This improves repeatable backend evidence; it does not resolve Elastic quota/dashboard reconciliation, independent human scope assessment or fresh payment webhook checks. See POSTMAN_WORKFLOW_VERIFICATION.md.
+
 Updated October 7, 2026. This register records observed issues and verification gaps; it does not claim a complete audit. Latest entries supersede historical pending statements in the chronological handoff. Never close a row because instructions changed or unit tests passed when the row needs live or human evidence. See [SCOPE_CHALLENGE_VERIFICATION.md](SCOPE_CHALLENGE_VERIFICATION.md) for the latest failures, corrections and measured development-case evidence.
 
 | Issue | Current evidence and status | Closure or next check |

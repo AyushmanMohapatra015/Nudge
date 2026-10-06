@@ -1,0 +1,1110 @@
+{
+  "info": {
+    "name": "Nudge — isolated simulation workflow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Run using scripts/check-postman-workflow.mjs only. Creates a disposable local server/database, never uses your ordinary workspace or integration credentials. AI and payments are simulated. No reset action, account signup, external API call or cloud monitor."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "client_token",
+      "value": ""
+    },
+    {
+      "key": "proposal_id",
+      "value": ""
+    },
+    {
+      "key": "review_id",
+      "value": ""
+    },
+    {
+      "key": "invoice_id",
+      "value": ""
+    },
+    {
+      "key": "original_analysis",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Fresh isolated simulation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Fresh demo with all real integrations disabled', () => { pm.expect(d.mode).to.eql('demo'); pm.expect(d.aiEnabled).to.eql(false); pm.expect(d.connections).to.deep.eql({paypal:false,ai:false,webhook:false}); pm.expect(d.version).to.eql(1); pm.expect(d.agreementStatus).to.eql('draft'); pm.expect(d.proposals).to.have.lengthOf(0); pm.expect(d.invoices).to.have.lengthOf(0); });",
+              "pm.collectionVariables.set('client_token', d.clientToken); pm.collectionVariables.set('review_id', '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Invoice blocked before scope acceptance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"createInvoice\",\"id\":\"base\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Owner approves agreement",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveAgreement\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Approval is not acceptance', () => pm.expect(pm.response.json().agreementStatus).to.eql('approved'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Client view hides owner records",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "function privateView(d) { ['audit','policies','clientToken','processing','connections','aiEnabled','reminderDraft'].forEach(k => pm.expect(d).not.to.have.property(k)); }",
+              "const d = pm.response.json(); pm.test('Public decision view excludes owner records', () => { privateView(d); pm.expect(d.agreementStatus).to.eql('approved'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Client accepts agreement",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"acceptAgreement\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Scope accepted', () => pm.expect(pm.response.json().agreementStatus).to.eql('accepted'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Repeated agreement acceptance rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"acceptAgreement\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Simulated scope draft has no price",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"analyze\",\"request\":\"Add appointment booking with time slots.\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), p = d.proposals[0];",
+              "pm.test('Simulation creates one zero-price draft and no invoice', () => { pm.expect(d.proposals).to.have.lengthOf(1); pm.expect(p.analysis.source).to.eql('simulation'); pm.expect(p.status).to.eql('draft'); pm.expect(p.amountCents).to.eql(0); pm.expect(d.invoices).to.have.lengthOf(0); });",
+              "pm.collectionVariables.set('proposal_id', p.id); pm.collectionVariables.set('original_analysis', JSON.stringify(p.analysis));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Draft invisible to client",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Owner-only draft not shared', () => pm.expect(pm.response.json().proposals).to.have.lengthOf(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Pricing blocked without scope review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveProposal\",\"id\":\"{{proposal_id}}\",\"reviewId\":\"{{review_id}}\",\"extrasConfirmed\":true,\"amountCents\":30000,\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Human records included decision",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"reviewScope\",\"id\":\"{{proposal_id}}\",\"expectedReviewId\":\"{{review_id}}\",\"classification\":\"included\",\"rationale\":\"Owner review considers this requested work included; no additional price is permitted.\",\"references\":[\"S3\"],\"clarification\":\"\",\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), p = d.proposals[0];",
+              "pm.collectionVariables.set('proposal_id', p.id); pm.collectionVariables.set('review_id', p.scopeReview.id);",
+              "pm.test('Review recorded, draft still unpriced', () => { pm.expect(p.scopeReview.classification).to.eql('included'); pm.expect(p.amountCents).to.eql(0); pm.expect(p.status).to.eql('draft'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Included work cannot be charged as extra",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveProposal\",\"id\":\"{{proposal_id}}\",\"reviewId\":\"{{review_id}}\",\"extrasConfirmed\":true,\"amountCents\":30000,\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+              "pm.test('Server explains pricing block', () => pm.expect(pm.response.json().error).to.include('Included or unclear'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Human records ambiguous decision",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"reviewScope\",\"id\":\"{{proposal_id}}\",\"expectedReviewId\":\"{{review_id}}\",\"classification\":\"ambiguous\",\"rationale\":\"The requested implementation needs clarification before deciding whether it is extra work.\",\"references\":[\"S3\"],\"clarification\":\"\",\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), p = d.proposals[0];",
+              "pm.collectionVariables.set('proposal_id', p.id); pm.collectionVariables.set('review_id', p.scopeReview.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Ambiguous work cannot be charged as extra",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveProposal\",\"id\":\"{{proposal_id}}\",\"reviewId\":\"{{review_id}}\",\"extrasConfirmed\":true,\"amountCents\":30000,\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 Human records supported additional decision",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"reviewScope\",\"id\":\"{{proposal_id}}\",\"expectedReviewId\":\"{{review_id}}\",\"classification\":\"additional\",\"rationale\":\"Booking systems are explicitly excluded by S3; quote only the requested new booking work.\",\"references\":[\"S3\"],\"clarification\":\"\",\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), p = d.proposals[0];",
+              "pm.collectionVariables.set('proposal_id', p.id); pm.collectionVariables.set('review_id', p.scopeReview.id);",
+              "pm.test('Human additional decision preserves original analysis', () => { pm.expect(p.scopeReview.classification).to.eql('additional'); pm.expect(JSON.stringify(p.analysis)).to.eql(pm.collectionVariables.get('original_analysis')); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 Changed deliverables require new review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveProposal\",\"id\":\"{{proposal_id}}\",\"reviewId\":\"{{review_id}}\",\"extrasConfirmed\":true,\"amountCents\":30000,\"deliverables\":[\"Appointment booking with time slots\",\"Included heading colour change\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 Owner approves exact reviewed quote",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"approveProposal\",\"id\":\"{{proposal_id}}\",\"reviewId\":\"{{review_id}}\",\"extrasConfirmed\":true,\"amountCents\":30000,\"deliverables\":[\"Appointment booking with time slots\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), p = d.proposals[0];",
+              "pm.test('Owner price is exact cents, acceptance still pending', () => { pm.expect(p.status).to.eql('approved'); pm.expect(p.amountCents).to.eql(30000); pm.expect(p.deliverables).to.deep.eql([\"Appointment booking with time slots\"]); pm.expect(d.invoices).to.have.lengthOf(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 Client sees only approved quote",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "function privateView(d) { ['audit','policies','clientToken','processing','connections','aiEnabled','reminderDraft'].forEach(k => pm.expect(d).not.to.have.property(k)); }",
+              "const d = pm.response.json(); pm.test('Quote visible without owner analysis or scope review', () => { privateView(d); pm.expect(d.proposals).to.have.lengthOf(1); pm.expect(d.proposals[0].amountCents).to.eql(30000); pm.expect(d.proposals[0]).not.to.have.property('analysis'); pm.expect(d.proposals[0]).not.to.have.property('scopeReview'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 Invoice blocked before client accepts quote",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"createInvoice\",\"id\":\"{{proposal_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 Client acceptance cannot alter price or work",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"acceptProposal\",\"id\":\"{{proposal_id}}\",\"amountCents\":1,\"deliverables\":[\"Invented free base work\"]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const p = pm.response.json().proposals[0]; pm.test('Decision keeps the owner-approved quote', () => { pm.expect(p.status).to.eql('accepted'); pm.expect(p.amountCents).to.eql(30000); pm.expect(p.deliverables).to.deep.eql([\"Appointment booking with time slots\"]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 Repeated quote acceptance rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"acceptProposal\",\"id\":\"{{proposal_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 Create simulated invoice after acceptance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"createInvoice\",\"id\":\"{{proposal_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(), i = d.invoices[0]; pm.test('One draft invoice for exact reviewed amount', () => { pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(i.id).to.match(/^SIM-/); pm.expect(i.status).to.eql('DRAFT'); pm.expect(i.amountCents).to.eql(30000); pm.expect(i.outstandingCents).to.eql(30000); }); pm.collectionVariables.set('invoice_id', i.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "22 Unsent invoice hidden from client",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('No draft invoice exposed', () => pm.expect(pm.response.json().invoices).to.have.lengthOf(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "23 Simulate invoice sending",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"sendInvoice\",\"id\":\"{{invoice_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Simulated invoice is unpaid', () => pm.expect(pm.response.json().invoices[0].status).to.eql('UNPAID'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "24 Client sees exact outstanding balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const i = pm.response.json().invoices[0]; pm.test('Approved amount and due match', () => { pm.expect(i.amountCents).to.eql(30000); pm.expect(i.outstandingCents).to.eql(30000); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "25 Simulate payment locally",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"simulatePayment\",\"id\":\"{{invoice_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const i = pm.response.json().invoices[0]; pm.test('Paid has zero outstanding', () => { pm.expect(i.status).to.eql('PAID'); pm.expect(i.amountCents).to.eql(30000); pm.expect(i.outstandingCents).to.eql(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "26 Paid invoice cannot be reminded",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"draftReminder\",\"id\":\"{{invoice_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "27 Duplicate invoice rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"createInvoice\",\"id\":\"{{proposal_id}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "28 Cross-origin mutation rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "https://untrusted.example"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"policies\",\"protectedClient\":true,\"reminderLimit\":1,\"cooldownDays\":1}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "29 Unsigned webhook rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/paypal/webhook",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"id\":\"fictional-forged-event\",\"event_type\":\"INVOICING.INVOICE.PAID\",\"resource\":{\"id\":\"{{invoice_id}}\"}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "30 Final owner state retains all gates",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('No duplicate invoice, price change, policy change or live integration', () => { pm.expect(d.mode).to.eql('demo'); pm.expect(d.aiEnabled).to.eql(false); pm.expect(d.connections).to.deep.eql({paypal:false,ai:false,webhook:false}); pm.expect(d.proposals).to.have.lengthOf(1); pm.expect(d.proposals[0].status).to.eql('accepted'); pm.expect(d.proposals[0].amountCents).to.eql(30000); pm.expect(JSON.stringify(d.proposals[0].analysis)).to.eql(pm.collectionVariables.get('original_analysis')); pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(d.invoices[0].status).to.eql('PAID'); pm.expect(d.invoices[0].outstandingCents).to.eql(0); pm.expect(d.invoices[0].reminders).to.eql(0); pm.expect(d.policies).to.deep.eql({protectedClient:false,reminderLimit:3,cooldownDays:7}); pm.expect(d.processing).to.eql(undefined); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "31 Final client view has zero due",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "function privateView(d) { ['audit','policies','clientToken','processing','connections','aiEnabled','reminderDraft'].forEach(k => pm.expect(d).not.to.have.property(k)); }",
+              "const d = pm.response.json(); pm.test('Client sees settled invoice without owner records', () => { privateView(d); pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(d.invoices[0].status).to.eql('PAID'); pm.expect(d.invoices[0].outstandingCents).to.eql(0); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

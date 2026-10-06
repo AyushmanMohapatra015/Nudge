@@ -1,5 +1,7 @@
 # Read-only Postman collection verification
 
+October 7 addition: [POSTMAN_WORKFLOW_VERIFICATION.md](POSTMAN_WORKFLOW_VERIFICATION.md) records a separate actual Newman run against Nudge's isolated local production server: 31 requests and 50 assertions passed. That collection writes only a disposable simulation database; the sandbox collection described below remains read-only. No new PayPal or AI calls were made for the local workflow.
+
 ## Actual result — October 5, 2026
 
 The repository's reviewed collection executed through Postman's Newman 6.2.1 Node runner against PayPal sandbox:

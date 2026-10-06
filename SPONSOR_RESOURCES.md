@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October 7 actual sponsor use: Postman's Newman now also verifies Nudge's full local workflow against an isolated production server: 31 HTTP requests and 50 assertions passed, with separate synthetic state and disabled integrations. See POSTMAN_WORKFLOW_VERIFICATION.md. This supplements October 5's real read-only PayPal sandbox collection. Elastic live responses have since worked, but further calls remain paused at the owner's usage/allowance checkpoint; earlier prepared-only/no-live-use notes below are historical. No credits, subscriptions or provider requests were used by the new local workflow. Continue prioritizing useful integrations over adding sponsor names.
+
 October 6 Elastic support update (owner-reported): trial managed LLM access includes fair-use limits, and trial expiry is extended through November 3, 2026. Exact token limit/additional hackathon allowance remains under review; confirm participation with support. Prepare one fictional case with per-round usage inspection, not a batch or unrestricted access. Verify dashboard expiry, trial-only billing state and dedicated-agent permissions first. Usage monitoring is not a hard quota control; judging access after the extension is unconfirmed. This supersedes earlier no-reply and October 17 expiry notes. Source: support reply supplied by owner; monitoring reference: https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/monitor-usage .
 
 ## Prize-aware strategy - October 6
@@ -14,7 +16,7 @@ Primary targets are Best Overall and Best Use of PayPal + AI, supported by a rel
 | AG Grid | Multi-client receivables view with sorting/filtering, exact outstanding balances and links to underlying approved changes/invoices | Strongest optional sponsor feature. First establish a real user need, then verify license/trial and judging access. Preserve server-side money math, accessibility and mobile usability; do not use decorative tables to claim meaningful integration. |
 | APIMatic | Generated typed client from a reviewed Nudge API contract, consumed by an actual client-facing integration and exercised end to end | Evaluate after the core live flow. Verify available tooling and terms; code generation alone or unused generated files are insufficient evidence. Keep authentication and approval checks on the server. |
 | Render | Stable judge access and public webhook endpoint | Strong operational fit. Verify credits, persistent SQLite storage and access through judging before deployment. No account/trial activation or spending is authorized by this plan. |
-| Postman | Repeatable sandbox integration evidence | Already verified read-only through Newman; retain the collection and truthful verification record. |
+| Postman | Repeatable sandbox integration and Nudge backend workflow evidence | Read-only real sandbox access plus isolated simulated workflow verified through Newman; retain both collections and their separate verification records. |
 | Bryntum | Payment-aware milestone scheduling | Defer unless freelancer research establishes a scheduling problem worth solving. A cosmetic calendar would expand scope without proving value. |
 | Channel3 | Commerce product discovery | Weak fit for this scope-change product; do not add shopping merely to pursue a bonus. |
 

@@ -14,6 +14,7 @@
     "db:verify": "node scripts/database-maintenance.mjs verify",
     "db:restore": "node scripts/database-maintenance.mjs restore",
     "postman:check": "node --env-file=.env.local scripts/check-postman.mjs",
+    "postman:workflow": "node scripts/check-postman-workflow.mjs",
     "typecheck": "tsc --noEmit",
     "evaluation:summary": "tsx scripts/summarize-scope.ts",
     "evaluation:baseline": "tsx scripts/run-scope-baseline.ts"
