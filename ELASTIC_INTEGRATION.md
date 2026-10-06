@@ -2,6 +2,12 @@
 
 ## October 6 actual first-attempt checkpoint
 
+### Reviewed retry after permission correction
+
+Owner authorized one retry. The ignored harness passed an offline mock with separate attempt-2 paths, preserved the first marker, then sent exactly one additional conversation request. It returned HTTP 404 and no usable analysis or numeric token counts. Safe diagnostics show no completed/message/steps/conversation fields and no recognized quota or authorization indication; these boolean checks do not identify the missing resource or prove zero usage. Attempt-2 marker/failure metadata are retained; there was no automatic retry or workspace/payment action.
+
+Read-only connector inventory remains HTTP 200 and reports eight preconfigured connectors, seven inference-type. This does not prove the configured Agent Builder default model points to an available endpoint. Next inspect Model management / Feature settings in the owner UI: record only the selected Agent Builder default model and any non-sensitive missing/invalid-model warning, without sending chat messages or changing billing. The [model guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/models) explains default selection; [API overview](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/kibana-api) explains per-request model routing. Do not assume 404 means the model is absent; agent/conversation/routing causes remain possible. No third model request is authorized by this outcome record.
+
 ### Read-only diagnosis after the failed attempt
 
 Owner applied the recommended restricted descriptor. Read-only connector metadata now returns HTTP 200 instead of 403, confirming that permission gap is resolved. A fresh read-only agent check also returns HTTP 200 and all private/no-tools/no-skills/no-plugins/no-workflows/capabilities-off checks pass. This does not establish inference execution, usage allowance remaining, or the original failure's precise cause. No second conversation was sent. Preserve the first attempt marker; any reviewed retry must use a separate attempt record and bounded request with safe failure/usage capture.
