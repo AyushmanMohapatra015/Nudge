@@ -1,5 +1,13 @@
 # Elastic integration: next checkpoint
 
+## October 6 actual first-attempt checkpoint
+
+Owner confirms trial expiry November 3 and no paid subscription; support confirms managed LLM trial fair-use access, exact expanded allowance still pending. Corrected Kibana origin/key authenticate against agent metadata (HTTP 200). Private dedicated agent has instructions, disabled capabilities and no assigned tools/skills/plugins/pre-or-post workflows/associated indices/connectors. These agent checks do not establish space-wide workflow state or model execution permissions.
+
+One fictional case 08 conversation request was attempted through the existing adapter using an ignored one-shot harness. Its mocked harness check passed beforehand. The live verification failed and retained a retry-blocking attempt marker. Read-only conversation list/detail lookup found one matching conversation with zero stored rounds, no valid output and no token counts. Do not claim live AI success, zero usage or a specific failure cause. No second model call, payment actions or environment edits were performed; workspace AI remains paused. Next work is failure diagnosis and usage inspection before separately considering another model request. Preserve the marker; do not delete it to force a retry.
+
+The [usage guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/monitor-usage) states one round may involve multiple internal LLM calls and counts include prompts/history/internal processing. Monitor actual returned usage rather than assuming one HTTP request means one model call or estimating cost from text length. The [consumption endpoint](https://www.elastic.co/docs/api/doc/kibana/operation/operation-post-agent-builder-agents-agent-id-consumption) requires agent-management privilege; the deliberately read-only client key does not provide it. Do not broaden that key merely for monitoring. Owner dashboard/Console inspection can provide usage evidence without sending another conversation. The API reports consumption and does not enforce a hard quota.
+
 User wants to proceed with Elastic despite pending support replies. The server-side adapter is now implemented and mock-tested alongside Anthropic/Astropods; this does not establish a free managed-LLM allowance or authorize paid billing. No actual Elastic project connection or model response has been verified. NUDGE_AI_ENABLED stays false, and local secret configuration was not changed.
 
 ## Implemented adapter checkpoint
