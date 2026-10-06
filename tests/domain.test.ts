@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { reminderGate, validateReferences, simulatedAnalysis, agreementSchema, type Invoice, type Agreement } from '../lib/domain';
+import { analysisSchema, reminderGate, validateReferences, simulatedAnalysis, agreementSchema, type Invoice, type Agreement } from '../lib/domain';
 import { reconcileInvoice } from '../lib/paypal';
 const agreement: Agreement = { title: 'Website project', clientName: 'Olivia Chen', clientEmail: 'olivia@example.com', amountCents: 120000, clauses: [{ id: 'S1', text: 'Build a five-page marketing website.' }, { id: 'S2', text: 'Booking systems are excluded.' }] };
 const unpaid: Invoice = { id: 'INV2-TEST', proposalId: 'test', status: 'UNPAID', amountCents: 120000, outstandingCents: 120000, createdAt: '2026-09-01T00:00:00Z', dueDate: '2026-09-15', reminders: 0 };
@@ -26,6 +26,20 @@ test('scope analysis rejects fabricated or absent supporting citations', () => {
   assert.equal(validateReferences(analysis, agreement).references[0], 'S2');
   assert.throws(() => validateReferences({ ...analysis, references: ['S99'] }, agreement), /does not exist/);
   assert.throws(() => validateReferences({ ...analysis, references: [] }, agreement), /must cite/);
+  assert.throws(() => validateReferences({ ...analysis, references: ['S2', 'S2'] }, agreement), /duplicate/);
+});
+
+test('scope output rejects whitespace-only fields and trims usable descriptions before human review', () => {
+  const analysis = simulatedAnalysis('Add a booking page', agreement);
+  for (const invalid of [
+    { ...analysis, summary: ' '.repeat(30) },
+    { ...analysis, questions: ['   '] },
+    { ...analysis, deliverables: ['   '] },
+  ]) assert.equal(analysisSchema.safeParse(invalid).success, false);
+  const normalized = analysisSchema.parse({ ...analysis, summary: `  ${analysis.summary}  `, questions: ['  Is a third revision requested?  '], deliverables: ['  Appointment booking  '] });
+  assert.equal(normalized.summary, analysis.summary);
+  assert.deepEqual(normalized.questions, ['Is a third revision requested?']);
+  assert.deepEqual(normalized.deliverables, ['Appointment booking']);
 });
 test('unclear simulation requests remain ambiguous instead of inventing scope', () => {
   assert.equal(simulatedAnalysis('Please make it feel more modern', agreement).classification, 'ambiguous');

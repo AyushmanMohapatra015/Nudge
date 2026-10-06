@@ -11,10 +11,10 @@ export const agreementSchema = z.object({
 export type Agreement = z.infer<typeof agreementSchema>;
 export const analysisSchema = z.object({
   classification: z.enum(['included', 'additional', 'ambiguous']),
-  summary: z.string().min(10).max(800),
+  summary: z.string().trim().min(10).max(800),
   references: z.array(z.string().regex(/^S\d+$/)).max(12),
-  questions: z.array(z.string().min(3).max(250)).max(5),
-  deliverables: z.array(z.string().min(3).max(250)).min(1).max(8),
+  questions: z.array(z.string().trim().min(3).max(250)).max(5),
+  deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8),
 });
 export type Analysis = z.infer<typeof analysisSchema> & { source: 'claude' | 'elastic' | 'simulation' };
 export type InvoiceStatus = 'DRAFT' | 'UNPAID' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED' | 'OTHER';
@@ -49,6 +49,7 @@ export function reminderGate(invoice: Invoice, policies: Policies, promiseDate?:
 export function validateReferences(analysis: z.infer<typeof analysisSchema>, agreement: Agreement) {
   const ids = new Set(agreement.clauses.map(c => c.id));
   if (analysis.references.some(id => !ids.has(id))) throw new Error('AI returned a clause reference that does not exist. Review the request manually.');
+  if (new Set(analysis.references).size !== analysis.references.length) throw new Error('AI returned duplicate clause references. Review the request manually.');
   if (analysis.classification !== 'ambiguous' && !analysis.references.length) throw new Error('AI must cite the agreement for its classification.');
   return analysis;
 }

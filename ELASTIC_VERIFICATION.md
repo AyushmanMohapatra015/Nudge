@@ -1,5 +1,17 @@
 # Elastic scope-review verification
 
+## Output-quality regression verified October 6
+
+The canonical scope policy now lives in lib/scope-instructions.ts and is sent by Elastic and the optional Anthropic/Astropods adapters. It covers untrusted agreement/client text, explicit exclusions or established limit excess, mixed requests, additional-only deliverables, relevant clarification questions and the existing five-field schema. [ELASTIC_AGENT_INSTRUCTIONS.md](ELASTIC_AGENT_INSTRUCTIONS.md) provides the saved-agent copy. Runtime overrides are authoritative for Nudge; no remote agent configuration was edited.
+
+The first revised-prompt request returned HTTP 200 but status awaiting_prompt, with an empty ask_user_question event and no final message. Nudge rejected it; no draft or financial action occurred. Read-only inspection established the event type and reported 9,979 input / 118 output tokens. The updated instructions explicitly require non-interactive completion with any clarification questions inside the JSON. The adapter also rejects interactive event types even when a response claims completion; it never approves or answers those prompts automatically.
+
+One separately approved corrected request on known fictional case 08 then completed in about 9.4 seconds. It classified the request as additional, cited only S5, returned questions: [], and listed only appointment booking with available time-slot selection. This matches the requested extra work and does not restate included base pages, invent a price, or add implementation choices. Reported usage was 10,147 input / 253 output tokens. The prior and corrected requests total 20,126 reported input / 371 output tokens for this task; monetary cost and remaining allowance are unknown. No further model call occurred.
+
+This is a debugging regression case, not a held-out evaluation, accuracy result, independent user validation or proof of general injection resistance. Agent inspection of the successful output supports the case-specific semantic assessment; independent human/evaluation review remains pending. The stored result is preserved as captured, with a separate local review record rather than rewriting its original pending-review field.
+
+Server validation now trims text, rejects whitespace-only summaries/questions/deliverables and duplicate references. These checks cannot determine whether an apparently valid deliverable is semantically included. Human scope and pricing review remain required. All 72 offline tests, typecheck and isolated production build pass. Existing workspace records and local environment were not changed; ordinary website AI remains paused. [ISSUE_CHECKPOINTS.md](ISSUE_CHECKPOINTS.md) tracks remaining work. Historical evidence below is retained and superseded where appropriate.
+
 ## Verified October 6, 2026
 
 The first successful live scope review used the dedicated private agent, Sonnet 5 inference endpoint, fictional evaluation case 08, and `_execution_mode: "local"`. The adapter sent exactly one conversation HTTP request with tools and skills disabled. The response completed, classified appointment booking as additional work, cited S5 and S7, and passed strict schema, reference and case-label checks. Reported usage was 9,060 input tokens and 882 output tokens; elapsed time was about 20 seconds. These are the round's reported counts, not proof of one internal LLM call or a particular monetary cost.

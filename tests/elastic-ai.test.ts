@@ -9,6 +9,7 @@ import { scoreScope } from '../evaluation/score-scope';
 import { GET, POST } from '../app/api/workspace/route';
 import { read, mutate } from '../lib/store';
 import { sessionToken } from '../lib/auth';
+import { elasticScopeInstructions } from '../lib/scope-instructions';
 
 const names = ['NUDGE_MODE','NUDGE_DB_PATH','NUDGE_AI_ENABLED','NUDGE_AI_PROVIDER','NUDGE_ADMIN_TOKEN','ELASTIC_KIBANA_URL','ELASTIC_API_KEY','ELASTIC_AGENT_ID','ELASTIC_SPACE_ID','ELASTIC_INFERENCE_ID'];
 const analysis = { classification: 'additional', summary: 'Appointment booking is explicitly excluded by the approved agreement.', references: ['S5'], questions: [], deliverables: ['Appointment booking with time slots'] };
@@ -27,6 +28,7 @@ test('Elastic uses private tool-free isolated requests and validated analysis wi
     const headers = new Headers(init?.headers); assert.equal(headers.get('authorization'), 'ApiKey mock-encoded-key'); assert.equal(headers.get('kbn-xsrf'), 'true');
     const body = JSON.parse(String(init?.body)); assert.equal(body.agent_id, 'nudge-scope'); assert.equal(body.access_control.access_mode, 'private');
     assert.equal(body._execution_mode, 'local');
+    assert.equal(body.configuration_overrides.instructions, elasticScopeInstructions);
     assert.equal(body.conversation_id, undefined); assert.equal(body.prompts, undefined); assert.equal(body.browser_api_tools, undefined);
     assert.deepEqual(body.configuration_overrides.tools, [{ tool_ids: [] }]); assert.deepEqual(body.configuration_overrides.skill_ids, []); assert.equal(body.configuration_overrides.enable_elastic_capabilities, false);
     assert.deepEqual(JSON.parse(body.input).approvedAgreement, { title: scopeAgreement.title, clauses: scopeAgreement.clauses });
@@ -77,7 +79,9 @@ test('Elastic rejects untrusted endpoints, incomplete/approval/tool outcomes, ma
       await assert.rejects(analyzeWithElastic('Add appointment booking.', scopeAgreement), /Kibana/);
     }
     assert.equal(calls, 0); process.env.ELASTIC_KIBANA_URL = 'https://scope.elastic.cloud';
-    const invalid = [ { ...complete(), status: 'awaiting_prompt', response: { prompts: [{ id: 'approve-payment' }] } }, { ...complete(), status: undefined }, { ...complete(), steps: [{ type: 'tool_call', tool_id: 'any.tool' }] }, { ...complete(), response: { message: '```json\n{}\n```' } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, references: ['S99'] }) } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, priceCents: 90000 }) } }, { ...complete(), response: { message: 'x'.repeat(140000) } } ];
+    const invalid: unknown[] = [ { ...complete(), status: 'awaiting_prompt', response: { prompts: [{ id: 'approve-payment' }] } }, { ...complete(), status: undefined }, { ...complete(), steps: [{ type: 'tool_call', tool_id: 'any.tool' }] }, { ...complete(), response: { message: '```json\n{}\n```' } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, references: ['S99'] }) } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, priceCents: 90000 }) } }, { ...complete(), response: { message: 'x'.repeat(140000) } } ];
+    for (const badAnalysis of [ { ...analysis, references: ['S5', 'S5'] }, { ...analysis, deliverables: ['   '] }, { ...analysis, questions: ['   '] }, { ...analysis, summary: ' '.repeat(30) } ]) invalid.push({ ...complete(), response: { message: JSON.stringify(badAnalysis) } });
+    for (const type of ['ask_user_question', 'confirmation', 'authorization']) invalid.push({ ...complete(), steps: [{ type, questions: [] }] });
     for (const candidate of invalid) { payload = candidate; const callsBefore: number = calls; await assert.rejects(analyzeWithElastic('Add appointment booking.', scopeAgreement), /Elastic returned/); assert.equal(calls, callsBefore + 1); }
     payload = { error: 'private provider details' }; httpStatus = 429;
     await assert.rejects(analyzeWithElastic('Add appointment booking.', scopeAgreement), error => error instanceof Error && error.message.includes('429') && !error.message.includes('private provider'));

@@ -1,5 +1,9 @@
 # Elastic integration: next checkpoint
 
+## Current output-quality checkpoint
+
+Shared canonical scope rules implemented in lib/scope-instructions.ts, with the saved-agent copy in ELASTIC_AGENT_INSTRUCTIONS.md. Server output validation rejects blanks and duplicate citations. One revised-prompt request paused for an empty interactive question; it was rejected, diagnosed read-only and corrected with explicit non-interactive instructions plus interactive-event rejection. A separately approved known-case08 request then completed: additional, S5, no questions, only requested booking extra. Reported task usage: 20,126 input / 371 output tokens across those two rounds; cost/remaining allowance unknown. All72 tests/typecheck/isolated build pass. No PayPal/workspace/.env/billing changes; website AI remains paused. See ELASTIC_VERIFICATION.md and ISSUE_CHECKPOINTS.md; case-specific regression is not broad model validation. Next bounded evaluation/website checkpoint, no automatic further calls.
+
 ## October 6 live verification succeeds (current checkpoint)
 
 Read [ELASTIC_VERIFICATION.md](ELASTIC_VERIFICATION.md) for the current evidence. The redacted diagnostic captured `Conversation [redacted-id] not found`, narrowing the 404 to conversation handling. Explicit model selection alone did not fix it. Upstream source shows default background execution via Task Manager; the adapter now explicitly sends `_execution_mode: "local"` while preserving private access and disabled tools. One approved fictional case-08 request then completed with the correct additional classification and S5 citation, reporting 9,060 input / 882 output tokens. No automatic retry, PayPal access, workspace mutation, permission widening or subscription change. Earlier failed attempts' usage remains unknown. All 71 tests, typecheck and isolated build pass.

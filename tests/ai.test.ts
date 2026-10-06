@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { analyze } from '../lib/ai';
 import type { Agreement } from '../lib/domain';
+import { toolScopeInstructions } from '../lib/scope-instructions';
 
 test('Astropods uses its documented auth and tool format, rejects bad citations and never hides failure', async () => {
   const names = ['NUDGE_MODE', 'NUDGE_AI_ENABLED', 'NUDGE_AI_PROVIDER', 'ASTRO_GATEWAY_URL', 'ASTRO_GATEWAY_API_KEY', 'ASTRO_MODEL'];
@@ -17,6 +18,7 @@ test('Astropods uses its documented auth and tool format, rejects bad citations 
     assert.equal(headers.get('x-bf-vk'), 'test-key');
     assert.equal(headers.get('x-api-key'), null);
     const payload = JSON.parse(String(init?.body));
+    assert.equal(payload.system, toolScopeInstructions);
     const sent = JSON.parse(payload.messages[0].content);
     assert.deepEqual(sent.approvedAgreement, { title: agreement.title, clauses: agreement.clauses });
     assert.equal(sent.clientRequest, 'Please add a booking system.');
