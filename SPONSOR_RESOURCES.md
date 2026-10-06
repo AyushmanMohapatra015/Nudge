@@ -1,5 +1,23 @@
 # Nudge: sponsor resources and zero-cash plan
 
+## Prize-aware strategy - October 6
+
+Prize information supplied by the user: Best Overall first/second/third USD 12,000/8,000/5,000; USD 5,000 honorable mentions for Most Creative, Most Impactful, Best Demo Delivery, Best Use of PayPal + AI, and Best Use of Agentic Commerce. Sponsor bonuses: AG Grid USD 5,000/2,000 plus three USD 1,000 awards; APIMatic three USD 1,000 awards; Bryntum three USD 1,000 awards; Channel3 USD 1,500; Render USD 1,000/750/500 in Render credits. These are planning inputs, not independently verified eligibility or award-stacking rules. Verify official category requirements before claiming qualification.
+
+Primary targets are Best Overall and Best Use of PayPal + AI, supported by a reliable demo. Our differentiator is clause-grounded scope evidence leading to a human-reviewed price, explicit client acceptance and a real PayPal sandbox invoice. Most Impactful requires actual freelancer evidence; existing tests do not establish demand. Agentic Commerce is a possible category fit, not a verified qualification: demonstrate model reasoning, constrained action proposals and server-enforced execution boundaries without removing human financial approval.
+
+| Resource | Proposed useful role | Priority and acceptance gate |
+| --- | --- | --- |
+| Elastic / Astropods | Real clause-grounded scope inference | Essential AI evidence. Keep the allowance checkpoint; one fictional live case and usage review before a batch. |
+| AG Grid | Multi-client receivables view with sorting/filtering, exact outstanding balances and links to underlying approved changes/invoices | Strongest optional sponsor feature. First establish a real user need, then verify license/trial and judging access. Preserve server-side money math, accessibility and mobile usability; do not use decorative tables to claim meaningful integration. |
+| APIMatic | Generated typed client from a reviewed Nudge API contract, consumed by an actual client-facing integration and exercised end to end | Evaluate after the core live flow. Verify available tooling and terms; code generation alone or unused generated files are insufficient evidence. Keep authentication and approval checks on the server. |
+| Render | Stable judge access and public webhook endpoint | Strong operational fit. Verify credits, persistent SQLite storage and access through judging before deployment. No account/trial activation or spending is authorized by this plan. |
+| Postman | Repeatable sandbox integration evidence | Already verified read-only through Newman; retain the collection and truthful verification record. |
+| Bryntum | Payment-aware milestone scheduling | Defer unless freelancer research establishes a scheduling problem worth solving. A cosmetic calendar would expand scope without proving value. |
+| Channel3 | Commerce product discovery | Weak fit for this scope-change product; do not add shopping merely to pursue a bonus. |
+
+Sequence: close live AI and payment evidence, collect freelancer feedback, then select the highest-value optional sponsor integration. AG Grid is the leading candidate, not an installed or verified integration. Review impact, cost, license, accessibility, testability and demo clarity before implementation. Retain the existing Kernel/Zapier fit review below. Sponsors do not replace the core requirements, and no award outcome is guaranteed.
+
 ## Sponsor checkpoint — October 4
 
 October 5 Postman evidence: the reviewed collection executed through Newman 6.2.1 against actual PayPal sandbox. OAuth/list/invoice lookup returned 200 and four assertions passed, using the existing fixture with no financial actions, workspace writes or AI calls. POSTMAN_VERIFICATION.md records sanitized results and repeatable local commands. Tooling is isolated under ignored data; no app dependency or subscription added. Desktop execution and credit redemption remain unclaimed. This supersedes historical prepared-only Postman status below; live Elastic use/allowance remains pending.
