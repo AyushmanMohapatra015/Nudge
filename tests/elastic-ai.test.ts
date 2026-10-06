@@ -26,6 +26,7 @@ test('Elastic uses private tool-free isolated requests and validated analysis wi
     assert.equal(init?.method, 'POST'); assert.equal(init?.redirect, 'error'); assert.ok(init?.signal);
     const headers = new Headers(init?.headers); assert.equal(headers.get('authorization'), 'ApiKey mock-encoded-key'); assert.equal(headers.get('kbn-xsrf'), 'true');
     const body = JSON.parse(String(init?.body)); assert.equal(body.agent_id, 'nudge-scope'); assert.equal(body.access_control.access_mode, 'private');
+    assert.equal(body._execution_mode, 'local');
     assert.equal(body.conversation_id, undefined); assert.equal(body.prompts, undefined); assert.equal(body.browser_api_tools, undefined);
     assert.deepEqual(body.configuration_overrides.tools, [{ tool_ids: [] }]); assert.deepEqual(body.configuration_overrides.skill_ids, []); assert.equal(body.configuration_overrides.enable_elastic_capabilities, false);
     assert.deepEqual(JSON.parse(body.input).approvedAgreement, { title: scopeAgreement.title, clauses: scopeAgreement.clauses });
@@ -46,6 +47,7 @@ test('Elastic explicit model routing rejects invalid IDs and never retries anoth
   globalThis.fetch = async (_input, init) => {
     calls++;
     const body = JSON.parse(String(init?.body));
+    assert.equal(body._execution_mode, 'local');
     assert.equal(body.inference_id, process.env.ELASTIC_INFERENCE_ID || undefined);
     assert.equal(body.connector_id, undefined);
     assert.deepEqual(body.configuration_overrides.tools, [{ tool_ids: [] }]);

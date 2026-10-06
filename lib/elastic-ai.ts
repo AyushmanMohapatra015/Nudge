@@ -21,7 +21,9 @@ export async function analyzeWithElastic(request: string, agreement: Agreement):
   try {
     response = await fetch(url.origin + path, { method: 'POST', redirect: 'error', cache: 'no-store',
       headers: { authorization: `ApiKey ${key}`, 'kbn-xsrf': 'true', 'content-type': 'application/json' },
-      signal: AbortSignal.timeout(45000), body: JSON.stringify({ agent_id: agent, ...(inferenceId ? { inference_id: inferenceId } : {}), access_control: { access_mode: 'private' },
+      // Keep this bounded synchronous review on the authenticated request instead of
+      // handing a private conversation to Task Manager under another request context.
+      signal: AbortSignal.timeout(45000), body: JSON.stringify({ agent_id: agent, _execution_mode: 'local', ...(inferenceId ? { inference_id: inferenceId } : {}), access_control: { access_mode: 'private' },
         configuration_overrides: { instructions: elasticScopeInstructions, tools: [{ tool_ids: [] }], skill_ids: [], enable_elastic_capabilities: false },
         input: JSON.stringify(scopeAiPayload(request, agreement)) }) });
   } catch { throw Error('Elastic request failed or timed out. No automatic retry or simulation was substituted.'); }
