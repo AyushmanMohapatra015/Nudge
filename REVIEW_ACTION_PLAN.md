@@ -2,6 +2,8 @@
 
 October 4, 2026. Planning update only: no application changes, provider calls, spending, deployment or new payment fixtures.
 
+October 7 current checkpoint: live Elastic adapter and targeted development regressions are verified with the limitations in SCOPE_CHALLENGE_VERIFICATION.md. Owner requests offline work while reviewing trial usage/billing; live AI stays paused. HUMAN_SCOPE_REVIEW.md now provides a two-pass independent review packet from saved fictional analyses, with no model requests needed. Reviewer sessions and findings are pending. Historical mock-only and next-call notes below are superseded by this checkpoint; do not restart live verification before the usage gate clears.
+
 ## Product decision
 
 Keep the approved-scope-to-payment workflow. The review identifies an important hypothesis: the difficult part may be explaining an extra to the client, rather than classifying it. Validate this with freelancers before expanding features. Our differentiation to test is clause-supported reasoning connected to human review, client approval and PayPal invoicing; do not claim novelty without comparison evidence.
@@ -10,7 +12,7 @@ Passing tests establish behavior under tested conditions, not product demand, se
 
 ## Priority order and evidence required
 
-1. Verify live Elastic scope analysis. Confirm managed-model allowance, expiry and judging-period access; review the dedicated agent and permissions. Run one fictional case, inspect usage, then authorize a bounded evaluation. The adapter is mock-tested, not live-verified. The enable flag is not a spending cap.
+1. Complete AI evidence with usage control. Live adapter and known development-case evidence exist; broader semantic quality, stability, prompt injection and owner website AI remain open. First reconcile dashboard usage with recorded receipts and obtain applicable trial allowance/billing behavior; judging-period access is separate. While live AI is paused, use HUMAN_SCOPE_REVIEW.md for independent saved-output review. No further calls until the usage gate clears and a bounded request allowance is reviewed. The enable flag is not a spending cap.
 2. Finish fresh payment-triggered webhook verification with stable, authorized public connectivity. Genuine signed replay and duplicate suppression are already verified; fresh checkout and owner reconciliation are verified separately. Preserve the paid fixture; do not ask for another payment or create a replacement without separate authorization.
 3. Validate usefulness with freelancers. Aim for five to eight conversations, starting with three. Request anonymized past disputes, observe the workflow, and record overrides, decision time, confusing steps and existing workarounds. The user conducts outreach unless explicitly authorized otherwise. Obtain permission before transmitting any participant content to an AI provider; fictional data remains the demo default. Do not invent quotes, findings or savings.
 4. Close specific release gaps after inspecting current code and tests: client-link expiry, AI data disclosure/minimization, endpoint abuse controls, sanitized logging, retention/deletion and backup/restore, persistent deployment storage, and accessibility/error states on the core journey. These are review tasks and implementation candidates, not claims that every safeguard is absent or every proposed fix is mandatory under the hackathon rules.

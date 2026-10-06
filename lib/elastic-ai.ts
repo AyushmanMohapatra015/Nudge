@@ -43,7 +43,11 @@ export async function analyzeWithElastic(request: string, agreement: Agreement):
     if (data.status !== 'completed' || typeof data.conversation_id !== 'string' || !data.conversation_id ||
         !data.response || 'prompts' in data.response || typeof data.response.message !== 'string' || data.response.message.length > 16000 ||
         !Array.isArray(data.steps) || data.steps.some((s: unknown) => !s || typeof s !== 'object' || ('type' in s && ['tool_call', 'ask_user_question', 'confirmation', 'authorization'].includes(String(s.type))))) throw Error('Unsupported agent outcome.');
-    const analysis = validateReferences(analysisSchema.strict().parse(JSON.parse(data.response.message)), agreement);
+    // Models sometimes add one Markdown JSON wrapper despite the requested transport.
+    // Accept only a complete single block; never extract JSON from prose or repair it.
+    const message = data.response.message.trim();
+    const fenced = /^```(?:json)?[ \t]*\r?\n([\s\S]*?)\r?\n```$/.exec(message);
+    const analysis = validateReferences(analysisSchema.strict().parse(JSON.parse(fenced ? fenced[1] : message)), agreement);
     return { ...analysis, source: 'elastic' };
   } catch { throw Error('Elastic returned incomplete, tool-using or invalid scope analysis. Review manually; no automatic retry.'); }
 }

@@ -1,6 +1,12 @@
 ﻿# Scope-analysis evaluation checkpoint
 
-Prepared October 3, 2026. These are fictional, human-labelled evaluation cases, not model results or customer research. No AI calls are needed to prepare or review them. Elastic testing remains on hold pending support's allowance clarification in PROJECT_HANDOFF.md.
+Prepared October 3, 2026. These are fictional engineering-labelled evaluation cases, not customer research. No AI calls are needed to prepare or review them. The original support hold has been superseded by trial confirmation and bounded live checks; exact fair-use capacity and judging continuity remain open.
+
+## Latest development regression evidence — October 7
+
+Offline independent-review preparation is available in [HUMAN_SCOPE_REVIEW.md](HUMAN_SCOPE_REVIEW.md), with separate first-pass agreement/requests and second-pass recorded outputs. No expected labels are shown in the first packet; record prior exposure and assistance. The worksheet is empty, reviewers have not been contacted, and independent findings remain pending. Reviewing these documents requires no model calls or Elastic credits. Live evaluation remains paused for owner usage/allowance review.
+
+[SCOPE_CHALLENGE_VERIFICATION.md](SCOPE_CHALLENGE_VERIFICATION.md) records six mixed/ambiguous case inspections across prompt revisions, observed failures and measured usage. Five latest cases completed through the live adapter; one correct mixed analysis was recovered read-only and replayed offline after a formatting fix. Four latest live cases pass the frozen automated checks; the semantically correct booking-button response omits required S7 and retains its failed check. Earlier wrong revision and booking outputs were preserved. No six-live-pass, held-out accuracy, model-superiority, stability or injection-resistance claim. Agent inspection is separate from independent human review, which remains pending. All 78 offline tests/typecheck/final isolated build pass; these counts test software behavior, not model usefulness. Ordinary website AI remains paused; further calls require a usage checkpoint.
 
 ## Offline aggregate report — October 5
 
@@ -90,5 +96,5 @@ node --import tsx scripts/score-scope.ts 08 data/evaluation/scope-08.json
 
 This does not call a model or access the workspace. No sample result file has been created. Exit code 0 means automated checks passed, not release approval. Human review must detect irrelevant questions, invented price/approval text, mixed-work mistakes, prompt-injection compliance and misleading explanations. Tests deliberately demonstrate that structurally valid but semantically unsafe text can pass automated checks; manualReviewRequired remains true and modelRunVerified remains false. Record genuine provider/model/usage evidence separately. The planned 23/25 target still requires the manual safety gates; this scorer cannot establish it by itself.
 
-Not run. Provider selection, live AI quality, usage cost, and Elastic integration are still unverified.
+Historical October 4 state was not run. Current live integration and development-case evidence are recorded above; monetary cost, remaining allowance and general AI quality remain unverified.
 

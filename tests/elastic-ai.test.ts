@@ -70,6 +70,23 @@ test('Elastic explicit model routing rejects invalid IDs and never retries anoth
     assert.equal(calls, 3);
   } finally { restore(); }
 });
+test('Elastic accepts a single JSON wrapper around the observed mixed response but rejects prose, multiple blocks and unsafe wrapped outcomes', async () => {
+  const restore = configure(); let calls = 0, message = '';
+  const observed = { classification: 'additional', summary: 'Request has two parts. Changing the heading colour is a minor colour revision within round one, which is included under the agreed two revision rounds. Adding online checkout is explicitly excluded from the agreement, which covers only a simple email enquiry form and excludes online payments and ecommerce.', references: ['S3', 'S5'], questions: [], deliverables: ['Add online checkout functionality'] };
+  globalThis.fetch = async () => { calls++; return Response.json({ ...complete(), response: { message } }); };
+  try {
+    for (const wrapped of [JSON.stringify(observed), '```json\n' + JSON.stringify(observed) + '\n```', '  ```\r\n' + JSON.stringify(observed) + '\r\n```  ']) {
+      message = wrapped;
+      assert.deepEqual(await analyzeWithElastic('Change the heading colour in round one and add online checkout.', scopeAgreement), { ...observed, source: 'elastic' });
+    }
+    const fenced = '```json\n' + JSON.stringify(observed) + '\n```';
+    const invalid = [ 'Here is the result:\n' + fenced, fenced + '\nApproved.', fenced + '\n' + fenced, '```javascript\n' + JSON.stringify(observed) + '\n```', JSON.stringify(observed) + JSON.stringify(observed), '```json\n' + JSON.stringify({ ...observed, priceCents: 90000 }) + '\n```', '```json\n' + JSON.stringify({ ...observed, references: ['S99'] }) + '\n```', '```json\n' + JSON.stringify({ ...observed, deliverables: ['   '] }) + '\n```' ];
+    for (const candidate of invalid) { message = candidate; const before = calls; await assert.rejects(analyzeWithElastic('Add online checkout.', scopeAgreement), /Elastic returned/); assert.equal(calls, before + 1); }
+    message = fenced;
+    globalThis.fetch = async () => Response.json({ ...complete(), status: 'awaiting_prompt', response: { message } });
+    await assert.rejects(analyzeWithElastic('Add online checkout.', scopeAgreement), /Elastic returned/);
+  } finally { restore(); }
+});
 test('Elastic rejects untrusted endpoints, incomplete/approval/tool outcomes, malformed prices, bad citations, oversized responses and errors without retry', async () => {
   const restore = configure(); let calls = 0, payload: unknown = complete(), httpStatus = 200;
   globalThis.fetch = async () => { calls++; return Response.json(payload, { status: httpStatus }); };

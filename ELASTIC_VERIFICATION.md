@@ -1,5 +1,11 @@
 # Elastic scope-review verification
 
+## Mixed and ambiguous development checks — October 7
+
+See [SCOPE_CHALLENGE_VERIFICATION.md](SCOPE_CHALLENGE_VERIFICATION.md) for six case inspections, preserved failures and exact provenance. Fixed rejection of one complete JSON wrapper and observed unsupported assumptions about used revision rounds and booking buttons. The final form/blog/mixed-booking requests pass the frozen checks; latest booking-button classification is correct on agent inspection but its missing-S7 check remains failed. Mixed colour/checkout was recovered read-only and replayed offline, not rerun live. These cases span prompt revisions and do not establish held-out accuracy, stability, injection resistance or a live website journey.
+
+Eight conversation requests in this task reported 106,332 input / 3,339 output tokens; this is separate from earlier task usage. Monetary cost and remaining fair-use capacity are unknown. All 78 offline tests, typecheck and final isolated build pass. Original artifacts and separate agent-review evidence remain ignored; independent human review is pending. No PayPal/workspace/environment/billing/permissions changes; ordinary website AI remains paused. Current next steps are usage review and a bounded owner website test, followed by unseen-case evaluation. Historical notes below are retained and superseded where applicable.
+
 ## Output-quality regression verified October 6
 
 The canonical scope policy now lives in lib/scope-instructions.ts and is sent by Elastic and the optional Anthropic/Astropods adapters. It covers untrusted agreement/client text, explicit exclusions or established limit excess, mixed requests, additional-only deliverables, relevant clarification questions and the existing five-field schema. [ELASTIC_AGENT_INSTRUCTIONS.md](ELASTIC_AGENT_INSTRUCTIONS.md) provides the saved-agent copy. Runtime overrides are authoritative for Nudge; no remote agent configuration was edited.
