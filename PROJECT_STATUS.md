@@ -1,5 +1,7 @@
 # Nudge: current status and priority order
 
+October 6 presentation rehearsal: DEMO_STORYBOARD.md defines a 2:45 scope-change-to-payment story and explicitly separates simulation from required live evidence. One isolated core browser workflow passed with video capture, following a loading-time failure and a longer rehearsal-only assertion wait. Raw owner/client recordings remain in ignored data; no narration, public upload or final video review. No application code, private configuration, PayPal or model calls changed. Live Elastic allowance, freelancer validation, fresh payment-triggered delivery and final judge access remain pending; the Elastic return checkpoint remains active.
+
 October 5 integration-status clarity: owner API supplies only a fixed allowlisted provider label, never arbitrary configuration text. Agent rules names Elastic/Astropods/Anthropic correctly, distinguishes simulation and AI enable/configuration states, and reports webhook-ID presence without implying verified delivery. Sandbox banner no longer claims connectivity. All 70 server tests and TypeScript pass; nine accessibility checks passed, three integration checks passed after punctuation correction; isolated production build passed. Actual provider permissions, allowance and connection remain unverified; no calls/credits/config changes/private workspace reads. JUDGE_SETUP.md explains these display boundaries. Elastic return checkpoint remains active.
 
 ## Return checkpoint: Elastic
