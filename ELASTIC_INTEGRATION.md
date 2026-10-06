@@ -1,5 +1,26 @@
 # Elastic integration: next checkpoint
 
+## October 6 explicit-model routing checkpoint (supersedes default-dropdown instructions)
+
+Owner clarified that the actual UI shows assigned models, not a Default model field. Do not infer a blank default from this UI. The adapter now accepts optional server-only ELASTIC_INFERENCE_ID and sends inference_id, never both routing parameters. Offline validation rejects display names, URLs, whitespace and oversized IDs before fetch. Mock tests cover omitted/explicit selection and a 404 causing exactly one request without fallback or retry. All 71 server tests and typecheck pass.
+
+Production build also passes in an isolated source snapshot using installed dependencies. The active development cache was preserved; this is not a fresh dependency-install verification. Offline local preflight passes with AI still paused and no persistent explicit-model override configured.
+
+Read-only connector metadata identified a unique Sonnet 5 inference endpoint after tightening the display-name matcher so Sonnet 4.5 cannot match Sonnet 5. Selection was prepared only in ignored data; .env.local and account settings were not changed. The [official model guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/models) supports per-request inference_id and describes automatic fast-model routing; an explicit main model does not disable fast routing or guarantee exactly one internal LLM call.
+
+After approval, the separate attempt-3 harness sent exactly one fictional case-08 conversation request with explicit Sonnet 5 routing. It still returned HTTP 404, without usable analysis or numeric token counts. Read-only conversation inspection found one matching conversation with zero stored rounds. All three attempt records are preserved. No automatic retry, PayPal access, workspace-data changes or subscription changes occurred; workspace AI remains paused. Do not claim the missing UI dropdown caused the failure, model selection resolved it, zero usage, or live AI success.
+
+Next non-executing diagnostic: in owner Dev Tools Console, GET /_inference/chat_completion/.anthropic-claude-5-sonnet-chat_completion. Report only status and whether task_type is chat_completion, never raw configuration or credentials. The [Get inference endpoint API](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-inference-get) reads endpoint configuration without running inference. A 200 confirms endpoint registration, not runtime provider health. A missing endpoint or task mismatch requires investigation before any further model request; do not activate billing or broaden the key. Further conversation attempts require a separately reviewed checkpoint.
+
+Local configuration, only after verifying the endpoint:
+
+```dotenv
+ELASTIC_INFERENCE_ID=.anthropic-claude-5-sonnet-chat_completion
+NUDGE_AI_ENABLED=false
+```
+
+This public model identifier is not an API key. Keep real keys and project URLs in ignored local configuration. The adapter still overrides saved-agent instructions with its existing runtime instructions; prompt quality alignment remains a separate review after execution works.
+
 ## October 6 actual first-attempt checkpoint
 
 ### Reviewed retry after permission correction

@@ -6,13 +6,14 @@ export const elasticScopeInstructions = 'Compare client requests against the sup
 
 export async function analyzeWithElastic(request: string, agreement: Agreement): Promise<Analysis> {
   requireRealAiAccess();
-  const { ELASTIC_KIBANA_URL: origin, ELASTIC_API_KEY: key, ELASTIC_AGENT_ID: agent, ELASTIC_SPACE_ID: space } = process.env;
+  const { ELASTIC_KIBANA_URL: origin, ELASTIC_API_KEY: key, ELASTIC_AGENT_ID: agent, ELASTIC_SPACE_ID: space, ELASTIC_INFERENCE_ID: inferenceId } = process.env;
   if (!origin || !key || !agent) throw Error('Configure the Elastic Kibana endpoint, API key and dedicated scope agent locally.');
   let url: URL;
   try { url = new URL(origin); } catch { throw Error('Invalid Elastic Kibana endpoint.'); }
   const host = url.hostname;
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname !== '/' || url.port || !['.elastic.cloud', '.elastic-cloud.com', '.cloud.es.io'].some(suffix => host.endsWith(suffix))) throw Error('Use the HTTPS Elastic Cloud Kibana origin without paths or credentials.');
   if (!/^[a-zA-Z0-9_-]{1,128}$/.test(agent) || agent === 'elastic-ai-agent' || (space && !/^[a-zA-Z0-9_-]{1,128}$/.test(space)) || /\s/.test(key)) throw Error('Use a dedicated scope agent, valid space ID and locally stored encoded API key.');
+  if (inferenceId && !/^[a-zA-Z0-9_.-]{1,256}$/.test(inferenceId)) throw Error('Use a valid Elastic inference endpoint ID, not a model display name or URL.');
   agreementSchema.parse(agreement);
   if (request.trim().length < 10 || request.length > 5000) throw Error('Scope request must be between 10 and 5000 characters.');
   const path = `${space ? `/s/${encodeURIComponent(space)}` : ''}/api/agent_builder/converse`;
@@ -20,7 +21,7 @@ export async function analyzeWithElastic(request: string, agreement: Agreement):
   try {
     response = await fetch(url.origin + path, { method: 'POST', redirect: 'error', cache: 'no-store',
       headers: { authorization: `ApiKey ${key}`, 'kbn-xsrf': 'true', 'content-type': 'application/json' },
-      signal: AbortSignal.timeout(45000), body: JSON.stringify({ agent_id: agent, access_control: { access_mode: 'private' },
+      signal: AbortSignal.timeout(45000), body: JSON.stringify({ agent_id: agent, ...(inferenceId ? { inference_id: inferenceId } : {}), access_control: { access_mode: 'private' },
         configuration_overrides: { instructions: elasticScopeInstructions, tools: [{ tool_ids: [] }], skill_ids: [], enable_elastic_capabilities: false },
         input: JSON.stringify(scopeAiPayload(request, agreement)) }) });
   } catch { throw Error('Elastic request failed or timed out. No automatic retry or simulation was substituted.'); }
