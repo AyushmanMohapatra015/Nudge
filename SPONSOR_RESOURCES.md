@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October 6 Elastic support update (owner-reported): trial managed LLM access includes fair-use limits, and trial expiry is extended through November 3, 2026. Exact token limit/additional hackathon allowance remains under review; confirm participation with support. Prepare one fictional case with per-round usage inspection, not a batch or unrestricted access. Verify dashboard expiry, trial-only billing state and dedicated-agent permissions first. Usage monitoring is not a hard quota control; judging access after the extension is unconfirmed. This supersedes earlier no-reply and October 17 expiry notes. Source: support reply supplied by owner; monitoring reference: https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/monitor-usage .
+
 ## Prize-aware strategy - October 6
 
 Prize information supplied by the user: Best Overall first/second/third USD 12,000/8,000/5,000; USD 5,000 honorable mentions for Most Creative, Most Impactful, Best Demo Delivery, Best Use of PayPal + AI, and Best Use of Agentic Commerce. Sponsor bonuses: AG Grid USD 5,000/2,000 plus three USD 1,000 awards; APIMatic three USD 1,000 awards; Bryntum three USD 1,000 awards; Channel3 USD 1,500; Render USD 1,000/750/500 in Render credits. These are planning inputs, not independently verified eligibility or award-stacking rules. Verify official category requirements before claiming qualification.
