@@ -2,6 +2,32 @@
 
 ## October 6 actual first-attempt checkpoint
 
+### Read-only diagnosis after the failed attempt
+
+Agent access authenticates, but a separate GET /api/actions/connectors returns HTTP 403 with an authorization/privilege indication. This confirms a connector-read permission gap, not the HTTP status or precise cause of the original converse failure. The original ignored harness discarded its error category; that evidence cannot be reconstructed from the zero-round conversation. Its future diagnostics now retain only HTTP status, fixed error category, request count and numeric usage; an offline simulated 403 check correctly reports the category without printing raw provider text. No live model retry occurred.
+
+The [official key guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/api-keys) documents feature_actions.read for connector access and monitor_inference for Elasticsearch inference endpoints. The [Elastic Agent Builder investigation example](https://www.elastic.co/observability-labs/blog/automated-root-cause-analysis-agent-builder) includes both alongside Agent Builder read access. Our earlier key descriptor omitted both; that was sufficient for metadata, not verified model access. This is the leading permission hypothesis, not proof that trial limits, prompt format or connectivity caused the failed inference.
+
+Recommended narrow correction for the owner to review in the Default-space key editor (not applied):
+
+```json
+{
+  "nudge-scope-client": {
+    "cluster": ["monitor_inference"],
+    "indices": [],
+    "applications": [
+      {
+        "application": "kibana-.kibana",
+        "privileges": ["feature_agentBuilder.read", "feature_actions.read"],
+        "resources": ["space:default"]
+      }
+    ]
+  }
+}
+```
+
+This adds inference monitoring/connector read, not index access, workflow execution, administration or unrestricted privileges. Keep the existing expiry, agent tools disabled and AI=false. Review effective model permissions with read-only checks after an owner-applied correction; further model execution remains a separate checkpoint. The consumption API's management requirement is unrelated and is not included. Do not create an unrestricted key or activate billing as a diagnostic shortcut. Changes to a key descriptor replace its prior assigned descriptor, so retain the Agent Builder read permission and space restriction. Tokens from the original attempt remain unknown.
+
 Owner confirms trial expiry November 3 and no paid subscription; support confirms managed LLM trial fair-use access, exact expanded allowance still pending. Corrected Kibana origin/key authenticate against agent metadata (HTTP 200). Private dedicated agent has instructions, disabled capabilities and no assigned tools/skills/plugins/pre-or-post workflows/associated indices/connectors. These agent checks do not establish space-wide workflow state or model execution permissions.
 
 One fictional case 08 conversation request was attempted through the existing adapter using an ignored one-shot harness. Its mocked harness check passed beforehand. The live verification failed and retained a retry-blocking attempt marker. Read-only conversation list/detail lookup found one matching conversation with zero stored rounds, no valid output and no token counts. Do not claim live AI success, zero usage or a specific failure cause. No second model call, payment actions or environment edits were performed; workspace AI remains paused. Next work is failure diagnosis and usage inspection before separately considering another model request. Preserve the marker; do not delete it to force a retry.
