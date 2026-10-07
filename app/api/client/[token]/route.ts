@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 type Context = { params: Promise<{ token: string }> };
 function clientView() {
   const s = read();
-  return { mode: s.mode, agreement: s.agreementStatus === 'draft' ? null : s.agreement, agreementStatus: s.agreementStatus, agreementAcceptedAt: s.agreementAcceptedAt, proposals: s.proposals.filter(p => p.status !== 'draft').map(p => ({ id: p.id, deliverables: p.deliverables, amountCents: p.amountCents, status: p.status, acceptedAt: p.acceptedAt })), invoices: s.invoices.filter(i => i.status !== 'DRAFT' && i.proposalId !== 'example').map(i => ({ id: i.id, status: i.status, amountCents: i.amountCents, outstandingCents: i.outstandingCents, payUrl: i.payUrl })) };
+  return { mode: s.mode, agreement: s.agreementStatus === 'draft' ? null : s.agreement, agreementStatus: s.agreementStatus, agreementAcceptedAt: s.agreementAcceptedAt, proposals: s.proposals.filter(p => p.status !== 'draft').map(p => ({ id: p.id, deliverables: p.deliverables, amountCents: p.amountCents, status: p.status, acceptedAt: p.acceptedAt, clientExplanation: p.clientExplanation })), invoices: s.invoices.filter(i => i.status !== 'DRAFT' && i.proposalId !== 'example').map(i => ({ id: i.id, status: i.status, amountCents: i.amountCents, outstandingCents: i.outstandingCents, payUrl: i.payUrl })) };
 }
 export async function GET(_request: NextRequest, context: Context) {
   const retry = clientReadWindow.take();

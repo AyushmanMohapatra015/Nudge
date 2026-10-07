@@ -2,6 +2,8 @@
 
 ## Verified October 7, 2026
 
+Repeat verification after the client-explanation feature: the unchanged collection again passed 31 requests/50 assertions with zero failures or blocked provider-fetch attempts. This confirms legacy approval calls that omit the optional message remain compatible. Separate server/browser tests cover the new message and evidence panel; latest suite is 82 server tests and three affected browser workflow tests, plus typecheck/isolated build. The initial run and its 81-test baseline below remain historical evidence.
+
 Postman's Newman 6.2.1 executed the reviewed collection against a disposable **production build of Nudge**, on an owned loopback server. All **31 HTTP requests and 50 assertions passed**, with no failed steps. The runner's provider-fetch guard recorded no attempted calls. The temporary server stopped after the run.
 
 This is actual HTTP integration testing of Nudge's application routes and SQLite state. **The model and payments are simulated.** It does not establish live AI accuracy, fresh PayPal payment webhook delivery, hosting, user demand or sponsor prize eligibility. The separate [read-only PayPal collection](POSTMAN_VERIFICATION.md) records actual sandbox API access.

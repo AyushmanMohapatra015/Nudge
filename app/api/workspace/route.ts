@@ -11,6 +11,7 @@ import { briefCandidateSchema, validateBriefCandidate, agreementFingerprint } fr
 import { processingOwner, processingRecovery } from '@/lib/processing';
 import { realAiEnabled, requireRealAiAccess, aiProviderLabel } from '@/lib/ai-access';
 import { newClientLinkExpiry } from '@/lib/client-access';
+import { snapshotClientExplanation } from '@/lib/quote-explanation';
 import { boundedRequestText, ownerReadWindow, ownerActionWindow, ownerBodyMaxBytes, RequestGuardError } from '@/lib/request-guards';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -26,7 +27,7 @@ const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('dismissProposal'), id: z.string() }),
   z.object({ type: z.literal('analyze'), request: z.string().trim().min(10).max(5000) }),
   z.object({ type: z.literal('reviewScope'), id: z.string(), expectedReviewId: z.string(), classification: z.enum(['included', 'additional', 'ambiguous']), rationale: z.string().trim().min(20).max(800), references: z.array(z.string().regex(/^S\d+$/)).max(12), clarification: z.string().trim().max(800), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
-  z.object({ type: z.literal('approveProposal'), id: z.string(), reviewId: z.string(), extrasConfirmed: z.literal(true), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8) }),
+  z.object({ type: z.literal('approveProposal'), id: z.string(), reviewId: z.string(), extrasConfirmed: z.literal(true), amountCents: z.number().int().min(100).max(10000000), deliverables: z.array(z.string().trim().min(3).max(250)).min(1).max(8), clientMessage: z.string().trim().min(10).max(800).optional() }),
   z.object({ type: z.literal('createInvoice'), id: z.string() }),
   z.object({ type: z.literal('recoverInvoice'), id: z.string(), invoiceId: z.string().regex(/^INV2-[A-Z0-9-]+$/) }),
   z.object({ type: z.literal('sendInvoice'), id: z.string() }),
@@ -131,6 +132,7 @@ export async function POST(request: NextRequest) {
       if (!p.scopeReview || p.scopeReview.id !== action.reviewId) throw new Error('Review the current scope decision before pricing.');
       if (p.scopeReview.classification !== 'additional') throw new Error('Included or unclear work cannot be approved as a paid extra.');
       if (JSON.stringify(p.scopeReview.deliverables) !== JSON.stringify(action.deliverables)) throw new Error('Deliverables changed after scope review. Review the revised work first.');
+      p.clientExplanation = action.clientMessage ? snapshotClientExplanation(action.clientMessage, p.scopeReview, s.agreement) : undefined;
       p.amountCents = action.amountCents; p.deliverables = action.deliverables; p.status = 'approved'; p.approvedAt = new Date().toISOString();
       log(s, 'You', 'Change proposal approved', `You set ${money(p.amountCents)} for reviewed additional work only. Awaiting client acceptance.`, p.id);
     });

@@ -40,6 +40,8 @@ Compare with a simple non-model baseline and a plain structured LLM prompt where
 
 ## Optional improvements after core verification
 
+October 7 bounded product improvement: an optional owner-written client explanation and saved supporting-clause panel now accompany approved quotes (CLIENT_CHANGE_EXPLANATION.md). It uses no additional model requests and publishes no private rationale automatically. This is a prototype response to the conversation-pain hypothesis, not validated usefulness or AI-drafted messaging. Independent reviews/interviews remain required; broader optional features stay deferred. Postman's local workflow is already verified separately in POSTMAN_WORKFLOW_VERIFICATION.md.
+
 1. Editable client-facing change explanation with evidence: addresses the awkward conversation; owner reviews before sharing, and AI cannot invent price or approval.
 2. Evidence panel showing the relevant clause text and an explicit insufficient-information state. Inspect existing UI before adding duplicate controls.
 3. Agreement ambiguity/risk flags, such as undefined revision limits, without claiming legal assessment.

@@ -20,7 +20,7 @@ Typography currently loads Google Fonts when available and falls back to system 
 1. Review the example agreement. Choose Approve scope, then open Client view in another tab, check the review confirmation and accept project scope.
 2. Back in the owner tab, Compare with agreement using the sample booking request. Allow up to five seconds for the client decision to appear. The analysis is explicitly labelled simulated.
 3. Keep only the booking deliverable in Deliverables to propose. In Your scope decision, choose Additional work, enter a rationale of at least 20 characters citing the explicit booking exclusion, use S3 as the supporting clause, and Record scope decision.
-4. Enter a USD price such as 300.00, check that the quote contains only reviewed additional work, and Approve proposal.
+4. Enter a USD price such as 300.00. Optionally write an Explanation for your client, review its preview and supporting clauses, check that the quote contains only reviewed additional work, and Approve proposal. The client sees the approved message and clauses, not your private scope-review notes.
 5. In Client view, review and accept the change and its price. Back in the owner tab, Create PayPal invoice. Go to Payments, Approve & send invoice, then Simulate payment. All invoice actions here change local simulation state only.
 6. Check Activity for the sequence of owner/client decisions. In Payments, Add overdue example and Draft reminder. Enable Protect this client in Agent rules and save rules; sending the existing reminder is rejected by server policy.
 
