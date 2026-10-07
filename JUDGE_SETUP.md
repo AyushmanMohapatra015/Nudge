@@ -39,6 +39,8 @@ Open the same local URL after starting the production build. Run dev and start s
 
 ## Real integrations and judging access
 
+For the review-only Render hosting configuration, startup guards and outstanding credit/storage/access checks, see RENDER_DEPLOYMENT.md. No hosted URL is verified yet. Its health endpoint proves only a local database query, not AI/PayPal access or persistent storage. Keep complete local instructions as the fallback submission route until hosted access is verified.
+
 Use README.md for private sandbox configuration and read-only connectivity checks. Use only sandbox merchant/buyer accounts, never real cards or live API credentials. Elastic live scope responses are verified separately; further calls and website AI remain paused pending the owner usage/allowance checkpoint. See ELASTIC_VERIFICATION.md. Do not assume simulation meets the AI requirement or claim prepared sponsor tools as integrations already used.
 
 Optional backend verification: follow POSTMAN_WORKFLOW_VERIFICATION.md to install the pinned Newman runner and run `npm run postman:workflow`. This creates a separate production copy, local server and synthetic database; 31 requests/50 assertions have passed. It requires no provider credentials and does not use your configured workspace. Payments and model inference in this collection are simulated, so it supplements the functional walkthrough rather than proving live provider behavior.

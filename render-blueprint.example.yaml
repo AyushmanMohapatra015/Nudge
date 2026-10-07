@@ -1,0 +1,35 @@
+# REVIEW ONLY. Applying this template creates billable hosting/storage resources.
+# Confirm sponsor credits, allowance duration and approval in RENDER_DEPLOYMENT.md.
+# Deliberately not named render.yaml. No deployment has been performed.
+services:
+  - type: web
+    name: nudge-judge-workspace
+    runtime: node
+    plan: 0.5c-512mb
+    region: singapore
+    numInstances: 1
+    autoDeployTrigger: "off"
+    buildCommand: npm ci --include=dev --no-audit --no-fund && npm run build
+    startCommand: npm run start:render
+    healthCheckPath: /api/health
+    disk:
+      name: nudge-workspace
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.12.0
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: NUDGE_MODE
+        value: sandbox
+      - key: NUDGE_AI_ENABLED
+        value: "false"
+      - key: NUDGE_AI_PROVIDER
+        value: elastic
+      - key: NUDGE_DB_PATH
+        value: /var/data/nudge.sqlite
+      - key: NUDGE_ADMIN_TOKEN
+        generateValue: true

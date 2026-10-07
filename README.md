@@ -76,6 +76,8 @@ Scope adapters use a shared non-interactive policy with explicit handling of unk
 
 Current sponsor checkpoint: Elastic managed-model access has worked on the owner's free trial, extended through November 3; exact fair-use capacity and access during judging remain under review. Ordinary website AI remains paused. Astropods has a mocked adapter and reserved signup credits; real gateway access remains unverified. Sponsor setup is optional for local simulation. See [SPONSOR_RESOURCES.md](SPONSOR_RESOURCES.md) for all sponsor fit assessments; do not activate billing or assume a trial covers all future usage.
 
+Render hosting preparation is in [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md), with a review-only Blueprint, guarded startup and generic database health route. No deployment or sponsor-credit redemption is claimed. The SQLite design needs persistent storage and verified coverage through judging before hosted activation.
+
 Nudge can use Claude through Astropods without a separate paid Anthropic API key. The adapter supports the documented Anthropic passthrough endpoint, gateway-specific authentication, and Bedrock model IDs. The same clause validation and human approval rules apply. This integration has passed mocked tests; account authentication and a real model response remain to be verified.
 
 Set these only in your private local environment when Astropods supplies them:

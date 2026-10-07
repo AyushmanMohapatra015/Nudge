@@ -6,6 +6,7 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 0.0.0.0",
+    "start:render": "node scripts/start-render.mjs",
     "test": "tsx --test tests/*.test.ts",
     "test:browser": "playwright test",
     "paypal:check": "node --env-file=.env.local scripts/check-paypal.mjs",
