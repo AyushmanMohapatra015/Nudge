@@ -1,5 +1,9 @@
 # AG Studio sponsor access: verified offer and manual steps
 
+Updated licence checkpoint: owner confirms **November21,2026** expiry from the generated licence. It is evaluation-only and contains “Use in production is not permitted.” Exact-expiry uncertainty below is superseded; hosted hackathon evaluation/judging rights and post-expiry access remain unresolved. No licence value is retained here. Current generator choices: AI features **No**, framework **React**. Existing pinned dependencies/provider require no copy-pasted App example or new npm install; follow AG_STUDIO_INTEGRATION.md for private env configuration and restart.
+
+If needed, send manually to AG support/Discord: “Hello! My 45-day AG Studio trial expires November21,2026 and is labelled evaluation-only, with ‘Use in production is not permitted.’ Could you confirm whether a publicly hosted, sandbox-only hackathon evaluation demo is permitted, and how judges can retain access if judging continues after expiry? Thank you!” No message sent by this agent.
+
 October7 owner update: licence arrived; owner confirms45-day trial/full dashboard embedding access, with no displayed expiry date. Do not repeat signup or start another trial. AG_STUDIO_INTEGRATION.md gives the new private NUDGE_AG_STUDIO_LICENSE setup. Key was not shared/read/installed by this agent; actual validation, exact expiry and judging coverage remain unverified. Packages and initial local Studio integration now verified, superseding earlier prepared-only status below.
 
 October 7, 2026. No trial/account/licence activation, payment method, package installation or external message was performed during this research.

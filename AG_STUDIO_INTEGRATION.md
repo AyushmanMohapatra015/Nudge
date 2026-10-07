@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+Licence checkpoint, October 7: owner now supplies a trial expiry of **November 21, 2026**, superseding the unknown-expiry note below. Supplied licence wording says evaluation only and “Use in production is not permitted.” Confirm hosted hackathon evaluation/judging permission and any access needed after expiry with AG before deployment; do not infer ordinary production rights from the advertised full-feature trial. Key validity inside Nudge remains unverified. Do not store the supplied key in documentation/source.
+
+For AG's configuration generator select **AI features: No** for the current Studio integration and **Framework: React**. This question concerns Studio's AI module, not Nudge's separate Elastic scope-analysis integration. Both3.0 packages and AgStudioProvider are already installed/configured. Do not paste the generated App/AgStudioAiModule example over the existing code or reinstall unpinned packages. Privately set the single NUDGE_AG_STUDIO_LICENSE line in .env.local, restart npm.cmd run dev and inspect /analytics for remaining licence warnings. If the line already exists, replace its value rather than adding a duplicate. Pasting the key into the vendor validation form does not configure Nudge. Registering the AI module alone is not a paid model call, but its addition is unnecessary until the planned Studio-agent workstream is approved/configured.
+
 October 7, 2026. Owner reports receiving a full-access 45-day trial licence, but no exact expiry date is shown. The licence has not been inspected or installed here. Judging-period/deployment coverage remains a separate checkpoint. No AI calls, payment actions, subscription or hosting activation occurred.
 
 ## What works
