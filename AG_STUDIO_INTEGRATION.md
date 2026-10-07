@@ -8,7 +8,7 @@ Two actual-canvas browser journeys verify a current $1,200 invoice, overdue $800
 
 Verification: TypeScript, isolated production build, Postman31 requests/50 assertions and seven combined Studio browser tests pass. Prior92 server tests and three core workflow browser checks remain baseline evidence, not new runs. No model calls, PayPal calls, billing changes or ordinary workspace data writes. Isolated build c1d9068a-1498-4614-939f-d19682bb0092 and screenshots are ignored. This follows the documented [Studio cross-filter modes and clearing behaviour](https://www.ag-grid.com/studio/react/filters/).
 
-Next: APIMatic Context Plugin setup/scope review and meaningful PayPal contract review, as explicitly requested by the owner; record actual use without claiming it in advance. Remaining Studio work includes complete keyboard/touch/screen-reader review, export contents, and the bounded Agent Framework experience under the existing model allowance hold. Hosting/licence and core AI/webhook/research/submission checkpoints remain active. This entry supersedes pending chart-click notes below.
+Next: complete the Studio accessibility review and retain the existing PayPal verification checkpoints. Remaining Studio work includes complete keyboard/touch/screen-reader review, export contents, and the bounded Agent Framework experience under the existing model allowance hold. Hosting/licence and core AI/webhook/research/submission checkpoints remain active. This entry supersedes pending chart-click notes below.
 
 ## Menu, layout and page-filter verification — October 7
 

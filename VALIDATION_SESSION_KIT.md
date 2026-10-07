@@ -91,7 +91,7 @@ Choose the next change by evidence, not praise:
 - If PayPal-only invoicing does not fit, record that limitation honestly; do not promise an unbuilt payment provider.
 - If the problem does not recur, reassess audience/workflow before expanding features.
 
-APIMatic and Render solve integration/delivery questions; interviews do not prove their technical eligibility. Elastic live allowance and model evaluation remain separate checkpoints. Research does not authorize provider calls, deployment or paid services.
+Render addresses delivery questions; interviews do not prove their technical eligibility. Elastic live allowance and model evaluation remain separate checkpoints. Research does not authorize provider calls, deployment or paid services.
 
 ## Owner's immediate action
 

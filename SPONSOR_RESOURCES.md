@@ -1,6 +1,5 @@
 # Nudge: sponsor resources and zero-cash plan
 
-October7 APIMatic owner requirement: use the PayPal Context Plugin during the next PayPal integration review, before final end-to-end verification. Review installation/scope first, then use its context to inspect invoicing/authentication/retry/webhook contracts and resolve concrete gaps. Record actual usage and resulting decisions; do not claim it was already used or that it supplies Nudge's runtime AI. Official sponsor page says PayPal is enabled without additional APIMatic credentials/sign-in: https://paypalaihackathon.devpost.com/details/apimatic . Supplied resource: https://drive.google.com/file/d/1qa7Xkjt3PGJllHQVCP1IuE-XxlRNz4mN/view (unreadable by research tool). Subscription offer/claim terms are a separate checkpoint, not permission to activate billing. Current task remains bounded AG Studio cross-filter verification; APIMatic installation has not occurred.
 
 October 7 owner clarification: no Render signup yet, no credits claimed. RENDER_SIGNUP.md now gives account/official-offer/Billing steps and the unresolved eligibility/expiry/card/credit-exhaustion checkpoint. Published offer is USD50; no account balance or exact claim flow verified. Owner explicitly prioritizes substantial AG Grid/AG Studio use; it is now a planned dashboard workstream, not merely an optional name under consideration. Licensing/trial and judging access must be checked before activation. No account, package, credit, workflow, model or hosting action follows from this documentation.
 
@@ -10,7 +9,6 @@ The owner supplied these sponsor descriptions for planning. They are roles, not 
 
 | Sponsor | Supplied role | Planned Nudge use or fit |
 | --- | --- | --- |
-| APIMatic | Context Plugin gives an AI agent PayPal context | Review the PayPal Context Plugin setup for development assistance and document actual use. It does not itself prove runtime model integration. |
 | Render | Deploy/orchestrate AI agents with Workflows | Host the website and webhook through the prepared Node service; evaluate separate read-only background orchestration after allowance and datastore access review. No actual deployment yet. |
 | Kernel | Cloud infrastructure for agents to browse and act online | Consider only for a needed browser task; existing local browser verification costs no Kernel credits. Payment execution remains through controlled PayPal APIs/checkout. |
 | Channel3 | Clean product data API across 100M+ items without scraping | Retain as a reviewed sponsor resource. No established catalog need in this scope-and-payments product; no invented commerce feature or integration claim. |
@@ -44,7 +42,7 @@ October 6 Elastic support update (owner-reported): trial managed LLM access incl
 
 ## Prize-aware strategy - October 6
 
-Prize information supplied by the user: Best Overall first/second/third USD 12,000/8,000/5,000; USD 5,000 honorable mentions for Most Creative, Most Impactful, Best Demo Delivery, Best Use of PayPal + AI, and Best Use of Agentic Commerce. Sponsor bonuses: AG Grid USD 5,000/2,000 plus three USD 1,000 awards; APIMatic three USD 1,000 awards; Bryntum three USD 1,000 awards; Channel3 USD 1,500; Render USD 1,000/750/500 in Render credits. These are planning inputs, not independently verified eligibility or award-stacking rules. Verify official category requirements before claiming qualification.
+Prize information supplied by the user: Best Overall first/second/third USD 12,000/8,000/5,000; USD 5,000 honorable mentions for Most Creative, Most Impactful, Best Demo Delivery, Best Use of PayPal + AI, and Best Use of Agentic Commerce. Sponsor bonuses: AG Grid USD 5,000/2,000 plus three USD 1,000 awards; Bryntum three USD 1,000 awards; Channel3 USD 1,500; Render USD 1,000/750/500 in Render credits. These are planning inputs, not independently verified eligibility or award-stacking rules. Verify official category requirements before claiming qualification.
 
 Primary targets are Best Overall and Best Use of PayPal + AI, supported by a reliable demo. Our differentiator is clause-grounded scope evidence leading to a human-reviewed price, explicit client acceptance and a real PayPal sandbox invoice. Most Impactful requires actual freelancer evidence; existing tests do not establish demand. Agentic Commerce is a possible category fit, not a verified qualification: demonstrate model reasoning, constrained action proposals and server-enforced execution boundaries without removing human financial approval.
 
@@ -52,7 +50,6 @@ Primary targets are Best Overall and Best Use of PayPal + AI, supported by a rel
 | --- | --- | --- |
 | Elastic / Astropods | Real clause-grounded scope inference | Essential AI evidence. Keep the allowance checkpoint; one fictional live case and usage review before a batch. |
 | AG Grid | Multi-client receivables view with sorting/filtering, exact outstanding balances and links to underlying approved changes/invoices | Strongest optional sponsor feature. First establish a real user need, then verify license/trial and judging access. Preserve server-side money math, accessibility and mobile usability; do not use decorative tables to claim meaningful integration. |
-| APIMatic | Generated typed client from a reviewed Nudge API contract, consumed by an actual client-facing integration and exercised end to end | Evaluate after the core live flow. Verify available tooling and terms; code generation alone or unused generated files are insufficient evidence. Keep authentication and approval checks on the server. |
 | Render | Stable judge access and public webhook endpoint | Strong operational fit. Verify credits, persistent SQLite storage and access through judging before deployment. No account/trial activation or spending is authorized by this plan. |
 | Postman | Repeatable sandbox integration and Nudge backend workflow evidence | Read-only real sandbox access plus isolated simulated workflow verified through Newman; retain both collections and their separate verification records. |
 | Bryntum | Payment-aware milestone scheduling | Defer unless freelancer research establishes a scheduling problem worth solving. A cosmetic calendar would expand scope without proving value. |
@@ -68,7 +65,7 @@ Elastic adapter implementation is now mock-tested in Nudge: private converse req
 
 The runtime AI hold is now enforced in code: real scope analysis requires the server-only `NUDGE_AI_ENABLED=true` setting, and defaults to paused. Configured credentials alone are insufficient. Keep it disabled until allowance and first-test scope are confirmed; this switch is not a dollar/token cap. The website extraction feature is still disconnected from providers. Preserve the first-test/usage-review checkpoint when adding an Elastic adapter rather than treating the switch as sponsor verification.
 
-The user wants every sponsor resource considered throughout development. Keep the table below as a fit assessment, not a requirement to integrate every tool. Record actual use separately from planned use. Elastic is now the preferred AI candidate: a Mumbai Serverless trial is created, but calls remain paused pending support answers about managed LLM allowance, the extension and judging access. Astropods' $10 balance remains reserved while its CLI access issue awaits feedback. Postman's read-only collection is verified through Newman; Render and APIMatic remain planned. AG Grid, Bryntum, Channel3, Kernel and Zapier remain optional fits under review. Do not activate trials or consume credits simply to add sponsor names.
+The user wants every sponsor resource considered throughout development. Keep the table below as a fit assessment, not a requirement to integrate every tool. Record actual use separately from planned use. Elastic is now the preferred AI candidate: a Mumbai Serverless trial is created, but calls remain paused pending support answers about managed LLM allowance, the extension and judging access. Astropods' $10 balance remains reserved while its CLI access issue awaits feedback. Postman's read-only collection is verified through Newman; Render remains planned. AG Grid, Bryntum, Channel3, Kernel and Zapier remain optional fits under review. Do not activate trials or consume credits simply to add sponsor names.
 
 Checked against the official hackathon resources on 2026-10-03. Offers are published benefits, not credits already claimed by this project.
 
@@ -84,7 +81,6 @@ Source: https://paypalaihackathon.devpost.com/ and https://paypalaihackathon.dev
 | --- | --- | --- | --- |
 | Astropods | Free account; documentation describes one-time signup credits before needing a card, and an AI Gateway with managed model access. Credit amount is shown after signup, not specified on the public offer. | Candidate for real scope-analysis model access without buying a separate Claude key. | User signs up, checks actual credits and models, leaves payment method absent. Verify API compatibility and run one fictional scope example before committing to this architecture. |
 | Render | $50 hackathon credits through the official sponsor-linked portal. | Host the Next.js app on a stable HTTPS URL and receive authentic sandbox webhooks. A later durable worker can handle recovery without an open browser. | User claims credits and checks expiry, billing requirements, and balance. Calculate server and storage costs before approved deployment. Credits do not establish a guaranteed hard billing cap. |
-| APIMatic | PayPal Context Plugin access needs no additional APIMatic credentials according to the sponsor page; one free month of Basic for participants who use the plugin. Winning users may receive six months Business. | Give the coding assistant accurate PayPal API context when improving invoicing and webhook code. | Read the linked getting-started guide, verify client support, configure in sandbox scope, and record actual use. This is developer assistance, not automatically the runtime AI requirement. |
 | Postman | Free access and an official PayPal API collection. | Give judges repeatable sandbox authentication, invoice-list and invoice-status checks. | Verified through Newman: three HTTP 200 responses and four passing assertions. See POSTMAN_VERIFICATION.md for repeatable checks; public exports must have empty secrets. |
 
 Offer sources:
@@ -95,7 +91,6 @@ Offer sources:
 - https://docs.astropods.com/usage
 - https://paypalaihackathon.devpost.com/details/render
 - https://credits-portal-mmdm.onrender.com/claim/paypal-ai-hackathon
-- https://paypalaihackathon.devpost.com/details/apimatic
 - https://paypalaihackathon.devpost.com/details/postman
 
 ## Other sponsors reviewed
