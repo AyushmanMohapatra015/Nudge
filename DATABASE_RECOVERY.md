@@ -45,11 +45,34 @@ Before any future promotion:
 5. Review accepted scope/proposals and client access. An older snapshot may restore a previously revoked token or older decisions. Rotate client access before exposing the recovered workspace and verify expiry; restoration does not establish identity or legal acceptance.
 6. Recheck reminder policies, payment promises, provider hold and owner authentication. Allow only explicitly reviewed actions after local and remote state are reconciled. Any actual promotion should be a separate concrete, reviewed task.
 
-## Privacy, retention and hosting boundaries
+## Render persistent-disk commands — prepared October 7
+
+The existing local commands above still restrict files to project `data/`. A separate `db:render` entry point supports the proposed `/var/data` disk. It requires Linux, validated Render production/sandbox/owner settings and an actual `/var/data` mount before doing maintenance. It never reads `.env.local`, accepts an arbitrary storage-root/source override or copies credentials. The CLI always backs up `/var/data/nudge.sqlite`. A shared library's explicit storage-directory parameter is for trusted wrappers/tests, not request bodies or public API input.
+
+These commands are for the **approved service's private shell after deployment**, not the student's Windows laptop. No Render service exists from this task, and sponsor credits are not yet claimed. Wait for confirmed credit/cost terms and approval before creating hosting or running cloud commands.
+
+```sh
+npm run db:render -- backup
+```
+
+Use the returned relative `backups/snapshot-...` directory, preserving its case:
+
+```sh
+npm run db:render -- verify --snapshot backups/snapshot-EXAMPLE
+npm run db:render -- restore --snapshot backups/snapshot-EXAMPLE --confirm-offline-copy
+```
+
+The hosted wrapper uses the same online backup, integrity/layout, standalone-file, checksum/count and offline-copy implementation as local maintenance. Verify/restore require a single `backups/snapshot-ID` argument without extra path segments, absolute paths or traversal. Output is limited to generated relative paths, counts and status; failures are generic and do not print database contents or environment values. No auto-promotion, deletion, retry, unlock or provider request is added. The review marker remains a warning, not an enforced application hold.
+
+Snapshots and recovery copies stay on the mounted disk, outside the Git checkout. Check free disk capacity before creating copies and choose retention manually; nothing prunes old copies automatically. Multiple snapshots on the same mount do not protect against losing that disk. An encrypted off-service copy and actual restore exercise are separate requirements for disaster recovery. Keep the six promotion checks above, including older client-link and remote-outcome reconciliation.
+
+Local verification uses a fresh fictional disk directory **outside a separate fake app root**, rather than a junction from app `data/`. It exercises a backup with uncommitted WAL changes, verification, repeated separate recoveries, exact quote/message/evidence and pending-operation preservation, post-snapshot live changes, tamper rejection before another recovery directory, path/source/confirmation rejection and escaping disk/output links. The local CLI keeps its original boundary. All **87 server tests and TypeScript checks pass**. No real workspace or environment file was read or changed; actual Linux Render execution, persistent-disk durability, scheduling and off-service storage remain unverified.
+
+## Privacy and retention limits
 
 Snapshots contain client contact fields, request text, audit records, bearer links and payment identifiers. They are not anonymized or encrypted. SHA-256 detects accidental corruption; it does not authenticate a snapshot from an untrusted source. Use only trusted locally generated snapshots. Files/folders request restrictive POSIX permissions; Windows access depends on inherited ACLs. Keep backups out of Git, public downloads, screenshots and shared demo artifacts.
 
-The tools constrain files/output to the project data directory and reject escaping links. They do not archive `.env.local` or provider keys. Copies of workspace data still require the same protection as the original database. Do not share raw databases with another agent or judges.
+Local tools constrain files/output to the project data directory; the separate guarded Render wrapper fixes its storage boundary to the mounted `/var/data` directory. Both reject escaping links. They do not archive `.env.local` or provider keys. Copies of workspace data still require the same protection as the original database. Do not share raw databases with another agent or judges.
 
 This task adds no scheduled backups, automatic retention/deletion, encryption, external disaster-recovery storage, hosted persistent disk or multi-node support. Multiple copies on the same drive do not protect against drive failure. Agree on retention and encrypted off-device storage before real-user use. A future deletion workflow must account for backups and external provider data; SQLite row deletion alone is not secure erasure.
 

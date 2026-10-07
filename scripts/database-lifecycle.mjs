@@ -15,7 +15,13 @@ export class DatabaseLifecycleError extends Error {}
 const fail = message => { throw new DatabaseLifecycleError(message); };
 const inside = (parent, path) => { const rel = relative(parent, path); return rel !== '' && !isAbsolute(rel) && rel !== '..' && !rel.startsWith(`..${process.platform === 'win32' ? '\\' : '/'}`); };
 
-function dataDirectory(root) {
+function dataDirectory(root, storageDirectory) {
+  if (storageDirectory !== undefined) {
+    if (typeof storageDirectory !== 'string' || !isAbsolute(storageDirectory)) fail('Use an explicit absolute storage directory.');
+    const path = resolve(storageDirectory), info = lstatSync(path), canonical = realpathSync(path);
+    if (!info.isDirectory() || info.isSymbolicLink() || canonical !== path) fail('Storage directory must be regular without an escaping link.');
+    return canonical;
+  }
   const canonicalRoot = realpathSync(root), path = join(canonicalRoot, 'data');
   const info = lstatSync(path);
   if (!info.isDirectory() || info.isSymbolicLink()) fail('Use an existing regular data directory inside the project.');
@@ -26,7 +32,7 @@ function dataDirectory(root) {
 
 function regularFile(data, input) {
   const path = resolve(input);
-  if (!inside(data, path)) fail('Database files must stay inside the project data directory.');
+  if (!inside(data, path)) fail('Database files must stay inside the approved storage directory.');
   const info = lstatSync(path), canonical = realpathSync(path);
   if (!info.isFile() || info.isSymbolicLink() || !inside(data, canonical)) fail('Use a regular database file without an escaping link.');
   if (info.size > maxDatabaseBytes) fail('Database exceeds the prototype maintenance size limit.');
@@ -40,7 +46,7 @@ function outputParent(data, name) {
     if (!info.isDirectory() || info.isSymbolicLink()) fail('Output directory must be a regular directory.');
   } catch (error) { if (error.code === 'ENOENT') mkdirSync(path, { mode: 0o700 }); else throw error; }
   const canonical = realpathSync(path);
-  if (!inside(data, canonical)) fail('Output directory must stay inside project data.');
+  if (!inside(data, canonical)) fail('Output directory must stay inside approved storage.');
   return canonical;
 }
 
@@ -88,9 +94,9 @@ function openReadonly(path) {
   return connection;
 }
 
-export async function createDatabaseSnapshot(root, sourcePath) {
+export async function createDatabaseSnapshot(root, sourcePath, storageDirectory) {
   if (typeof sqlite.backup !== 'function') fail('Database maintenance requires Node 22.16 or later; Node 24 is recommended.');
-  const data = dataDirectory(root), source = regularFile(data, resolve(root, sourcePath));
+  const data = dataDirectory(root, storageDirectory), source = regularFile(data, resolve(root, sourcePath));
   for (const suffix of ['-wal', '-shm']) {
     try { if (lstatSync(source + suffix).isSymbolicLink()) fail('Database sidecars must not be symbolic links.'); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
@@ -121,10 +127,10 @@ export async function createDatabaseSnapshot(root, sourcePath) {
   } finally { connection.close(); }
 }
 
-export async function verifyDatabaseSnapshot(root, snapshotPath) {
-  const data = dataDirectory(root), candidate = resolve(root, snapshotPath);
+export async function verifyDatabaseSnapshot(root, snapshotPath, storageDirectory) {
+  const data = dataDirectory(root, storageDirectory), candidate = resolve(root, snapshotPath);
   const info = lstatSync(candidate), directory = realpathSync(candidate);
-  if (!info.isDirectory() || info.isSymbolicLink() || !inside(data, directory)) fail('Snapshot must be a regular directory inside project data.');
+  if (!info.isDirectory() || info.isSymbolicLink() || !inside(data, directory)) fail('Snapshot must be a regular directory inside approved storage.');
   const manifestPath = regularFile(data, join(directory, 'manifest.json'));
   if (statSync(manifestPath).size > 16384) fail('Snapshot manifest is too large.');
   let manifest;
@@ -148,8 +154,8 @@ export async function verifyDatabaseSnapshot(root, snapshotPath) {
   return { directory, file, manifest, counts };
 }
 
-export async function createRecoveryCopy(root, snapshotPath) {
-  const snapshot = await verifyDatabaseSnapshot(root, snapshotPath), data = dataDirectory(root);
+export async function createRecoveryCopy(root, snapshotPath, storageDirectory) {
+  const snapshot = await verifyDatabaseSnapshot(root, snapshotPath, storageDirectory), data = dataDirectory(root, storageDirectory);
   const directory = mkdtempSync(join(outputParent(data, 'recovery'), 'recovered-'));
   const file = join(directory, databaseName);
   copyFileSync(snapshot.file, file, constants.COPYFILE_EXCL); chmodSync(file, 0o600);
