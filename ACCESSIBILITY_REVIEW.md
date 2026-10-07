@@ -1,5 +1,15 @@
 # Core keyboard and load-recovery checkpoint
 
+## Client explanation follow-up — October 7
+
+Added two checks for the new quote explanation in ordinary and explicitly verified forced-colors modes, with reduced motion. They exercise the named editor, short-message feedback, confirmation clearing after edits, keyboard approval, native disclosure controls via Tab/Enter/Space, owner/client reflow at 320 and 640 CSS pixels, keyboard client acceptance, retained message/price and no invoice creation. An intentionally long unbroken fictional string tests wrapping. Both 320-pixel client screenshots were inspected: message and clause content remain inside their cards, with visible disclosure focus in both modes.
+
+The review found intermittent lost focus after accepting a quote. The earlier single animation-frame check could run before React removed the action button. Client focus recovery now runs in an effect after the state update commits; it returns focus to the project's main heading only when the initiating control disappeared and focus has not moved to another connected element. Routine polling does not create a new pending focus request. The first test also initially targeted the section heading rather than the intended main heading; corrected that selector before diagnosing the intermittent behavior.
+
+All **14 relevant browser checks passed** on the corrected isolated production build: nine existing accessibility checks, two explanation checks and three core workflow checks. TypeScript and production build pass. Postman sponsor regression also passed again: 31 requests/50 assertions. No provider-fetch attempt occurred. The temporary local server stopped; ordinary database, environment and dev cache were preserved. Backend code is unchanged in this task, so the prior 82-server-test result remains current without a redundant rerun.
+
+These are automated Edge checks and screenshot inspection, not a hands-on screen-reader session, real browser zoom or full WCAG conformance claim. The wider manual checkpoints below remain open. No live AI, PayPal request, credit usage or billing change occurred.
+
 ## High-contrast checkpoint
 
 October 5: one additional Edge/Playwright check passed in explicitly verified forced-colors mode for the owner and client documents. Keyboard skip navigation, editor field names/focus, narrow owner reflow, client consent gating and unchanged approved agreement were verified. Consent was toggled but not accepted; no invoice or payment resulted. Screenshots of the fictional owner editor and client scope were inspected, showing system-colored text, field/card boundaries and visible focus. Emulation was explicitly reapplied after client navigation to ensure its screenshot represented forced colors.

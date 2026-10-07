@@ -12,6 +12,8 @@ After approval, the quote's message and evidence cannot be replaced through owne
 
 ## Verification
 
+October 7 keyboard/mobile follow-up: two new explanation checks pass in normal and forced-colors modes at 320/640 CSS pixels; long message wrapping and native evidence disclosure were inspected. Fixed intermittent client focus loss after quote acceptance by checking after the React state update commits. All 14 relevant browser checks, TypeScript, isolated production build and Postman regression pass. See ACCESSIBILITY_REVIEW.md for evidence and outstanding manual checks.
+
 Server coverage exercises length/type validation, stale/repeated approval, approved evidence snapshots, forged clause data, private-field filtering, client tampering, repeated acceptance, the invoice acceptance gate and escaped rendering. All calls use a separate fictional database and block network. The existing browser workflow now checks entering the message, client visibility and supporting clauses, and retention after acceptance. Postman's unchanged optional-message workflow verifies older callers remain compatible.
 
 October 7 verification: all **82 server tests**, TypeScript checks and the isolated production build pass. All **three affected browser workflow tests** pass against that production copy, including entering the message, opening supporting clauses and retaining the message after acceptance. The unchanged Postman workflow also passed again: **31 requests, 50 assertions**, confirming compatibility for callers that omit the optional message. Neither the Postman nor browser run attempted a guarded provider fetch. No full accessibility-suite rerun is claimed.
