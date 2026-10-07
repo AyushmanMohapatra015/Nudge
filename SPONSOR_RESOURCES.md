@@ -1,5 +1,31 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October 7 owner clarification: no Render signup yet, no credits claimed. RENDER_SIGNUP.md now gives account/official-offer/Billing steps and the unresolved eligibility/expiry/card/credit-exhaustion checkpoint. Published offer is USD50; no account balance or exact claim flow verified. Owner explicitly prioritizes substantial AG Grid/AG Studio use; it is now a planned dashboard workstream, not merely an optional name under consideration. Licensing/trial and judging access must be checked before activation. No account, package, credit, workflow, model or hosting action follows from this documentation.
+
+## Sponsor roles supplied by the owner — retained October 7
+
+The owner supplied these sponsor descriptions for planning. They are roles, not verified free allowances or installed integrations; previous offer tables retain their own verification limits.
+
+| Sponsor | Supplied role | Planned Nudge use or fit |
+| --- | --- | --- |
+| APIMatic | Context Plugin gives an AI agent PayPal context | Review the PayPal Context Plugin setup for development assistance and document actual use. It does not itself prove runtime model integration. |
+| Render | Deploy/orchestrate AI agents with Workflows | Host the website and webhook through the prepared Node service; evaluate separate read-only background orchestration after allowance and datastore access review. No actual deployment yet. |
+| Kernel | Cloud infrastructure for agents to browse and act online | Consider only for a needed browser task; existing local browser verification costs no Kernel credits. Payment execution remains through controlled PayPal APIs/checkout. |
+| Channel3 | Clean product data API across 100M+ items without scraping | Retain as a reviewed sponsor resource. No established catalog need in this scope-and-payments product; no invented commerce feature or integration claim. |
+| Postman | API design, testing and documentation | Actual Newman use: real read-only PayPal sandbox collection and isolated Nudge workflow regression. Account signup is not needed for these local runners. |
+| Astropods | Agent infrastructure for building, deploying and running | Gateway adapter prepared; access issue unresolved and signup balance reserved. Do not claim real gateway execution. |
+| Elastic | Hybrid/vector search for AI | Current actual role is Agent Builder/managed LLM for scope comparison. Search/RAG remains a possible future fit; do not add a search claim to existing model evidence. Further calls are paused. |
+| AG Grid / AG Studio | Self-serve dashboards, drag-and-drop charts and AI assistant | Owner priority: meaningful receivables and change-review analytics, tied to actual approved changes/invoices. AG Studio React supports embedded report building over app data. See design checkpoint below. |
+| Bryntum | Gantt, Scheduler, Calendar and Grid components | Evaluate only if milestone/scheduling research establishes a need; no scheduling installation or license activation. |
+
+## AG Grid / AG Studio priority
+
+Build a useful owner analytics experience around the current workflow: invoice status/outstanding balances, overdue age, approved extra-work value, and changes awaiting client acceptance. Filters/charts should help choose a next reviewed action and link to its existing record. Do not fabricate paid invoices, predictions, multi-client support or savings just to fill a dashboard.
+
+AG Grid tables, AG Charts and AG Studio are related but distinct components. Prefer Studio when self-service report building is useful, and Grid for detailed record inspection; evaluate exactly which package/license the sponsor benefit covers. The [official React Studio overview](https://www.ag-grid.com/studio/react/overview/) confirms embedded reports and drag-and-drop/cross-filtering over application data. The current hackathon AG Grid offer page was not accessible during this check; the earlier 45-day trial note is historical and must be rechecked, not activated immediately.
+
+Before installation: review free/sponsor license, allowed redistribution in public source, access through judging, compatibility with Next16/React19 and mobile/keyboard behavior. Keep monetary authority and integer-cent totals on the server; the dashboard does not edit payment status, approve work or bypass rules. Use an owner-authorized data projection that excludes keys, client-link tokens and unnecessary notes/contact fields. Keep the analytics AI assistant disabled until its provider/cost/data flow is reviewed; drag-and-drop reports need not consume model tokens. A planned integration is not prize eligibility or actual sponsor use.
+
 October 7 Render follow-up: owner confirms credits not yet claimed; no activation. Mounted-disk backup/recovery tooling is now prepared and verified locally with fictional outside-checkout storage (87 tests/typecheck). This supersedes the earlier missing-hosted-maintenance implementation note, but actual Linux Render execution, persistent storage and judging access remain unverified. No sponsor balance or billing terms have been confirmed. Use DATABASE_RECOVERY.md for the guarded cloud-shell commands only after approved hosting; further Elastic usage remains paused.
 
 October 7 Render preparation: review-only render-blueprint.example.yaml, guarded npm start:render and /api/health now support a concrete hosting plan. RENDER_DEPLOYMENT.md records persistent disk, owner access, paused AI, credit/cost and judging continuity checkpoints. No Render resource/account connection, credit redemption or hosted verification has occurred. Current SQLite requires a disk-backed paid compute service if choosing Render; free ephemeral hosting is not a durable deployment. Actual allowances/billing and owner approval are required before activation. Existing local DB maintenance tools are not yet verified against the proposed hosted /var/data path. Postman remains actual verified sponsor use; Elastic remains actual live adapter use with further calls paused.
