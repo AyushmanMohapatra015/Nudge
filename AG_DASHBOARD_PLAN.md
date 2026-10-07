@@ -35,6 +35,26 @@ A useful Community grid is a free fallback, not proof of AG Studio integration o
 
 ## Planned experience and next step
 
+### Owner-requested sponsor guidance: implementation targets
+
+The supplied sponsor brief is the design target for this workstream. Build embedded AG Studio reporting with a clear Nudge identity; Community Grid remains a fallback, not the intended award-focused experience. This is a plan, not completed integration.
+
+| Sponsor direction | Nudge implementation target | Required demonstration |
+| --- | --- | --- |
+| Embedded dashboards, grids and charts | One owner Studio page using the authenticated local analytics snapshot, with invoice details, ageing and approved-change views | Real package/API use; totals match the backend and simulated versus sandbox mode is visible |
+| Self-service layouts and cross-filtering | Owner can add/rearrange widgets and filter issued balances by status/age | A filter changes relevant widgets coherently; subset totals labelled; no change to stored invoices or approvals |
+| Custom widgets | Nudge-specific widget for approved changes awaiting acceptance, with value/count and reviewed navigation into the existing Changes view | Defined through Studio's custom-widget API; empty state, stale-version protection and keyboard navigation verified |
+| Theming and polish | Preserve green palette, apply Studio theme, readable financial labels, intentional spacing and a usable narrow-screen view | Inspect normal/forced-colors/mobile views; retain the existing workflow and visible focus |
+| Studio Agent Framework | A custom Nudge analytics agent delegates report/query work to Studio's built-in agents or a reviewed harness | One actual bounded request such as “Show overdue invoices by age” queries this dataset or builds a working report; record provider/usage and distinguish mocks |
+
+Official implementation references: [Quick Start](https://www.ag-grid.com/studio/react/quick-start/), [Custom Widgets](https://www.ag-grid.com/studio/react/custom-widgets/), [Agent Overview](https://www.ag-grid.com/studio/react/ai-agents/), and [Agent Framework introduction](https://www.ag-grid.com/blog/introducing-the-ag-studio-agent-framework/). Custom widgets can use application-defined React components; the agent framework supports application agent configuration. Choose exact APIs after reviewing the installed version; do not treat pseudocode or an uninstalled framework as evidence.
+
+Agent guardrails are tool permissions and enforced server checks, not instructions alone: dashboard tools may inspect the minimal snapshot and change report configuration, but never approve scope, alter monetary records, send invoices/reminders or execute payments. Analytics receives no private agreement/request/identity fields. Keep financial totals exact and supplied by the backend; model prose must not replace them. Live agent work remains pending allowance/data-flow review; no model calls are authorised by this design update. Do not claim existing Elastic scope-agent access automatically supports Studio's harness.
+
+The sample sponsor projects are inspiration, not required features. Keep our differentiator: clause-grounded, human-reviewed scope changes linked to client acceptance and PayPal. A “friendly scoreboard” can improve presentation without adding fabricated clients, revenue or a second reminder engine. AG Studio reporting supports this journey rather than replacing it with a generic dashboard.
+
+Build sequence: confirm trial/licence terms; install and prove a minimal Studio component with real local data; add custom widget/theme/layout/filter behavior; verify accessibility/navigation; then implement and measure the bounded Studio agent only after usage approval. Document actual versus planned sponsor use and keep core review-plan checkpoints open throughout.
+
 Owner questions: which issued balances are overdue, which records need status/date review, and which approved changes await client acceptance? Start with invoice status/ageing filters and record inspection. Consider Studio self-service reporting once licence coverage and usefulness are established. Current storage is one project per mode; this work does not create a multi-client portfolio.
 
 Next: review these data definitions and select the Community/Studio licence path. When wiring it, reuse owner authentication/quotas, no-store responses and generic errors; label stale local status and filtered subset totals. Backend integer-cent totals remain authoritative. Keep analytics AI disabled until its provider/data/cost flow clears the existing usage gate.
