@@ -8,7 +8,23 @@ Check whether a person independently agrees with the scope decision, whether eac
 
 This complements [FREELANCER_VALIDATION.md](FREELANCER_VALIDATION.md), which examines real workflow usefulness. A desk review is not a user interview, measured time saving, legal assessment, or held-out model evaluation. These cases have influenced prompt development; some saved outputs use earlier prompt revisions. Review provenance is in [SCOPE_CHALLENGE_VERIFICATION.md](SCOPE_CHALLENGE_VERIFICATION.md).
 
-## Two passes
+## Ready-to-run owner checklist
+
+Three blank private worksheets now exist at `data/human-review/R01.md`, `R02.md` and `R03.md`, plus a pending `SUMMARY.md`. Each worksheet has all six case IDs, with the entire first pass before the second pass. They contain no findings and are excluded from Git through `data/`. Use two or three independent reviewers familiar with fixed-price web projects; availability is a target, not a claim that anyone participated.
+
+1. Invite people yourself using the message below. Allow roughly 20–30 minutes initially, and let them take longer or skip cases; this is a scheduling estimate, not a measured review duration.
+2. Ask permission for private notes and anonymized findings. Assign a reviewer ID and record prior exposure. Send only `evaluation/HUMAN_SCOPE_CASES.md` and a blank worksheet initially; don't send the entire repository or this owner guide, which links to the model answers.
+3. Have the reviewer complete and save **all six first-pass decisions** before showing `evaluation/HUMAN_SCOPE_OUTPUTS.md`. A saved copy of their first-pass notes should remain unchanged when they complete the second pass.
+4. Collect their second-pass assessments. Store returned notes privately under `data/human-review/`; leave names, contacts and real client material out. Preserve disagreement and skipped cases.
+5. Only after actual reviews, fill `SUMMARY.md` with counts and concerns from consenting reviewers. The coding agent can help interpret redacted notes and prioritize fixes once the owner supplies them. Do not substitute another AI's review for independent human findings.
+
+Suggested invitation for the owner to send manually:
+
+> Hi! Would you be willing to review six fictional website change requests against a short project agreement? First, I'd ask for your own scope decisions; afterward, I'd show saved AI responses for you to assess. It should take about 20–30 minutes, with no account, payment or real client information needed. With your permission, I'll keep private notes and summarize anonymous findings for a hackathon project. You can skip questions or decline. Thank you!
+
+No invitation has been sent by the coding agent. No reviewers or responses have been invented. This review can proceed while Elastic usage is paused; Postman workflow evidence remains separate from semantic human assessment.
+
+## Review protocol
 
 The owner can invite a freelance designer or another person familiar with fixed-price project scope to review the packet. The coding agent has not contacted anyone. A reviewer who helped develop the prompts should be recorded as a collaborator rather than independent. Participation and written notes are optional; record no names, contact details or real client documents.
 
@@ -37,7 +53,7 @@ An unsafe extra deliverable, unsupported definite classification, fabricated cit
 
 ## Blank private worksheet
 
-Copy this block into a new file under ignored `data/human-review/`. Do not overwrite the original model receipts or publish raw reviewer notes. Use a non-identifying reviewer ID such as R01. No completed review or folder has been created by this preparation task.
+Use the prepared private worksheets, or copy this block into a new file under ignored `data/human-review/`. Do not overwrite the original model receipts or publish raw reviewer notes. Use a non-identifying reviewer ID such as R01. The folder and blank worksheets exist; no completed review has been collected.
 
 ```text
 Reviewer ID:
