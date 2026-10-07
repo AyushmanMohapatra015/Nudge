@@ -20,6 +20,8 @@ The owner supplied these sponsor descriptions for planning. They are roles, not 
 
 ## AG Grid / AG Studio priority
 
+October7 follow-up: sponsor page now verified, links45-day Studio trial and emphasizes custom widgets/theming/layout plus agent framework. Use AG_SPONSOR_SETUP.md for manual claim/expiry/licence checks. Intended path is Studio; Community fallback retained, no component or trial active. Analytics owner endpoint now prepared and verified locally, all91 tests/typecheck/build and Postman31/50 pass. Earlier inaccessible-page notes are superseded; participant coverage/judging and paid-model limits remain unverified.
+
 October 7 preparation: AG_DASHBOARD_PLAN.md records official Community/Enterprise/Studio licence distinctions, React/version alignment and the new tested minimal analytics projection. All 90 server tests/typecheck pass; no packages, trials, licences or UI integration yet. Community is a free production fallback; Studio deployment needs its own licence. Sponsor-specific terms remain unverified. Preserve core review-plan priorities while preparing this owner-requested dashboard.
 
 Build a useful owner analytics experience around the current workflow: invoice status/outstanding balances, overdue age, approved extra-work value, and changes awaiting client acceptance. Filters/charts should help choose a next reviewed action and link to its existing record. Do not fabricate paid invoices, predictions, multi-client support or savings just to fill a dashboard.

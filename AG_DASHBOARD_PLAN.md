@@ -2,6 +2,8 @@
 
 October 7, 2026. This owner-priority workstream supports the existing scope-change-to-payment product. It does not replace REVIEW_ACTION_PLAN.md's pending AI, fresh-webhook, human-review or judging-access checkpoints. Independent local preparation can continue while those external checkpoints are pending.
 
+Follow-up: the official sponsor offer is now verified and AG_SPONSOR_SETUP.md gives the manual 45-day trial steps. Studio is the intended licensed path; Community is the free fallback. GET /api/analytics now wraps the projection with existing owner authentication/shared quotas, no-store, local-state labelling and sanitized failures. It reads only the selected mode's existing record and never reconciles or seeds a workspace. All91 server tests/typecheck and isolated build pass; Postman31 requests/50 assertions pass. No AG package/trial/licence activation; participant-specific licence and judging coverage remain pending. Earlier prepared-only/unavailable-page notes below describe the preceding checkpoint.
+
 ## Completed now
 
 `lib/owner-analytics.ts` implements a pure, read-only projection of an already-loaded workspace. It is not connected to a route or UI and does not establish owner authorization. No AG package, account, licence, trial or report builder has been activated.
