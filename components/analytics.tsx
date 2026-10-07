@@ -46,6 +46,7 @@ export default function Analytics({ licenseKey }: { licenseKey?: string }) {
       {(snapshot.totals.statusReviewCount > 0 || snapshot.totals.unknownDueDateCents > 0) && <p role="status">Review {snapshot.totals.statusReviewCount} invoice status discrepancies. Unknown due dates account for {money(snapshot.totals.unknownDueDateCents)} of outstanding balance.</p>}
       <div className="analytics-controls"><h2>Invoice and change reports</h2><button className="btn" aria-pressed={edit} onClick={() => setEdit(value => !value)}>{edit ? 'Finish editing layout' : 'Edit report layout'}</button></div>
       <p className="analytics-note">Report edits stay in this page session. Refreshing the snapshot retains layout; leaving the page resets it. No analytics AI is connected.</p>
+      <p className="analytics-note">Select an ageing-chart bar to filter invoice rows. Select it again, or remove its Cross Filter in Filters, to clear the selection. Workspace totals and change quotes stay unchanged.</p>
       {!licenseKey && <p className="analytics-note">Local licence configuration is pending; Studio may display evaluation warnings. Hosted use requires a valid licence.</p>}
       {!snapshot.invoices.length && !snapshot.changes.length && <p role="status">No invoice or change records yet. Return to the workspace to follow the approval workflow.</p>}
       <section className="analytics-studio" aria-label="AG Studio report builder"><StudioCanvas snapshot={snapshot} edit={edit} licenseKey={licenseKey} /></section>

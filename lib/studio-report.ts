@@ -27,9 +27,9 @@ export const initialReport: AgReportState<NudgeStudioRegistry> = {
   selectedPageId: 'balances', panels: { filters: { collapsed: true }, data: { collapsed: true } },
   pages: [{ id: 'balances', widgets: {
     pending: { type: 'nudge-pending-changes', dataMapping: {} },
-    invoices: { type: 'grid', dataMapping: { cols: [{ id: 'invoices.record' }, { id: 'invoices.status' }, { id: 'invoices.age' }, { id: 'invoices.receivableCents' }, { id: 'invoices.dueDate' }] } },
-    ageing: { type: 'bar-chart-grouped', dataMapping: { categoryKey: [{ id: 'invoices.age' }], valueKey: [{ id: 'invoices.receivableUsd', aggregation: 'sum' }] } },
-    changes: { type: 'grid', dataMapping: { cols: [{ id: 'changes.record' }, { id: 'changes.status' }, { id: 'changes.approvedCents' }] } },
+    invoices: { type: 'grid', format: { crossFilter: 'filter' }, dataMapping: { cols: [{ id: 'invoices.record' }, { id: 'invoices.status' }, { id: 'invoices.age' }, { id: 'invoices.receivableCents' }, { id: 'invoices.dueDate' }] } },
+    ageing: { type: 'bar-chart-grouped', format: { crossFilter: 'highlight' }, dataMapping: { categoryKey: [{ id: 'invoices.age' }], valueKey: [{ id: 'invoices.receivableUsd', aggregation: 'sum' }] } },
+    changes: { type: 'grid', format: { crossFilter: 'none' }, dataMapping: { cols: [{ id: 'changes.record' }, { id: 'changes.status' }, { id: 'changes.approvedCents' }] } },
   }, widgetLayout: {
     pending: { xTrack: 0, yTrack: 0, xSpan: 24, ySpan: 16 },
     invoices: { xTrack: 0, yTrack: 16, xSpan: 24, ySpan: 14 },
