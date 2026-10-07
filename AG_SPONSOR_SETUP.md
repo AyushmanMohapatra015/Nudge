@@ -1,5 +1,7 @@
 # AG Studio sponsor access: verified offer and manual steps
 
+October7 owner update: licence arrived; owner confirms45-day trial/full dashboard embedding access, with no displayed expiry date. Do not repeat signup or start another trial. AG_STUDIO_INTEGRATION.md gives the new private NUDGE_AG_STUDIO_LICENSE setup. Key was not shared/read/installed by this agent; actual validation, exact expiry and judging coverage remain unverified. Packages and initial local Studio integration now verified, superseding earlier prepared-only status below.
+
 October 7, 2026. No trial/account/licence activation, payment method, package installation or external message was performed during this research.
 
 ## Verified offer and choice

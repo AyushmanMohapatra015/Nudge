@@ -37,6 +37,12 @@ The committed lockfile is required for `npm ci`. Do not copy another developer's
 
 You can also create an invoice for the accepted original agreement from Payments. Original work and additional work have separate invoices to avoid billing a change as part of the original price.
 
+## Explore AG Studio analytics
+
+Open the workspace first, then choose **Analytics**. The embedded Studio page shows recorded invoice balances, ageing and change quotes; report editing does not alter financial records. It reads the protected local analytics snapshot without checking PayPal or calling AI. In sandbox mode the existing owner session is required.
+
+AG Studio is a commercial dependency with local evaluation support. For a licensed hosted demo, privately configure `NUDGE_AG_STUDIO_LICENSE` in `.env.local` and restart; never commit its value. The browser runtime licence is intentionally visible to the vendor component. Licence receipt is owner-confirmed, but exact expiry/judging coverage and local validation remain pending. See [AG_STUDIO_INTEGRATION.md](AG_STUDIO_INTEGRATION.md) for setup, verification and remaining custom-widget/agent work.
+
 ## Connect actual PayPal sandbox and AI
 
 Real AI requests are **disabled by default**, even with configured keys. Leave `NUDGE_AI_ENABLED=false` while sponsor allowance is unresolved. Only set it to `true` locally after confirming provider access, usage allowance and the scope of the first test, then restart the server. The owner UI shows paused usage and the server rejects attempts to bypass it. This switch is not a token/dollar cap: provider controls and consumption review are still required. PayPal sandbox operation and credential-free simulation do not depend on this AI flag.
