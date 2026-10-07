@@ -1,21 +1,37 @@
 'use client';
 import { useMemo } from 'react';
 import { AgStudio, AgStudioProvider, createWidgets } from 'ag-studio-react';
-import { studioTheme, type AgWidgetsConfig } from 'ag-studio';
+import { studioTheme, type AgWidgetsConfig, type AgWidgetToolbarItem } from 'ag-studio';
 import type { OwnerAnalytics } from '@/lib/owner-analytics';
 import { initialReport, studioData } from '@/lib/studio-report';
 import type { NudgeStudioRegistry, PendingChangesDefinition } from '@/lib/studio-registry';
 import { PendingChangesContext, StudioPendingChanges } from './studio-pending-changes';
 
+// Keep the built-in actions by ID, with readable accessible names.
+const toolbar: AgWidgetToolbarItem[] = [
+  { id: 'duplicate', type: 'button', label: 'Duplicate widget', mode: ['edit'], showOnNoData: true },
+  { id: 'delete', type: 'button', label: 'Delete widget', mode: ['edit'], showOnNoData: true },
+];
 const pendingChanges: PendingChangesDefinition = {
   id: 'nudge-pending-changes', label: 'Changes awaiting client acceptance', comp: StudioPendingChanges,
   form: () => [], defaultState: { dataMapping: {} },
-  defaultSize: { width: 24, height: 16 }, minSize: { width: 12, height: 16 },
+  // Widget definitions use pixels; report layouts use track counts.
+  defaultSize: { width: 520, height: 280 }, minSize: { width: 280, height: 240 },
+  toolbar,
 };
-const widgets = (defaults: AgWidgetsConfig<NudgeStudioRegistry>) => createWidgets<NudgeStudioRegistry>({
-  additionalTypes: [pendingChanges],
-  menu: [...defaults.menu, { label: 'Nudge', widgetIds: ['nudge-pending-changes'] }],
-});
+const widgets = (defaults: AgWidgetsConfig<NudgeStudioRegistry>): AgWidgetsConfig<NudgeStudioRegistry> => {
+  const config = createWidgets<NudgeStudioRegistry>({
+    additionalTypes: [pendingChanges],
+    menu: [...defaults.menu, { label: 'Nudge', widgetIds: ['nudge-pending-changes'] }],
+  });
+  return { ...config, widgets: config.widgets.map(definition => {
+    if (definition.id !== 'grid' && definition.id !== 'bar-chart-grouped') return definition;
+    const existing = (definition.toolbar ?? []).filter(item =>
+      (typeof item === 'string' ? item : item.id) !== 'duplicate' && (typeof item === 'string' ? item : item.id) !== 'delete');
+    return { ...definition, toolbar: [...existing.map(item => typeof item === 'string' ? item :
+      { ...item, label: item.id === 'export' ? 'Export widget data' : item.id === 'download' ? 'Download chart image' : item.label }), ...toolbar] };
+  }) };
+};
 
 const theme = studioTheme.withParams({ backgroundColor: '#ffffff', foregroundColor: '#263d33',
   accentColor: '#2b6448', browserColorScheme: 'light', fontFamily: 'system-ui, sans-serif' });
