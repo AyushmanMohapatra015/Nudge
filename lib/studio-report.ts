@@ -1,11 +1,12 @@
 import type { AgDataSourcesDefinition, AgReportState } from 'ag-studio';
 import type { OwnerAnalytics } from './owner-analytics';
+import type { NudgeStudioRegistry } from './studio-registry';
 import { money } from './domain';
 
 // Financial totals/grid values stay in cents. A separate USD chart measure is presentation only.
 const monetaryField = (id: string, name: string) => ({ id, name, format: 'currencyFormat' as const,
   description: 'Integer USD cents. Quote value is not a payment.', createValueFormatter: () => (value: number) => money(value) });
-export function studioData(snapshot: OwnerAnalytics): AgDataSourcesDefinition {
+export function studioData(snapshot: OwnerAnalytics): AgDataSourcesDefinition<NudgeStudioRegistry> {
   return { sources: [
     { id: 'invoices', name: 'Invoice balances', fields: [
       { id: 'record', name: 'Invoice', format: 'textFormat' }, { id: 'status', name: 'Recorded status', format: 'textFormat' },
@@ -22,15 +23,17 @@ export function studioData(snapshot: OwnerAnalytics): AgDataSourcesDefinition {
     ], data: snapshot.changes.map(row => ({ record: `Change ${row.recordIndex + 1}`, status: row.status, approvedCents: row.approvedCents })) },
   ] };
 }
-export const initialReport: AgReportState = {
+export const initialReport: AgReportState<NudgeStudioRegistry> = {
   selectedPageId: 'balances', panels: { filters: { collapsed: true }, data: { collapsed: true } },
   pages: [{ id: 'balances', widgets: {
+    pending: { type: 'nudge-pending-changes', dataMapping: {} },
     invoices: { type: 'grid', dataMapping: { cols: [{ id: 'invoices.record' }, { id: 'invoices.status' }, { id: 'invoices.age' }, { id: 'invoices.receivableCents' }, { id: 'invoices.dueDate' }] } },
     ageing: { type: 'bar-chart-grouped', dataMapping: { categoryKey: [{ id: 'invoices.age' }], valueKey: [{ id: 'invoices.receivableUsd', aggregation: 'sum' }] } },
     changes: { type: 'grid', dataMapping: { cols: [{ id: 'changes.record' }, { id: 'changes.status' }, { id: 'changes.approvedCents' }] } },
   }, widgetLayout: {
-    invoices: { xTrack: 0, yTrack: 0, xSpan: 24, ySpan: 14 },
-    ageing: { xTrack: 0, yTrack: 14, xSpan: 12, ySpan: 14 },
-    changes: { xTrack: 12, yTrack: 14, xSpan: 12, ySpan: 14 },
+    pending: { xTrack: 0, yTrack: 0, xSpan: 24, ySpan: 16 },
+    invoices: { xTrack: 0, yTrack: 16, xSpan: 24, ySpan: 14 },
+    ageing: { xTrack: 0, yTrack: 30, xSpan: 12, ySpan: 14 },
+    changes: { xTrack: 12, yTrack: 30, xSpan: 12, ySpan: 14 },
   } }],
 };

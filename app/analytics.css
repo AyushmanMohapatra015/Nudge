@@ -4,3 +4,11 @@
 .analytics-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px}.analytics-studio{height:780px;width:100%;min-width:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:white;margin-top:16px}.analytics-page .error-banner{display:flex;flex-wrap:wrap;gap:12px}.analytics-page .mode-banner{margin:16px 0}.analytics-page button{flex-shrink:0}
 @media(max-width:800px){.analytics-page{padding:20px}.analytics-totals{grid-template-columns:repeat(2,minmax(0,1fr))}.analytics-heading,.analytics-controls{flex-wrap:wrap}.analytics-studio{height:900px}.analytics-heading h1{font-size:26px}}
 @media(max-width:400px){.analytics-page{padding:12px}.analytics-totals{grid-template-columns:1fr}.analytics-page .btn{white-space:normal}}
+.studio-pending-changes { box-sizing: border-box; height: 100%; overflow: auto; padding: 18px 22px; background: #f3f8f4; color: #263d33; border: 1px solid #dce8df; border-radius: 12px; }
+.studio-pending-changes h2 { margin: 0 0 6px; font-size: 18px; }
+.studio-pending-changes p { margin: 8px 0; line-height: 1.5; }
+.studio-pending-changes .studio-pending-value { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.studio-pending-value span { font-size: 14px; font-weight: 400; }
+.studio-pending-scope, .studio-pending-note { font-size: 12px; }
+.studio-pending-changes a { display: inline-block; padding: 8px 0; color: #245a3c; text-underline-offset: 3px; font-weight: 600; }
+.studio-pending-changes a:focus-visible { outline: 3px solid #2b6448; outline-offset: 3px; }
