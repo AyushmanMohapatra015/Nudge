@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October 7 owner-priority clarification: AG Grid / AG Studio is a relevant planned analytics workstream, not a replacement for the core evidence order below. While model usage and hosting are gated, independent preparation now includes a minimal read-only integer-cent owner analytics projection (AG_DASHBOARD_PLAN.md). It is tested locally but not connected to an authenticated route or installed AG component. Sponsor licensing, usefulness and judging access precede Studio activation; no new multi-client scope or live requests are authorized by this checkpoint.
+
 October 4, 2026. Planning update only: no application changes, provider calls, spending, deployment or new payment fixtures.
 
 October 7 current checkpoint: live Elastic adapter and targeted development regressions are verified with the limitations in SCOPE_CHALLENGE_VERIFICATION.md. Owner requests offline work while reviewing trial usage/billing; live AI stays paused. HUMAN_SCOPE_REVIEW.md now provides a two-pass independent review packet from saved fictional analyses, with no model requests needed. Reviewer sessions and findings are pending. Historical mock-only and next-call notes below are superseded by this checkpoint; do not restart live verification before the usage gate clears.

@@ -20,6 +20,8 @@ The owner supplied these sponsor descriptions for planning. They are roles, not 
 
 ## AG Grid / AG Studio priority
 
+October 7 preparation: AG_DASHBOARD_PLAN.md records official Community/Enterprise/Studio licence distinctions, React/version alignment and the new tested minimal analytics projection. All 90 server tests/typecheck pass; no packages, trials, licences or UI integration yet. Community is a free production fallback; Studio deployment needs its own licence. Sponsor-specific terms remain unverified. Preserve core review-plan priorities while preparing this owner-requested dashboard.
+
 Build a useful owner analytics experience around the current workflow: invoice status/outstanding balances, overdue age, approved extra-work value, and changes awaiting client acceptance. Filters/charts should help choose a next reviewed action and link to its existing record. Do not fabricate paid invoices, predictions, multi-client support or savings just to fill a dashboard.
 
 AG Grid tables, AG Charts and AG Studio are related but distinct components. Prefer Studio when self-service report building is useful, and Grid for detailed record inspection; evaluate exactly which package/license the sponsor benefit covers. The [official React Studio overview](https://www.ag-grid.com/studio/react/overview/) confirms embedded reports and drag-and-drop/cross-filtering over application data. The current hackathon AG Grid offer page was not accessible during this check; the earlier 45-day trial note is historical and must be rechecked, not activated immediately.
