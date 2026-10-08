@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Export verification — October 8
+
+Actual CSV/PNG downloads verified: exact projected columns, USD dollars rather than cents, $300.01 quote precision, selected/page-filtered invoice rows, highlight-mode chart CSV retaining both groups, independent quote exports, empty export suppression and reset. Meaningful enabled titles fix the initial widgets' `.csv` → `csv.txt` filename issue; enabled caption/title make PNGs self-describing. Page guidance explains export scope. Complete CSV serialization and absence of client identity/token/internal IDs are checked; stored state and audit remain unchanged. Final ten Studio browser checks/typecheck/isolated build/Postman31/50 pass. PNG signature/dimensions and visual content checked. See [STUDIO_EXPORT_REVIEW.md](STUDIO_EXPORT_REVIEW.md) for scope/limits. No vendor patches or provider calls. Next bounded work is offline Studio-agent guardrails; existing AI, accessibility and hosted licence/core gates remain active.
+
 ## Accessibility checkpoint — October 8
 
 Added keyboard skip navigation, refresh announcements/focus recovery, internally scrollable report canvas at narrow widths, and native complete-snapshot tables. Two new browser checks and seven existing Studio checks pass; production build/Postman31/50 pass. View/table scans find no violations in exercised states. Edit mode retains two explicitly tracked vendor nested-button defects; no vendor patches or scan exclusions. Real assistive-technology, complete keyboard chart/layout and touch review remain pending. See [the review](STUDIO_ACCESSIBILITY_REVIEW.md) for precise evidence, limitations and cleanup. No provider calls. Next local task: export contents/units/filter verification, with existing AI and hosting checkpoints retained.
