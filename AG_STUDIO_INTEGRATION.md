@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Accessibility checkpoint — October 8
+
+Added keyboard skip navigation, refresh announcements/focus recovery, internally scrollable report canvas at narrow widths, and native complete-snapshot tables. Two new browser checks and seven existing Studio checks pass; production build/Postman31/50 pass. View/table scans find no violations in exercised states. Edit mode retains two explicitly tracked vendor nested-button defects; no vendor patches or scan exclusions. Real assistive-technology, complete keyboard chart/layout and touch review remain pending. See [the review](STUDIO_ACCESSIBILITY_REVIEW.md) for precise evidence, limitations and cleanup. No provider calls. Next local task: export contents/units/filter verification, with existing AI and hosting checkpoints retained.
+
 ## Chart-click cross-filtering — October 7
 
 Initial report now explicitly configures the invoice grid for cross-filtering, the ageing chart for cross-highlighting, and the unrelated quote grid to ignore cross-filter selections. A visible instruction explains selection and clearing. Clicking an ageing bar narrows invoice rows; clicking the same bar again or deleting the Cross Filter card clears it. Page filters remain independent. Full-workspace totals and the custom pending-acceptance summary continue to use server-calculated cents and are unaffected by report selections.
