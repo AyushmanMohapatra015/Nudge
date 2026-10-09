@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Agent definition preparation — October 9
+
+Prepared an inactive, type-checked snapshot analyst definition with one read-only totals tool. Runtime argument/name/version checks, numeric/provenance validation, cancellation, explicit privacy projection and fixed errors are covered by five new tests. All97 offline tests and TypeScript pass; no website registration, harness/model/financial access or new live-agent claim. See [STUDIO_AGENT_PREPARATION.md](STUDIO_AGENT_PREPARATION.md). Next actual runner/harness verification with scripted offline responses; live usage remains paused under the allowance checkpoint. Existing accessibility/licence/core gates remain open.
+
 ## Export verification — October 8
 
 Actual CSV/PNG downloads verified: exact projected columns, USD dollars rather than cents, $300.01 quote precision, selected/page-filtered invoice rows, highlight-mode chart CSV retaining both groups, independent quote exports, empty export suppression and reset. Meaningful enabled titles fix the initial widgets' `.csv` → `csv.txt` filename issue; enabled caption/title make PNGs self-describing. Page guidance explains export scope. Complete CSV serialization and absence of client identity/token/internal IDs are checked; stored state and audit remain unchanged. Final ten Studio browser checks/typecheck/isolated build/Postman31/50 pass. PNG signature/dimensions and visual content checked. See [STUDIO_EXPORT_REVIEW.md](STUDIO_EXPORT_REVIEW.md) for scope/limits. No vendor patches or provider calls. Next bounded work is offline Studio-agent guardrails; existing AI, accessibility and hosted licence/core gates remain active.
