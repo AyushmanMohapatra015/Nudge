@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Offline runner and harness verification — October 9
+
+Six browser scenarios now exercise the prepared analyst through a real Studio instance, createAiHarness and clientToolRunner using scripted responses. Automatic/read/request/resume, stale/invalid/unknown rejection, exact three-turn termination and cooperative cancellation pass. Each asserts zero network attempts/runtime errors and unchanged fixture totals; sessions/harness/Studio are torn down, and thread deletion is checked. Typecheck passes. esbuild0.28.2 is a direct pinned development dependency for the fixture bundle; no website/model registration or runtime dependency added. See STUDIO_AGENT_PREPARATION.md for standalone repeat command and limitations. Prior97 offline tests and Analytics verification retained. Next owner-authenticated mocked transport/usage limits; no live model calls while allowance hold remains.
+
 ## Agent definition preparation — October 9
 
 Prepared an inactive, type-checked snapshot analyst definition with one read-only totals tool. Runtime argument/name/version checks, numeric/provenance validation, cancellation, explicit privacy projection and fixed errors are covered by five new tests. All97 offline tests and TypeScript pass; no website registration, harness/model/financial access or new live-agent claim. See [STUDIO_AGENT_PREPARATION.md](STUDIO_AGENT_PREPARATION.md). Next actual runner/harness verification with scripted offline responses; live usage remains paused under the allowance checkpoint. Existing accessibility/licence/core gates remain open.

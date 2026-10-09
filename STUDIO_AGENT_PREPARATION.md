@@ -1,5 +1,25 @@
 # Studio snapshot analyst: offline preparation
 
+## Actual runner and harness verification — October 9
+
+The prepared definition now has offline integration evidence through the installed Studio3.0.0 runtime. `tests/fixtures/studio-agent.ts` creates a real native Studio instance, `createAiHarness` and `clientToolRunner`. A scripted event generator substitutes for a model; it is test code, not a website feature. No built-in agent or additional tool is offered to the scripted turn.
+
+Six browser journeys pass: initial automatic totals read, requested tool execution and resumed response; stale-version rejection; extra-argument rejection; unknown send-invoice tool rejection; a repeating loop stopped after exactly three turns; and cooperative cancellation with no later requested tool execution. The automatic preflight read is separate from turns: a three-turn loop executes at most four reads in this fixture. Successful results reach the subsequent turn, and failed results reach it as errors. Unknown-tool errors are plain text, whereas the custom tool returns structured errors; tests assert both actual formats. The turn-limit error is rendered as a readable instruction to narrow the request.
+
+Each scenario blocks all browser network requests and asserts no request attempts or browser runtime errors. The normal case also deletes its harness thread; every case closes its session, disposes the harness and destroys Studio. Fictional snapshot totals stay unchanged; the stale fixture deliberately increments only its version to exercise rejection. No application server, database, local `.env`, licence key or provider settings are loaded. Cancellation evidence is for a scripted generator that honours the abort signal, not for an uncooperative remote service.
+
+Run after `npm ci`, with Edge installed (or set `NUDGE_BROWSER_PATH` to a supported browser executable):
+
+```powershell
+node node_modules/@playwright/test/cli.js test --config playwright.studio-agent.config.ts
+```
+
+The standalone configuration starts no web server. esbuild0.28.2 is declared as a pinned development dependency to bundle the fixture; it was already installed transitively, and no runtime dependency or website registration was added. Bundles and traces stay in ignored `data/studio-agent-results/`. Six final browser journeys and TypeScript pass; the prior97 offline tests and Analytics build/browser evidence remain baseline results, not new runs this checkpoint.
+
+This establishes actual framework/session/tool interoperability, not live model quality, useful natural-language reasoning, prompt-injection resistance or a cost ceiling. AI remains paused. Next bounded backend task: design and test an owner-authenticated transport with mocked responses and explicit request/usage limits before considering any live connection. Preserve allowance, accessibility, licensing/hosting, fresh webhook and research checkpoints.
+
+The initial definition-only checkpoint below describes the preceding stage; its statement that harness execution was unverified is superseded by these six offline tests.
+
 October 9, 2026. `lib/studio-analyst.ts` prepares a definition against the installed AG Studio3.0.0 `AgAiAgentDefinition` and `AgAiTool` contracts. It is not imported by the website, registered with a harness, or connected to a model. Existing Analytics remains unchanged.
 
 The intended first experience is explaining stored invoice and quote totals with their timestamp and provenance. Dashboard creation/delegation can follow a separately reviewed permission design; this first definition cannot modify reports or financial records.
