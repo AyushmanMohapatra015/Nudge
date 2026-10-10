@@ -48,7 +48,16 @@ export async function analyze(request: string, agreement: Agreement): Promise<An
   let parsed: ReturnType<typeof analysisSchema.parse>;
   try {
     const data = await response.json();
-    const tool = data.content?.find((b: { type: string; name?: string }) => b.type === 'tool_use' && b.name === 'report_scope');
+    // A report must be the sole tool outcome. Never salvage a valid first report
+    // from a truncated response or one requesting additional tool authority.
+    if ('stop_reason' in data && data.stop_reason !== 'tool_use') throw new Error('Incomplete scope outcome.');
+    if (!Array.isArray(data.content) || data.content.some((b: unknown) =>
+      !b || typeof b !== 'object' || !('type' in b) ||
+      (b.type !== 'text' && b.type !== 'tool_use') ||
+      (b.type === 'tool_use' && (!('name' in b) || b.name !== 'report_scope')))) throw new Error('Unsupported scope outcome.');
+    const reports = data.content.filter((b: { type: string }) => b.type === 'tool_use');
+    if (reports.length !== 1) throw new Error('Expected one scope report.');
+    const tool = reports[0];
     parsed = analysisSchema.strict().parse(tool?.input);
   } catch { throw new Error('AI returned invalid scope analysis. Review manually; no automatic retry.'); }
   const result = validateReferences(parsed, agreement);

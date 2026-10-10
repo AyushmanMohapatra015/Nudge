@@ -1,5 +1,13 @@
 # AI authority boundary regression
 
+## Fallback provider outcome checks — October 10
+
+The Anthropic/Astropods parser previously selected the first `report_scope` tool result without checking for additional tool requests, duplicate reports or an explicit incomplete stop reason. `lib/ai.ts` now requires exactly one reporting tool, rejects other tool/block types and rejects a present stop reason other than `tool_use`. Ordinary text accompanying the sole report is permitted; it is not used as scope data. An omitted stop reason remains compatible with existing gateway envelopes, so omission alone does not establish provider completion. The strict five-field report/reference checks still apply.
+
+`tests/ai-outcome.test.ts` exercises both providers with mocked truncation, pause, refusal, end-turn/null reasons, duplicate reports, foreign tools in either order, server tools, null blocks and missing reports. Each rejection makes one mocked request, exposes a fixed error and performs no retry or simulation fallback. Single valid reports with an omitted reason and explicit tool-use completion remain accepted. These checks reject unsafe returned outcomes locally; they cannot undo provider-side work or prove the remote provider performed no extra action. The requested API tool list still contains only the reporting tool.
+
+All121 offline tests and TypeScript pass after this implementation change. Isolated production build/Postman verification is recorded in the newest handoff checkpoint once completed. Elastic configuration, live-use flags, ordinary workspace, credentials and licence remain unchanged; no real provider calls were made.
+
 October 10, 2026. Two additional offline regressions in `tests/elastic-ai.test.ts` verify the existing scope-analysis boundary. Application implementation is unchanged. All responses are injected fictional mocks; no Elastic, PayPal or other remote service was called.
 
 ## Verified behavior
