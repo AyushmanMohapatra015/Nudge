@@ -1,5 +1,9 @@
 # Studio snapshot analyst: offline preparation
 
+## Backend guard checkpoint — October 10
+
+STUDIO_AGENT_TRANSPORT.md records the new owner/origin/sandbox-only POST handler and mock-tested transport limits. Production registers no adapter; flags cannot enable it. Shared summary validation now serves both the tool and transport. All105 offline tests/typecheck, six harness and four Analytics/HTTP checks, final isolated build and Postman31/50 pass. Current transport returns a bounded reply contract, not AG-UI events; an offline bridge test is next. Request caps are process-local, and reported-token validation is not a verified spending cap. All live allowance/external checkpoints remain open.
+
 ## Actual runner and harness verification — October 9
 
 The prepared definition now has offline integration evidence through the installed Studio3.0.0 runtime. `tests/fixtures/studio-agent.ts` creates a real native Studio instance, `createAiHarness` and `clientToolRunner`. A scripted event generator substitutes for a model; it is test code, not a website feature. No built-in agent or additional tool is offered to the scripted turn.

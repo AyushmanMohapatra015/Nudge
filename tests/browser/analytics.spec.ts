@@ -1,5 +1,18 @@
 import { test, expect } from '@playwright/test';
 
+test('built dashboard agent endpoint stays disabled in demo mode, rejects cross-site requests and leaves records unchanged', async ({ request }) => {
+  const before = await (await request.get('/api/workspace')).json();
+  expect(before.mode).toBe('demo'); expect(before.aiEnabled).toBe(false);
+  expect(Object.values(before.connections).some(Boolean)).toBe(false);
+  const body = { expectedVersion: before.version, question: 'Explain the stored snapshot totals.' };
+  const held = await request.post('/api/analytics/agent', { data: body });
+  expect(held.status()).toBe(503); expect(held.headers()['cache-control']).toBe('no-store');
+  expect(await held.json()).toEqual({ error: 'Dashboard AI requires an authenticated sandbox workspace.' });
+  const crossSite = await request.post('/api/analytics/agent', { data: body, headers: { origin: 'https://outside.example' } });
+  expect(crossSite.status()).toBe(403); expect(crossSite.headers()['cache-control']).toBe('no-store');
+  expect(await (await request.get('/api/workspace')).json()).toEqual(before);
+});
+
 test('custom Studio widget counts approved quotes and removes them after client acceptance on refresh', async ({ page, request }) => {
   const ownerAction = async (data: Record<string, unknown>) => {
     const response = await request.post('/api/workspace', { data });

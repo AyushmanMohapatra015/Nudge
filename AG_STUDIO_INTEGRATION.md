@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Guarded backend transport — October 10
+
+Added a disconnected owner-authorized sandbox-only /api/analytics/agent POST endpoint and reusable transport factory tested with mocks. Strict minimal input, server-derived totals/shared validation, version checks, rate/body/deadline limits, retained in-flight lock after timeout, cancellation, bounded replies/usage and sanitized no-retry failures. Production has no adapter or UI connection. All105 offline tests/typecheck, six harness/four Analytics-HTTP checks, final build and Postman31/50 pass. See STUDIO_AGENT_TRANSPORT.md for limits: request caps are not a monetary ceiling, and the reply contract still needs an AG-UI bridge. Next offline runner/transport interoperability, not live AI. Existing allowance/accessibility/licence/core gates remain active.
+
 ## Offline runner and harness verification — October 9
 
 Six browser scenarios now exercise the prepared analyst through a real Studio instance, createAiHarness and clientToolRunner using scripted responses. Automatic/read/request/resume, stale/invalid/unknown rejection, exact three-turn termination and cooperative cancellation pass. Each asserts zero network attempts/runtime errors and unchanged fixture totals; sessions/harness/Studio are torn down, and thread deletion is checked. Typecheck passes. esbuild0.28.2 is a direct pinned development dependency for the fixture bundle; no website/model registration or runtime dependency added. See STUDIO_AGENT_PREPARATION.md for standalone repeat command and limitations. Prior97 offline tests and Analytics verification retained. Next owner-authenticated mocked transport/usage limits; no live model calls while allowance hold remains.
