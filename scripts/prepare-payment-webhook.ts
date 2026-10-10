@@ -5,22 +5,24 @@ import { mode, mutate, mutateOwned, read, requireIdle, log } from '../lib/store'
 import { processingOwner } from '../lib/processing';
 import { createInvoice, syncInvoice } from '../lib/paypal';
 import type { Proposal } from '../lib/domain';
+import { sandboxReferenceInvoiceId } from './sandbox-fixture-config';
 
 export async function preparePaymentWebhookFixture(confirmed: boolean) {
   if (!confirmed) throw Error('Explicit USD 1 sandbox fixture confirmation required.');
   if (mode() !== 'sandbox' || !process.env.PAYPAL_WEBHOOK_ID) throw Error('Active sandbox webhook registration required before creating the fixture.');
+  const referenceId = sandboxReferenceInvoiceId();
   const fixtureId = 'webhook-payment-002';
   const key = randomUUID();
   const snapshot = mutate(s => {
     requireIdle(s);
-    const original = s.invoices.find(i => i.id === '[historical sandbox invoice redacted]');
+    const original = s.invoices.find(i => i.id === referenceId);
     if (s.agreement.title !== 'Sandbox integration test' || !original || original.status !== 'PAID' || original.amountCents !== 1000 || !/^sb-[A-Za-z0-9]+@personal\.example\.com$/.test(original.recipientEmail || '')) throw Error('Existing verified sandbox fixture and generated sandbox buyer required.');
     if (s.invoices.some(i => i.proposalId === fixtureId)) throw Error('Fresh-payment fixture already exists. Use that invoice; creation is blocked.');
     s.processing = { key, operation: 'preparePaymentWebhookFixture', startedAt: new Date().toISOString(), owner: processingOwner() };
     return structuredClone(s);
   });
   try {
-    const buyer = snapshot.invoices.find(i => i.id === '[historical sandbox invoice redacted]')!.recipientEmail!;
+    const buyer = snapshot.invoices.find(i => i.id === referenceId)!.recipientEmail!;
     const proposal: Proposal = { id: fixtureId, request: 'Operator-confirmed fresh sandbox payment webhook test', amountCents: 100, deliverables: ['USD 1.00 sandbox test money only; no real work or goods.'], status: 'accepted', acceptedAt: new Date().toISOString(), analysis: { classification: 'additional', summary: 'Synthetic test fixture. Operator acts as both approvers; no AI analysis or real client acceptance is claimed.', references: [], questions: [], deliverables: ['USD 1.00 sandbox test money only; no real work or goods.'], source: 'simulation' } };
     const invoice = await createInvoice({ ...snapshot.agreement, title: 'SANDBOX ONLY - fresh payment webhook test', clientEmail: buyer }, proposal);
     if (invoice.amountCents !== 100 || !/^INV2-[A-Z0-9-]+$/.test(invoice.id) || invoice.status !== 'DRAFT') throw Error('Unexpected fixture result; review cached sandbox invoice identity before any further action.');

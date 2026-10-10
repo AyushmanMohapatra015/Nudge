@@ -26,6 +26,10 @@ Signed redelivery and deduplication are verified. The missing scenario is a newl
 
 ## Prepared fixture
 
+October 10 source-privacy change: the operator helpers now select their exact previously verified reference invoice from private `NUDGE_SANDBOX_REFERENCE_INVOICE_ID`. The public environment example leaves it empty. Missing/invalid configuration or an invoice that is not the exact eligible paid USD10 sandbox reference stops before network calls. No auto-selection or historical-ID fallback exists. Do not populate it or run either helper merely to test this change; the already-paid fixture remains preserved and no replacement is authorized. At a future separately authorized verification session, retrieve the reference identity privately from the existing local record rather than publishing it.
+
+The older create/send helper `scripts/sandbox-webhook-invoice.ts` additionally requires the explicit `--confirm-sandbox-fixture` flag and does not execute when imported. It can send an invoice when intentionally invoked and is not the draft-only helper below. No operator CLI was executed during this cleanup.
+
 scripts/prepare-payment-webhook.ts prepares exactly one USD 1.00 **draft** for the generated sandbox buyer already recorded on the verified integration fixture. Its stable identity is webhook-payment-002. It requires explicit confirmation, sandbox mode, a configured webhook ID and an idle verified test workspace. It records that approvals are synthetic and that the operator acts in both roles; no real client work or AI interpretation is claimed.
 
 The helper cannot send or pay an invoice. Existing fixture creation is rejected; a cached remote identity survives a lost follow-up response. The local action lock includes process ownership and completion writes require that lock. A configured webhook ID alone is not proof the endpoint is working; the operator must pass the public readiness checks first.

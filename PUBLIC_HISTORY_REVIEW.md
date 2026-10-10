@@ -22,6 +22,8 @@ The helper is bounded to2000 commits,10000 unique blobs,2MiB per blob and64MiB t
 
 ## Metadata decision before public release
 
+October 10 R3b update: expanded source patterns now also detect operational-format invoice IDs and sandbox invoice payment links. A refreshed107-commit review reports repeated historical occurrences of both; these were outside the earlier targeted rules above. Current-source helper/doc cleanup is verified in SANDBOX_FIXTURE_PRIVACY.md, but older copies remain. R2c requires their separate disclosure/remediation review alongside the metadata decision. Do not treat the earlier no-targeted-token finding as a guarantee that history contains no operational details.
+
 R2 investigation is complete; R2b remains open. The owner decides whether this older identity metadata is intended to be public. Do not disclose the address here to make that decision.
 
 If it should be removed, prepare a narrowly scoped author/committer correction using the owner's verified noreply identity. Before execution: commit the reviewed outstanding source work; inventory affected refs and collaborators; create a private recovery backup; record the remote tip for a lease-protected update; review the exact rewritten history and compare source trees. Rewriting an ancestor changes descendant commit IDs. Any forced remote update and collaborator recovery must be explicitly approved before execution. A correction cannot promise removal from all remote caches or copies.

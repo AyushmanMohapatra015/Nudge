@@ -35,7 +35,7 @@ Genuine webhook delivery remains **unverified**. A tunnel hostname is not proof 
 
 ## Read-only preflight: October 4, 2026
 
-PayPal returned an existing INVOICING.INVOICE.SENT event for paid sandbox fixture [historical sandbox invoice redacted]:
+PayPal returned an existing INVOICING.INVOICE.SENT event for a paid sandbox fixture (operational identity retained privately):
 
 `WH-796181837E059390F-4555664192293913Y`
 

@@ -5,10 +5,11 @@ import { preparePaymentWebhookFixture } from '../scripts/prepare-payment-webhook
 import { mutate, read } from '../lib/store';
 
 test('fresh payment fixture needs confirmation and registered sandbox, creates only one draft, and never sends or pays', async () => {
-  const names = ['NUDGE_MODE', 'NUDGE_DB_PATH', 'PAYPAL_WEBHOOK_ID', 'PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'];
+  const names = ['NUDGE_MODE', 'NUDGE_DB_PATH', 'NUDGE_SANDBOX_REFERENCE_INVOICE_ID', 'PAYPAL_WEBHOOK_ID', 'PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'];
   const before = Object.fromEntries(names.map(n => [n, process.env[n]])), fetchBefore = globalThis.fetch;
   Object.assign(process.env, { NUDGE_MODE: 'sandbox', NUDGE_DB_PATH: `./data/payment-fixture-${randomUUID()}.sqlite`, PAYPAL_CLIENT_ID: 'mock-id', PAYPAL_CLIENT_SECRET: 'mock-secret', PAYPAL_MERCHANT_EMAIL: 'merchant@example.com' });
   delete process.env.PAYPAL_WEBHOOK_ID;
+  process.env.NUDGE_SANDBOX_REFERENCE_INVOICE_ID = 'INV2-FICTIONAL-REFERENCE';
   let creates = 0, calls = 0, failDetailsOnce = true;
   globalThis.fetch = async (input, init) => {
     calls++; const url = String(input);
@@ -30,7 +31,7 @@ test('fresh payment fixture needs confirmation and registered sandbox, creates o
     await assert.rejects(preparePaymentWebhookFixture(false), /confirmation/);
     await assert.rejects(preparePaymentWebhookFixture(true), /registration/);
     assert.equal(calls, 0);
-    mutate(s => { s.agreement.title = 'Sandbox integration test'; s.invoices = [{ id: '[historical sandbox invoice redacted]', proposalId: 'base', status: 'PAID', amountCents: 1000, outstandingCents: 0, recipientEmail: 'sb-fictional@personal.example.com', createdAt: '2026-10-04', dueDate: '2026-10-11', reminders: 0 }]; });
+    mutate(s => { s.agreement.title = 'Sandbox integration test'; s.invoices = [{ id: 'INV2-FICTIONAL-REFERENCE', proposalId: 'base', status: 'PAID', amountCents: 1000, outstandingCents: 0, recipientEmail: 'sb-fictional@personal.example.com', createdAt: '2026-10-04', dueDate: '2026-10-11', reminders: 0 }]; });
     process.env.PAYPAL_WEBHOOK_ID = 'mock-registration';
     await assert.rejects(preparePaymentWebhookFixture(true), /PayPal request failed or timed out/);
     assert.equal(read().invoices.length, 1); assert.equal(read().processing, undefined);

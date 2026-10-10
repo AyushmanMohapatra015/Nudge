@@ -20,11 +20,13 @@ export function sourceFindings(path, text) {
     ['sandbox-account', /\bsb-(?!fictional@)[A-Za-z0-9]+@(?:personal|business)\.example\.com\b/],
     ['private-client-url', /(?:https?:\/\/[^\s"'`<>]+)?\/(?:api\/)?client\/(?:[a-f0-9]{48}(?![a-f0-9])|[a-f0-9]{8}-[a-f0-9-]{27,})/i],
     ['temporary-public-tunnel', /https?:\/\/[A-Za-z0-9.-]+\.(?:trycloudflare\.com|ngrok-free\.app|ngrok\.io)\b/i],
+    ['sandbox-payment-url', /https:\/\/www\.sandbox\.paypal\.com\/invoice\/p\/#[A-Za-z0-9]+/i],
+    ['operational-invoice-id', /\bINV2-[A-Z0-9]{4}(?:-[A-Z0-9]{4}){3}\b/],
   ];
   const findings = [];
   text.split(/\r?\n/).forEach((line, index) => {
     for (const [category, pattern] of rules) if (pattern.test(line)) findings.push({ path, line: index + 1, category });
-    if (path === '.env.example' && /^(?:PAYPAL_(?:CLIENT_ID|CLIENT_SECRET|MERCHANT_EMAIL|WEBHOOK_ID)|POSTMAN_INVOICE_ID|ANTHROPIC_API_KEY|ASTRO_GATEWAY_API_KEY|ELASTIC_API_KEY|NUDGE_ADMIN_TOKEN|NUDGE_AG_STUDIO_LICENSE)\s*=\s*[^\s#]/.test(line)) findings.push({ path, line: index + 1, category: 'filled-example-secret-or-identifier' });
+    if (path === '.env.example' && /^(?:PAYPAL_(?:CLIENT_ID|CLIENT_SECRET|MERCHANT_EMAIL|WEBHOOK_ID)|POSTMAN_INVOICE_ID|ANTHROPIC_API_KEY|ASTRO_GATEWAY_API_KEY|ELASTIC_API_KEY|NUDGE_ADMIN_TOKEN|NUDGE_AG_STUDIO_LICENSE|NUDGE_SANDBOX_REFERENCE_INVOICE_ID)\s*=\s*[^\s#]/.test(line)) findings.push({ path, line: index + 1, category: 'filled-example-secret-or-identifier' });
   });
   return findings;
 }

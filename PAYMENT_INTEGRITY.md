@@ -17,12 +17,12 @@ A further USD 1 sandbox checkout was completed on October 4. Its authoritative r
 
 On October 4, 2026, all 38 server tests and the production build passed. Four new tests cover exact money parsing, contradictory details, supported status transitions, and unchanged workspace state across mocked sync, fallback and webhook paths followed by a corrected retry. No real PayPal or AI request was made for this task.
 
-Later on October 4, the read-only script retrieved both existing paid sandbox invoices using the configured sandbox app. [historical sandbox invoice redacted] matched USD 10.00; [historical sandbox invoice redacted] matched USD 1.00. Both passed the actual reconciliation function and returned PAID with zero outstanding. No workspace database was opened or written, no invoice was created/sent/paid, and no raw provider payload or credentials were printed. TypeScript checks passed. This verifies compatibility with these two paid responses, not every remote state or automatic delivery path.
+Later on October 4, the read-only script retrieved both existing paid sandbox invoices using the configured sandbox app. YOUR-VERIFIED-SANDBOX-INVOICE-ID matched USD 10.00; YOUR-VERIFIED-SANDBOX-INVOICE-ID matched USD 1.00. Both passed the actual reconciliation function and returned PAID with zero outstanding. No workspace database was opened or written, no invoice was created/sent/paid, and no raw provider payload or credentials were printed. TypeScript checks passed. This verifies compatibility with these two paid responses, not every remote state or automatic delivery path.
 
 To repeat the USD 10 check from PowerShell with local sandbox credentials already configured:
 
 ```powershell
-node --env-file=.env.local --import tsx scripts/verify-sandbox-payment.ts [historical sandbox invoice redacted] 1000 PAID
+node --env-file=.env.local --import tsx scripts/verify-sandbox-payment.ts YOUR-VERIFIED-SANDBOX-INVOICE-ID 1000 PAID
 ```
 
 The arguments are the invoice ID, independently known approved total in cents, and optional expected normalized status. The script uses only sandbox OAuth authentication and a GET invoice lookup. It validates the response in memory and never writes Nudge records. Use only invoices belonging to your configured sandbox app; never supply secrets as arguments. Lookup errors are intentionally summarized to avoid printing provider details.
