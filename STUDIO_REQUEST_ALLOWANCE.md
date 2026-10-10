@@ -1,0 +1,27 @@
+# Persistent dashboard request allowance
+
+October 10, 2026. Dashboard transport now reserves a persistent request slot before invoking an adapter. Production still registers no adapter, the website still registers no Studio agent, and this task creates **no real approval**. Live AI remains paused.
+
+## Enforced behavior
+
+`lib/studio-request-allowance.ts` uses an optional SQLite table in the existing datastore. With no active approval, admission is denied. A trusted server administrator can explicitly approve a new UUID, a cap of 1–100 attempts and an expiry no more than 30 days after approval. These are application ceilings, not a recommended batch size or a sponsor allowance. There is no approval HTTP endpoint, browser control, startup grant, environment-based grant, daily reset or automatic renewal.
+
+Each reservation atomically increments `used_requests` only while the active approval is unexpired, the clock has not moved before its approval time, and unused slots remain. Connections/workers sharing the same SQLite file share this count. Reopening the database or recreating the handler does not reset it. Storage failure, missing approval, revocation, expiry and exhaustion deny adapter execution with a fixed503 response; storage details are not exposed. Origin/auth/mode/enable/input/snapshot checks run first. Rejected input does not consume a durable slot, though the separate short-term rate limit counts attempts.
+
+The reservation happens before the adapter, not after success. Failures, stale results, timeout, cancellation after reservation, and a crash after reservation retain the slot. There is no refund or automatic retry because remote usage may already have happened. Revocation blocks future reservations; it does not cancel an already admitted call. Replacing an unexpired approval requires explicit revocation; expired approvals can be superseded through another explicit approval. INSERT rather than UPSERT prevents reuse of an old UUID from resetting consumption. Prior approvals remain recorded. The ledger stores only identifiers, caps, counts, timestamps and active state—no questions, client records, provider keys or model responses.
+
+The transport's trusted `reserveRequest` callback lets tests inject isolated ledgers; it is never browser-supplied. Production's default uses the real datastore and has no permissive fallback. Basic transport unit tests explicitly mock admission; browser bridge tests instead use a real one-slot in-memory SQLite approval. No test reads the ordinary workspace database.
+
+## Recovery and cost boundaries
+
+Database maintenance accepts both the legacy three-table layout and the optional allowance table, validates its columns/records, and includes approval/reservation counts in new snapshot manifests. The verified snapshot preserves its ledger unchanged. Creating a **new offline recovery copy** revokes all its active approvals without resetting recorded consumption or altering the source/snapshot. Old counts can be stale; recovery requires a fresh explicit approval after reconciling usage. Legacy recovery copies retain their previous byte-preserving behavior. The review marker records whether dashboard approvals were revoked.
+
+This caps **dashboard adapter attempts**, not money or all AI use. Existing scope/brief provider flows are not covered by this dashboard ledger. The provider enable flag still governs those flows, and stays paused. Provider-specific usage/quotas, approved input/output bounds and one-call/no-retry adapter behavior must be verified before live use. A monetary limit cannot be inferred from request count or self-reported tokens. Replicas with independent SQLite files do not share a cap; ephemeral/replaced/directly copied storage can lose or restore old permission. Use the reviewed persistent datastore and recovery tooling. Hosted infrastructure and provider billing settings remain separate approval gates.
+
+## Verification and next step
+
+Seven new offline cases cover approval validation/expiry/exhaustion/revocation; immutable IDs and transactional replacement; close/reopen and independent connections; four parallel workers competing for seven slots (exactly seven reserved); handler denial/invalid-input/failure/storage-error behavior; timeout without refund across handler recreation; and backup/recovery preservation plus revocation/malformed-record rejection. All116 offline tests and TypeScript pass. All14 real Studio harness/bridge browser checks pass with the bridge's one-slot ledger. Provider calls remain mocks and network is blocked in these fixtures.
+
+The isolated production build and existing Postman31 requests/50 assertions also pass; their temporary server stopped normally. These Postman cases exercise the existing simulation workflow, not live AI admission. Its ignored artifact directory is `data/postman-workflow/348a3108-f54a-4b28-bd7a-6e3731156650`. A TypeScript inference issue for optional snapshot counts was corrected with an explicit optional-field annotation; final typecheck passes. No dependencies or paid services were added.
+
+Next bounded local task: make allowance status/expiry visible to the owner without adding approval or live-call controls. Before any real activation, obtain provider allowance guidance and explicit approval for a small fixed batch. Live semantic evaluation, fresh-payment webhook, freelancer validation, manual/vendor accessibility, hosted storage/licence/judging access and submission work remain open.

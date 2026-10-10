@@ -1,5 +1,7 @@
 # AG Grid / AG Studio: owner dashboard preparation
 
+October10 persistent dashboard request accounting now gates adapter execution; see STUDIO_REQUEST_ALLOWANCE.md. Atomic expiring SQLite approvals, restart/concurrent-worker limits and recovery revocation are offline-verified (116 tests/14 harness-bridge checks/TypeScript). No actual approval, website agent or provider adapter activated. Next read-only owner allowance visibility; sponsor/live-evaluation and other release gates remain open.
+
 October10 offline runner/transport interoperability prepared and tested with fictional responses; see STUDIO_AGENT_BRIDGE.md. Actual Studio framework consumes validated handler replies as text; no website agent, model adapter, built-in agent or dashboard generation is activated. Next persisted allowance/activation controls before live work; core evaluation/webhook/research and accessibility/licence/hosting gates remain active.
 
 October10 backend transport guards complete with mocks: signed owner/origin/sandbox-only access, strict bounded JSON, server snapshot validation/version checks, request/concurrency/deadline/reply limits and fixed no-retry failures. Disabled endpoint cannot be enabled by environment flags alone; no adapter registered. All105 offline tests/typecheck, six harness/four Analytics-HTTP checks, final build/Postman31/50 pass. See STUDIO_AGENT_TRANSPORT.md for process-local/credit/streaming limitations. Next offline runner-to-transport bridge; live allowance, durable budget and external/core gates stay open.

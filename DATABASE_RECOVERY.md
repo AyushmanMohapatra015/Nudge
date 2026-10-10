@@ -1,5 +1,7 @@
 # SQLite snapshots and offline recovery
 
+October10 optional dashboard allowance support: snapshots now accept and validate the ledger when present, preserving its approval/reservation counts and recording them in the manifest. Legacy databases remain supported. Recovery copies revoke all active dashboard approvals while retaining historical counts; this deliberately changes those new copies after verifying the original snapshot checksum. The source and verified snapshot remain unchanged. The review marker records revocation, and a new explicit approval is required after usage reconciliation. See STUDIO_REQUEST_ALLOWANCE.md. Direct file copies do not implement this safeguard.
+
 ## What the tools do
 
 Nudge stores workspace decisions and audit records, webhook-event deduplication, and remote-operation caches in one SQLite database. The live database uses WAL. Do not copy only its main file while running or delete its WAL/SHM files: committed records may be in the write-ahead log.

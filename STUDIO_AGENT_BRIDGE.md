@@ -1,5 +1,7 @@
 # Studio runner-to-transport bridge: offline evidence
 
+October10 allowance follow-up: bridge browser fixtures now use a real one-slot SQLite ledger instead of permissive mocked admission, and assert one reservation in every outcome. All14 harness/bridge browser checks pass. See STUDIO_REQUEST_ALLOWANCE.md for persistent request accounting and recovery controls; no real approval or provider call is activated.
+
 October 10, 2026. `lib/studio-agent-bridge.ts` translates the guarded backend's bounded reply into Studio text events. It is **not registered in the website**, and the production endpoint still has no model adapter. This checkpoint does not activate a chat feature or consume AI allowance.
 
 ## Data and execution boundaries

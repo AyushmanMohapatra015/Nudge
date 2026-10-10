@@ -6,6 +6,9 @@ import { RequestWindow } from '../lib/request-guards';
 import { createStudioAgentPost } from '../lib/studio-agent-transport';
 import { POST } from '../app/api/analytics/agent/route';
 import type { OwnerAnalytics } from '../lib/owner-analytics';
+import { DatabaseSync } from 'node:sqlite';
+import { randomUUID } from 'node:crypto';
+import { studioRequestAllowance } from '../lib/studio-request-allowance';
 
 const fixture = (): OwnerAnalytics => ({ version: 2, mode: 'sandbox', asOf: '2026-10-09T00:00:00.000Z', currency: 'USD', invoices: [], changes: [],
   totals: { outstandingCents: 579, overdueCents: 123, unknownDueDateCents: 1, approvedExtraCents: 30001,
@@ -41,7 +44,7 @@ test('production endpoint remains disconnected even with the AI flag enabled; ow
 test('mock transport derives minimal server totals, preserves cents and rejects browser-supplied financial fields', async () => isolated(async () => {
   const snapshot = Object.assign(fixture(), { clientToken: 'private-token', clientEmail: 'private@example.com' });
   const before = structuredClone(snapshot); let calls = 0;
-  const post = createStudioAgentPost({ enabled: () => true, getSnapshot: () => snapshot, window: new RequestWindow(100), adapter: async input => {
+  const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: () => snapshot, window: new RequestWindow(100), adapter: async input => {
     calls++; assert.equal(input.maxOutputTokens, 256); assert.equal(input.snapshot.totals.outstandingCents, 579);
     assert.equal(JSON.stringify(input).includes('private'), false); return reply();
   } });
@@ -53,7 +56,7 @@ test('mock transport derives minimal server totals, preserves cents and rejects 
 
 test('demo mode cannot activate an adapter through its unauthenticated workspace access', async () => isolated(async () => {
   let reads = 0; let calls = 0;
-  const post = createStudioAgentPost({ enabled: () => true, getSnapshot: () => { reads++; return fixture(); },
+  const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: () => { reads++; return fixture(); },
     adapter: async () => { calls++; return reply(); } });
   process.env.NUDGE_MODE = 'demo';
   assert.equal((await post(request(undefined, { cookie: false }))).status, 503);
@@ -62,7 +65,7 @@ test('demo mode cannot activate an adapter through its unauthenticated workspace
 
 test('disabled, unauthorized, malformed, oversized and stale requests do not invoke the mock adapter', async () => isolated(async () => {
   let calls = 0; let reads = 0;
-  const options = { enabled: () => true, getSnapshot: () => { reads++; return fixture(); }, window: new RequestWindow(100),
+  const options = { reserveRequest: () => true, enabled: () => true, getSnapshot: () => { reads++; return fixture(); }, window: new RequestWindow(100),
     adapter: async () => { calls++; return reply(); } };
   const post = createStudioAgentPost(options);
   assert.equal((await createStudioAgentPost({ ...options, enabled: () => false })(request())).status, 503);
@@ -76,7 +79,7 @@ test('disabled, unauthorized, malformed, oversized and stale requests do not inv
 
 test('request cap counts failed attempts and reports Retry-After without extra adapter calls', async () => isolated(async () => {
   let calls = 0;
-  const post = createStudioAgentPost({ enabled: () => true, getSnapshot: fixture, window: new RequestWindow(2),
+  const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: fixture, window: new RequestWindow(2),
     adapter: async () => { calls++; throw Error('private provider trace'); } });
   assert.equal((await post(request())).status, 502); assert.equal((await post(request())).status, 502);
   const capped = await post(request()); assert.equal(capped.status, 429); assert.ok(Number(capped.headers.get('retry-after')) > 0); assert.equal(calls, 2);
@@ -85,7 +88,7 @@ test('request cap counts failed attempts and reports Retry-After without extra a
 test('timeout aborts the mock signal and retains concurrency lock until an uncooperative adapter settles', async () => isolated(async () => {
   let finish!: (value: unknown) => void; let calls = 0; let signal!: AbortSignal;
   const pending = new Promise(resolve => { finish = resolve; });
-  const post = createStudioAgentPost({ enabled: () => true, getSnapshot: fixture, window: new RequestWindow(100), deadlineMs: 15,
+  const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: fixture, window: new RequestWindow(100), deadlineMs: 15,
     adapter: async input => { signal = input.signal; calls++; return calls === 1 ? pending : reply(); } });
   assert.equal((await post(request())).status, 504); assert.equal(signal.aborted, true);
   assert.equal((await post(request())).status, 409); assert.equal(calls, 1);
@@ -97,7 +100,7 @@ test('client cancellation aborts once, blocks a second request and does not retr
   let finish!: (value: unknown) => void; let started!: () => void; let calls = 0; let signal!: AbortSignal;
   const startedPromise = new Promise<void>(resolve => { started = resolve; });
   const pending = new Promise(resolve => { finish = resolve; }); const controller = new AbortController();
-  const post = createStudioAgentPost({ enabled: () => true, getSnapshot: fixture, window: new RequestWindow(100), adapter: async input => {
+  const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: fixture, window: new RequestWindow(100), adapter: async input => {
     calls++; signal = input.signal; started(); return pending;
   } });
   const result = post(request(undefined, { signal: controller.signal })); await startedPromise; controller.abort();
@@ -108,12 +111,48 @@ test('client cancellation aborts once, blocks a second request and does not retr
 test('malformed, excessive usage, provider errors and now-stale responses are rejected without exposing errors', async () => isolated(async () => {
   for (const result of [{ ...reply(), usage: { inputTokens: 10, outputTokens: 257 } }, { ...reply(), usage: { inputTokens: 4097, outputTokens: 1 } },
     { ...reply(), text: 'x'.repeat(2001) }, { ...reply(), tools: ['refund'] }]) {
-    const post = createStudioAgentPost({ enabled: () => true, getSnapshot: fixture, adapter: async () => result });
+    const post = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: fixture, adapter: async () => result });
     const response = await post(request()); assert.equal(response.status, 502); assert.equal((await response.text()).includes('refund'), false);
   }
-  const failed = createStudioAgentPost({ enabled: () => true, getSnapshot: fixture, adapter: async () => { throw Error('private key and provider URL'); } });
+  const failed = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: fixture, adapter: async () => { throw Error('private key and provider URL'); } });
   const error = await failed(request()); assert.equal(error.status, 502); assert.equal((await error.text()).includes('private'), false);
-  let snapshot = fixture(); const stale = createStudioAgentPost({ enabled: () => true, getSnapshot: () => snapshot,
+  let snapshot = fixture(); const stale = createStudioAgentPost({ reserveRequest: () => true, enabled: () => true, getSnapshot: () => snapshot,
     adapter: async () => { snapshot = { ...snapshot, version: 3 }; return reply(); } });
   assert.equal((await stale(request())).status, 409);
+}));
+
+test('persistent allowance denies missing/exhausted approval; failures spend slots but invalid input does not', async () => isolated(async () => {
+  const db = new DatabaseSync(':memory:'); let calls = 0;
+  try {
+    const ledger = studioRequestAllowance(db);
+    const options = { enabled: () => true, getSnapshot: fixture, window: new RequestWindow(100), reserveRequest: () => ledger.reserve(),
+      adapter: async () => { calls++; throw Error('private provider error'); } };
+    const post = createStudioAgentPost(options);
+    assert.equal((await post(request())).status, 503); assert.equal(calls, 0);
+    ledger.approve({ id: randomUUID(), maxRequests: 1, expiresAt: Date.now() + 60000 });
+    assert.equal((await post(request(undefined, { cookie: false }))).status, 401);
+    assert.equal((await post(request({ expectedVersion: 1, question: 'Explain' }))).status, 409);
+    assert.equal((await post(request({ expectedVersion: 2, question: 'Explain', maxRequests: 100 }))).status, 400);
+    assert.equal(ledger.status().usedRequests, 0);
+    assert.equal((await post(request())).status, 502); assert.equal(ledger.status().usedRequests, 1);
+    const restarted = createStudioAgentPost(options);
+    assert.equal((await restarted(request())).status, 503); assert.equal(calls, 1);
+    const broken = createStudioAgentPost({ ...options, reserveRequest: () => { throw Error('private storage path'); } });
+    const error = await broken(request()); assert.equal(error.status, 503);
+    assert.equal((await error.text()).includes('private'), false); assert.equal(calls, 1);
+  } finally { db.close(); }
+}));
+
+test('timed-out allowance reservation is never returned or reused after handler recreation', async () => isolated(async () => {
+  const db = new DatabaseSync(':memory:'); let calls = 0; let finish!: () => void;
+  try {
+    const ledger = studioRequestAllowance(db);
+    ledger.approve({ id: randomUUID(), maxRequests: 1, expiresAt: Date.now() + 60000 });
+    const pending = new Promise<void>(resolve => { finish = resolve; });
+    const options = { enabled: () => true, getSnapshot: fixture, reserveRequest: () => ledger.reserve(), deadlineMs: 10,
+      adapter: async () => { calls++; await pending; return reply(); } };
+    assert.equal((await createStudioAgentPost(options)(request())).status, 504);
+    assert.equal(ledger.status().usedRequests, 1);
+    assert.equal((await createStudioAgentPost(options)(request())).status, 503); assert.equal(calls, 1);
+  } finally { finish?.(); db.close(); }
 }));

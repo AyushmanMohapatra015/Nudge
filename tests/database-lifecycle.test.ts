@@ -5,6 +5,8 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, statSync, readFileSync, writeFileSync, appendFileSync, readdirSync, symlinkSync, existsSync } from 'node:fs';
 import { join, resolve, relative } from 'node:path';
 import { createDatabaseSnapshot, verifyDatabaseSnapshot, createRecoveryCopy } from '../scripts/database-lifecycle.mjs';
+import { randomUUID } from 'node:crypto';
+import { studioRequestAllowance } from '../lib/studio-request-allowance';
 
 function fixture() {
   mkdirSync('./data', { recursive: true });
@@ -31,6 +33,34 @@ function dump(connection: DatabaseSync) {
   return JSON.stringify({ workspaces: connection.prepare('SELECT * FROM workspaces ORDER BY mode').all(),
     events: connection.prepare('SELECT * FROM webhook_events ORDER BY id').all(), operations: connection.prepare('SELECT * FROM remote_operations ORDER BY key').all() });
 }
+
+test('backup includes the optional allowance ledger; recovery revokes approvals without resetting counts or changing source', async () => {
+  const { root, source, writer } = fixture();
+  try {
+    const ledger = studioRequestAllowance(writer);
+    ledger.approve({ id: randomUUID(), maxRequests: 2, expiresAt: Date.now() + 60000 }); ledger.reserve();
+    const snapshot = await createDatabaseSnapshot(root, source);
+    assert.equal(snapshot.counts.studioApprovals, 1); assert.equal(snapshot.counts.studioReservedRequests, 1);
+    const verified = await verifyDatabaseSnapshot(root, snapshot.directory);
+    ledger.reserve(); assert.equal(ledger.status().usedRequests, 2);
+    const recovered = await createRecoveryCopy(root, snapshot.directory);
+    const restored = new DatabaseSync(recovered.file);
+    try {
+      const recoveredLedger = studioRequestAllowance(restored);
+      assert.equal(recoveredLedger.reserve(), false); assert.equal(recoveredLedger.status().state, 'unapproved');
+      assert.equal(restored.prepare('SELECT used_requests FROM studio_request_allowances').get()!.used_requests, 1);
+      assert.equal(dump(restored), dump(writer));
+    } finally { restored.close(); }
+    assert.equal(ledger.status().usedRequests, 2);
+    assert.equal(JSON.parse(readFileSync(join(recovered.directory, 'RECOVERY_REVIEW_REQUIRED.json'), 'utf8')).studioAllowancesRevoked, true);
+    const originalBackup = new DatabaseSync(verified.file, { readOnly: true });
+    try { assert.equal(originalBackup.prepare('SELECT active FROM studio_request_allowances').get()!.active, 1); }
+    finally { originalBackup.close(); }
+    // Valid checksum does not excuse malformed ledger records.
+    writer.exec('PRAGMA ignore_check_constraints=ON; UPDATE studio_request_allowances SET used_requests = 500;');
+    await assert.rejects(createDatabaseSnapshot(root, source), /allowance record/);
+  } finally { writer.close(); }
+});
 
 test('online snapshot includes committed WAL records, excludes uncommitted work and restores all recovery evidence to a new file', async () => {
   const { root, source, writer, body } = fixture();

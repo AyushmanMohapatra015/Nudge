@@ -6,10 +6,13 @@ import { join, relative, resolve, isAbsolute } from 'node:path';
 const maxDatabaseBytes = 64 * 1024 * 1024;
 const databaseName = 'database.sqlite';
 const tableNames = ['remote_operations', 'webhook_events', 'workspaces'];
+const allowanceTable = 'studio_request_allowances';
 const layouts = {
   remote_operations: [['key', 'TEXT', 0, 1], ['body', 'TEXT', 1, 0]],
   webhook_events: [['id', 'TEXT', 0, 1], ['received_at', 'TEXT', 1, 0]],
   workspaces: [['mode', 'TEXT', 0, 1], ['body', 'TEXT', 1, 0]],
+  studio_request_allowances: [['id', 'TEXT', 0, 1], ['max_requests', 'INTEGER', 1, 0], ['used_requests', 'INTEGER', 1, 0],
+    ['expires_at', 'INTEGER', 1, 0], ['approved_at', 'INTEGER', 1, 0], ['active', 'INTEGER', 1, 0]],
 };
 export class DatabaseLifecycleError extends Error {}
 const fail = message => { throw new DatabaseLifecycleError(message); };
@@ -54,8 +57,10 @@ function inspectDatabase(connection) {
   const integrity = connection.prepare('PRAGMA integrity_check').all();
   if (integrity.length !== 1 || integrity[0].integrity_check !== 'ok') fail('Database integrity check failed.');
   const names = connection.prepare("SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map(row => row.name);
-  if (JSON.stringify(names) !== JSON.stringify(tableNames)) fail('Database does not match the supported Nudge table layout.');
-  for (const name of tableNames) {
+  const hasAllowance = names.includes(allowanceTable);
+  const supportedNames = hasAllowance ? [...tableNames, allowanceTable].sort() : tableNames;
+  if (JSON.stringify(names) !== JSON.stringify(supportedNames)) fail('Database does not match the supported Nudge table layout.');
+  for (const name of supportedNames) {
     const columns = connection.prepare(`PRAGMA table_info(${name})`).all().map(row => [row.name, row.type, row.notnull, row.pk]);
     if (JSON.stringify(columns) !== JSON.stringify(layouts[name])) fail('Database columns or primary keys do not match the supported layout.');
   }
@@ -77,9 +82,24 @@ function inspectDatabase(connection) {
   }
   // These queries also verify the columns needed by reconciliation/idempotency.
   connection.prepare('SELECT id, received_at FROM webhook_events LIMIT 1').all();
+  /** @type {{ studioApprovals?: number; studioReservedRequests?: number }} */
+  let allowanceCounts = {};
+  if (hasAllowance) {
+    let approvals = 0, reservedRequests = 0, active = 0;
+    for (const row of connection.prepare('SELECT * FROM studio_request_allowances').iterate()) {
+      if (typeof row.id !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(row.id) ||
+        !Number.isSafeInteger(row.max_requests) || row.max_requests < 1 || row.max_requests > 100 ||
+        !Number.isSafeInteger(row.used_requests) || row.used_requests < 0 || row.used_requests > row.max_requests ||
+        !Number.isSafeInteger(row.approved_at) || row.approved_at < 0 || !Number.isSafeInteger(row.expires_at) ||
+        row.expires_at <= row.approved_at || row.expires_at - row.approved_at > 30 * 86400000 || ![0, 1].includes(row.active)) fail('Dashboard allowance record fails maintenance validation.');
+      approvals++; reservedRequests += row.used_requests; active += row.active;
+      if (!Number.isSafeInteger(reservedRequests) || active > 1) fail('Dashboard allowance totals fail maintenance validation.');
+    }
+    allowanceCounts = { studioApprovals: approvals, studioReservedRequests: reservedRequests };
+  }
   return { workspaces, pendingWorkspaces,
     webhookEvents: Number(connection.prepare('SELECT COUNT(*) AS count FROM webhook_events').get().count),
-    remoteOperations: Number(connection.prepare('SELECT COUNT(*) AS count FROM remote_operations').get().count) };
+    remoteOperations: Number(connection.prepare('SELECT COUNT(*) AS count FROM remote_operations').get().count), ...allowanceCounts };
 }
 
 async function checksum(path) {
@@ -162,7 +182,16 @@ export async function createRecoveryCopy(root, snapshotPath, storageDirectory) {
   if (await checksum(file) !== snapshot.manifest.sha256) fail('Recovery copy checksum mismatch; do not use this incomplete copy.');
   const connection = openReadonly(file);
   try { inspectDatabase(connection); } finally { connection.close(); }
+  // Only the new offline recovery copy changes. An old backup cannot re-enable AI requests.
+  if (snapshot.counts.studioApprovals !== undefined) {
+    const recovered = new sqlite.DatabaseSync(file, { allowExtension: false });
+    try {
+      recovered.prepare('UPDATE studio_request_allowances SET active = 0 WHERE active = 1').run();
+      inspectDatabase(recovered);
+    } finally { recovered.close(); }
+  }
   writeFileSync(join(directory, 'RECOVERY_REVIEW_REQUIRED.json'), JSON.stringify({ version: 1, restoredAt: new Date().toISOString(), snapshotCreatedAt: snapshot.manifest.createdAt,
-    status: 'offline-review-only', warning: 'Not promoted. Reconcile remote outcomes and review locks, client access and caches before configuring the application to use this copy.' }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+    status: 'offline-review-only', studioAllowancesRevoked: snapshot.counts.studioApprovals !== undefined,
+    warning: 'Not promoted. Reconcile remote outcomes and review locks, client access and caches before configuring the application to use this copy. Dashboard AI allowances require new explicit approval after recovery.' }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
   return { directory, file, counts: snapshot.counts };
 }

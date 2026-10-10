@@ -7,6 +7,9 @@ import { sessionToken } from '../../lib/auth';
 import { createStudioAgentPost } from '../../lib/studio-agent-transport';
 import type { OwnerAnalytics } from '../../lib/owner-analytics';
 import type {} from '../fixtures/studio-agent';
+import { DatabaseSync } from 'node:sqlite';
+import { randomUUID } from 'node:crypto';
+import { studioRequestAllowance } from '../../lib/studio-request-allowance';
 
 const origin = 'http://127.0.0.1:3199';
 const answer = 'Offline fixture: stored outstanding balance is USD 5.79. No model was called.';
@@ -25,7 +28,10 @@ for (const scenario of ['success', 'provider-error', 'stale-server', 'stale-brow
     let finish!: () => void;
     const waiting = new Promise<void>(resolve => { finish = resolve; });
     const bodies: unknown[] = [], requests: string[] = [], errors: string[] = [];
-    const post = createStudioAgentPost({ enabled: () => true, getSnapshot: () => stored, adapter: async input => {
+    const ledgerDb = new DatabaseSync(':memory:');
+    const ledger = studioRequestAllowance(ledgerDb);
+    ledger.approve({ id: randomUUID(), maxRequests: 1, expiresAt: Date.now() + 60000 });
+    const post = createStudioAgentPost({ reserveRequest: () => ledger.reserve(), enabled: () => true, getSnapshot: () => stored, adapter: async input => {
       calls++; expect(input.question).toBe('Explain this fictional stored snapshot.');
       expect(input.snapshot.totals.outstandingCents).toBe(579); expect(input.maxOutputTokens).toBe(256);
       if (scenario === 'provider-error') throw Error('private provider detail must never display');
@@ -68,6 +74,7 @@ for (const scenario of ['success', 'provider-error', 'stale-server', 'stale-brow
       const result = await page.evaluate(() => window.studioAgentFixture.state());
       expect(calls).toBe(1); expect(bodies).toEqual([{ expectedVersion: 2, question: 'Explain this fictional stored snapshot.' }]);
       expect(result.turns).toBe(1);
+      expect(ledger.status().usedRequests).toBe(1);
       expect(requests).toEqual([`${origin}/`, `${origin}/api/analytics/agent`]); expect(errors).toEqual([]);
       expect(JSON.stringify(result.messages)).not.toContain('private provider detail');
       if (scenario === 'success') {
@@ -87,6 +94,7 @@ for (const scenario of ['success', 'provider-error', 'stale-server', 'stale-brow
         if (previousMode === undefined) delete process.env.NUDGE_MODE; else process.env.NUDGE_MODE = previousMode;
         if (previousAdmin === undefined) delete process.env.NUDGE_ADMIN_TOKEN; else process.env.NUDGE_ADMIN_TOKEN = previousAdmin;
         globalThis.fetch = previousFetch;
+        ledgerDb.close();
       }
     }
   });

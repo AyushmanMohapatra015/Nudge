@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { authorized, sameOrigin } from './auth';
 import { realAiEnabled } from './ai-access';
-import { mode } from './store';
+import { db, mode } from './store';
+import { studioRequestAllowance } from './studio-request-allowance';
 import { boundedRequestText, RequestGuardError, RequestWindow } from './request-guards';
 import { studioSnapshotSummary } from './studio-analyst';
 import type { OwnerAnalytics } from './owner-analytics';
@@ -16,7 +17,7 @@ export type StudioReplyAdapter = (input: { question: string; snapshot: ReturnTyp
 
 /** Trusted server configuration, never browser-supplied. No adapter is registered by the website. */
 export function createStudioAgentPost(options: { getSnapshot: () => OwnerAnalytics; adapter?: StudioReplyAdapter;
-  enabled?: () => boolean; window?: RequestWindow; deadlineMs?: number }) {
+  enabled?: () => boolean; window?: RequestWindow; deadlineMs?: number; reserveRequest?: () => boolean }) {
   const window = options.window ?? new RequestWindow(4);
   let inFlight = false;
   const json = (body: unknown, status = 200, retry?: number) => NextResponse.json(body, { status,
@@ -39,7 +40,7 @@ export function createStudioAgentPost(options: { getSnapshot: () => OwnerAnalyti
     catch { return json({ error: 'Snapshot totals are unavailable. Refresh the owner report.' }, 503); }
     if (snapshot.version !== input.expectedVersion) return json({ error: 'Snapshot changed. Refresh the owner report.' }, 409);
     inFlight = true;
-    const controller = new AbortController(); let timedOut = false;
+    const controller = new AbortController(); let timedOut = false; let allowanceDenied = false;
     const cancel = () => controller.abort(); request.signal.addEventListener('abort', cancel, { once: true });
     if (request.signal.aborted) cancel();
     const timer = setTimeout(() => { timedOut = true; controller.abort(); }, options.deadlineMs ?? 10000);
@@ -50,6 +51,11 @@ export function createStudioAgentPost(options: { getSnapshot: () => OwnerAnalyti
     // Retain the lock until the adapter settles, even if it ignores cancellation.
     const job = Promise.resolve().then(() => {
       if (controller.signal.aborted) throw Error('cancelled');
+      try {
+        if (!(options.reserveRequest ?? (() => studioRequestAllowance(db()).reserve()))()) {
+          allowanceDenied = true; throw Error('allowance');
+        }
+      } catch { allowanceDenied = true; throw Error('allowance'); }
       return options.adapter!({ question: input.question, snapshot, maxOutputTokens: 256, signal: controller.signal });
     });
     void job.then(() => { inFlight = false; }, () => { inFlight = false; });
@@ -59,8 +65,9 @@ export function createStudioAgentPost(options: { getSnapshot: () => OwnerAnalyti
       // Reject a now-stale answer, without retries or substituting a simulation.
       if (studioSnapshotSummary(options.getSnapshot()).version !== snapshot.version) return json({ error: 'Snapshot changed. Refresh the owner report.' }, 409);
       return json({ ...reply, snapshotVersion: snapshot.version, asOf: snapshot.asOf, stateSource: 'local-records' });
-    } catch { return json({ error: timedOut ? 'Dashboard response timed out. No retry was made.'
-      : controller.signal.aborted ? 'Report request cancelled.' : 'Dashboard response unavailable. No retry was made.' }, timedOut ? 504 : controller.signal.aborted ? 408 : 502); }
+    } catch { return json({ error: allowanceDenied ? 'Dashboard request allowance is unavailable or exhausted. No model call was made.'
+      : timedOut ? 'Dashboard response timed out. No retry was made.'
+      : controller.signal.aborted ? 'Report request cancelled.' : 'Dashboard response unavailable. No retry was made.' }, allowanceDenied ? 503 : timedOut ? 504 : controller.signal.aborted ? 408 : 502); }
     finally { clearTimeout(timer); request.signal.removeEventListener('abort', cancel); }
   };
 }
