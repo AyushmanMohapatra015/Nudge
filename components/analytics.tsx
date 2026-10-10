@@ -3,23 +3,29 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { OwnerAnalytics } from '@/lib/owner-analytics';
 import { money } from '@/lib/domain';
+import { emptyStudioAllowance, studioAllowanceViewSchema, type StudioAllowanceView } from '@/lib/studio-allowance-view';
 const StudioCanvas = dynamic(() => import('./studio-canvas'), { ssr: false, loading: () => <p role="status">Loading report tools…</p> });
 
 export default function Analytics({ licenseKey }: { licenseKey?: string }) {
   const [snapshot, setSnapshot] = useState<OwnerAnalytics>();
+  const [allowance, setAllowance] = useState<StudioAllowanceView>();
   const [error, setError] = useState(''); const [busy, setBusy] = useState(true); const [edit, setEdit] = useState(false);
   const [announcement, setAnnouncement] = useState('');
   const refreshButton = useRef<HTMLButtonElement>(null);
   const active = useRef<AbortController | null>(null);
   const refresh = useCallback(async () => {
     active.current?.abort(); const controller = new AbortController(); active.current = controller;
-    setBusy(true); setError(''); setAnnouncement('Loading local snapshot.'); const timeout = setTimeout(() => controller.abort(), 10000);
+    setBusy(true); setError(''); setAllowance(undefined); setAnnouncement('Loading local snapshot.'); const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       const response = await fetch('/api/analytics', { cache: 'no-store', credentials: 'same-origin', signal: controller.signal });
       if (!response.ok) throw new Error(response.status === 401 ? 'Your owner session ended. Return to the workspace to sign in.'
         : response.status === 404 ? 'Open your workspace first, then return to Analytics.' : 'Unable to load analytics. Try again shortly.');
       const data = await response.json(); if (data.stateSource !== 'local-records') throw new Error('Unable to load analytics. Try again shortly.');
-      if (active.current === controller) { setSnapshot(data); setAnnouncement(`Local snapshot loaded. Version ${data.version}.`); }
+      if (active.current === controller) {
+        const parsed = studioAllowanceViewSchema.safeParse(data.dashboardAllowance);
+        setAllowance(parsed.success ? parsed.data : emptyStudioAllowance('unavailable'));
+        setSnapshot(data); setAnnouncement(`Local snapshot loaded. Version ${data.version}.`);
+      }
     } catch (cause) {
       if (active.current === controller) { setSnapshot(undefined); setError(controller.signal.aborted ? 'Analytics took too long to load. Try again.'
         : cause instanceof Error && ['Your owner session ended. Return to the workspace to sign in.', 'Open your workspace first, then return to Analytics.', 'Unable to load analytics. Try again shortly.'].includes(cause.message)
@@ -40,6 +46,20 @@ export default function Analytics({ licenseKey }: { licenseKey?: string }) {
     {snapshot && <>
       <div className="mode-banner"><span>{snapshot.mode === 'demo' ? 'Illustrative simulation data' : 'PayPal sandbox records'} · Local snapshot, not a live PayPal check. Snapshot version {snapshot.version}.</span></div>
       <p className="analytics-note">Snapshot taken {new Date(snapshot.asOf).toLocaleString()}. Refresh loads stored records only. Use Payments to verify current PayPal status.</p>
+      <section className="card analytics-allowance" aria-label="Dashboard AI allowance">
+        <h2>Dashboard AI allowance</h2>
+        <p>Dashboard AI is not connected.</p>
+        <p role="status" aria-live="polite">{!allowance ? 'Refreshing allowance status…'
+          : allowance.state === 'simulation' ? 'Simulation mode: no AI calls or request allowance.'
+          : allowance.state === 'unapproved' ? 'No dashboard request allowance approved. 0 request slots available.'
+          : allowance.state === 'unavailable' ? 'Allowance status is unavailable. Refresh before relying on these counts.'
+          : allowance.state === 'expired' ? 'Approval expired. 0 request slots available.'
+          : allowance.state === 'exhausted' ? 'Request allowance exhausted. 0 request slots available.'
+          : `${allowance.remainingRequests} of ${allowance.maxRequests} request slots remain.`}</p>
+        {allowance?.usedRequests !== null && allowance?.usedRequests !== undefined && <p>{allowance.usedRequests} attempts reserved. Failed attempts retain their slot.</p>}
+        {allowance?.expiresAt && <p>Approval expiry: <time dateTime={allowance.expiresAt}>{new Date(allowance.expiresAt).toLocaleString(undefined, { timeZone: 'UTC' })} UTC</time>.</p>}
+        <p className="analytics-note">These are Nudge dashboard request slots, not provider credits or a spending limit. Refresh the local snapshot to update this view.</p>
+      </section>
       <section className="analytics-totals" aria-label="Complete workspace totals">
         {[
           ['Outstanding invoices', money(snapshot.totals.outstandingCents)], ['Overdue balance', money(snapshot.totals.overdueCents)],

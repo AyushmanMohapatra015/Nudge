@@ -1,5 +1,7 @@
 # Persistent dashboard request allowance
 
+October10 visibility follow-up: STUDIO_ALLOWANCE_VISIBILITY.md records the owner-only Analytics projection/panel. Reads do not initialize the ledger or consume requests; expired status reports zero usable slots and malformed status is unavailable. This supersedes the earlier next-visibility task below. Production remains disconnected and no actual approval exists.
+
 October 10, 2026. Dashboard transport now reserves a persistent request slot before invoking an adapter. Production still registers no adapter, the website still registers no Studio agent, and this task creates **no real approval**. Live AI remains paused.
 
 ## Enforced behavior

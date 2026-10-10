@@ -21,3 +21,4 @@
 .analytics-tables table{width:100%;border-collapse:collapse;text-align:left;font-size:14px}
 .analytics-tables caption{text-align:left;padding:12px;font-weight:600}
 .analytics-tables th,.analytics-tables td{padding:12px;border-top:1px solid var(--line);white-space:nowrap}
+.analytics-allowance{padding:20px;margin:16px 0;overflow-wrap:anywhere}.analytics-allowance h2{font-size:18px;margin:0 0 10px}.analytics-allowance p{margin:8px 0}

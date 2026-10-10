@@ -7,6 +7,25 @@ const approvalSchema = z.object({
 }).strict();
 const validTime = (now: number) => Number.isSafeInteger(now) && now >= 0;
 
+/** Read only: absent tables mean no approval, never a schema migration or reservation. */
+export function readStudioRequestAllowance(connection: DatabaseSync, now = Date.now()) {
+  if (!validTime(now)) throw Error('Invalid allowance time.');
+  if (!connection.prepare("SELECT name FROM sqlite_schema WHERE type = 'table' AND name = 'studio_request_allowances'").get()) {
+    return { state: 'unapproved' as const, remainingRequests: 0 };
+  }
+  const rows = connection.prepare(`SELECT max_requests, used_requests, expires_at, approved_at
+    FROM studio_request_allowances WHERE active = 1 LIMIT 2`).all();
+  if (rows.length > 1) throw Error('Invalid active allowances.');
+  if (!rows.length) return { state: 'unapproved' as const, remainingRequests: 0 };
+  const row = z.object({ max_requests: z.number().int().min(1).max(100), used_requests: z.number().int().min(0).max(100),
+    expires_at: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER), approved_at: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER) }).strict().parse(rows[0]);
+  if (row.used_requests > row.max_requests || row.expires_at <= row.approved_at || row.expires_at - row.approved_at > 30 * 86400000) throw Error('Invalid allowance records.');
+  const expired = row.approved_at > now || row.expires_at <= now;
+  const remainingRequests = expired ? 0 : row.max_requests - row.used_requests;
+  return { state: expired ? 'expired' as const : remainingRequests === 0 ? 'exhausted' as const : 'available' as const,
+    maxRequests: row.max_requests, usedRequests: row.used_requests, remainingRequests, expiresAt: row.expires_at };
+}
+
 /** Trusted server administration only. Never accepts browser approval or provider credentials. */
 export function studioRequestAllowance(connection: DatabaseSync) {
   connection.exec(`CREATE TABLE IF NOT EXISTS studio_request_allowances (
@@ -44,17 +63,7 @@ export function studioRequestAllowance(connection: DatabaseSync) {
       return row !== undefined;
     },
     status(now = Date.now()) {
-      if (!validTime(now)) throw Error('Invalid allowance time.');
-      const row = connection.prepare(`SELECT max_requests, used_requests, expires_at, approved_at
-        FROM studio_request_allowances WHERE active = 1`).get() as {
-          max_requests: number; used_requests: number; expires_at: number; approved_at: number;
-        } | undefined;
-      if (!row) return { state: 'unapproved' as const, remainingRequests: 0 };
-      const remainingRequests = Math.max(0, row.max_requests - row.used_requests);
-      return { state: row.approved_at > now || row.expires_at <= now ? 'expired' as const
-        : remainingRequests === 0 ? 'exhausted' as const : 'available' as const,
-      maxRequests: row.max_requests, usedRequests: row.used_requests, remainingRequests,
-      expiresAt: row.expires_at };
+      return readStudioRequestAllowance(connection, now);
     },
   };
 }

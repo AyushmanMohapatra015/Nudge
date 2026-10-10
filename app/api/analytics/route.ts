@@ -3,6 +3,8 @@ import { authorized } from '@/lib/auth';
 import { db, mode } from '@/lib/store';
 import { ownerReadWindow } from '@/lib/request-guards';
 import { ownerAnalytics } from '@/lib/owner-analytics';
+import { readStudioRequestAllowance } from '@/lib/studio-request-allowance';
+import { emptyStudioAllowance, studioAllowanceViewSchema } from '@/lib/studio-allowance-view';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -18,7 +20,17 @@ export function GET(request: NextRequest) {
   try {
     const row = db().prepare('SELECT body FROM workspaces WHERE mode = ?').get(mode()) as { body: string } | undefined;
     if (!row) return NextResponse.json({ error: 'Open the workspace before viewing analytics.' }, { status: 404, headers });
-    return NextResponse.json({ ...ownerAnalytics(JSON.parse(row.body)), stateSource: 'local-records' }, { headers });
+    let dashboardAllowance = emptyStudioAllowance(mode() === 'demo' ? 'simulation' : 'unavailable');
+    if (mode() === 'sandbox') {
+      try {
+        const status = readStudioRequestAllowance(db());
+        dashboardAllowance = status.state === 'unapproved' ? emptyStudioAllowance('unapproved') : studioAllowanceViewSchema.parse({
+          state: status.state, remainingRequests: status.remainingRequests, maxRequests: status.maxRequests,
+          usedRequests: status.usedRequests, expiresAt: new Date(status.expiresAt!).toISOString(),
+        });
+      } catch { /* Keep reports usable, but never imply known allowance after a storage failure. */ }
+    }
+    return NextResponse.json({ ...ownerAnalytics(JSON.parse(row.body)), dashboardAllowance, stateSource: 'local-records' }, { headers });
   } catch {
     return NextResponse.json({ error: 'Analytics are unavailable. Review the workspace before trying again.' }, { status: 503, headers });
   }

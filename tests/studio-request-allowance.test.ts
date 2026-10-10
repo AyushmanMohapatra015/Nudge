@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { mkdirSync, mkdtempSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Worker } from 'node:worker_threads';
-import { studioRequestAllowance } from '../lib/studio-request-allowance';
+import { studioRequestAllowance, readStudioRequestAllowance } from '../lib/studio-request-allowance';
 
 const now = 1800000000000;
 const approval = (maxRequests = 2) => ({ id: randomUUID(), maxRequests, expiresAt: now + 60000 });
@@ -25,6 +25,23 @@ test('allowance starts denied; validates explicit bounded approval, expiry, exha
     assert.equal(ledger.reserve(now + 60000), false); assert.equal(ledger.status(now + 60000).state, 'expired');
     ledger.revoke(); assert.equal(ledger.reserve(now), false);
     assert.equal(db.prepare('SELECT used_requests FROM studio_request_allowances').get()!.used_requests, 2);
+  } finally { db.close(); }
+});
+
+test('status reads require no schema write and never advertise expired or corrupted allowance', () => {
+  const db = new DatabaseSync(':memory:');
+  try {
+    db.exec('PRAGMA query_only=ON;');
+    assert.deepEqual(readStudioRequestAllowance(db, now), { state: 'unapproved', remainingRequests: 0 });
+    assert.equal(db.prepare("SELECT name FROM sqlite_schema WHERE type = 'table'").all().length, 0);
+    db.exec('PRAGMA query_only=OFF;');
+    const ledger = studioRequestAllowance(db); ledger.approve(approval(), now); ledger.reserve(now);
+    db.exec('PRAGMA query_only=ON;');
+    assert.equal(readStudioRequestAllowance(db, now).remainingRequests, 1);
+    assert.equal(readStudioRequestAllowance(db, now + 60000).remainingRequests, 0);
+    assert.equal(readStudioRequestAllowance(db, now - 1).remainingRequests, 0);
+    db.exec('PRAGMA query_only=OFF; PRAGMA ignore_check_constraints=ON; UPDATE studio_request_allowances SET used_requests = 999;');
+    assert.throws(() => readStudioRequestAllowance(db, now));
   } finally { db.close(); }
 });
 

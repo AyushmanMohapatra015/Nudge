@@ -1,5 +1,23 @@
 # Nudge: sponsor resources and zero-cash plan
 
+## Sponsor fit recheck — October 10
+
+Official product pages were rechecked read-only for the remaining tools. This updates the fit assessment, not access, credits, implementation or prize eligibility. No signup, connection, trial, remote browser, automation or model call was activated.
+
+| Resource | Current Nudge evidence / potential next use | Decision and gate |
+| --- | --- | --- |
+| AG Studio | Actual embedded analytics, custom widget/layout/filter/export work; actual Agent Framework verified with offline mock replies | Continue this priority. Website dashboard AI is disconnected; live allowance/semantic proof and hosted licence remain open. |
+| Elastic | Limited live scope-provider verification exists; further calls paused | Primary AI path after provider usage guidance and explicit bounded-batch approval. No claim of search/RAG integration. |
+| Postman | Actual Newman sandbox read checks and isolated application workflow regression | Continue executable API evidence; add cases when an exposed API changes meaningfully. No account is required for the current local runner. |
+| Render | Deployment/disk/recovery preparation exists; no actual account/credits/deployment verified | Strong next operational fit for stable judging/webhook access after credit/billing/storage/licence review. |
+| Bryntum | [Official React Scheduler](https://bryntum.com/products/react-scheduler/) provides scheduling components | Possible approved-change deadline/milestone view if freelancer research establishes that need. No installation or licence activation; do not duplicate Studio with another decorative grid. |
+| Kernel | [Official product](https://www.kernel.sh/) provides cloud browsers for agents and automation | Possible remote demo regression if local browser testing becomes insufficient. It is infrastructure, not the missing scope-inference model. Remote browsing needs a specific task, privacy/allowance review and approval. |
+| Channel3 | [Official developer page](https://www.trychannel3.com/developers) describes product-data APIs for shopping experiences | No demonstrated catalog need in the current freelancer scope-to-payment workflow. Reconsider only for validated product/material procurement; no commerce pivot or integration claim. |
+| Zapier | [Official PayPal integration](https://zapier.com/apps/paypal/integrations) supports automation and labels PayPal as Premium | Possible reviewed notifications/export after the core journey is proven. Current free/sponsor coverage and sandbox support are not established; do not assume free payment automation or bypass Nudge approvals. |
+| Astropods | Gateway adapter preparation exists; access issue unresolved and signup balance reserved | Retain as an alternative only if access/allowance is clarified. No additional usage or deployment is authorized. |
+
+The product-fit decisions above are our assessment from those capabilities and Nudge's current workflow, not statements that sponsors require those features. User research, a coherent working PayPal+AI journey and a clear demo take priority over adding every sponsor. Historical entries below retain their original evidence/date; this checkpoint supersedes obsolete prepared-only AG Studio descriptions.
+
 October10 AG Studio offline bridge checkpoint: actual Agent Framework now consumes guarded handler replies through intercepted fictional browser requests; see STUDIO_AGENT_BRIDGE.md. Website AI remains disconnected and Elastic calls paused. Continue meaningful AG Studio analytics/framework work, existing Postman API regression, and Render hosting only after account/credit/storage/licence checks. Other sponsor tools require a demonstrated workflow need; installing them does not improve the submission by itself. No allowance, licence, subscription or production deployment is activated here.
 
 
