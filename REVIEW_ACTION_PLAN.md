@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October10 build-order clarification: sponsor signup/deployment research does not replace the evidence order below. No immediate hosting is required; a controlled preview may later verify disk/proxy/webhook behavior before final public launch. Deeper sponsor offer/fit review is in SPONSOR_RESOURCES.md. The strongest optional new product candidate is owner-reviewed date-impact visibility for approved extras with Bryntum, conditional on freelancer evidence, licensing and core completeness. Current Studio framework/allowance preparation is offline evidence; it does not close live semantic quality or demand validation. Next useful local work is an inventory/review of saved AI evidence and human-validation readiness while usage stays paused, not automatic provider activation or a new trial.
+
 October 7 owner-priority clarification: AG Grid / AG Studio is a relevant planned analytics workstream, not a replacement for the core evidence order below. While model usage and hosting are gated, independent preparation now includes a minimal read-only integer-cent owner analytics projection (AG_DASHBOARD_PLAN.md). It is tested locally but not connected to an authenticated route or installed AG component. Sponsor licensing, usefulness and judging access precede Studio activation; no new multi-client scope or live requests are authorized by this checkpoint.
 
 October 4, 2026. Planning update only: no application changes, provider calls, spending, deployment or new payment fixtures.
