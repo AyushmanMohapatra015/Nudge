@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October10 AG Studio offline bridge checkpoint: actual Agent Framework now consumes guarded handler replies through intercepted fictional browser requests; see STUDIO_AGENT_BRIDGE.md. Website AI remains disconnected and Elastic calls paused. Continue meaningful AG Studio analytics/framework work, existing Postman API regression, and Render hosting only after account/credit/storage/licence checks. Other sponsor tools require a demonstrated workflow need; installing them does not improve the submission by itself. No allowance, licence, subscription or production deployment is activated here.
+
 
 October 7 owner clarification: no Render signup yet, no credits claimed. RENDER_SIGNUP.md now gives account/official-offer/Billing steps and the unresolved eligibility/expiry/card/credit-exhaustion checkpoint. Published offer is USD50; no account balance or exact claim flow verified. Owner explicitly prioritizes substantial AG Grid/AG Studio use; it is now a planned dashboard workstream, not merely an optional name under consideration. Licensing/trial and judging access must be checked before activation. No account, package, credit, workflow, model or hosting action follows from this documentation.
 

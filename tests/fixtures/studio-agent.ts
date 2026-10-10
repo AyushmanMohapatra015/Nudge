@@ -3,8 +3,9 @@ import { createStudio, createAiHarness, clientToolRunner, AgStudioAiModule,
   type AgAiAgentRun, type AgAiChatSession, type AgAiHarness, type AgAiTelemetryEvent, type AgStudioApi } from 'ag-studio';
 import { createStudioAnalystDefinition } from '../../lib/studio-analyst';
 import type { OwnerAnalytics } from '../../lib/owner-analytics';
+import { createStudioAgentBridge } from '../../lib/studio-agent-bridge';
 
-type Scenario = 'normal' | 'stale' | 'invalid' | 'unknown' | 'loop' | 'cancel';
+type Scenario = 'normal' | 'stale' | 'invalid' | 'unknown' | 'loop' | 'cancel' | 'bridge';
 let harness: AgAiHarness; let session: AgAiChatSession;
 let api: AgStudioApi;
 let turns = 0; let waiting = false;
@@ -43,7 +44,11 @@ const fixture = {
         yield { type: 'TEXT_MESSAGE_END', messageId: 'fictional-answer' };
       }
     };
-    const runner = clientToolRunner({ ...definition, run: scriptedTurn });
+    const bridge = createStudioAgentBridge(() => snapshot);
+    const runner = clientToolRunner({ ...definition, run: scenario === 'bridge' ? async function* (input, ctx) {
+      turns++; inputSummaries.push({ tools: input.tools.map(tool => tool.name), messages: input.messages });
+      yield* bridge(input, ctx);
+    } : scriptedTurn });
     api = createStudio(document.getElementById('studio')!, { data: { sources: [] } }, { modules: [AgStudioAiModule] });
     harness = createAiHarness(api, () => ({ agents: [runner], primary: definition.id,
       observers: [{ onEvent: event => observations.push(event) }] }));
@@ -55,6 +60,7 @@ const fixture = {
       messages: session.messages, snapshot, agents: harness.agents.map(agent => agent.id), threads: harness.threads.length };
   },
   cancel() { session.cancel(); },
+  advanceSnapshot() { snapshot = { ...snapshot, version: snapshot.version + 1 }; },
   async deleteThread() { await harness.deleteThread(session.threadId); },
   dispose() { session?.close(); harness?.dispose?.(); api?.destroy(); },
 };

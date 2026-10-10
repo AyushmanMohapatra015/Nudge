@@ -1,5 +1,7 @@
 # Dashboard analyst transport: guarded, not live
 
+October10 follow-up: STUDIO_AGENT_BRIDGE.md records a prepared, unregistered reply-to-Studio-events bridge and offline runner/handler interoperability. This supersedes the earlier next-bridge task below. Production remains disconnected; intercepted requests are not deployed HTTP/model evidence, and persisted allowance controls remain pending.
+
 October 10, 2026. `/api/analytics/agent` now has a POST handler and a reusable server transport factory. The website registers **no model adapter**, so configuration flags alone cannot activate it. There is no new chat UI, provider integration or AG-UI streaming bridge.
 
 ## Request and data boundaries

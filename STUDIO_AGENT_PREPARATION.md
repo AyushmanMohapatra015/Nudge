@@ -1,5 +1,9 @@
 # Studio snapshot analyst: offline preparation
 
+## Offline bridge checkpoint — October 10
+
+See STUDIO_AGENT_BRIDGE.md: the actual harness now exercises the guarded reply contract via intercepted fictional requests, with eight browser scenarios and four unit cases. The bridge is prepared but unregistered, production has no adapter, and no live AI is activated. Earlier next-bridge notes below are superseded; persisted allowance/activation controls and existing external gates remain prerequisites.
+
 ## Backend guard checkpoint — October 10
 
 STUDIO_AGENT_TRANSPORT.md records the new owner/origin/sandbox-only POST handler and mock-tested transport limits. Production registers no adapter; flags cannot enable it. Shared summary validation now serves both the tool and transport. All105 offline tests/typecheck, six harness and four Analytics/HTTP checks, final isolated build and Postman31/50 pass. Current transport returns a bounded reply contract, not AG-UI events; an offline bridge test is next. Request caps are process-local, and reported-token validation is not a verified spending cap. All live allowance/external checkpoints remain open.

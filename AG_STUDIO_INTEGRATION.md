@@ -1,5 +1,9 @@
 # AG Studio: first working integration
 
+## Offline bridge checkpoint — October 10
+
+STUDIO_AGENT_BRIDGE.md records actual Studio harness → intercepted request → guarded handler → validated displayed text, using fictional mock replies. All109 offline tests,14 harness/bridge browser checks and TypeScript pass. Website AI remains unregistered and production has no adapter. This adds offline interoperability evidence, not live-model use or hosted transport verification. Persisted allowance/activation controls and existing evaluation/accessibility/licence/core gates remain open.
+
 ## Guarded backend transport — October 10
 
 Added a disconnected owner-authorized sandbox-only /api/analytics/agent POST endpoint and reusable transport factory tested with mocks. Strict minimal input, server-derived totals/shared validation, version checks, rate/body/deadline limits, retained in-flight lock after timeout, cancellation, bounded replies/usage and sanitized no-retry failures. Production has no adapter or UI connection. All105 offline tests/typecheck, six harness/four Analytics-HTTP checks, final build and Postman31/50 pass. See STUDIO_AGENT_TRANSPORT.md for limits: request caps are not a monetary ceiling, and the reply contract still needs an AG-UI bridge. Next offline runner/transport interoperability, not live AI. Existing allowance/accessibility/licence/core gates remain active.
