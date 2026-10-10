@@ -1,12 +1,142 @@
 # Nudge: external review decisions
 
+## Authoritative task checklist — owner update, October 10
+
+This checklist governs upcoming work and supersedes older chronological "next task" statements below and in other documents. Checked means the stated evidence exists; unchecked means pending, conditional or deferred as labelled. A prepared document or mocked result does not close a live/human check. Sponsor use is optional under the supplied rules; integrate for a demonstrated benefit, not a sponsor count. New discoveries may add steps here before work begins.
+
+**Owner steering:** defer further AI verification for now. Elastic remains the selected AI provider; no fallback-provider expansion. Do not resume AI calls, evaluation batches or dashboard-agent activation merely because an extension arrives. The next selected workstream is **R: source/privacy and judge readiness**, corresponding to core priority4/5 below. P, H and sponsor account clarification can progress separately when their prerequisites are available. Deferred AI work retains its checkpoint in E.
+
+### Rules for every task
+
+- [ ] At task start, name its checklist ID, purpose and prerequisites; inspect current evidence before adding implementation.
+- [ ] Use fictional isolated fixtures and offline checks where possible; never silently convert preparation into paid/live usage.
+- [ ] Before a sponsor signup/activation, remind the owner and review the allowance/licence/expiry/exhaustion questions in SPONSOR_CHECKPOINTS.md. A support extension request is not approval or confirmed access.
+- [ ] Make one coherent change; complete the appropriate checks and resolve observed failures or record the exact external blocker.
+- [ ] Update this checklist with actual evidence, remaining limitations and one next task. Update PROJECT_STATUS.md and PROJECT_HANDOFF.md consistently.
+- [ ] Give explicit commit/push paths after changes. Preserve uncommitted user work and never publish credentials or private data.
+
+These recurring boxes are a per-task procedure, not a backlog of six separate features.
+
+### R — source/privacy, documentation and judging access (active)
+
+- [x] R1a: inventory tracked and non-ignored candidate files without reading local secrets/ordinary databases; add a location-only targeted source check (`npm run privacy:check`).
+- [x] R1b: inspect known tunnel/account-pattern findings, distinguish explicit fictional placeholders from actual accounts, keep environment example credentials empty and align its selected provider with Elastic. Preserve existing fictional fixture behavior.
+- [x] R1c: correct JUDGE_SETUP.md's outdated statement that no live model response exists; distinguish live adapter evidence from the unverified owner website journey.
+- [x] R1d: source check clear;123 offline tests and TypeScript pass, recorded in PUBLIC_SOURCE_REVIEW.md. This closes the targeted current-source review only; historical content/metadata and exports remain open.
+- [ ] R2: review historical tracked content with value-suppressed reporting and commit metadata for potential disclosure; inspect flagged locations privately. Never rewrite Git history or rotate keys without a concrete finding and reviewed remediation.
+- [ ] R3: review public exports/artifacts and generated bundles for private keys, client links and invoice identifiers; distinguish fictional test IDs, vendor browser-visible licence and actual operational records. Do not publish the real licence in source.
+- [ ] R4: check source assets, dependency notices and attribution; confirm application MIT licence does not relicense commercial sponsor packages. Obtain hosted evaluation/public-repository permission where unresolved.
+- [ ] R5: refresh clean-source verification for the current revision: locked install, typecheck, isolated production build, simulation workflow and restart persistence; report local archive versus remote clone accurately.
+- [ ] R6: perform actual screen-reader, real200%/400% zoom, full keyboard and touch checks on owner/client/Analytics journeys; document reproducible vendor defects, accessible fallbacks and remaining limits. Automated checks do not close this step.
+- [ ] R7: inspect login, loading, empty, expired-client-link, offline, busy and uncertain-operation states; prioritize concrete core usability failures and verify fixes.
+- [ ] R8: review privacy disclosures, retention/deletion/recovery instructions and sanitized runtime logs; distinguish source review from actual hosted infrastructure logging.
+- [ ] R9: before publishing, recheck current source/index/history, repository About/licence links, demonstration data and access permissions. Making the repository public is a separate owner action.
+
+**Next after R1:** R2, historical disclosure review. No additional provider hardening is scheduled. Hosted access is planned under D after credit/licence review; final public launch remains later.
+
+### P — complete PayPal evidence (core priority2)
+
+- [x] P1: sandbox checkout and payment reconciliation evidence exists.
+- [x] P2: genuine signed event replay, duplicate suppression and rejection of unsigned events exist.
+- [ ] P3: inspect existing paid fixture/registration evidence without creating, replacing, sending or paying another invoice; retain fixture identities privately.
+- [ ] P4: review a concrete sandbox-only connectivity/session plan with the owner before a temporary public endpoint or new provider operation. Polling is not webhook delivery.
+- [ ] P5: verify a fresh payment-triggered signed delivery, recording event receipt and authoritative PAID/$0 reconciliation while polling cannot explain the transition. If the original event cannot be verified retrospectively, state the gap and seek approval before a new fixture.
+- [ ] P6: verify duplicate handling and invoice identity, confirm temporary connectivity cleanup, and update WEBHOOK_VERIFICATION.md/action-plan evidence without exposing event payloads or credentials.
+
+### H — human usefulness and independent semantic review (core priority3)
+
+- [x] H1: first-pass agreement/request packet, saved-output packet, private blank worksheets and neutral incident-session kit prepared.
+- [ ] H2: owner invites two/three independent scope reviewers; record consent/exposure privately. No outreach is authorized for the coding agent.
+- [ ] H3: preserve all first-pass decisions before showing AI outputs; collect second-pass keep/edit/reject decisions and disagreements. No AI-generated substitute reviewers.
+- [ ] H4: owner arranges first three freelancer interviews; ask about past incidents and current workarounds before presenting features. Use anonymized paraphrases, no client documents/provider transmission.
+- [ ] H5: observe the fictional prototype with independent/assisted/not-completed/declined outcomes; separate incidents, observations and interpretations. Record optional scheduling and receivables questions without leading the participant.
+- [ ] H6: synthesize actual consenting findings with counts/denominators; include negative evidence and PayPal-fit limitations. Extend to five/eight conversations where practical.
+- [ ] H7: choose one product improvement supported by findings, write acceptance criteria and sponsor implications here, then implement/test it. Do not invent quotes or time savings.
+
+### E — Elastic scope AI and verification (owner-deferred)
+
+- [x] E1: dedicated private/tool-free request configuration, limited live adapter responses and observed-case corrections exist; original failures retained.
+- [x] E2: saved evidence desk review and offline authority-boundary checks exist; these do not establish general accuracy or live website success.
+- [ ] E3: obtain pending account-specific managed-LLM fair-use/exhaustion guidance and judging-period coverage; support confirmed November3 trial extension, not a numerical quota or additional coverage.
+- [ ] E4: reconcile dashboard period/filter/tracking with saved request receipts using read-only evidence; do not discard discrepancies or expand privileges automatically.
+- [ ] E5: **when the owner resumes verification**, review the exact model, fictional case, maximum attempt count and allowance. The enable flag and dashboard attempt ledger are not account-wide token/billing caps.
+- [ ] E6: verify one owner website scope-analysis journey in isolation; preserve zero-price draft/human approval, usage and failure evidence. Disable live access again at the agreed stopping point.
+- [ ] E7: run a bounded matched evaluation only after its separate allowance review; include semantic citation review, ambiguity/mixed-work cases and injection in source briefs and requests. Reserve independent unseen cases before tuning.
+- [ ] E8: assess failure handling, latency and measured usage; repeated runs/plain-LLM comparison depend on allowance. Report counts and provenance, never invented cost or model superiority.
+- [ ] E9: update actual AI claims and judging access instructions. Automatic brief extraction is not a verified website feature; decide whether it is necessary before creating another AI workstream.
+
+### A — AG Studio sponsor integration: owner analytics and bounded agent
+
+Role: help the freelancer understand recorded unpaid work, approved extras and follow-up state; keep finances/permissions server-authoritative. This is an existing integration, not a new signup.
+
+- [x] A1: embedded Studio, local analytics projection and custom report controls have working local evidence; exports/filtering and accessible snapshot tables have targeted checks.
+- [x] A2: real Studio harness/runner and guarded bridge exercised with scripted fictional replies; persistent bounded attempt ledger and read-only allowance display tested.
+- [ ] A3: confirm trial expires November21,2026 in current account terms, hosted evaluation/public-source permission and coverage through judging; handle the licence privately. Existing component watermark check is owner-confirmed.
+- [ ] A4: inspect current custom widgets/theming/layout against sponsor guidance and participant findings; define a specific useful remaining improvement rather than duplicate widgets or chase visual quantity.
+- [ ] A5: close the manual accessibility checks in R6, preserving the recorded vendor edit defects and native-table fallback.
+- [ ] A6: after E resumes and allowances are reviewed, decide on the concrete Elastic-backed read-only dashboard adapter; review minimal payload, output/usage/error contract and a separate dashboard attempt grant.
+- [ ] A7: only after that review, register/connect the agent and verify one bounded question through real HTTP/provider transport, stale snapshots, cancellation, exhausted allowance and no financial mutation. Current mocked bridge does not close this.
+- [ ] A8: consider previewed filter/report edits or built-in-agent delegation only if useful and permitted; specify scope/undo/confirmation before implementation. Widget generation and delegation are currently unimplemented.
+- [ ] A9: document demonstrated AG use, licence limits and measured agent evidence for submission; no live dashboard-AI claim before A7.
+
+### M — Postman sponsor integration: repeatable API verification
+
+- [x] M1: actual local Newman workflow and separate read-only sandbox checks have documented evidence; no Postman account needed for the current runner.
+- [ ] M2: rerun the reviewed collection when relevant backend changes justify it; preserve isolation, pinned runner, no external requests in simulation and verified temporary-process cleanup.
+- [ ] M3: before sharing collections/environments, check auth placeholders, cookies, client links and provider identifiers. Never export the owner's local environment.
+- [ ] M4: optionally create a Postman account/public workspace only if publishing sanitized API documentation improves judging. Check visibility/plan limits first; local usage remains sufficient otherwise.
+- [ ] M5: include precise Postman tool attribution and reproducible commands in final judge instructions.
+
+### D — Render sponsor integration: controlled hosting and persistence
+
+- [x] D1: review-only deployment template, local startup/health checks and disk/recovery instructions prepared; no hosted service exists.
+- [ ] D2: remind owner to sign up/claim the official credits when ready; inspect actual applied balance, expiry, eligible compute/disk charges, card requirements and exhaustion behavior before provisioning.
+- [ ] D3: review concrete service/disk plan, current cost estimate, intended uptime and judging dates. Credit balance is not a hard accrued-usage cap; do not assume credit-only operation prevents billing.
+- [ ] D4: confirm AG hosted licence/provider judging access and review owner/client/demo separation before any public preview. Shared simulation is not per-visitor isolation.
+- [ ] D5: after a concrete approved configuration, provision one Node host with persistent SQLite disk; protect secrets, avoid nonpersistent local filesystem and unintended scale-out.
+- [ ] D6: verify HTTPS cookies/origins, startup guards, health, database mount, restart persistence, retention and isolated backup/restore on Linux.
+- [ ] D7: complete hosted webhook connectivity and relevant Postman checks; keep owner credentials private and public access limited to the intended judge flow.
+- [ ] D8: observe accrued usage, runtime/storage/build costs and expiry; review continued judging availability or shutdown before allowance exhaustion. Support extensions are requests until confirmed.
+- [ ] D9: evaluate Render Workflows only if a genuine asynchronous orchestration need appears; specify persistence, retries, idempotency and costs before adding it. Hosting alone does not prove Workflows use.
+
+### B — Bryntum: conditional approved-work/date-impact timeline
+
+- [ ] B1: use H5/H6 to establish whether extras disrupt delivery dates and how owners currently track/communicate changes. No scheduling feature is committed without evidence.
+- [ ] B2: if justified, remind owner to claim the45-day trial only when ready to build; check exact package, hosted/public-source permission, expiry and judging coverage.
+- [ ] B3: define dates from actual agreed work/owner decisions, tentative versus confirmed changes and timezone rules; no invented deadlines or automatic payment-blocked delivery.
+- [ ] B4: review minimal domain/schema/migration and client visibility; write acceptance criteria before implementing a timeline.
+- [ ] B5: integrate owner-reviewed dates/approved extras, persist safely and verify edits/restarts/accessibility/client consent boundaries; no autonomous rescheduling.
+- [ ] B6: validate that the view helps the observed incident and document actual sponsor use; otherwise defer/remove the candidate before starting a trial.
+
+### Other sponsor candidates — investigate only at the named trigger
+
+- [ ] Z1 (Zapier): after stable events and demonstrated notification/export need, check sandbox connector support, task/retry limits,14-day trial/post-trial coverage, permissions and exhaustion; remind owner before signup. Draft a reviewed owner workflow; external messages require explicit authorization. Prevent duplicate delivery and accidental real-client recipients before activation.
+- [ ] K1 (Kernel): if local browser evidence cannot meet a concrete remote-browser need, check actual credits, minutes/concurrency/storage/privacy/expiry and shutdown behavior before signup. Use fictional public demo credentials only after approval; do not give remote agents financial authority. No Kernel integration is currently required.
+- [ ] C1 (Channel3): only if research establishes a materials/procurement/catalog problem within our audience, assess clean-product data fit and credit/query/privacy/judging terms before signup. No shopping pivot or product search is currently planned.
+- [ ] T1 (Astropods): existing account/support issue remains inactive; revisit only if Elastic cannot meet a demonstrated need and the owner explicitly reviews an alternative with access/usage terms. Do not resume credit-consuming diagnostics or claim current use.
+
+These conditional steps may close as **deferred with reason**, not implemented. Maximizing relevant resources means deepening useful existing integrations and adding validated ones; it does not require using every sponsor.
+
+### F — final product, demonstration and submission
+
+- [ ] F1: choose the single approved-scope → reviewed extra → client decision → PayPal payment story; show clause evidence and trust safeguards in a coherent user flow.
+- [ ] F2: polish typography, motion/textures, responsiveness and error states without weakening semantics, contrast, reduced-motion or backend authority. Owner can revise frontend independently of stable contracts.
+- [ ] F3: refresh README, architecture, tools-used attribution, setup/run instructions and verification matrix; separate working/live/mocked/deferred claims and known limitations.
+- [ ] F4: confirm current official rules, deadline, judging/access period and video/public-repository requirements; do not infer dates or prize eligibility from old notes.
+- [ ] F5: rehearse a functional end-to-end demo on the target device with access lasting through judging. Any recorded/replay segment must be labelled honestly and cannot replace required functionality.
+- [ ] F6: record/upload a publicly visible video under three minutes; review permissions for trademarks/music/material, remove secrets/account details and check links.
+- [ ] F7: perform a final clean setup and privacy/access/licence/allowance check, submit project description/repository/demo/video/tool details, and verify the submission ahead of the deadline.
+- [ ] F8: document judging-period maintenance, credit-expiry/access continuity and safe shutdown after obligations end.
+
+Complete one selected checklist task at a time. Do not mark an entire workstream complete from a unit-test count, sponsor signup, prepared document or informal percentage estimate.
+
 ## Current execution checkpoint — October 10
 
 **Elastic is the selected AI provider.** PayPal remains the central sandbox payment integration; AG Studio supplies owner analytics; Postman supplies local API verification. Render is prospective hosting after account/storage/licence terms are confirmed. Astropods is not an active integration workstream. Existing fallback code is not a provider switch or a commitment to use another sponsor.
 
 Completed since the saved-evidence inventory: two offline Elastic authority-boundary tests, followed by a fix to the existing Anthropic/Astropods fallback parser rejecting explicit incomplete outcomes, duplicate reports and competing tools. See AI_AUTHORITY_BOUNDARY.md. The fallback fix was a maintenance detour, not the next core-plan milestone. It used no sponsor credits or actual provider calls. Latest verification is121 offline tests, TypeScript, isolated build and Postman31/50; temporary server cleanup required approved manual intervention. No core live/human evidence gap was closed by those tests.
 
-**Next priority is the existing AI-evidence gate:** obtain the pending Elastic allowance/exhaustion guidance and reconcile available usage records before any further live request. In parallel, the owner can arrange independent saved-output reviews and the first freelancer interviews using the prepared kits. Those require no model calls. Reviewer findings remain empty; the coding agent cannot complete participant research by adding more tests.
+Historical next-priority note superseded by the owner's deferral above: the Elastic allowance/exhaustion and usage gate remains required before further live requests, but AI verification is not the next active task. Owner-arranged independent reviews/interviews can still proceed without model calls; reviewer findings remain empty.
 
 After that, follow the numbered evidence order below: remaining fresh payment-triggered webhook verification, user-value findings, release gaps, complete live journey and judge-ready access/presentation. Do not add fallback-provider work or optional sponsor features to fill a waiting period unless a concrete issue blocks the core workflow or the owner explicitly changes priorities. If a gate is waiting on the owner/support, state it and identify a specific remaining core task that can advance independently.
 

@@ -6,6 +6,8 @@ Nudge is a scope and payments workspace for freelance designers. A client approv
 
 This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
+Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md).
+
 Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
 
 ## Run locally
@@ -120,7 +122,7 @@ Reference: [Invoicing events](https://developer.paypal.com/api/invoicing/webhook
 The sandbox-only helper `scripts/manage-sandbox-webhook.mjs` supports registration, invoice-event lookup, authentic redelivery, and removal of its own temporary registration. It never prints credentials or full event payloads. For example, after approving a tunnel:
 
 ```sh
-node --env-file=.env.local scripts/manage-sandbox-webhook.mjs register https://YOUR-HOST.trycloudflare.com/api/paypal/webhook
+node --env-file=.env.local scripts/manage-sandbox-webhook.mjs register https://YOUR-TUNNEL-HOST/api/paypal/webhook
 # Restart Nudge to load the registered webhook ID.
 node --env-file=.env.local scripts/manage-sandbox-webhook.mjs events YOUR-SANDBOX-INVOICE-ID
 node --env-file=.env.local scripts/manage-sandbox-webhook.mjs resend YOUR-ACTUAL-EVENT-ID

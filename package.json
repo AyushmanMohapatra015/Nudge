@@ -18,6 +18,7 @@
     "postman:check": "node --env-file=.env.local scripts/check-postman.mjs",
     "postman:workflow": "node scripts/check-postman-workflow.mjs",
     "typecheck": "tsc --noEmit",
+    "privacy:check": "node scripts/check-public-source.mjs",
     "evaluation:summary": "tsx scripts/summarize-scope.ts",
     "evaluation:baseline": "tsx scripts/run-scope-baseline.ts"
   },
