@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October10 deployment/access checkpoint: SPONSOR_CHECKPOINTS.md now records per-resource signup and usage reminders, including existing accounts that must not be re-created. Render's official USD50 offer and credit-redemption/billing behavior were rechecked; actual account award/expiry/card requirements remain unconfirmed. Credits apply at billing and do not prevent overage charges. RENDER_SIGNUP.md and RENDER_DEPLOYMENT.md provide the next owner steps and concrete service/disk/usage review; no resource was provisioned. Use the checkpoint before further sponsor activation.
+
 ## Sponsor fit recheck — October 10
 
 Official product pages were rechecked read-only for the remaining tools. This updates the fit assessment, not access, credits, implementation or prize eligibility. No signup, connection, trial, remote browser, automation or model call was activated.

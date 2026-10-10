@@ -1,5 +1,15 @@
 # Render signup and sponsor-credit checkpoint
 
+## Current checkpoint — October 10
+
+The [official hackathon Render page](https://paypalaihackathon.devpost.com/details/render) is now directly accessible and advertises USD50 through its linked credits portal. This supersedes the previous direct-page/rate-limit note below. The portal loads no readable form content in the research tool, so its account-specific fields, card requirement and actual award remain unverified. No form was submitted.
+
+[Render's current redemption instructions](https://render.com/docs/credits): if the sponsor gives a promo code, select the intended workspace, open Billing, use Credit Balance and Apply. Credits are workspace-specific. Redemption itself does not change workspace/service plans. Exact expiry depends on the promotion and needs confirmation with the provider. Do not publish a promo code or account identifier.
+
+**Check accrued charges, not only credit balance.** Render documents that credits are applied at the end of a billing period; the balance does not decrease incrementally with usage. If credits are insufficient, the remainder is charged to the workspace payment method. A USD50 balance is not a hard cap. Confirm billing behavior before any billable service or disk is created. Public pricing did not expose numeric compute/disk rates in this research view, so no new price estimate is asserted; collect the actual dashboard quote first.
+
+Immediate owner steps: account signup → official sponsor claim → Billing/credit/expiry/usage/card/exhaustion check → share only non-sensitive terms. Do not create a web service or enter a payment method to make an unverified claim flow work. If an offered card or plan requirement prevents completion, leave the flow there and report its non-sensitive wording. SPONSOR_CHECKPOINTS.md retains this and the other sponsor reminders.
+
 Owner status on October 7: not signed up, no credits claimed. Local deployment and recovery preparation does not create a Render account or service. Start with account/credit checks; deployment is a separate step.
 
 ## Steps for the owner

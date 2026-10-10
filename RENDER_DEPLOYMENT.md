@@ -1,5 +1,9 @@
 # Render hosting preparation — review before activation
 
+October10 recheck: official Next.js/disks/free-service/credits guidance supports the existing single Node service plus persistent disk choice. Free web services cannot attach persistent disks and lose local SQLite files on restart/redeploy/spindown. Workflows is separate task infrastructure, not the website endpoint. The review-only template remains unapplied. Confirm actual compute/disk quote, provider usage and sponsor billing terms in the dashboard; public pricing's numeric rates could not be extracted during this check, so the proposed instance is not a verified price/performance estimate. Account/credits/deployment remain unconfirmed. See SPONSOR_CHECKPOINTS.md and the updated RENDER_SIGNUP.md.
+
+Deployment budget worksheet before approval: record applied credits and expiry, workspace fee, single service compute rate,1GiB disk rate, included/extra bandwidth, build/pipeline usage, planned active days and projected spend through judging. Include current accrued charges because credits apply at billing and their visible balance can lag usage. No numeric quote, guaranteed credit-only operation or automatic suspension at exhaustion is assumed. If the confirmed terms do not satisfy the owner's zero-out-of-pocket constraint, keep the functional documented local setup instead of creating billable infrastructure.
+
 Status: prepared locally; no Render account connection, credit redemption, deployment or public URL has been created by this task. Render is a hackathon sponsor and a useful candidate for a stable website and PayPal sandbox webhook endpoint. The published credit offer in SPONSOR_RESOURCES.md is not proof of available balance, expiry or a hard spending limit.
 
 ## Hosting choice and cost checkpoint
