@@ -13,6 +13,9 @@ test('public-source review reports locations without exposing detected values an
   const serialized = JSON.stringify(findings);
   for (const value of [token, licence, buyer, clientUrl]) assert.equal(serialized.includes(value), false);
   assert.deepEqual(findings.map((f: { line: number }) => f.line), [1, 2, 3, 4]);
+  const rotated = 'https://fictional.example/client/' + 'a'.repeat(48);
+  assert.equal(sourceFindings('fixture.txt', rotated)[0].category, 'private-client-url');
+  assert.equal(JSON.stringify(sourceFindings('fixture.txt', rotated)).includes(rotated), false);
   for (const path of ['.env.local', 'data/output.json', 'data/workspace.sqlite', '.next/cache.txt', 'nested/secret.pem']) assert.equal(sensitivePath(path), true);
   for (const path of ['.env.example', 'lib/ai.ts', 'README.md']) assert.equal(sensitivePath(path), false);
 });

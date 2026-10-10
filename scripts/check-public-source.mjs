@@ -18,7 +18,7 @@ export function sourceFindings(path, text) {
     ['embedded-licence', /\[TRIAL\]_this_|\[v3\]_\[[A-Za-z0-9]+\]_[A-Za-z0-9+/=]{20,}/],
     // The explicit fictional fixture name is not a generated buyer account.
     ['sandbox-account', /\bsb-(?!fictional@)[A-Za-z0-9]+@(?:personal|business)\.example\.com\b/],
-    ['private-client-url', /(?:https?:\/\/[^\s"'`<>]+)?\/(?:api\/)?client\/[a-f0-9]{8}-[a-f0-9-]{27,}/i],
+    ['private-client-url', /(?:https?:\/\/[^\s"'`<>]+)?\/(?:api\/)?client\/(?:[a-f0-9]{48}(?![a-f0-9])|[a-f0-9]{8}-[a-f0-9-]{27,})/i],
     ['temporary-public-tunnel', /https?:\/\/[A-Za-z0-9.-]+\.(?:trycloudflare\.com|ngrok-free\.app|ngrok\.io)\b/i],
   ];
   const findings = [];

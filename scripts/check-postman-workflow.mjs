@@ -6,6 +6,7 @@ import { mkdirSync, readFileSync, writeFileSync, copyFileSync, readdirSync, lsta
 import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isolatedWorkflowEnv, verifyWorkflowCollection, runWorkflowCollection } from './postman-workflow-runner.mjs';
+import { reviewBrowserArtifacts } from './browser-artifact-review.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 let server;
@@ -18,7 +19,8 @@ async function stopOwned(child) {
   if (child.exitCode === null && child.signalCode === null) throw Error('owned-process-still-running');
 }
 async function main() {
-  if (process.argv.length !== 2) throw Error('arguments');
+  const reviewArtifacts = process.argv.length === 3 && process.argv[2] === '--review-browser-artifacts';
+  if (process.argv.length !== 2 && !reviewArtifacts) throw Error('arguments');
   const require = createRequire(import.meta.url);
   if (require('../data/postman-runner/node_modules/newman/package.json').version !== '6.2.1') throw Error('newman-version');
   const newman = require('../data/postman-runner/node_modules/newman');
@@ -27,6 +29,10 @@ async function main() {
   const runDir = resolve(root, 'data/postman-workflow', randomUUID()), appDir = resolve(runDir, 'app-source');
   mkdirSync(appDir, { recursive: true });
   const env = isolatedWorkflowEnv(process.env, root, runDir);
+  // Synthetic values only, injected into the isolated build child. The runtime
+  // simulation still receives the original credential-free isolated environment.
+  const markers = Object.fromEntries(['PAYPAL_CLIENT_SECRET', 'ELASTIC_API_KEY', 'ANTHROPIC_API_KEY', 'ASTRO_GATEWAY_API_KEY', 'NUDGE_ADMIN_TOKEN'].map(name => [name, `fictional-browser-review-${randomUUID()}`]));
+  const buildEnv = reviewArtifacts ? { ...env, ...markers } : env;
   function copy(relative) {
     const from = resolve(root, relative), to = resolve(appDir, relative);
     if (!from.startsWith(root + sep) || !to.startsWith(appDir + sep) || relative.split(/[\\/]/).some(part => part.startsWith('.env'))) throw Error('source-path');
@@ -42,13 +48,20 @@ async function main() {
   const cli = resolve(root, 'node_modules/next/dist/bin/next');
   console.log('Building disposable production source copy; integrations disabled.');
   await new Promise((done, reject) => {
-    const child = spawn(process.execPath, [cli, 'build'], { cwd: appDir, env, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    const child = spawn(process.execPath, [cli, 'build'], { cwd: appDir, env: buildEnv, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let log = ''; const append = chunk => { if (log.length < 1048576) log += chunk.toString().slice(0, 1048576 - log.length); };
     child.stdout.on('data', append); child.stderr.on('data', append);
     const timer = setTimeout(() => { void stopOwned(child).then(() => reject(Error('build-timeout')), () => reject(Error('build-stop-failed'))); }, 120000);
     child.once('error', () => { clearTimeout(timer); reject(Error('build-start')); });
     child.once('exit', code => { clearTimeout(timer); writeFileSync(resolve(runDir, 'build.log'), log, { flag: 'wx' }); code === 0 ? done() : reject(Error('build-failed')); });
   });
+  if (reviewArtifacts) {
+    const report = reviewBrowserArtifacts(resolve(appDir, '.next/static'), markers);
+    const publicReport = existsSync(resolve(appDir, 'public')) ? reviewBrowserArtifacts(resolve(appDir, 'public'), markers) : null;
+    writeFileSync(resolve(runDir, 'browser-artifact-review.json'), JSON.stringify({ ...report, publicAssets: publicReport }, null, 2), { flag: 'wx' });
+    console.log(JSON.stringify({ check: 'synthetic browser credential markers', files: report.files, findings: report.findings.length, sourceMaps: report.sourceMaps.length, success: report.success && (!publicReport || publicReport.success) }));
+    if (!report.success || publicReport && !publicReport.success) throw Error('browser-artifact-privacy');
+  }
   const port = await new Promise((done, reject) => {
     const reservation = createServer(); reservation.once('error', reject);
     reservation.listen(0, '127.0.0.1', () => { const port = reservation.address().port; reservation.close(() => done(port)); });

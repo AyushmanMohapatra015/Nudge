@@ -1,5 +1,7 @@
 # Studio export verification
 
+October 10 R3a rerun: the existing actual CSV/PNG scenario passed against a fresh isolated production build; complete columns/privacy/filter/reset/state assertions remain valid for that fixture. The same build passed16-file synthetic browser credential-marker scan and Postman31/50 with no provider fetch attempts. See BROWSER_ARTIFACT_REVIEW.md for127-test/typecheck results, normal temporary-server cleanup, browser-visible licence distinction and remaining runtime/hosted/operational-identifier work. No new visual image inspection or arbitrary-report-format claim.
+
 October 8, 2026. Actual browser downloads were checked against an isolated production build using fictional application workflows. No model or PayPal requests were made.
 
 ## Fixed
