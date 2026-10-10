@@ -19,6 +19,7 @@
     "postman:workflow": "node scripts/check-postman-workflow.mjs",
     "typecheck": "tsc --noEmit",
     "privacy:check": "node scripts/check-public-source.mjs",
+    "privacy:history": "node scripts/check-public-history.mjs",
     "evaluation:summary": "tsx scripts/summarize-scope.ts",
     "evaluation:baseline": "tsx scripts/run-scope-baseline.ts"
   },

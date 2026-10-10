@@ -23,7 +23,8 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] R1b: inspect known tunnel/account-pattern findings, distinguish explicit fictional placeholders from actual accounts, keep environment example credentials empty and align its selected provider with Elastic. Preserve existing fictional fixture behavior.
 - [x] R1c: correct JUDGE_SETUP.md's outdated statement that no live model response exists; distinguish live adapter evidence from the unverified owner website journey.
 - [x] R1d: source check clear;123 offline tests and TypeScript pass, recorded in PUBLIC_SOURCE_REVIEW.md. This closes the targeted current-source review only; historical content/metadata and exports remain open.
-- [ ] R2: review historical tracked content with value-suppressed reporting and commit metadata for potential disclosure; inspect flagged locations privately. Never rewrite Git history or rotate keys without a concrete finding and reviewed remediation.
+- [x] R2a: targeted historical source/message and metadata review completed:104 commits/763 unique blobs,26 known README tunnel placeholders, one commit with non-noreply author/committer metadata;126 offline tests/typecheck pass. See PUBLIC_HISTORY_REVIEW.md for limitations. Current effective email uses noreply; no remote/history modification.
+- [ ] R2b: before public release, owner decides whether the older commit metadata should be public. If removal is needed, prepare and review a narrow correction/recovery plan; any history rewrite/forced remote update requires explicit approval. No address is printed in docs. This decision remains open; do not call publication privacy cleared.
 - [ ] R3: review public exports/artifacts and generated bundles for private keys, client links and invoice identifiers; distinguish fictional test IDs, vendor browser-visible licence and actual operational records. Do not publish the real licence in source.
 - [ ] R4: check source assets, dependency notices and attribution; confirm application MIT licence does not relicense commercial sponsor packages. Obtain hosted evaluation/public-repository permission where unresolved.
 - [ ] R5: refresh clean-source verification for the current revision: locked install, typecheck, isolated production build, simulation workflow and restart persistence; report local archive versus remote clone accurately.
@@ -32,7 +33,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [ ] R8: review privacy disclosures, retention/deletion/recovery instructions and sanitized runtime logs; distinguish source review from actual hosted infrastructure logging.
 - [ ] R9: before publishing, recheck current source/index/history, repository About/licence links, demonstration data and access permissions. Making the repository public is a separate owner action.
 
-**Next after R1:** R2, historical disclosure review. No additional provider hardening is scheduled. Hosted access is planned under D after credit/licence review; final public launch remains later.
+**Next after R2a:** R2b owner metadata decision; R3 artifact/export/bundle review can proceed independently while that decision is pending. No additional provider hardening is scheduled. Hosted access is planned under D after credit/licence review; final public launch remains later.
 
 ### P — complete PayPal evidence (core priority2)
 

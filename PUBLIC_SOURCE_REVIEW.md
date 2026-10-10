@@ -22,4 +22,6 @@ The completed scan reports no targeted findings or historical sensitive paths. R
 
 ## Next task
 
+R2a has since been completed in PUBLIC_HISTORY_REVIEW.md: targeted historical content/messages and email categories reviewed, with one older metadata decision still open. The current helper itself still performs only the path-history inventory; use the separate `npm run privacy:history` helper for content review. Do not merge its findings with the clear current-source report.
+
 Follow R2 in REVIEW_ACTION_PLAN.md: historical disclosure review with value-suppressed reporting, including commit metadata. Do not rewrite history, rotate credentials or publish the repository automatically. Record concrete findings and review remediation first. Current sponsor roles and deferred AI gates are in the authoritative checklist.
