@@ -36,6 +36,8 @@ After the walkthrough ask: "Which step, if any, would help in the incident you d
 
 ## Copyable private worksheet
 
+October 10 script addendum, for future sessions: after discussing the incident, optionally ask, "Did that change affect your delivery dates or other commitments? What happened, and how did you track it?" Then ask, "How did you communicate any new date to the client?" Record no impact as a valid answer. Do not introduce a timeline product or sponsor first. Record whether this addendum was used; preserve earlier notes if sessions have already happened. This investigates whether scheduling merits a Bryntum integration, without assuming demand.
+
 Keep a local copy under ignored `data/validation/` using participant IDs only. This document is an empty template, not a dataset. No folder or participant file is created by this task.
 
 ```text
@@ -57,6 +59,8 @@ Task 4: independent / assisted / not completed / declined
 Misunderstandings, supplied states and assistance per task:
 Optional time per task, interventions/loading separately:
 Multi-client receivables incident / no incident:
+Optional delivery-date impact / no impact; tracking and communication:
+Script version/addendum used:
 Participant statements (paraphrased):
 Researcher interpretation (separate):
 Potential change and contrary evidence:

@@ -4,6 +4,8 @@ Prepared October 7, 2026. This is a review kit, not completed validation or a cl
 
 ## Purpose
 
+October 10 readiness check: independent reviews and findings remain pending. A separate coding-agent desk inspection is recorded in [AI_EVIDENCE_REVIEW.md](AI_EVIDENCE_REVIEW.md). Keep it with owner preparation; do not send it to reviewers before their first-pass decisions are saved. It does not replace their judgments or change either public packet.
+
 Check whether a person independently agrees with the scope decision, whether each citation actually supports the explanation, and whether the proposed extra work excludes included or unresolved work. Passing software tests and valid clause IDs cannot establish these facts.
 
 This complements [FREELANCER_VALIDATION.md](FREELANCER_VALIDATION.md), which examines real workflow usefulness. A desk review is not a user interview, measured time saving, legal assessment, or held-out model evaluation. These cases have influenced prompt development; some saved outputs use earlier prompt revisions. Review provenance is in [SCOPE_CHALLENGE_VERIFICATION.md](SCOPE_CHALLENGE_VERIFICATION.md).

@@ -1,5 +1,7 @@
 # Sponsor signup, usage and expiry checkpoints
 
+October 10 follow-up: [SPONSOR_SUPPORT_REQUESTS.md](SPONSOR_SUPPORT_REQUESTS.md) supplies owner-sent allowance, exhaustion, licence and judging-coverage questions. Extensions remain unconfirmed beyond existing dates. No outreach, account activation or credit use occurred. Use [AI_EVIDENCE_REVIEW.md](AI_EVIDENCE_REVIEW.md) to choose a bounded evidence task before requesting more usage; optional Bryntum signup waits for scheduling findings.
+
 October 10, 2026. This is the working reminder list. Check it before sponsor setup, live requests, deployment and submission. Update it when the owner supplies non-sensitive account terms. It is not a scheduled notification service; no account, paid resource, message or live call has been created by this file.
 
 Timing clarification: signup/credit research is separate from creating a service. Render deployment is not the next mandatory build step; perform a controlled preview when core behavior and account/licence terms are ready, ahead of the final public demo. The published Bryntum45-day, Zapier14-day, KernelUSD50 and Channel3search-credit offers are now recorded in SPONSOR_RESOURCES.md, but actual account expiry/permissions/limits remain unverified. Start additional trials only when a validated integration is ready for testing. Current existing accounts do not require repeat signup.
