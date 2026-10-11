@@ -1,5 +1,7 @@
 # Nudge
 
+For the pending Windows screen-reader, actual browser-zoom and physical-touch review, see [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md). `npm run a11y:manual` opens a separate fictional loopback session from a matching verified production build, keeping ordinary workspace data and provider credentials isolated. These hands-on results are still pending.
+
 **Get paid for everything you agreed to—and everything that changed.**
 
 Nudge is a scope and payments workspace for freelance designers. A client approves an agreement, AI compares a new request against the actual clauses, the freelancer sets a change price, and the client accepts that price before a PayPal invoice can be created. Payment follow-ups obey explicit rules and require human approval.

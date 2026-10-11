@@ -1,5 +1,13 @@
 # Analytics accessibility checkpoint
 
+## R6 keyboard editing follow-up — October 11
+
+Actual Tab traversal reaches the snapshot disclosure/table region, layout toggle and Studio widget focus sentinel. The new check verifies Alt+Left shrinks the initially full-width custom widget, Shift+Right moves it into the freed canvas space, Enter enters content, Escape returns to its container, and Finish editing/refresh/back navigation remain keyboard reachable. API write capture stays empty and the complete workspace state is unchanged. The sentinel has zero size by vendor design, so the test checks the visible associated widget's viewport bounds while asserting real focus on the sentinel. It does not programmatically focus or click these controls.
+
+Initial movement/growth attempts hit canvas boundaries or adjacent widgets; installed v3 collision checks reject overlaps. Shrinking before moving is a valid keyboard path, not a new app restriction. All three new keyboard/focus checks pass in the final targeted run, and the two existing Analytics accessibility checks passed in the preceding broader run.
+
+Known edit-mode nested-interactive findings remain unchanged and unresolved. Native tables provide reading access, not equivalent access to all editing/chart interactions. Real Narrator, actual browser zoom and physical touch remain pending in [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md); the local fictional helper does not enable sponsor AI or use the private licence. No screen-reader or full-conformance claim follows from these automated checks.
+
 October 8, 2026. This is a bounded automated/browser review, not a WCAG certification or a completed screen-reader study.
 
 ## Changes and evidence

@@ -1,5 +1,15 @@
 # Core keyboard and load-recovery checkpoint
 
+## R6 owner focus and keyboard journey — October 11
+
+Found and fixed a remaining owner focus race: an animation-frame check could run before React removed the successful agreement editor/action. Recovery now runs after committed state changes and focuses the heading only if the initiating control disappeared and focus has not moved to another connected control. Cancellation uses the same recovery path; routine polling creates no recovery request. A held-response regression verifies that tabbing to another connected button during save preserves that new focus.
+
+The rebuilt isolated production app passed Postman 31 requests/50 assertions and a real process restart with persisted state, with no provider-fetch attempt. The broader browser run passed all 11 existing core/Analytics accessibility checks and the two new core keyboard/focus checks; its remaining Studio movement test initially attempted occupied/boundary space. Correcting that test to shrink then move into the free space produced a passing targeted run of all three new checks. Thus all 14 distinct relevant checks have passing evidence, across the broader run and final targeted run, not one final all-green combined run. The journey uses actual Tab/Enter/Space/type keys for agreement approval, client consent, scope review, quote approval, invoice send and simulated payment. Fixture setup and final verification use local APIs; no real checkout or AI is involved.
+
+Initial new-test errors also targeted a textarea by label instead of its accessible textbox name and assumed a visible Studio focus sentinel. Those tests were corrected without weakening the keyboard traversal or financial nonmutation assertions. Backend code did not change; the prior 129 offline-test result remains baseline evidence.
+
+The owner has Windows and a touchscreen device. Actual Narrator speech, real 200%/400% zoom and physical touch are **pending**, as are known vendor findings. [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md) provides exact exercises. `npm run a11y:manual` starts a separate loopback fictional session from a matching verified build; start/read/stop were checked and AI/providers were disconnected. It does not load the ordinary env/database or expose a phone-accessible server. R6 remains open; this is not a WCAG certification.
+
 ## Client explanation follow-up — October 7
 
 Added two checks for the new quote explanation in ordinary and explicitly verified forced-colors modes, with reduced motion. They exercise the named editor, short-message feedback, confirmation clearing after edits, keyboard approval, native disclosure controls via Tab/Enter/Space, owner/client reflow at 320 and 640 CSS pixels, keyboard client acceptance, retained message/price and no invoice creation. An intentionally long unbroken fictional string tests wrapping. Both 320-pixel client screenshots were inspected: message and clause content remain inside their cards, with visible disclosure focus in both modes.
