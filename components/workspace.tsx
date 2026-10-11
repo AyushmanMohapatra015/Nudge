@@ -22,6 +22,7 @@ export default function WorkspaceApp() {
   const [data, setData] = useState<Data>(); const [view, setView] = useState<View>('Overview');
   useEffect(() => { if (previousView.current !== view) { heading.current?.focus(); previousView.current = view; } }, [view]);
   const [busy, setBusy] = useState(false); const [error, setError] = useState(''); const [notice, setNotice] = useState('');
+  const [loadError, setLoadError] = useState('');
   const [login, setLogin] = useState(false); const [token, setToken] = useState(''); const [editing, setEditing] = useState(false);
   useEffect(() => {
     if (busy || !actionControl.current) return;
@@ -31,26 +32,26 @@ export default function WorkspaceApp() {
     if (!control.isConnected && (!active || active === document.body || !active.isConnected)) heading.current?.focus();
   }, [busy, data, editing]);
   const refresh = useCallback(async () => {
-    try { const r = await fetch('/api/workspace', { cache: 'no-store' }); if (r.status === 401) { setLogin(true); return; } const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setLogin(false); }
-    catch (e) { setError(e instanceof Error ? e.message : 'Unable to load the workspace.'); }
+    try { const r = await fetch('/api/workspace', { cache: 'no-store' }); if (r.status === 401) { setData(undefined); setLoadError(''); setLogin(true); return; } const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setLoadError(''); setLogin(false); }
+    catch (e) { setLoadError(e instanceof Error ? e.message : 'Unable to load the workspace.'); }
   }, []);
   useEffect(() => { refresh(); const timer = setInterval(refresh, 5000); return () => clearInterval(timer); }, [refresh]);
   useEffect(() => { if (!notice) return; const t = setTimeout(() => setNotice(''), 4500); return () => clearTimeout(t); }, [notice]);
   async function act(action: Action, onSuccess?: () => void) {
-    if (busy) return; actionControl.current = document.activeElement; setBusy(true); setError('');
-    try { const r = await fetch('/api/workspace', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(action) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setNotice('Workspace updated'); onSuccess?.(); }
+    if (busy || loadError) return; actionControl.current = document.activeElement; setBusy(true); setError('');
+    try { const r = await fetch('/api/workspace', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(action) }); if (r.status === 401) { setData(undefined); setLogin(true); setError('Your session has expired. Sign in again before continuing.'); return; } const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setNotice('Workspace updated'); onSuccess?.(); }
     catch (e) { setError(e instanceof Error ? e.message : 'Action failed.'); }
     finally { setBusy(false); }
   }
   async function signIn(e: React.FormEvent) { e.preventDefault(); setBusy(true); try { const r = await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setToken(''); await refresh(); } catch (e) { setError(e instanceof Error ? e.message : 'Unable to sign in.'); } finally { setBusy(false); } }
   if (login) return <div className="login-wrap"><form className="login-card" onSubmit={signIn}><div className="wordmark"><span className="brand-icon">n</span>nudge<span className="brand-dot">.</span></div><h1>Your workspace, protected.</h1><p>Enter the administrator token configured on this server to access the PayPal sandbox workspace.</p><label>Workspace token<input type="password" autoComplete="current-password" value={token} onChange={e => setToken(e.target.value)} required /></label>{error && <p role="alert" className="error-text">{error}</p>}<button className="btn primary" disabled={busy}>{busy ? 'Signing in…' : 'Open workspace'}<ArrowRight size={16} /></button></form></div>;
-  if (!data) return <main className="loading"><Loader2 className="spin" aria-hidden="true" /><p role={error ? 'alert' : 'status'}>{error || 'Getting your workspace ready…'}</p>{error && <button onClick={refresh} className="btn">Try again</button>}</main>;
+  if (!data) return <main className="loading"><Loader2 className="spin" aria-hidden="true" /><p role={loadError ? 'alert' : 'status'}>{loadError || 'Getting your workspace ready…'}</p>{loadError && <button onClick={refresh} className="btn">Try again</button>}</main>;
   const pending = data.proposals.filter(p => p.status === 'draft').length + (data.reminderDraft ? 1 : 0);
   const outstanding = data.invoices.reduce((n, i) => n + (['UNPAID', 'PARTIALLY_PAID'].includes(i.status) ? i.outstandingCents : 0), 0);
   const paid = data.invoices.reduce((n, i) => n + (['PAID', 'PARTIALLY_PAID'].includes(i.status) ? i.amountCents - i.outstandingCents : 0), 0);
   const additions = data.proposals.filter(p => p.status === 'accepted').reduce((n, p) => n + p.amountCents, 0);
   const clientUrl = `/client/${data.clientToken}`;
-  const locked = busy || !!data.processing;
+  const locked = busy || !!data.processing || !!loadError;
   return <div className="app-shell">
     <a className="skip-link" href="#workspace-content">Skip to workspace content</a>
     <aside className="sidebar">
@@ -65,6 +66,7 @@ export default function WorkspaceApp() {
       <header className="topbar"><div className="breadcrumb">Workspace <ChevronRight size={13} /><strong>{view}</strong></div><div className="topbar-right"><span className={`mode-indicator ${data.mode}`}><span />{data.mode === 'demo' ? 'Simulation mode' : 'PayPal sandbox'}</span><button className="icon-btn" title="Read project setup instructions" aria-label="Read project setup instructions" onClick={() => { setView('Rules'); setNotice('Setup instructions are in README.md in the project folder.'); }}><CircleHelp size={19} /></button><span className="tiny-avatar">YO</span></div></header>
       <main id="workspace-content" tabIndex={-1}>
         <div className="mode-banner"><CircleDot size={14} /><span>{data.mode === 'demo' ? 'Explore the complete workflow with illustrative data. AI analysis and payments are simulated; no messages are sent.' : 'PayPal sandbox mode. PayPal uses test money; approved invoice and reminder actions call the sandbox API.'}</span></div>
+        {loadError && <div className="error-banner" role="alert"><AlertCircle size={18} /><span>{loadError} Showing the last loaded workspace; actions are paused until connection recovers.</span><button className="btn" onClick={refresh}>Retry connection</button></div>}
         {error && <div className="error-banner" role="alert"><AlertCircle size={18} /><span>{error}</span><button onClick={() => setError('')} aria-label="Dismiss error"><X size={16} /></button></div>}
         {data.processing && <div className="mode-banner"><Loader2 className="spin" size={14} />Processing {data.processing.operation}. Other actions are temporarily locked.</div>}
         {data.processing && <ProcessingRecovery key={data.processing.key} processing={data.processing} recovery={data.processingRecovery} busy={busy} act={act} />}

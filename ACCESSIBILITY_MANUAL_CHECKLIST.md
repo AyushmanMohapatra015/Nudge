@@ -2,6 +2,8 @@
 
 Prepared October 11, 2026. Owner has a Windows laptop and a touchscreen device. Device availability is not a completed test. All results below remain pending until observed.
 
+The ongoing reminder and completion gates are in [TESTING_CHECKPOINT.md](TESTING_CHECKPOINT.md). We will use a dedicated session to work through these checks carefully.
+
 ## Start an isolated fictional session
 
 From D:\Nudge run:
@@ -54,4 +56,4 @@ On an available safe fictional preview, check portrait and landscape, tap naviga
 | Actual 400% zoom | Pending | Window size, views tested, clipping/focus/scroll findings |
 | Physical touch | Pending | Device/browser, safe preview used, orientation, tap/keyboard/scroll findings |
 
-Send only fictional observations or cropped fictional screenshots. Do not include keys, account pages, private URLs or actual client information. A failed or blocked check is useful evidence: record it rather than checking it off. R6 stays open until findings are reviewed and concrete fixes or external limits are documented; R7 follows afterwards.
+Send only fictional observations or cropped fictional screenshots. Do not include keys, account pages, private URLs or actual client information. A failed or blocked check is useful evidence: record it rather than checking it off. R6 stays open until findings are reviewed and concrete fixes or external limits are documented. Independent R7 technical review can continue while these owner-assisted results are pending, as recorded in the authoritative action plan.
