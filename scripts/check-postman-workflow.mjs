@@ -67,10 +67,15 @@ async function main() {
     reservation.listen(0, '127.0.0.1', () => { const port = reservation.address().port; reservation.close(() => done(port)); });
   });
   const origin = `http://127.0.0.1:${port}`;
-  server = spawn(process.execPath, [cli, 'start', '--hostname', '127.0.0.1', '--port', String(port)], { cwd: appDir, env, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
   let serverLog = ''; const appendServer = chunk => { if (serverLog.length < 1048576) serverLog += chunk.toString().slice(0, 1048576 - serverLog.length); };
-  server.stdout.on('data', appendServer); server.stderr.on('data', appendServer);
-  let startFailed = false; server.once('error', () => { startFailed = true; });
+  let startFailed = false;
+  function startServer() {
+    startFailed = false;
+    server = spawn(process.execPath, [cli, 'start', '--hostname', '127.0.0.1', '--port', String(port)], { cwd: appDir, env, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    server.stdout.on('data', appendServer); server.stderr.on('data', appendServer);
+    server.once('error', () => { startFailed = true; });
+  }
+  startServer();
   try {
     let ready = false;
     for (let attempt = 0; attempt < 80; attempt++) {
@@ -88,10 +93,35 @@ async function main() {
     if (!ready) throw Error('server-ready');
     console.log('Owned loopback server ready; running reviewed Postman simulation workflow.');
     const result = await runWorkflowCollection(newman, collection, origin, runDir);
+    let restartPersistence = false;
+    if (result.success) {
+      const beforeResponse = await fetch(origin + '/api/workspace', { redirect: 'error', signal: AbortSignal.timeout(3000) });
+      if (!beforeResponse.ok) throw Error('restart-snapshot');
+      const before = await beforeResponse.json();
+      if (before.mode !== 'demo' || before.aiEnabled !== false || before.invoices.length !== 1 || before.invoices[0].status !== 'PAID' || before.invoices[0].outstandingCents !== 0) throw Error('restart-state');
+      await stopOwned(server);
+      startServer();
+      for (let attempt = 0; attempt < 80; attempt++) {
+        if (startFailed || server.exitCode !== null) throw Error('restart-start');
+        try {
+          const response = await fetch(origin + '/api/workspace', { redirect: 'error', signal: AbortSignal.timeout(1000) });
+          if (response.ok) {
+            const after = await response.json();
+            for (const field of ['version', 'agreement', 'agreementStatus', 'proposals', 'invoices', 'policies', 'audit', 'clientToken', 'clientLinkExpiresAt', 'processing', 'mode', 'aiEnabled', 'connections']) {
+              if (JSON.stringify(before[field]) !== JSON.stringify(after[field])) throw Error('restart-persistence');
+            }
+            restartPersistence = true; break;
+          }
+        } catch (error) { if (error.message === 'restart-persistence') throw error; }
+        await new Promise(done => setTimeout(done, 250));
+      }
+      if (!restartPersistence) throw Error('restart-ready');
+      console.log('Production server restart preserved the paid invoice, approvals, policies, audit and client access state.');
+    }
     const blockedProviderFetch = existsSync(resolve(runDir, 'blocked-fetch.log'));
-    const report = { ...result, blockedProviderFetch, success: result.success && !blockedProviderFetch };
+    const report = { ...result, restartPersistence, blockedProviderFetch, success: result.success && restartPersistence && !blockedProviderFetch };
     writeFileSync(resolve(runDir, 'summary.json'), JSON.stringify(report, null, 2), { flag: 'wx' });
-    console.log(JSON.stringify({ tool: report.tool, environment: report.environment, requests: report.requests.length, assertions: report.assertions, failedAssertions: report.failedAssertions, failedSteps: report.failedSteps, blockedProviderFetch, success: report.success, artifactDirectory: runDir }));
+    console.log(JSON.stringify({ tool: report.tool, environment: report.environment, requests: report.requests.length, assertions: report.assertions, failedAssertions: report.failedAssertions, failedSteps: report.failedSteps, restartPersistence, blockedProviderFetch, success: report.success, artifactDirectory: runDir }));
     console.log('No provider credentials loaded, model requests, PayPal calls or ordinary workspace writes. Synthetic records retained in ignored run directory.');
     if (!report.success) process.exitCode = 1;
   } finally {

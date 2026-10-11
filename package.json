@@ -21,6 +21,7 @@
     "privacy:check": "node scripts/check-public-source.mjs",
     "privacy:history": "node scripts/check-public-history.mjs",
     "privacy:browser": "node scripts/check-postman-workflow.mjs --review-browser-artifacts",
+    "verify:clean": "node scripts/verify-clean-source.mjs",
     "evaluation:summary": "tsx scripts/summarize-scope.ts",
     "evaluation:baseline": "tsx scripts/run-scope-baseline.ts"
   },

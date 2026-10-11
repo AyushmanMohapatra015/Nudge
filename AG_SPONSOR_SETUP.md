@@ -1,5 +1,7 @@
 # AG Studio sponsor access: verified offer and manual steps
 
+October10 R4 checkpoint: official judging is December1–15,2026, after the November21 trial expiry. Request confirmed free evaluation coverage through December15 and public-demo/public-source/judge setup permission before relying on Studio for final access. See THIRD_PARTY_NOTICES.md and the updated manual message in SPONSOR_SUPPORT_REQUESTS.md. No licence read, support message sent or extension assumed.
+
 Owner local verification, October 7: reports no watermark or console licensing errors and confirms the Analytics checks. Do not request signup, licence sharing or repeat configuration. Local licence checkpoint is complete on owner-observed evidence; hosted evaluation permission and judging access beyond November 21 remain unresolved.
 
 Updated licence checkpoint: owner confirms **November21,2026** expiry from the generated licence. It is evaluation-only and contains “Use in production is not permitted.” Exact-expiry uncertainty below is superseded; hosted hackathon evaluation/judging rights and post-expiry access remain unresolved. No licence value is retained here. Current generator choices: AI features **No**, framework **React**. Existing pinned dependencies/provider require no copy-pasted App example or new npm install; follow AG_STUDIO_INTEGRATION.md for private env configuration and restart.

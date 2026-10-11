@@ -6,6 +6,8 @@ Nudge is a scope and payments workspace for freelance designers. A client approv
 
 This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
+The MIT licence covers Nudge's original code. AG Studio remains a commercial evaluation dependency; public demo and judge licence coverage are still being confirmed. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json) and [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt). Do not publish your evaluation key or vendor packages in the repository.
+
 Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md).
 
 Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
@@ -109,6 +111,8 @@ Sponsor offers and the proposed no-cash setup are documented in [SPONSOR_RESOURC
 
 For repeatable backend workflow checks without provider credentials or credits, `npm run postman:workflow` builds a disposable copy and executes a separate [Postman workflow collection](postman/nudge-workflow.postman_collection.json) on an owned local server/database. Verified: 31 HTTP requests and 50 assertions across agreement approval, human scope review, client acceptance, simulated invoicing/payment, duplicate prevention and rejection paths. Model/payment behavior is simulated; Nudge HTTP routes are real. See [POSTMAN_WORKFLOW_VERIFICATION.md](POSTMAN_WORKFLOW_VERIFICATION.md) for the optional pinned Newman install, isolation boundaries and evidence. Do not run this write-containing collection against your ordinary workspace.
 
+After installing that optional Newman tool, `npm run verify:clean` additionally checks a current source snapshot with a fresh locked application install, TypeScript, offline tests and the production workflow/restart check. It uses ignored test copies/cache and needs npm registry access; it does not load your .env.local or link your original application dependencies. See [CLEAN_CHECKOUT_VERIFICATION.md](CLEAN_CHECKOUT_VERIFICATION.md) for the recorded evidence and limits.
+
 While the authenticated owner workspace is open, a read-only recovery check runs at most once every 30 seconds for up to ten outstanding invoices. This keeps payment status current when webhook delivery is delayed. Results are audited as **PayPal reconciliation**, never as verified webhook delivery. Recovery skips busy workspaces and discards results if a newer action changed the workspace. PayPal failures preserve the last known state for a later retry. This is a local-prototype fallback, not a background scheduler when the workspace is closed.
 
 For local testing, run `node scripts/webhook-relay.mjs` while the app is running on port 3000. The relay listens on loopback port 3001 and forwards only `POST /api/paypal/webhook`; dashboard, session, and client routes are blocked. It preserves PayPal signature headers and the request body, strips authorization and cookies, and limits payloads to 256 KiB. Starting the relay does not open a public connection.
@@ -180,16 +184,16 @@ npm run test:browser
 
 Browser tests start an isolated simulation server on port 3100 and use a separate SQLite database. By default on Windows they use installed Microsoft Edge. Set `NUDGE_BROWSER_PATH` to a Chromium browser executable on other platforms. Tests cover the two-party workflow, invoice acceptance gates, stale reminders after policy changes/payment, private links, cross-origin requests, and mobile overflow. Screenshots go to ignored `test-results/`.
 
-Unit tests cover financial validation, clause citation validation, ambiguous scope, reminder rules, and partial-payment mapping. They do not establish real PayPal or Claude connectivity.
+Unit tests cover financial validation, clause citation validation, ambiguous scope, reminder rules, and partial-payment mapping. These tests alone do not establish live provider connectivity or model quality.
 
 ## Current limits and next milestones
 
 - Validate the problem and interface with real freelance designers; example projects are synthetic, with no claimed user savings.
-- Verify real sandbox buyer payments and signed webhook delivery with your credentials.
-- Evaluate Claude on a labeled set of included/additional/ambiguous requests; valid citations alone do not establish correct interpretation.
-- Add rejection/revision of freelancer-side drafts, versioned agreements, onboarding, cancellation, and robust timeout recovery.
+- Sandbox checkout and signed webhook replay/deduplication have development evidence; verify a fresh payment-triggered webhook transition without owner polling.
+- Evaluate the selected Elastic model on independently reviewed included/additional/ambiguous cases and verify the website's live-AI journey after the owner resumes AI work. Valid citations alone do not establish correct interpretation.
+- Complete independent freelancer validation, actual assistive-technology checks, judge access/licence continuity and final submission materials. Versioned agreement history, production onboarding and cancellation remain future scope.
 - An ambiguous external timeout requires checking PayPal before retrying. The app does not promise exactly-once external execution on every endpoint. Guarded recovery is available for new locks whose owning process is confirmed exited on the same host; legacy/unverifiable locks remain blocked. Unknown invoice sends cannot be repeated just because PayPal still shows DRAFT.
-- Private client links are bearer capabilities: whoever holds the link can decide. This is not verified identity or a claim of legal contract enforceability. Keep links private. Replacement revokes the old Nudge URL; expiry and client authentication remain future work. See [CLIENT_ACCESS.md](CLIENT_ACCESS.md).
+- Private client links are bearer capabilities: whoever holds the link can decide. This is not verified identity or a claim of legal contract enforceability. Keep links private. Replacement revokes the old Nudge URL; new/replacement links expire after30days, while legacy links without expiry are rejected. Client identity verification remains future scope. See [CLIENT_ACCESS.md](CLIENT_ACCESS.md).
 - Protect actual sandbox mutation access when hosting. Simulation is for local exploration; the current shared simulation workspace does not isolate public visitors.
 - Payouts, natural-language policy compilation, MCP, forecasts, and dispute/refund decisions are not implemented or advertised as working.
 

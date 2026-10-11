@@ -1,5 +1,9 @@
 # Postman: isolated Nudge workflow verification
 
+## R5 restart and fresh-install refresh — October11
+
+The reviewed collection is unchanged:31requests/50assertions. The wrapper now restarts its owned production server after the successful collection and compares stored owner-state fields, including the paid invoice/$0 due, approvals, policies, audit and client link token/expiry. The restart comparison uses additional local HTTP reads outside the collection's counts. Both starts/cleanup and zero provider-fetch attempts were verified using freshly installed application dependencies through `npm run verify:clean`. See CLEAN_CHECKOUT_VERIFICATION.md for the snapshot, failed registry attempts, results and limits. Earlier counts below describe historical evidence.
+
 ## Verified October 7, 2026
 
 Repeat verification after the client-explanation feature: the unchanged collection again passed 31 requests/50 assertions with zero failures or blocked provider-fetch attempts. This confirms legacy approval calls that omit the optional message remain compatible. Separate server/browser tests cover the new message and evidence panel; latest suite is 82 server tests and three affected browser workflow tests, plus typecheck/isolated build. The initial run and its 81-test baseline below remain historical evidence.

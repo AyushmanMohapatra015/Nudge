@@ -28,6 +28,8 @@ Optional: before approving an agreement, My project offers manual brief review w
 
 ## Validation and production-mode local run
 
+For an optional clean-source regression check, install the pinned Newman runner as described in [POSTMAN_WORKFLOW_VERIFICATION.md](POSTMAN_WORKFLOW_VERIFICATION.md), then run `npm run verify:clean`. This creates a current working-tree source snapshot under ignored data/, freshly installs application dependencies from the lockfile using a separate verification cache, runs TypeScript and offline tests, and runs the isolated production Postman workflow with restart persistence checks. It does not load .env.local or reuse your application node_modules. Installation needs registry access and temporary disk space; the existing pinned Newman verification tool is reused. This is a local snapshot check, not a remote-clone or live integration check.
+
 ```sh
 npm run typecheck
 npm test

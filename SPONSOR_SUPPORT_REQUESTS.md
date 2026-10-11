@@ -4,15 +4,17 @@ October 10, 2026. Copyable messages for the owner to send manually when needed. 
 
 ## Elastic: existing account, extended trial
 
+Timing verified October10 against [official rules](https://paypalaihackathon.devpost.com/rules): submission November12,2026; judging December1–15,2026. The current November3 extension does not cover submission or judging. Include these dates in the existing case when requesting continued free access; no provider calls are resumed by this request.
+
 Send as a follow-up to the existing support case; avoid creating duplicate cases.
 
-> Thank you for extending my PayPal AI Hackathon trial through November 3. I plan to use Agent Builder and the Elastic Managed LLM for a small evaluation using fictional data. Could you share the outcome of the managed LLM allowance review, including the applicable fair-use limits, how to monitor remaining allowance, and what happens if the limit is reached while I remain on the trial without a paid subscription? Could you also confirm whether free access can cover the official judging period, or whether an additional extension is needed? I will keep usage bounded and would like to avoid activating any paid service. Thank you!
+> Thank you for extending my PayPal AI Hackathon trial through November 3. The official submission deadline is November 12, 2026, and judging runs December 1–15, 2026. Could free trial access to Agent Builder and the Elastic Managed LLM be extended through December 15 so judges can use a working demo? Could you also share the outcome of the allowance review, including applicable fair-use limits, how to monitor remaining allowance, and what happens at exhaustion without a paid subscription? I will use fictional data and keep usage bounded, and would like to remain within free allowances. Thank you!
 
 Support already described fair-use limits and monitoring. This follow-up asks for the pending account-specific review and exhaustion/judging details; it does not assume an exact quota was promised.
 
 ## AG Studio: existing trial licence
 
-> Hello! I am using the AG Studio 45-day trial for the PayPal AI Hackathon, and my licence expires November 21, 2026. Could you confirm whether the evaluation licence permits a publicly accessible hackathon demo and the required public open-source repository? I would also appreciate guidance on licence-key handling in that repository and coverage through the official judging period, including an extension if needed. I am building an evaluation demo and would like to stay within the trial terms. Thank you!
+> Hello! I am using the AG Studio trial for the PayPal AI Hackathon, and my licence expires November 21, 2026. Could you confirm whether the evaluation terms permit a publicly accessible hackathon demo and a public MIT application repository that installs the commercial dependencies from npm? How should I provide reproducible judge setup without publishing my licence key? Judging runs December 1–15, 2026; could free evaluation coverage be extended through December 15? I would like to stay within the trial terms. Thank you!
 
 Never paste the actual licence into a support post or commit it. Record the permitted demo use and expiry before hosting; do not interpret an evaluation licence as general production permission.
 
@@ -31,6 +33,14 @@ Do not start this trial yet. First ask the neutral delivery-impact questions in 
 > Hello! I am considering Bryntum for a PayPal AI Hackathon evaluation demo. Before starting the 45-day trial, could you confirm whether it permits a hosted hackathon demo and a public open-source project, including how the commercial package or trial credentials should be handled? Is coverage through the official judging period available if the trial would end earlier? Thank you!
 
 ## Record the response before proceeding
+
+### Additional sponsors when their integration is selected
+
+Use the applicable sponsor's official channel before activation. Replace the bracketed parts; a request does not grant coverage.
+
+> Hello! I am participating in the PayPal AI Hackathon and considering [resource] for [specific project function]. I aim to submit in the first week of November, and judging runs December1–15,2026. Could you confirm the free allowance, expiry, eligible features and what happens at exhaustion without a paid subscription? Does it permit a public open-source application and a hosted or locally runnable evaluation demo for judges? If the allowance or licence would expire earlier, can free coverage be extended through December15? Please also advise how to provide judge access without publishing credentials or commercial package files. Thank you!
+
+For Bryntum, identify the selected scheduling component and evaluation terms. For Channel3, confirm permitted product-data display/storage and query allowance. For Render/Zapier/Kernel, ask about the actual hosting/tasks/browser resource selected rather than assuming one common quota. Do not claim an integration exists before it is implemented. No additional sponsor account or outreach is activated by this template.
 
 Record only non-sensitive terms in `SPONSOR_CHECKPOINTS.md`: confirmed expiry with timezone; eligible features; numerical quota or stated fair-use policy; usage visibility; whether exhaustion blocks requests or permits charges; paid-subscription/card requirements; hosted/open-source permissions; judging coverage; unresolved questions. Keep private account identifiers and correspondence outside Git.
 

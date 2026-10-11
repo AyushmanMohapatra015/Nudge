@@ -2,11 +2,15 @@
 
 ## Authoritative task checklist — owner update, October 10
 
+**Delivery target:** owner wants the working prototype and video submitted in the first week of November. This is our earlier internal target, distinct from the official November12 deadline. Owner reports an Elastic extension form is available; record its confirmed outcome before relying on new dates. Early submission does not remove working-access requirements through December15 judging. Prefer confirmed free coverage; no paid subscription or live AI activation is authorised by this clarification. R5 remains next.
+
 This checklist governs upcoming work and supersedes older chronological "next task" statements below and in other documents. Checked means the stated evidence exists; unchecked means pending, conditional or deferred as labelled. A prepared document or mocked result does not close a live/human check. Sponsor use is optional under the supplied rules; integrate for a demonstrated benefit, not a sponsor count. New discoveries may add steps here before work begins.
 
 **Owner steering:** defer further AI verification for now. Elastic remains the selected AI provider; no fallback-provider expansion. Do not resume AI calls, evaluation batches or dashboard-agent activation merely because an extension arrives. The next selected workstream is **R: source/privacy and judge readiness**, corresponding to core priority4/5 below. P, H and sponsor account clarification can progress separately when their prerequisites are available. Deferred AI work retains its checkpoint in E.
 
 ### Rules for every task
+
+Sponsor follow-up reminder: owner will contact Elastic and AG Studio for free coverage through December15. Check for a response before November3 and again before any sponsor activation/public judge access; record confirmed dates/limits in SPONSOR_CHECKPOINTS.md. Do not assume requests are granted. No paid subscription or live-AI activation is authorised by this reminder.
 
 - [ ] At task start, name its checklist ID, purpose and prerequisites; inspect current evidence before adding implementation.
 - [ ] Use fictional isolated fixtures and offline checks where possible; never silently convert preparation into paid/live usage.
@@ -28,14 +32,16 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [ ] R2c: review the older operational sandbox invoice identities/payment links detected by expanded history patterns before public release. Current-source cleanup does not erase historical copies. Distinguish repeated versions from unique transactions; any history remediation follows the same reviewed backup/approval process as R2b.
 - [x] R3a: export/projection and generated-browser-artifact review completed with fictional isolation:16 static assets/zero fake credential markers/zero browser maps, real export scenario1pass,127 offline tests/typecheck/build/Postman31/50pass. Current source scanner covers UUID and48-hex links. See BROWSER_ARTIFACT_REVIEW.md for runtime/hosted limits; licence deliberately browser-visible, real value untouched.
 - [x] R3b: two helpers now require private NUDGE_SANDBOX_REFERENCE_INVOICE_ID, with no guess/fallback; fictional fixture tests retain exact-identity gates. Older create/send helper requires explicit confirmation/import guard. Current docs redact operational identifiers/payment link; source scanner expanded.129 offline tests/typecheck/current scan pass, no provider operations or actual env/workspace changes. See SANDBOX_FIXTURE_PRIVACY.md; older copies remain pending R2c.
-- [ ] R4: check source assets, dependency notices and attribution; confirm application MIT licence does not relicense commercial sponsor packages. Obtain hosted evaluation/public-repository permission where unresolved.
-- [ ] R5: refresh clean-source verification for the current revision: locked install, typecheck, isolated production build, simulation workflow and restart persistence; report local archive versus remote clone accurately.
+- [x] R4a: bounded source asset and 111-entry lockfile licence inventory complete; five direct permissive runtime notices retained. THIRD_PARTY_NOTICES.md records commercial boundaries, fonts/icons, bundled/transitive and target-platform limitations. Documentation only; no credit use.
+- [ ] R4b: obtain AG hosted evaluation/public-source/judge permission and access continuity. Official rules checked October10: submission November12, judging December1–15; Elastic November3 and AG November21 expiries do not cover required access. Owner-sent requests prepared, no extension assumed.
+- [ ] R4c: if distributing a prebuilt image/archive, preserve actual target-platform transitive/bundled notices and resolve applicable binary obligations. Lockfile metadata and five direct notices alone do not close this.
+- [x] R5: current working-tree snapshot231files, fresh locked install54packages, typecheck,129offline tests, production build and Postman31/50 pass. New process restart preserves compared paid/approved/audit/client-link state; zero provider-fetch attempts, owned servers stopped. verify:clean wrapper and CLEAN_CHECKOUT_VERIFICATION.md distinguish local snapshot/tool reuse from remote clone/live/hosted proof. Registry EACCES/idle-timeout attempts resolved with approved access/longer timeout/test-cache reuse; no app/package bypass.
 - [ ] R6: perform actual screen-reader, real200%/400% zoom, full keyboard and touch checks on owner/client/Analytics journeys; document reproducible vendor defects, accessible fallbacks and remaining limits. Automated checks do not close this step.
 - [ ] R7: inspect login, loading, empty, expired-client-link, offline, busy and uncertain-operation states; prioritize concrete core usability failures and verify fixes.
 - [ ] R8: review privacy disclosures, retention/deletion/recovery instructions and sanitized runtime logs; distinguish source review from actual hosted infrastructure logging.
 - [ ] R9: before publishing, recheck current source/index/history, repository About/licence links, demonstration data and access permissions. Making the repository public is a separate owner action.
 
-**Next after R3b:** R4 asset/dependency/licence review. R2b/R2c owner historical-disclosure decisions remain open. No additional provider hardening is scheduled. Hosted access is planned under D after credit/licence review; final public launch remains later.
+**Next after R5:** R6 actual screen-reader/real zoom/full keyboard/touch review of core owner/client/Analytics journeys. Start with available local tools; any owner-assisted/manual limitation stays explicit. R4b sponsor permissions/continuity and R2b/R2c owner historical-disclosure decisions remain open; R4c applies before binary/image distribution. No additional provider hardening or live AI is scheduled. Hosted access is planned under D after credit/licence review; final public launch remains later.
 
 ### P — complete PayPal evidence (core priority2)
 
@@ -112,6 +118,8 @@ Role: help the freelancer understand recorded unpaid work, approved extras and f
 - [ ] B6: validate that the view helps the observed incident and document actual sponsor use; otherwise defer/remove the candidate before starting a trial.
 
 ### Other sponsor candidates — investigate only at the named trigger
+
+October11 owner emphasis: consider additional sponsor resources alongside the existing integrations. Each adopted sponsor must pass the same December15 judging-access, free-allowance, exhaustion, licensing and privacy checks as Elastic/AG. At B2/C1/D2/Z1/K1, remind the owner before signup and request an extension when necessary; track the confirmed outcome in SPONSOR_CHECKPOINTS.md. These candidates remain tied to the product needs below, and R6 is still next. Do not start all time-limited trials together or assume every sponsor grants an extension.
 
 - [ ] Z1 (Zapier): after stable events and demonstrated notification/export need, check sandbox connector support, task/retry limits,14-day trial/post-trial coverage, permissions and exhaustion; remind owner before signup. Draft a reviewed owner workflow; external messages require explicit authorization. Prevent duplicate delivery and accidental real-client recipients before activation.
 - [ ] K1 (Kernel): if local browser evidence cannot meet a concrete remote-browser need, check actual credits, minutes/concurrency/storage/privacy/expiry and shutdown behavior before signup. Use fictional public demo credentials only after approval; do not give remote agents financial authority. No Kernel integration is currently required.
