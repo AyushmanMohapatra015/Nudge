@@ -12,6 +12,8 @@ The MIT licence covers Nudge's original code. AG Studio remains a commercial eva
 
 Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md).
 
+Before making the repository public, follow [PUBLICATION_READINESS.md](PUBLICATION_READINESS.md): older history disclosures, sponsor publication permissions and actual GitHub settings still need review. A clear current-source scan does not clear those gates.
+
 Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
 
 ## Run locally

@@ -22,6 +22,8 @@ The helper is bounded to2000 commits,10000 unique blobs,2MiB per blob and64MiB t
 
 ## Metadata decision before public release
 
+October12 R9 refresh:116 local ref-reachable commits/882 unique blobs reviewed. Repeated historical operational matches resolve to two unique invoice identities and one sandbox payment URL; no values are printed. One older non-noreply metadata commit and26known tunnel placeholders remain. PUBLICATION_READINESS.md records the current-source/index evidence, owner disclosure/remediation decisions and unverified remote/licence gates. No history rewrite or publication occurred.
+
 October 10 R3b update: expanded source patterns now also detect operational-format invoice IDs and sandbox invoice payment links. A refreshed107-commit review reports repeated historical occurrences of both; these were outside the earlier targeted rules above. Current-source helper/doc cleanup is verified in SANDBOX_FIXTURE_PRIVACY.md, but older copies remain. R2c requires their separate disclosure/remediation review alongside the metadata decision. Do not treat the earlier no-targeted-token finding as a guarantee that history contains no operational details.
 
 R2 investigation is complete; R2b remains open. The owner decides whether this older identity metadata is intended to be public. Do not disclose the address here to make that decision.
