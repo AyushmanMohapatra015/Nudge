@@ -12,6 +12,8 @@ The only navigation is a normal link to the workspace for manual Payments review
 
 ## Verification
 
+Owner-requested October12 repeat after reporting an accidentally stopped Edge window: **all13focusedbrowserchecks pass together in one56.8second run**, with no browser-close failure. Seven targeted offline/render checks and TypeScript pass again.53runtime/source/config/package files match the previously verified disposable production source exactly, so no new build/provider workflow was necessary. The owned3116endpoint is stopped. The owner's interruption could explain the earlier closure, but this does not independently establish its exact cause. Prior failed attempts below remain recorded; M3 remains next and R6 actual hands-on checks remain pending.
+
 Seven targeted offline/backend/render checks pass: existing analytics/privacy and exact-cent reporting, plus mixed status/date summary, empty/corrected records and actual rendered missing-context/singular/one-cent wording. Fictional records include OTHER; PAID with outstanding balance; UNPAID/PARTIALLY_PAID at zero; invalid positive-receivable dates; DRAFT/CANCELLED with invalid dates; current and overdue valid dates. The mixed fixture preserves $205.79 outstanding, $100.00 overdue and separate 4-status/2-date checks with $5.79 unknown-date receivables.
 
 TypeScript passes. A matching disposable production build and Postman31requests/50assertions pass; restart preserves compared state and no provider fetch is attempted. Build receipt: ignored `data/postman-workflow/8781c914-60e7-4c61-b6f5-9d2b80a06c8e/summary.json`. No actual licence or local environment file was loaded.
