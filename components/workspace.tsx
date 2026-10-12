@@ -1,4 +1,5 @@
 'use client';
+import { BrowserRead } from '@/lib/browser-read';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowDownLeft, Check, ChevronRight, CircleHelp, Clock3, FileText, History, LayoutDashboard, Loader2, LockKeyhole, Plus, Send, Settings2, ShieldCheck, Sparkles, Wallet, X, CheckCheck, PanelLeftClose, Link2, ExternalLink, AlertCircle, CircleDot } from 'lucide-react';
 import { money, reminderGate, type Agreement, type Proposal, type Workspace, type Invoice } from '@/lib/domain';
@@ -19,6 +20,8 @@ export default function WorkspaceApp() {
   const heading = useRef<HTMLHeadingElement>(null);
   const previousView = useRef<View>('Overview');
   const actionControl = useRef<Element | null>(null);
+  const reads = useRef(new BrowserRead());
+  const mutationPending = useRef(false);
   const [data, setData] = useState<Data>(); const [view, setView] = useState<View>('Overview');
   useEffect(() => { if (previousView.current !== view) { heading.current?.focus(); previousView.current = view; } }, [view]);
   const [busy, setBusy] = useState(false); const [error, setError] = useState(''); const [notice, setNotice] = useState('');
@@ -31,19 +34,27 @@ export default function WorkspaceApp() {
     const active = document.activeElement;
     if (!control.isConnected && (!active || active === document.body || !active.isConnected)) heading.current?.focus();
   }, [busy, data, editing]);
-  const refresh = useCallback(async () => {
-    try { const r = await fetch('/api/workspace', { cache: 'no-store' }); if (r.status === 401) { setData(undefined); setLoadError(''); setLogin(true); return; } const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setLoadError(''); setLogin(false); }
-    catch (e) { setLoadError(e instanceof Error ? e.message : 'Unable to load the workspace.'); }
+  const refresh = useCallback(() => {
+    if (mutationPending.current) return Promise.resolve();
+    return reads.current.run(async signal => {
+      const r = await fetch('/api/workspace', { cache: 'no-store', signal });
+      if (r.status === 401) return { login: true as const };
+      const d = await r.json(); if (!r.ok) throw new Error(d.error);
+      return { login: false as const, data: d as Data };
+    }, result => {
+      setLoadError(''); setLogin(result.login);
+      if (result.login) setData(undefined); else setData(result.data);
+    }, e => setLoadError(e instanceof Error ? e.message : 'Unable to load the workspace.'));
   }, []);
-  useEffect(() => { refresh(); const timer = setInterval(refresh, 5000); return () => clearInterval(timer); }, [refresh]);
+  useEffect(() => { refresh(); const timer = setInterval(refresh, 5000); const reader = reads.current; return () => { clearInterval(timer); reader.cancel(); }; }, [refresh]);
   useEffect(() => { if (!notice) return; const t = setTimeout(() => setNotice(''), 4500); return () => clearTimeout(t); }, [notice]);
   async function act(action: Action, onSuccess?: () => void) {
-    if (busy || loadError) return; actionControl.current = document.activeElement; setBusy(true); setError('');
+    if (mutationPending.current || busy || loadError) return; mutationPending.current = true; reads.current.cancel(); actionControl.current = document.activeElement; setBusy(true); setError('');
     try { const r = await fetch('/api/workspace', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(action) }); if (r.status === 401) { setData(undefined); setLogin(true); setError('Your session has expired. Sign in again before continuing.'); return; } const d = await r.json(); if (!r.ok) throw new Error(d.error); setData(d); setNotice('Workspace updated'); onSuccess?.(); }
     catch (e) { setError(e instanceof Error ? e.message : 'Action failed.'); }
-    finally { setBusy(false); }
+    finally { mutationPending.current = false; setBusy(false); }
   }
-  async function signIn(e: React.FormEvent) { e.preventDefault(); setBusy(true); try { const r = await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setToken(''); await refresh(); } catch (e) { setError(e instanceof Error ? e.message : 'Unable to sign in.'); } finally { setBusy(false); } }
+  async function signIn(e: React.FormEvent) { e.preventDefault(); if (mutationPending.current || busy) return; mutationPending.current = true; reads.current.cancel(); setBusy(true); setError(''); try { const r = await fetch('/api/session', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setToken(''); mutationPending.current = false; await refresh(); } catch (e) { setError(e instanceof Error ? e.message : 'Unable to sign in.'); } finally { mutationPending.current = false; setBusy(false); } }
   if (login) return <div className="login-wrap"><form className="login-card" onSubmit={signIn}><div className="wordmark"><span className="brand-icon">n</span>nudge<span className="brand-dot">.</span></div><h1>Your workspace, protected.</h1><p>Enter the administrator token configured on this server to access the PayPal sandbox workspace.</p><label>Workspace token<input type="password" autoComplete="current-password" value={token} onChange={e => setToken(e.target.value)} required /></label>{error && <p role="alert" className="error-text">{error}</p>}<button className="btn primary" disabled={busy}>{busy ? 'Signing in…' : 'Open workspace'}<ArrowRight size={16} /></button></form></div>;
   if (!data) return <main className="loading"><Loader2 className="spin" aria-hidden="true" /><p role={loadError ? 'alert' : 'status'}>{loadError || 'Getting your workspace ready…'}</p>{loadError && <button onClick={refresh} className="btn">Try again</button>}</main>;
   const pending = data.proposals.filter(p => p.status === 'draft').length + (data.reminderDraft ? 1 : 0);
