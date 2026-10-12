@@ -18,6 +18,17 @@ Do not use the ordinary `npm run dev` workspace for these exercises. Do not ente
 
 ## Windows Narrator and core journey
 
+### First-time Narrator setup
+
+1. Leave the fictional review terminal running after it says Ready, open http://127.0.0.1:3117 in Edge and confirm Simulation mode. If a review session is already running on3117, use its window rather than starting a second server. An address-in-use message does not mean tests failed; it means that port is occupied. Do not stop an unidentified process.
+2. Press Windows+Ctrl+Enter to enable Narrator. If the shortcut is disabled, open Windows Settings, Accessibility (Ease of Access on Windows10), Narrator and turn it on. Use the installed voice; no additional voice installation is needed for this review. Return to the Edge tab.
+3. Use Tab/Shift+Tab to move between controls, Enter to activate buttons/links and Space to toggle checkboxes. Listen for the control name and role, disabled state and checked state. Press Ctrl to stop lengthy speech.
+4. Caps Lock+Tab reads the current item; Caps Lock+Right/Left moves the Narrator cursor through next/previous items, including text not reached by Tab. Caps Lock is a default Narrator modifier; Insert also works unless you changed the settings. Narrator reading position and keyboard focus are different, so use Tab for the control journey below.
+5. Follow the eight journey steps below and record what Narrator actually says. If Scan mode interferes with text entry or Space, record the mode and use the Narrator command guidance rather than treating it automatically as an app defect.
+6. Turn Narrator off with Windows+Ctrl+Enter or its Settings toggle; stop only your fictional review terminal with Ctrl+C when finished. If you cannot finish a check, record it as not completed.
+
+These commands are from Microsoft's linked reference below. Do not enable screen curtain or online image/AI description features for this basic check.
+
 Use Windows+Ctrl+Enter to start/stop Narrator if its keyboard shortcut is enabled, or use Narrator in Windows Settings. Microsoft's [Narrator command reference](https://support.microsoft.com/en-us/accessibility/windows/narrator/appendix-b-narrator-keyboard-commands-and-touch-gestures) explains the commands; Caps Lock or Insert is normally the Narrator modifier. Scan mode can change how arrow/Space keys behave; note which mode you use. Use Tab/Shift+Tab for controls, Enter for buttons/links and Space for native checkboxes.
 
 1. Tab to Skip to workspace content and activate it. Check that the main heading and current navigation view are understandable when announced.

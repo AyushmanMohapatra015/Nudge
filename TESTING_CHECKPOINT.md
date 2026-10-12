@@ -11,6 +11,8 @@ Created October 11, 2026 at the owner's request. We will dedicate a careful sess
 
 ## Dedicated hands-on session
 
+October12 automated recheck: all21 relevant Edge browser checks passed together on the matching verified production source with a new fictional database. Covers keyboard journey/focus, contrast/forced-colors/reflow, recovery/link invalidation, Analytics tables/axe checks and Studio keyboard layout controls. Known vendor nested-button findings remain bounded in the tests, not fixed or waived. Actual speech, browser zoom and physical touch remain pending. Beginner Narrator setup is now in ACCESSIBILITY_MANUAL_CHECKLIST.md. Existing3117session was left untouched; tests used their own3116server.
+
 - [ ] R6b: Windows Narrator through the owner, client and Analytics journeys; record actual announcements, labels, focus and failures.
 - [ ] R6b: real Edge 200% and 400% zoom; inspect navigation, forms, consent, quote, payment status and report scrolling.
 - [ ] R6c: physical touch in portrait/landscape; check taps, disclosures, consent, software keyboard and report scrolling. Separate-device access needs a reviewed fictional connection/preview first.

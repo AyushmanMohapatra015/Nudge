@@ -1,5 +1,13 @@
 # Core keyboard and load-recovery checkpoint
 
+## Combined automated recheck — October 12
+
+At the owner's request, all21 relevant browser checks passed together in one isolated Edge run: nine core accessibility checks, two Analytics accessibility checks, one client-link check, six connection-recovery checks and three keyboard-journey/focus checks. Current application source, assets/config and lockfile match the previously verified production copy; a fresh fictional database was used. This run does not repeat the prior production build, TypeScript or Postman evidence or imply another fresh install.
+
+The checks cover named controls, solid-background text contrast, forced-colors/reduced-motion emulation, owner/client320/640CSS-pixel reflow, keyboard financial simulation, error recovery, link rotation, complete snapshot tables and keyboard Studio layout changes. The Analytics edit-mode scan still expects the two known nested-interactive vendor findings; it is not a clean edit-mode audit. Actual Narrator speech, browser200/400% zoom and physical touch remain pending. Updated the manual with beginner setup, reading/navigation commands and a reporting procedure verified against Microsoft guidance.
+
+The review's3116server stopped after testing. A3117server was already running, so its session was not inspected, reused or stopped; a second manual-launch attempt returned address-in-use. Tests used a separate fictional database and filtered provider-disabled environment. No ordinary workspace, real AI/payment operation, private licence or firewall setting was used or changed.
+
 ## R6 owner focus and keyboard journey — October 11
 
 Found and fixed a remaining owner focus race: an animation-frame check could run before React removed the successful agreement editor/action. Recovery now runs after committed state changes and focuses the heading only if the initiating control disappeared and focus has not moved to another connected control. Cancellation uses the same recovery path; routine polling creates no recovery request. A held-response regression verifies that tabbing to another connected button during save preserves that new focus.
