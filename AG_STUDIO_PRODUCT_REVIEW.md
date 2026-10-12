@@ -1,6 +1,6 @@
 # A4: AG Studio product review and selected improvement
 
-October 12, 2026. Inspection and implementation specification only. No application code, package, trial, licence value or account changed; no live AI, payment, signup or outreach occurred. Participant interviews remain pending, so this is an engineering/product hypothesis, not validated customer impact.
+October 12, 2026. Initial A4a inspection and implementation specification. A4b was subsequently implemented as recorded at the end. The initial inspection changed no application code, package, trial, licence value or account; no live AI, payment, signup or outreach occurred. Participant interviews remain pending, so this is an engineering/product hypothesis, not validated customer impact.
 
 ## Existing evidence and sponsor fit
 
@@ -32,16 +32,16 @@ Keep the approved-quote widget separate. Place the new checks in their own full-
 
 ## A4b implementation acceptance criteria
 
-- [ ] Add a separately typed `nudge-invoice-checks` custom widget through the existing registry/React widget factory, not a detached card pretending to be a Studio widget.
-- [ ] Provide only the existing sanitized analytics projection through context; no raw workspace, client identity, invoice/payment URL, token or AI output. No new API, database schema or provider fetch is necessary.
-- [ ] Display the two checks, exact-cent money, singular/plural/zero states and snapshot scope/freshness limitations. A missing context shows a load/refresh prompt rather than reassuring zero values.
-- [ ] No actions that sync, send, remind, price, cancel or recover. A normal link can open the workspace for review; snapshot record numbers are not backend action identifiers. An unknown status is a review prompt, not a policy engine decision.
-- [ ] Register in the Nudge widget menu and initial report. Add, duplicate, delete and resize through actual Studio controls; refresh updates values without resetting the current edited layout. Navigation still resets the page-session layout, and the existing caption remains truthful.
-- [ ] Preserve full-workspace values under invoice/chart/page filters and independent quote totals. State the scope in text. Never sum independent warning categories as distinct invoices or receivables.
-- [ ] Use an accessible named region, headings, text warnings and keyboard-accessible link; handle constrained widget size by internal scrolling. Check the widget at narrow viewport and within edited small sizes, along with focus/forced-colors where relevant. Native reading fallback remains available; adding a card does not fix vendor editing defects or close R6 manual checks.
-- [ ] Verify realistic fictional cases: empty workspace; unknown status; PAID with nonzero outstanding; UNPAID/PARTIALLY_PAID with zero balance; positive receivable with invalid due date; valid current/overdue dates; DRAFT/CANCELLED with invalid due date. Mixed cases must retain separate categories and original totals.
-- [ ] Verify refresh from warning to clear state and failure preservation using controlled fictional read responses, without claiming a real PayPal transition. Record browser errors, unexpected API writes/provider calls and verify original decisions/totals remain unchanged.
-- [ ] Run only relevant analytics/report/widget/browser checks, TypeScript and an isolated current-source production workflow when implementation changes. Keep licence values private and owned test-server cleanup verified. Update evidence, limitations, status and handoff.
+- [x] Add a separately typed `nudge-invoice-checks` custom widget through the existing registry/React widget factory, not a detached card pretending to be a Studio widget.
+- [x] Provide only the existing sanitized analytics projection through context; no raw workspace, client identity, invoice/payment URL, token or AI output. No new API, database schema or provider fetch is necessary.
+- [x] Display the two checks, exact-cent money, singular/plural/zero states and snapshot scope/freshness limitations. A missing context shows a load/refresh prompt rather than reassuring zero values.
+- [x] No actions that sync, send, remind, price, cancel or recover. A normal link can open the workspace for review; snapshot record numbers are not backend action identifiers. An unknown status is a review prompt, not a policy engine decision.
+- [x] Register in the Nudge widget menu and initial report. Add, duplicate, delete and resize through actual Studio controls; refresh updates values without resetting the current edited layout. Navigation still resets the page-session layout, and the existing caption remains truthful.
+- [x] Preserve full-workspace values under invoice/chart/page filters and independent quote totals. State the scope in text. Never sum independent warning categories as distinct invoices or receivables.
+- [x] Use an accessible named region, headings, text warnings and keyboard-accessible link; handle constrained widget size by internal scrolling. Check the widget at narrow viewport and within edited small sizes, along with focus/forced-colors where relevant. Native reading fallback remains available; adding a card does not fix vendor editing defects or close R6 manual checks.
+- [x] Verify realistic fictional cases: empty workspace; unknown status; PAID with nonzero outstanding; UNPAID/PARTIALLY_PAID with zero balance; positive receivable with invalid due date; valid current/overdue dates; DRAFT/CANCELLED with invalid due date. Mixed cases must retain separate categories and original totals.
+- [x] Verify refresh from warning to clear state and failure preservation using controlled fictional read responses, without claiming a real PayPal transition. Record browser errors, unexpected API writes/provider calls and verify original decisions/totals remain unchanged.
+- [x] Run only relevant analytics/report/widget/browser checks, TypeScript and an isolated current-source production workflow when implementation changes. Keep licence values private and owned test-server cleanup verified. Update evidence, limitations, status and handoff.
 
 ## Deferred and human validation
 
@@ -49,4 +49,4 @@ Persisting layouts would introduce a storage/validation/privacy workstream and i
 
 A3/R4b licence and judging permissions remain open; no trial restart/extension is assumed. R9b publication and historical-disclosure decisions, R6 Narrator/actual zoom/physical touch and owner-deferred Elastic checks remain unchanged. Conditional Bryntum/other sponsors keep their own fit/account gates.
 
-**Next checkpoint:** A4b implement and verify this bounded custom widget using fictional/offline data. A4a inspection/specification is complete; the widget is not implemented or user-validated yet.
+**October12 implementation update:** A4b is complete with bounded evidence in INVOICE_CHECKS_WIDGET_REVIEW.md. The initial inspection above remains the specification, not user validation. Next independent checkpoint is M3 sanitized Postman sharing review; A4c actual participant usefulness stays open.

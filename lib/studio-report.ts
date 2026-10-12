@@ -27,13 +27,15 @@ export const initialReport: AgReportState<NudgeStudioRegistry> = {
   selectedPageId: 'balances', panels: { filters: { collapsed: true }, data: { collapsed: true } },
   pages: [{ id: 'balances', widgets: {
     pending: { type: 'nudge-pending-changes', dataMapping: {} },
+    checks: { type: 'nudge-invoice-checks', dataMapping: {} },
     invoices: { type: 'grid', format: { crossFilter: 'filter', title: { enabled: true, text: 'Invoice balances (USD)' } }, dataMapping: { cols: [{ id: 'invoices.record' }, { id: 'invoices.status' }, { id: 'invoices.age' }, { id: 'invoices.receivableCents' }, { id: 'invoices.dueDate' }] } },
     ageing: { type: 'bar-chart-grouped', format: { crossFilter: 'highlight', title: { enabled: true, text: 'Outstanding invoices by age (USD)' }, caption: { enabled: true, text: 'Stored snapshot. Not a live PayPal check.' } }, dataMapping: { categoryKey: [{ id: 'invoices.age' }], valueKey: [{ id: 'invoices.receivableUsd', aggregation: 'sum' }] } },
     changes: { type: 'grid', format: { crossFilter: 'none', title: { enabled: true, text: 'Change quotes (USD)' }, caption: { enabled: true, text: 'Quote values are not payments.' } }, dataMapping: { cols: [{ id: 'changes.record' }, { id: 'changes.status' }, { id: 'changes.approvedCents' }] } },
   }, widgetLayout: {
     pending: { xTrack: 0, yTrack: 0, xSpan: 24, ySpan: 16 },
-    invoices: { xTrack: 0, yTrack: 16, xSpan: 24, ySpan: 14 },
-    ageing: { xTrack: 0, yTrack: 30, xSpan: 12, ySpan: 14 },
-    changes: { xTrack: 12, yTrack: 30, xSpan: 12, ySpan: 14 },
+    checks: { xTrack: 0, yTrack: 16, xSpan: 24, ySpan: 24 },
+    invoices: { xTrack: 0, yTrack: 40, xSpan: 24, ySpan: 14 },
+    ageing: { xTrack: 0, yTrack: 54, xSpan: 12, ySpan: 14 },
+    changes: { xTrack: 12, yTrack: 54, xSpan: 12, ySpan: 14 },
   } }],
 };

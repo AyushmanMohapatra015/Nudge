@@ -213,6 +213,8 @@ See [AI_DATA_HANDLING.md](AI_DATA_HANDLING.md) for scope-comparison payloads, th
 
 See [DATA_LIFECYCLE_REVIEW.md](DATA_LIFECYCLE_REVIEW.md) for retention, reviewed removal/recovery and log boundaries. Routine Next development logging is disabled to avoid exposing private client-link URLs; restart an existing dev server to load this setting. Hosted access logs still require review. Demo reset is not complete deletion, and backups are not encrypted.
 
+Analytics includes an AG Studio Invoice checks widget for recorded status issues and receivables with unknown due dates. It uses the complete local snapshot, unaffected by report filters, and cannot send reminders or change payments. See [INVOICE_CHECKS_WIDGET_REVIEW.md](INVOICE_CHECKS_WIDGET_REVIEW.md) for evidence and limits.
+
 - [PayPal Invoicing](https://developer.paypal.com/api/invoicing/)
 - [Create invoice](https://developer.paypal.com/api/invoicing/v2/invoices-create/)
 - [Send invoice](https://developer.paypal.com/api/invoicing/v2/invoices-send/)

@@ -12,6 +12,10 @@
 .studio-pending-scope, .studio-pending-note { font-size: 12px; }
 .studio-pending-changes a { display: inline-block; padding: 8px 0; color: #245a3c; text-underline-offset: 3px; font-weight: 600; }
 .studio-pending-changes a:focus-visible { outline: 3px solid #2b6448; outline-offset: 3px; }
+.studio-invoice-checks{box-sizing:border-box;height:100%;overflow:auto;padding:18px 22px;background:#f8f7f1;color:#263d33;border:1px solid #dedccc;border-radius:12px;overflow-wrap:anywhere}
+.studio-invoice-checks h2{margin:0 0 6px;font-size:18px}.studio-invoice-checks h3{margin:0;font-size:14px}.studio-invoice-checks p{margin:8px 0;line-height:1.5}
+.studio-checks-list{list-style:none;padding:0;margin:12px 0}.studio-checks-list li{padding:10px 0;border-top:1px solid #dedccc}.studio-checks-list strong{font-variant-numeric:tabular-nums}
+.studio-checks-scope,.studio-checks-note{font-size:12px}.studio-invoice-checks a{display:inline-block;padding:8px 0;color:#245a3c;text-underline-offset:3px;font-weight:600}.studio-invoice-checks a:focus-visible{outline:3px solid #2b6448;outline-offset:3px}
 .analytics-studio{overflow:auto}
 .analytics-studio-canvas{height:100%;width:100%;min-width:900px}
 .analytics-studio:focus-visible,.analytics-tables summary:focus-visible,.analytics-table-scroll:focus-visible,#analytics-reports:focus-visible{outline:3px solid #2b6448;outline-offset:3px}
