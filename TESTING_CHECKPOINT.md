@@ -4,7 +4,7 @@
 
 Owner wants to return to hands-on testing later and proceed to the next independent task now. Narrator speech, actual200/400% zoom and physical touch remain **pending**, not passed. The combined automated review is21/21passing; known Studio edit findings remain open. No more manual-testing setup or live provider operation is scheduled by this checkpoint.
 
-**Next agent task: R7b2**, remaining sign-in/loading/empty/busy/uncertain-operation presentation checks. R7b1 hung/overlapping owner/client reads are verified:3targeted offline tests and25browser checks pass; TypeScript/build/Postman/restart pass. Preserve actual manual-testing gates; use isolated fictional fixtures for technical checks.
+**Next agent task: R8**, privacy disclosures, data lifecycle/recovery and sanitized runtime-log review using fictional fixtures. R7b2 state review has35passing browser checks plus TypeScript/build/Postman/restart evidence; R7b1 read handling retains its3targeted offline tests. Preserve actual manual-testing gates and known vendor findings; no hosted or live-provider sign-off is implied.
 
 **Return trigger:** when the owner is ready for the dedicated session, and in any case before final design sign-off, demo recording and submission. Reopen ACCESSIBILITY_MANUAL_CHECKLIST.md, use the verified fictional session, record exact device/browser/observations, fix and retest actual findings. Continue the brief pending-testing reminder in completed-task updates. This is a saved checkpoint, not a scheduled alert.
 
@@ -32,10 +32,10 @@ Use [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md) for t
 ## Technical checks that remain separate
 
 - [x] R7b1: bounded/coalesced reads and read/write race checks verified in READ_LIFECYCLE_REVIEW.md; not proof of remote cancellation or safe replay of writes.
-- [ ] R7b2: remaining loading/sign-in/empty/busy/uncertain-operation states; inspect existing evidence, then add meaningful failure checks and fix observed defects.
+- [x] R7b2: exercised loading/sign-in/empty/busy/uncertain-operation states and lost local action responses verified in READINESS_STATE_REVIEW.md;35browserchecks pass, no automatic write retry. Hosted/authentication/manual limitations remain explicit.
 - [ ] Recheck affected keyboard/accessibility and workflow tests after changes; avoid repeating unrelated full suites without a reason.
 - [ ] Before the final submission, verify the final source setup and full demonstrated journey against the final build; document simulated, provider-verified and pending behavior separately.
 
 Further live Elastic and fresh PayPal evidence retain their own E/P allowance and authorization gates. This checkpoint does not resume those deferred tasks or claim user research has been completed.
 
-**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md). Next agent task remains R7b2; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.
+**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md); later state-review evidence is in READINESS_STATE_REVIEW.md. Next agent task is R8; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.

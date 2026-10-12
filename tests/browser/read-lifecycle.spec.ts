@@ -51,6 +51,7 @@ test(`${kind} mutation cancels old read and suppresses polling until action comp
   await page.getByRole('button', { name: buttonName }).click();
   await expect.poll(() => Boolean(write)).toBe(true);
   await expect(page.getByRole('button', { name: buttonName })).toBeDisabled();
+  await expect(page.getByRole('status').filter({ hasText: kind === 'owner' ? 'Saving your action.' : 'Saving your decision.' })).toBeVisible();
   await page.clock.runFor(6000);
   expect(getCount).toBe(1); expect(postCount).toBe(1);
   await oldRead!.abort().catch(() => {});
