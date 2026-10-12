@@ -10,6 +10,8 @@ This checklist governs upcoming work and supersedes older chronological "next ta
 
 ### Rules for every task
 
+October12 owner decision: defer the hands-on R6b/c session, preserve its pending state and resume from TESTING_CHECKPOINT.md when ready, before final design/video/submission. Proceed to independent R7b next, beginning hung/overlapping reads. Do not treat21automated passing checks as manual completion or activate deferred AI/payment work.
+
 **Testing reminder — owner request October11:** read TESTING_CHECKPOINT.md at resumed-session start and include its short pending-testing reminder in completed-task updates until the dedicated Narrator/actual zoom/physical-touch session has evidence. Revisit before final design sign-off, video recording and submission. R6b/c stay open; next independent agent task remains R7b. This is a saved project reminder, not a scheduled notification. No live AI/payment activation is authorised.
 
 Sponsor follow-up reminder: owner will contact Elastic and AG Studio for free coverage through December15. Check for a response before November3 and again before any sponsor activation/public judge access; record confirmed dates/limits in SPONSOR_CHECKPOINTS.md. Do not assume requests are granted. No paid subscription or live-AI activation is authorised by this reminder.

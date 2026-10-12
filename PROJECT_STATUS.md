@@ -1,5 +1,7 @@
 # Nudge: current status and priority order
 
+October12 owner checkpoints hands-on testing for later: actualNarrator/realzoom/physicaltouch pending;21automated checks pass, known Studio edit findings open. TESTING_CHECKPOINT.md now has explicit return triggers and R7b next-task scope: hung/overlapping reads first, then remaining UI states. Keep testing reminders; no manual completion or live provider activation assumed.
+
 October12 owner-requested automated accessibility recheck:21/21Edge browser checks pass together on current matching verified production source/fresh fictionalDB. Includes9corea11y/2Analytics/1link/6recovery/3keyboard checks. Known Studio nestedbuttons remain; actual Narrator/realzoom/physicaltouch pending. Beginner Narrator instructions added to manual using Microsoft reference. Own3116server stopped; existing3117session preserved after duplicate manual launch returned address-in-use. No new appcode/build/typecheck/Postman run or live provider/credits; prior evidence remains baseline. Next R7b; testing checkpoint reminder stays active.
 
 October11 owner-requested testing reminder saved in TESTING_CHECKPOINT.md: dedicated Windows Narrator, actual200/400% zoom and physical-touch session remains pending. Read at resumed-session start; include short reminder in task-completion updates and revisit before final design/video/submission. R7b technical checks continue independently, E/P gates unchanged. No scheduled notification or test completion claimed.

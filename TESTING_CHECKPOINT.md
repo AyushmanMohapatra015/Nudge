@@ -1,5 +1,13 @@
 # Testing checkpoint — keep open
 
+## Resume checkpoint — owner decision October 12
+
+Owner wants to return to hands-on testing later and proceed to the next independent task now. Narrator speech, actual200/400% zoom and physical touch remain **pending**, not passed. The combined automated review is21/21passing; known Studio edit findings remain open. No more manual-testing setup or live provider operation is scheduled by this checkpoint.
+
+**Next agent task: R7b**, starting with hung/overlapping owner/client reads and recovery. Before implementation inspect current polling, failure tests and processing guards; use isolated fictional fixtures and preserve ordinary workspace/session data. Remaining sign-in/loading/empty/busy/uncertain-operation presentation checks follow within R7b.
+
+**Return trigger:** when the owner is ready for the dedicated session, and in any case before final design sign-off, demo recording and submission. Reopen ACCESSIBILITY_MANUAL_CHECKLIST.md, use the verified fictional session, record exact device/browser/observations, fix and retest actual findings. Continue the brief pending-testing reminder in completed-task updates. This is a saved checkpoint, not a scheduled alert.
+
 Created October 11, 2026 at the owner's request. We will dedicate a careful session to testing, record findings and verify fixes. Automated passing results do not close hands-on checks.
 
 ## Reminder procedure
