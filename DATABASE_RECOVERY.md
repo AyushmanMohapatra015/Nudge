@@ -72,6 +72,8 @@ Local verification uses a fresh fictional disk directory **outside a separate fa
 
 ## Privacy and retention limits
 
+See [DATA_LIFECYCLE_REVIEW.md](DATA_LIFECYCLE_REVIEW.md) for the prototype retention/removal inventory, demo-reset limitations, recovery implications of deletion requests and runtime-log boundaries. No automatic retention/deletion or ordinary-data removal was added by that review.
+
 Snapshots contain client contact fields, request text, audit records, bearer links and payment identifiers. They are not anonymized or encrypted. SHA-256 detects accidental corruption; it does not authenticate a snapshot from an untrusted source. Use only trusted locally generated snapshots. Files/folders request restrictive POSIX permissions; Windows access depends on inherited ACLs. Keep backups out of Git, public downloads, screenshots and shared demo artifacts.
 
 Local tools constrain files/output to the project data directory; the separate guarded Render wrapper fixes its storage boundary to the mounted `/var/data` directory. Both reject escaping links. They do not archive `.env.local` or provider keys. Copies of workspace data still require the same protection as the original database. Do not share raw databases with another agent or judges.

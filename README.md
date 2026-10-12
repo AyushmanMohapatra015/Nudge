@@ -209,6 +209,8 @@ See [PUBLIC_REQUEST_CONTROLS.md](PUBLIC_REQUEST_CONTROLS.md) for client/webhook 
 
 See [AI_DATA_HANDLING.md](AI_DATA_HANDLING.md) for scope-comparison payloads, the owner disclosure and remaining privacy-review boundaries. Free text is not automatically anonymized; use fictional demo content.
 
+See [DATA_LIFECYCLE_REVIEW.md](DATA_LIFECYCLE_REVIEW.md) for retention, reviewed removal/recovery and log boundaries. Routine Next development logging is disabled to avoid exposing private client-link URLs; restart an existing dev server to load this setting. Hosted access logs still require review. Demo reset is not complete deletion, and backups are not encrypted.
+
 - [PayPal Invoicing](https://developer.paypal.com/api/invoicing/)
 - [Create invoice](https://developer.paypal.com/api/invoicing/v2/invoices-create/)
 - [Send invoice](https://developer.paypal.com/api/invoicing/v2/invoices-send/)
