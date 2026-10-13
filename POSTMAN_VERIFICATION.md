@@ -1,5 +1,7 @@
 # Read-only Postman collection verification
 
+For the empty template and private-export boundaries, see [POSTMAN_SHARING_REVIEW.md](POSTMAN_SHARING_REVIEW.md). An invoice-read-only run still requests an OAuth token and receives private data; do not share populated variables, history, examples or raw reports. The sharing review does not authorize another live run.
+
 October 7 addition: [POSTMAN_WORKFLOW_VERIFICATION.md](POSTMAN_WORKFLOW_VERIFICATION.md) records a separate actual Newman run against Nudge's isolated local production server: 31 requests and 50 assertions passed. That collection writes only a disposable simulation database; the sandbox collection described below remains read-only. No new PayPal or AI calls were made for the local workflow.
 
 ## Actual result — October 5, 2026

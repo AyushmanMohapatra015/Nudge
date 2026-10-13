@@ -51,7 +51,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] R9a: local publication preparation:244current/indexedfiles clear, cleantracked/index comparison,116localcommits/882blobs reviewed with operational matches deduplicated and values suppressed. RootMIT/environment placeholders/demo instructions checked; PUBLICATION_READINESS.md records limitations and concrete remaining owner/remote/vendor gates. Documentation only; no publication/history/provider action.
 - [ ] R9b: before actual publishing, rerun final source/index/history review, resolve R2b/R2c owner decisions and sponsor permissions, inspect actual remote About/licence links, demonstration data and access permissions. Making the repository public remains a separate owner action; R9a does not clear it.
 
-**Next checkpoint:** M3 sanitized Postman collection/environment sharing review. Inspect only public candidate collections/example settings and fictional exports; no owner environment, account signup, public workspace publication or live requests. A4b Invoice checks implementation has bounded passing evidence; A4c participant usefulness remains pending. R9b publication/history decisions, sponsor permissions/continuity and R6 Narrator/actual zoom/physical touch remain open. Elastic live verification stays owner-deferred.
+**Next checkpoint:** D2 Render account/credit preparation checkpoint: recheck the official claim/signup route and existing RENDER_SIGNUP.md before guiding the owner, then review actual balance, expiry, covered compute/disk costs, card requirements and exhaustion behavior. No account creation, card entry, upgrade, deployment or Workflows activation is automatic. M5 judge Postman guide is complete, with existing evidence distinguished from new runs. R6 manual testing, participant validation, publication/history and sponsor permissions remain open; Elastic live verification stays deferred.
 
 ### P — complete PayPal evidence (core priority2)
 
@@ -105,9 +105,9 @@ Role: help the freelancer understand recorded unpaid work, approved extras and f
 
 - [x] M1: actual local Newman workflow and separate read-only sandbox checks have documented evidence; no Postman account needed for the current runner.
 - [ ] M2: rerun the reviewed collection when relevant backend changes justify it; preserve isolation, pinned runner, no external requests in simulation and verified temporary-process cleanup.
-- [ ] M3: before sharing collections/environments, check auth placeholders, cookies, client links and provider identifiers. Never export the owner's local environment.
+- [x] M3: both trackedcollectiontemplates reviewed:empty3/6variables, exactfingerprints, no savedresponses/cookieheaders/script-outboundcalls. POSTMAN_SHARING_REVIEW.md documents populatedruntimecollectionvariables, fresh-template sharing and privateenv/history/cookie/export exclusions.4existingofflinePostmansafetytests pass; no collection/digest/appcode/account/live change. Actual private/publicdesktopexports remain separately unreviewed; R9 publication gates unchanged.
 - [ ] M4: optionally create a Postman account/public workspace only if publishing sanitized API documentation improves judging. Check visibility/plan limits first; local usage remains sufficient otherwise.
-- [ ] M5: include precise Postman tool attribution and reproducible commands in final judge instructions.
+- [x] M5: POSTMAN_JUDGE_GUIDE.md linked from judge setup/README contains exactpinned install/run commands, sanitized31/50/restart expectations, precise Newman/sandbox attribution and freshtemplate/privateexport boundaries. Package scripts/installed6.2.1/existingreceipt checked; no newruntime/account/live run. Final evidence changes must update these instructions; this is not overallsubmission/access signoff.
 
 ### D — Render sponsor integration: controlled hosting and persistence
 

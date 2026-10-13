@@ -4,7 +4,7 @@
 
 Owner wants to return to hands-on testing later and proceed to the next independent task now. Narrator speech, actual200/400% zoom and physical touch remain **pending**, not passed. The combined automated review is21/21passing; known Studio edit findings remain open. No more manual-testing setup or live provider operation is scheduled by this checkpoint.
 
-**Next agent task: M3**, sanitized Postman collection/environment sharing review without actual env/account/publication/live requests. Owner-requested A4b retest has13/13focusedbrowserchecks passing together in56.8seconds,7offline/renderchecks andTypeScript pass again; matching53runtimefiles and ownedservercleanup confirmed. A4c human usefulness and actual R6 Narrator/zoom/touch remain open; publication/history/sponsor gates and deferredAI unchanged.
+**Next agent task: D2**, recheck Render signup/sponsor-credit guidance and owner account terms; no automatic signup, card/upgrade/service activation or deployment. M5 judge Postman guide is complete with checked scripts/toolversion/existingreceipt, not a new live run. Actual R6 Narrator/zoom/touch, human validation/publication/sponsor gates remain open; Elastic verification remains deferred.
 
 **Return trigger:** when the owner is ready for the dedicated session, and in any case before final design sign-off, demo recording and submission. Reopen ACCESSIBILITY_MANUAL_CHECKLIST.md, use the verified fictional session, record exact device/browser/observations, fix and retest actual findings. Continue the brief pending-testing reminder in completed-task updates. This is a saved checkpoint, not a scheduled alert.
 
@@ -38,4 +38,4 @@ Use [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md) for t
 
 Further live Elastic and fresh PayPal evidence retain their own E/P allowance and authorization gates. This checkpoint does not resume those deferred tasks or claim user research has been completed.
 
-**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md); later state-review evidence is in READINESS_STATE_REVIEW.md. Next agent task is M3; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.
+**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md); later state-review evidence is in READINESS_STATE_REVIEW.md. Next agent task is D2; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.

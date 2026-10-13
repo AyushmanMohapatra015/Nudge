@@ -1,5 +1,7 @@
 # Postman: isolated Nudge workflow verification
 
+Before sharing templates or any desktop export, read [POSTMAN_SHARING_REVIEW.md](POSTMAN_SHARING_REVIEW.md). Workflow scripts populate collection variables during execution; share the empty repository template, not a used export. No public Postman account/workspace is needed for the verified local wrapper.
+
 ## R5 restart and fresh-install refresh — October11
 
 The reviewed collection is unchanged:31requests/50assertions. The wrapper now restarts its owned production server after the successful collection and compares stored owner-state fields, including the paid invoice/$0 due, approvals, policies, audit and client link token/expiry. The restart comparison uses additional local HTTP reads outside the collection's counts. Both starts/cleanup and zero provider-fetch attempts were verified using freshly installed application dependencies through `npm run verify:clean`. See CLEAN_CHECKOUT_VERIFICATION.md for the snapshot, failed registry attempts, results and limits. Earlier counts below describe historical evidence.
