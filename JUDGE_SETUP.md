@@ -47,6 +47,8 @@ Use README.md for private sandbox configuration and read-only connectivity check
 
 Optional backend verification: follow POSTMAN_WORKFLOW_VERIFICATION.md to install the pinned Newman runner and run `npm run postman:workflow`. This creates a separate production copy, local server and synthetic database; 31 requests/50 assertions have passed. It requires no provider credentials and does not use your configured workspace. Payments and model inference in this collection are simulated, so it supplements the functional walkthrough rather than proving live provider behavior.
 
+[POSTMAN_JUDGE_GUIDE.md](POSTMAN_JUDGE_GUIDE.md) provides the complete Windows/macOS/Linux command sequence, expected sanitized results and precise submission tool attribution. A Postman desktop/cloud account is optional, not needed for these verified commands. The separate sandbox collection requires private authorized setup and is not run by that credential-free sequence.
+
 Model calls also require the server's explicit `NUDGE_AI_ENABLED=true` setting; the default is paused regardless of configured credentials. Enable it only within a confirmed allowance and test plan. It is an access switch, not a spending cap.
 
 The Agent rules integration panel names the selected AI provider and distinguishes simulation, paused/enabled calls, credential presence and webhook-ID presence. None of those labels prove a live model response or a fresh payment webhook. Consult verification documents for actual evidence. An unrecognized provider name is reported generically rather than exposing its configuration value.
