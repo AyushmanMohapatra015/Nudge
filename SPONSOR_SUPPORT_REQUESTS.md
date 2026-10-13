@@ -20,6 +20,10 @@ Never paste the actual licence into a support post or commit it. Record the perm
 
 ## Render: before provisioning
 
+October13 owner has redeemed USD50 and reports validity until October1,2027. Public list-price research supports a USD7/month web service plus USD0.25/month1GiB disk estimate; general terms require a payment method for paid services. Use this updated question instead of asking support whether signup or credit redemption is complete. Send manually; no agent outreach is authorised.
+
+> Hello! I have redeemed the PayPal AI Hackathon's $50 Render credits, and the displayed validity date is October 1, 2027. Before creating any service, could you confirm whether this promotion permits a small paid Node web service with a 1 GB persistent disk without adding a payment method? I understand the general terms require a payment method for paid services. Are there any exclusions from credit coverage, and can usage stop before exceeding the sponsored allowance without an uncovered charge? I would like to keep an evaluation demo accessible through December 15, 2026, entirely within the sponsor credits. Thank you!
+
 Claim the official offer only after checking signup terms. Account creation and credit redemption do not authorize a paid service.
 
 > Hello! I am preparing a PayPal AI Hackathon demo and reviewing the advertised Render credits before provisioning anything. Could you confirm their expiry, whether they cover a Node web service with a persistent disk, and any card requirement? What happens when the credits expire or are exhausted, and is there a way to prevent charges beyond the sponsored allowance? I would also appreciate guidance on keeping a small working demo accessible through the official judging period. Thank you!

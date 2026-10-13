@@ -2,6 +2,16 @@
 
 Reviewed October 13, 2026. Planning only; no service, disk, subscription or deployment created.
 
+## D3 public-source verification, owner requested
+
+Render's [official comparison article](https://render.com/articles/best-railway-alternatives), checked October13, explicitly lists a Starter web service with 0.5 vCPU /512MB at USD7/month and Standard with 1 vCPU /2GB at USD25/month. Its [cost-model article](https://render.com/articles/how-much-does-cloud-application-hosting-cost-for-small-businesses) lists persistent disk at USD0.25/GB/month. The previously illustrative USD21.75 three-month base estimate is now supported by published first-party rates: 3 x (7 +0.25). It leaves USD28.25 before other charges, including the USD10 planning reserve. This is a public list-price estimate, not an account-specific quote or workload suitability test. Reconfirm displayed rates before activation.
+
+The [general Render terms](https://render.com/terms), section4.7, require a valid payment method while using paid services. Credit redemption does not establish an exception. Section4.6 describes payment-method verification holds. Because the owner has not authorised adding a payment method, sponsor confirmation of a no-card exception is a prerequisite to provisioning this plan. Do not attempt to bypass the requirement or promise that exhausted credits remove payment obligations. Search indexing exposed the terms text; direct page extraction showed only the shell, so the owner can verify by opening the page and locating Paid Services / Payment Method Requirements.
+
+[Build pipeline documentation](https://render.com/docs/build-pipeline) gives Hobby500 included monthly minutes and a configurable monthly limit on extra pipeline spending. Add a pre-activation check for an explicit zero additional pipeline-spend limit if the account permits it. This setting covers pipeline minutes only, not compute/disk/egress or total account spending. Setting it was not performed. Builds use separate compute, so a512MB runtime candidate does not imply512MB build memory.
+
+**D3 public research complete; activation approval remains open.** Next independent preparation is D4 owner/client/judge access and sponsor-permission review in RENDER_DEPLOYMENT.md. Render's account-specific card exception/terms must be confirmed before D5, not guessed by the owner or agent.
+
 ## Confirmed evidence and remaining terms
 
 The owner reports USD50 credits applied to the intended workspace and validity until October1,2027. These are owner-reported account observations, not an assistant account inspection. Confirm that the date describes redeemed-credit validity rather than only the original code's redemption deadline before provisioning.
@@ -42,7 +52,7 @@ The [official Render cost-model article](https://render.com/articles/how-much-do
 | Example only: compute quote USD7/month | USD21.75 base total; USD28.25 credits left before other charges |
 | Example only: compute quote USD25/month | USD75.75 base total; exceeds credits and is unacceptable without a new reviewed plan |
 
-USD7 and USD25 are arithmetic scenarios, not verified current account prices. Do not provision based on them. Check included and accrued bandwidth/build usage as well as the balance. Avoid unnecessary repeated builds. Larger compute, longer uptime or extra services require a revised estimate before activation.
+USD7 and USD25 were originally arithmetic scenarios; the public-source verification above now supports them as published list prices, still not verified account prices. Do not provision based on the estimate alone. Check included and accrued bandwidth/build usage as well as the balance. Avoid unnecessary repeated builds. Larger compute, longer uptime or extra services require a revised estimate before activation.
 
 ## Before provisioning
 

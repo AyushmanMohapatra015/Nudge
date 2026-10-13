@@ -1,5 +1,25 @@
 # Render hosting preparation — review before activation
 
+## D4a: judge-access preparation, October13
+
+Prepared from existing source and sponsor checkpoints; no hosted access tested or credentials changed. This is a controlled single-owner prototype, not a multi-user hosted product.
+
+| Access area | Prepared choice | Evidence still required before public judge access |
+| --- | --- | --- |
+| Owner workspace | Sandbox mode, private random owner token; existing HMAC session lifetime eight hours | Actual HTTPS/proxy cookie/origin checks; privately delivered judge-access instructions, no token in video/repository/public submission text |
+| Client review | Existing expiring bearer link, current lifetime30days; owner rotation revokes old link | Create a fictional judge link close enough to judging or rotate/reissue privately; test actual hosted expiry/rotation and client projection |
+| Concurrent judges | Shared single workspace with existing stale-version/conflict checks | Explain shared state and arrange serial guided sessions or reviewed fixture setup; no claim of independent judge accounts or automatic reset of paid state |
+| Demonstration records | Fresh fictional records on mounted SQLite disk | No local private database/env upload; approved fixture creation and restart/recovery evidence on the host |
+| AG Studio | Existing licence currently reported to expire November21 | Sponsor confirmation of hosted hackathon evaluation/public-source permissions and coverage through December15; Render credits do not extend AG rights |
+| Elastic | Existing reported trial ends November3; live usage remains paused | Confirmed judging access/allowance; separately approved live verification before claiming working hosted AI. No silently substituted recorded response |
+| PayPal | Sandbox only, private credentials, deterministic approvals | Approved signed fresh-payment webhook verification on actual HTTPS host; replay and polling remain distinct evidence |
+| Repository connection | Credit-claim email authorization is not deployment authorization | Review actual GitHub integration screen; restrict to intended repository if available, inspect current/history/publication gates before exposing source |
+| Hosting cost | Public three-month base estimate USD21.75 | Actual quote/accrued usage and any sponsor no-card exception; general paid-service payment-method requirement remains a gate |
+
+Proposed submission access: complete runnable repository instructions remain available; any hosted owner credentials must be delivered only through an appropriate private judge-access channel permitted by the submission form. Confirm such a channel exists before relying on it. A public owner token is unacceptable. A guided video does not replace an interactable build. This preparation does not add authentication/accounts or choose a new public simulation mode.
+
+Next: D4b obtain actual sponsor/access confirmations, then review the concrete D5 activation only when cost and permissions gates clear. Owner copyable support requests are in SPONSOR_SUPPORT_REQUESTS.md. In parallel, human validation and the owner-deferred manual testing remain useful without provider usage. No public link, signup, external message, payment method, live AI call or hosting resource was created.
+
 October13 D2b/D3 update: owner reports USD50 Render credits applied, valid until October1,2027. Signup/redemption and reported date are recorded; promotion exclusions, accrued charges, card requirement, exhaustion behavior and exact compute quote remain unconfirmed. D3 planning worksheet is in RENDER_COST_PLAN.md: existing single Node/1GiB SQLite disk configuration, three monthly equivalents through December15, USD10 planning reserve and explicit quote/activation gates. Cost approval and deployment are not complete. Next finish account terms and actual quote, then D4 licence/judge-access review before provisioning. No live AI, service creation or paid activation. R6 Narrator/actual zoom/touch stays pending. This supersedes prior balance/expiry-pending notes.
 
 October10 recheck: official Next.js/disks/free-service/credits guidance supports the existing single Node service plus persistent disk choice. Free web services cannot attach persistent disks and lose local SQLite files on restart/redeploy/spindown. Workflows is separate task infrastructure, not the website endpoint. The review-only template remains unapplied. Confirm actual compute/disk quote, provider usage and sponsor billing terms in the dashboard; public pricing's numeric rates could not be extracted during this check, so the proposed instance is not a verified price/performance estimate. Account/credits/deployment remain unconfirmed. See SPONSOR_CHECKPOINTS.md and the updated RENDER_SIGNUP.md.
