@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October13 owner selects Bryntum planning now, with user research deferred until later. BRYNTUM_PLAN.md selects a bounded owner-reviewed Gantt delivery-impact preview for accepted extras; usefulness is unvalidated. Dates/calendar are owner-entered, not invoice due/payment promise dates; no autonomous rescheduling, new client commitments, payment blocking or provider actions. Next B1b exact backend/date/state/projection contract; then B2 licence/package/45-day trial and December15 coverage before component installation. This overrides research-before-planning and F3a-next notes, while preserving later H validation. No signup/install/schema/code/AI/payment/deployment changes. Postman remains local Newman, no connected account. R6/E and Render external gates remain open.
+
 ## Deeper sponsor exploration and build order — October 10
 
 The owner asked to explore more resources and clarified that deployment need not be the immediate next implementation. Account/credit research can happen before hosting; a controlled preview can later test proxy cookies, disk persistence and genuine webhooks before the final public demo. No current deployment is required or activated. Preserve REVIEW_ACTION_PLAN.md's core evidence order.

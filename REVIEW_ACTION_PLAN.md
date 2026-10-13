@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October13 owner selects Bryntum planning now, with user research deferred until later. BRYNTUM_PLAN.md selects a bounded owner-reviewed Gantt delivery-impact preview for accepted extras; usefulness is unvalidated. Dates/calendar are owner-entered, not invoice due/payment promise dates; no autonomous rescheduling, new client commitments, payment blocking or provider actions. Next B1b exact backend/date/state/projection contract; then B2 licence/package/45-day trial and December15 coverage before component installation. This overrides research-before-planning and F3a-next notes, while preserving later H validation. No signup/install/schema/code/AI/payment/deployment changes. Postman remains local Newman, no connected account. R6/E and Render external gates remain open.
+
 October13 owner steering: defer H2-H6 freelancer interviews and independent reviews until later, before final evidence-based feature decisions and submission. Do not claim validation or use this deferral to remove H prerequisites for Bryntum. Postman remains local Newman collection execution, with no connected Postman account or need for account credentials; public workspace M4 is optional. Next independent task F3a: audit and refresh architecture/tools/evidence documentation against current source and actual saved results. Existing Elastic/AG depth and Render hosting stay prioritised; Bryntum date-impact, Zapier notifications, Kernel remote browser and Channel3 catalog remain conditional. No additional signup/trial/live usage is activated. R6 manual checks and E live verification remain deferred; D3b/D4b confirmations remain open.
 
 October13 F1 complete: DEMO_STORYBOARD.md selects a2:40 booking-only scope-to-reviewed-USD300-extra/clientacceptance/PayPal-payment story, includes actual AG Studio snapshot/customwidget and activity trail, and separates liveAI/freshwebhook/licence/judgeaccess gates. Invoice/payment amounts must match; USD1 connectivity footage cannot substitute for USD300 payment. Reminder rejection is optional backup, no fabricated metrics or autonomousAI claim. Story selection only; F5 rehearsal/video remain pending. No runtime/provider/credits/outreach. Next independent evidence task H2/H4 owner recruitment using existing packets; D3b/D4b sponsor confirmations and deferred R6/E remain open.
@@ -61,7 +63,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] R9a: local publication preparation:244current/indexedfiles clear, cleantracked/index comparison,116localcommits/882blobs reviewed with operational matches deduplicated and values suppressed. RootMIT/environment placeholders/demo instructions checked; PUBLICATION_READINESS.md records limitations and concrete remaining owner/remote/vendor gates. Documentation only; no publication/history/provider action.
 - [ ] R9b: before actual publishing, rerun final source/index/history review, resolve R2b/R2c owner decisions and sponsor permissions, inspect actual remote About/licence links, demonstration data and access permissions. Making the repository public remains a separate owner action; R9a does not clear it.
 
-**Next checkpoint:** F3a architecture/tools/evidence documentation review. Owner defers H2-H6 until later, before final feature decisions/submission. D3b/D4b external billing/licence/judge-access confirmations, R6 manual checks and E live verification remain open; no deployment or new sponsor activation.
+**Next checkpoint:** B1b exact delivery-date/calendar/state/backend contract using BRYNTUM_PLAN.md. Owner selects Bryntum now and defers human validation until later. B2 trial/licence/judging coverage gates precede component activation. F3a follows domain design; D3b/D4b, R6 and E remain open. No paid/live activation.
 
 ### P — complete PayPal evidence (core priority2)
 
@@ -134,15 +136,22 @@ Role: help the freelancer understand recorded unpaid work, approved extras and f
 - [ ] D8: observe accrued usage, runtime/storage/build costs and expiry; review continued judging availability or shutdown before allowance exhaustion. Support extensions are requests until confirmed.
 - [ ] D9: evaluate Render Workflows only if a genuine asynchronous orchestration need appears; specify persistence, retries, idempotency and costs before adding it. Hosting alone does not prove Workflows use.
 
-### B — Bryntum: conditional approved-work/date-impact timeline
+### B — Bryntum: owner-selected delivery-impact workstream
 
-- [ ] B1: use H5/H6 to establish whether extras disrupt delivery dates and how owners currently track/communicate changes. No scheduling feature is committed without evidence.
-- [ ] B2: if justified, remind owner to claim the45-day trial only when ready to build; check exact package, hosted/public-source permission, expiry and judging coverage.
-- [ ] B3: define dates from actual agreed work/owner decisions, tentative versus confirmed changes and timezone rules; no invented deadlines or automatic payment-blocked delivery.
-- [ ] B4: review minimal domain/schema/migration and client visibility; write acceptance criteria before implementing a timeline.
-- [ ] B5: integrate owner-reviewed dates/approved extras, persist safely and verify edits/restarts/accessibility/client consent boundaries; no autonomous rescheduling.
-- [ ] B6: validate that the view helps the observed incident and document actual sponsor use; otherwise defer/remove the candidate before starting a trial.
+Owner decision October13: proceed with bounded planning now, before deferred H research. This supersedes the former research-before-planning gate; user usefulness remains unvalidated. BRYNTUM_PLAN.md governs scope and ordered checks. Do not add multi-client staffing or automatic commitments.
 
+- [x] B1a: official sponsor/trial/Gantt guidance and current domain inspected; select owner-reviewed delivery-impact preview for accepted extras, with honest hypothesis and financial/client authority boundaries.
+- [ ] B1b: specify exact date/calendar/timezone/end-date semantics, original/current/proposed states, bounded task/dependency/extra mapping, minimal projections and backward-compatible storage acceptance criteria. No package/trial needed.
+- [ ] B2a: inspect actual Gantt trial/version/licence/install metadata and React/Next integration guides before installing; verify correct package rather than copying Scheduler example.
+- [ ] B2b: remind owner before Gantt trial signup; review truthful fields, privacy/marketing preferences, public-source/package/hosted-evaluation permission and private credentials. Stop at card/subscription, no automatic signup.
+- [ ] B2c: record account-specific start/expiry and permitted judge setup/free coverage through December15;45days from mid-October does not cover judging. No extension assumed.
+- [ ] B3: implement bounded schedule data/validation and safe old-workspace compatibility, preserving financial identities and separating original/current/preview.
+- [ ] B4: owner-authenticated read/propose/apply/discard with explicit apply, accepted-extra/version checks, duplicate/concurrent/stale rejection and audit. Browser scheduling engine output is not authority.
+- [ ] B5a: integrate one themed owner-only Gantt view, original/proposed comparison, actual extra identity and read-only PayPal context; unknown dates unscheduled, no direct drag-to-save or client payload leak.
+- [ ] B5b: guarded preview/apply/discard, refresh/error recovery and nonmutation on cancel; no live model/payment calls or automatic payment-based date moves.
+- [ ] B6a: backend/storage tests for dates/calendars/cycles/proposals/forgery/stale/concurrent/duplicate/restart/legacy behavior and financial nonmutation; relevant Postman regressions.
+- [ ] B6b: actual Bryntum browser/build/a11y checks including keyboard,320px,text fallback,contrast/reduced motion and errors; extend pending owner Narrator/zoom/touch checks.
+- [ ] B7: later real-user usefulness review, one honest impact scenario, actual sponsor attribution and Render resource budget update; simplify/remove unsupported complexity. Package install is not user validation or award evidence.
 ### Other sponsor candidates — investigate only at the named trigger
 
 October11 owner emphasis: consider additional sponsor resources alongside the existing integrations. Each adopted sponsor must pass the same December15 judging-access, free-allowance, exhaustion, licensing and privacy checks as Elastic/AG. At B2/C1/D2/Z1/K1, remind the owner before signup and request an extension when necessary; track the confirmed outcome in SPONSOR_CHECKPOINTS.md. These candidates remain tied to the product needs below, and R6 is still next. Do not start all time-limited trials together or assume every sponsor grants an extension.
