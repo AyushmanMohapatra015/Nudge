@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October13 D2b owner update: Render signup and sponsor-code redemption are complete; owner reports USD50 applied credits. The reviewed credit-claim OAuth screen requested read-only email access, not repository write access; this does not establish later deployment permissions. Expiry, eligible compute/disk charges, card requirement and exhaustion behavior remain unconfirmed. Next: finish D2b terms review, then D3 concrete single-host SQLite persistent-disk cost and uptime plan through December15. No service creation, paid upgrade or live AI activation is authorised. R6 Narrator/actual zoom/physical touch remains pending. This update supersedes earlier signup/balance-pending statements.
+
 ## Authoritative task checklist — owner update, October 10
 
 **Delivery target:** owner wants the working prototype and video submitted in the first week of November. This is our earlier internal target, distinct from the official November12 deadline. Owner reports an Elastic extension form is available; record its confirmed outcome before relying on new dates. Early submission does not remove working-access requirements through December15 judging. Prefer confirmed free coverage; no paid subscription or live AI activation is authorised by this clarification. R5 is complete; R6b owner hands-on observations are next.
@@ -51,7 +53,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] R9a: local publication preparation:244current/indexedfiles clear, cleantracked/index comparison,116localcommits/882blobs reviewed with operational matches deduplicated and values suppressed. RootMIT/environment placeholders/demo instructions checked; PUBLICATION_READINESS.md records limitations and concrete remaining owner/remote/vendor gates. Documentation only; no publication/history/provider action.
 - [ ] R9b: before actual publishing, rerun final source/index/history review, resolve R2b/R2c owner decisions and sponsor permissions, inspect actual remote About/licence links, demonstration data and access permissions. Making the repository public remains a separate owner action; R9a does not clear it.
 
-**Next checkpoint:** D2 Render account/credit preparation checkpoint: recheck the official claim/signup route and existing RENDER_SIGNUP.md before guiding the owner, then review actual balance, expiry, covered compute/disk costs, card requirements and exhaustion behavior. No account creation, card entry, upgrade, deployment or Workflows activation is automatic. M5 judge Postman guide is complete, with existing evidence distinguished from new runs. R6 manual testing, participant validation, publication/history and sponsor permissions remain open; Elastic live verification stays deferred.
+**Next checkpoint:** D2b owner Render signup/claim and non-sensitive account-term review using refreshed RENDER_SIGNUP.md. D2a public route/billing/storage review is complete; actual balance/expiry/eligiblecharges/card/exhaustion remain unverified. Stop at a card/paidupgrade/servicecreation prerequisite; no automatic account creation, repository permission, hosting, Workflows or paidactivation. D3 concrete cost/uptime/storage review follows only once terms are available. Other sponsor/human/publication and R6 Narrator/zoom/touch gates remain open; Elastic live verification stays deferred.
 
 ### P — complete PayPal evidence (core priority2)
 
@@ -112,7 +114,8 @@ Role: help the freelancer understand recorded unpaid work, approved extras and f
 ### D — Render sponsor integration: controlled hosting and persistence
 
 - [x] D1: review-only deployment template, local startup/health checks and disk/recovery instructions prepared; no hosted service exists.
-- [ ] D2: remind owner to sign up/claim the official credits when ready; inspect actual applied balance, expiry, eligible compute/disk charges, card requirements and exhaustion behavior before provisioning.
+- [x] D2a: October13 officialRender USD50offer/claim/signup route and credit/Hobby/freeSQLite-storage boundaries rechecked; RENDER_SIGNUP.md refreshed with owner steps and card/paidupgrade/service stop points. JSclaimform fields/actualaward remain unverified; no account/repository/service action performed.
+- [ ] D2b: owner completes authorized signup/claim where possible without card/paidupgrade/servicecreation and supplies non-sensitive appliedbalance, expiry, eligiblecompute/disk charges, cardrequirement and exhaustion terms. Review actual evidence before D3/provisioning; offer/redemption is not a hard spending cap or automaticpaidactivation approval.
 - [ ] D3: review concrete service/disk plan, current cost estimate, intended uptime and judging dates. Credit balance is not a hard accrued-usage cap; do not assume credit-only operation prevents billing.
 - [ ] D4: confirm AG hosted licence/provider judging access and review owner/client/demo separation before any public preview. Shared simulation is not per-visitor isolation.
 - [ ] D5: after a concrete approved configuration, provision one Node host with persistent SQLite disk; protect secrets, avoid nonpersistent local filesystem and unintended scale-out.

@@ -1,10 +1,12 @@
 # Testing checkpoint — keep open
 
+October13 D2b owner update: Render signup and sponsor-code redemption are complete; owner reports USD50 applied credits. The reviewed credit-claim OAuth screen requested read-only email access, not repository write access; this does not establish later deployment permissions. Expiry, eligible compute/disk charges, card requirement and exhaustion behavior remain unconfirmed. Next: finish D2b terms review, then D3 concrete single-host SQLite persistent-disk cost and uptime plan through December15. No service creation, paid upgrade or live AI activation is authorised. R6 Narrator/actual zoom/physical touch remains pending. This update supersedes earlier signup/balance-pending statements.
+
 ## Resume checkpoint — owner decision October 12
 
 Owner wants to return to hands-on testing later and proceed to the next independent task now. Narrator speech, actual200/400% zoom and physical touch remain **pending**, not passed. The combined automated review is21/21passing; known Studio edit findings remain open. No more manual-testing setup or live provider operation is scheduled by this checkpoint.
 
-**Next agent task: D2**, recheck Render signup/sponsor-credit guidance and owner account terms; no automatic signup, card/upgrade/service activation or deployment. M5 judge Postman guide is complete with checked scripts/toolversion/existingreceipt, not a new live run. Actual R6 Narrator/zoom/touch, human validation/publication/sponsor gates remain open; Elastic verification remains deferred.
+**Next checkpoint: D2b**, owner Render signup/claim and non-sensitive terms review from refreshed RENDER_SIGNUP.md; D2a official route/billing/storage research complete. No card/paidupgrade/service/repositoryactivation or deployment. R6 actual Narrator/zoom/touch remains pending, as do human/publication/sponsor gates. Elastic live verification stays deferred.
 
 **Return trigger:** when the owner is ready for the dedicated session, and in any case before final design sign-off, demo recording and submission. Reopen ACCESSIBILITY_MANUAL_CHECKLIST.md, use the verified fictional session, record exact device/browser/observations, fix and retest actual findings. Continue the brief pending-testing reminder in completed-task updates. This is a saved checkpoint, not a scheduled alert.
 
@@ -38,4 +40,4 @@ Use [ACCESSIBILITY_MANUAL_CHECKLIST.md](ACCESSIBILITY_MANUAL_CHECKLIST.md) for t
 
 Further live Elastic and fresh PayPal evidence retain their own E/P allowance and authorization gates. This checkpoint does not resume those deferred tasks or claim user research has been completed.
 
-**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md); later state-review evidence is in READINESS_STATE_REVIEW.md. Next agent task is D2; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.
+**Current status:** hands-on testing pending. R7a recovery evidence is documented in [CONNECTION_RECOVERY_REVIEW.md](CONNECTION_RECOVERY_REVIEW.md); later state-review evidence is in READINESS_STATE_REVIEW.md. Next checkpoint is D2b; owner hands-on results can be reviewed whenever available. Close individual checks only with actual findings and retest evidence or a clearly documented external limitation.
