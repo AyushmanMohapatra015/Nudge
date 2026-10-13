@@ -2,6 +2,39 @@
 
 Status: rehearsal plan, not final submission video. Target final runtime: 2:45, leaving fifteen seconds under the supplied three-minute limit. No public upload or narration has been produced by this task.
 
+## F1 selected story — October13
+
+The booking-only change below is the selected main story. Target **2:40**, with20seconds spare; this supersedes the older2:45 recording outline. The product claim is narrow: Nudge connects agreed scope, a reviewed change and PayPal sandbox payment. The audience is a freelance web designer on a fixed-price project; this remains an audience hypothesis until participant research. Do not claim an autonomous collections product, legal e-signature, measured revenue recovered or general AI accuracy.
+
+Main request: “Could we add appointment booking with available time slots?” Show the actual approved booking-exclusion clause and its actual ID/text from the fictional recording fixture; do not hard-code a citation that may differ between fixtures. Price the extra manually at USD300. Final payment footage must show that same extra's invoice/amount; a USD1 connectivity-test payment must not be edited to look like payment of the USD300 extra. If a smaller demo price is later chosen, change the owner quote, client acceptance, invoice and narration consistently before recording.
+
+| Time | On-screen evidence | Narration purpose |
+| --- | --- | --- |
+| 0:00–0:15 | Fictional agreed website scope and booking exclusion | Introduce fixed-price scope changes and the awkward client conversation. Present the problem as the product's target, not a measured research finding. |
+| 0:15–0:30 | Previously approved/accepted scope, then paste booking request | Establish the shared reference before comparing the new request. |
+| 0:30–1:00 | Actual verified live AI response, supporting clause text, editable assessment | Explain that AI proposes a scope assessment with evidence. Show human review; no hidden mock/replay described as live AI. |
+| 1:00–1:20 | Owner's neutral change description, deliverables and USD300 price | Explain what changes and why; the owner decides classification and price. Keep the actual current explanation, rather than claiming an unimplemented autonomous client-message feature. |
+| 1:20–1:40 | Client view shows exact extra and price; explicit acceptance | Distinguish a recorded acceptance decision from payment or a verified legal signature. |
+| 1:40–2:15 | Approved PayPal sandbox invoice, sandbox checkout and authoritative PAID/$0 due | Show PayPal as the payment mechanism and label sandbox/test money. Call it a payment-triggered webhook only with the required P5 evidence. |
+| 2:15–2:30 | Refresh AG Studio; show invoice row/recorded balance and one existing custom widget | Show how the freelancer inspects recorded payment/work state. Keep snapshot/filter scope clear; no fabricated savings, live dashboard-AI or self-updating chart claim. |
+| 2:30–2:40 | Relevant Activity entries, then actual runnable-demo/repository access | Close with the clause-to-decision-to-payment trace and a working judge route. Use only confirmed links/access. |
+
+The policy-blocked reminder remains an optional backup demonstration, not a separate overdue-client story in the main video. Explain human/policy authority at the actual approval-to-invoice step. The Studio Invoice checks widget may show no flags for a clean paid fixture: that is truthful. Do not fabricate overdue records simply to make a warning look impressive. Layout editing, export and the bounded agent framework are useful optional walkthroughs, not required branches in this2:40 story.
+
+## Recording gates and evidence ledger
+
+| Claim | Current evidence boundary | Before the final recording |
+| --- | --- | --- |
+| Agreement/change/price/client flow | Existing isolated functional workflow evidence; no independent user validation yet | Rehearse the exact selected fixture and screens; retain owner decisions and exact amounts. |
+| Live scope AI | Limited live adapter evidence; owner website verification deferred | E6 actual website journey and approved usage/access, then one controlled recording session. Do not resume calls from this plan alone. |
+| PayPal sandbox payment | Earlier real sandbox payment/reconciliation exists | Verify the displayed invoice identity and balance; P5 fresh signed-delivery proof before saying the transition came from a webhook. |
+| AG Studio custom analytics | Embedded Studio/custom widgets and local browser evidence exist | Rehearse actual snapshot refresh on the chosen fixture; hosted/licence continuity still requires D4b/A3. |
+| Trust safeguards | Backend approval/policy/cent/access checks exist | Show the current approval boundary and actual audit entries; do not expose raw provider internals or claim universal protection. |
+| Human impact | Research kit prepared, participant findings pending | H2–H6 consenting independent observations before using testimonials or measured benefit. |
+| Judge access | Complete local run guide; hosting not provisioned | Final clean run and confirmed sponsor/model/licence access through December15; valid private owner-access arrangement if hosted. |
+
+F1 is a story selection, not a passed end-to-end live rehearsal or finished video. F5 remains open. Next independent product-evidence task is owner-arranged H2/H4 recruitment using the existing HUMAN_SCOPE_REVIEW.md and VALIDATION_SESSION_KIT.md; no invitation is sent by the agent. External D3b/D4b confirmations and owner-deferred R6/E remain checkpointed. Use offline simulation for preparation with labels visible; it cannot supply missing live evidence.
+
 ## One story
 
 Audience hypothesis: a freelance web designer delivering a fixed-price website. The client agreed to five pages, two minor revision rounds and a booking exclusion. The client later asks for appointment booking. Nudge connects the agreement evidence, designer review, client-approved extra price and PayPal sandbox invoice.

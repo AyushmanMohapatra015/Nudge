@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October13 F1 complete: DEMO_STORYBOARD.md selects a2:40 booking-only scope-to-reviewed-USD300-extra/clientacceptance/PayPal-payment story, includes actual AG Studio snapshot/customwidget and activity trail, and separates liveAI/freshwebhook/licence/judgeaccess gates. Invoice/payment amounts must match; USD1 connectivity footage cannot substitute for USD300 payment. Reminder rejection is optional backup, no fabricated metrics or autonomousAI claim. Story selection only; F5 rehearsal/video remain pending. No runtime/provider/credits/outreach. Next independent evidence task H2/H4 owner recruitment using existing packets; D3b/D4b sponsor confirmations and deferred R6/E remain open.
+
 October13 D3/D4a update: first-party Render articles support USD7/month 0.5CPU/512MB compute plus USD0.25/month1GiB disk; three-month base estimate USD21.75, not an account quote or performance guarantee. General terms section4.7 require a payment method for paid services; no sponsor exception is confirmed, so no provisioning/card activation. RENDER_COST_PLAN.md records sources and pipeline-only spend-limit boundary. RENDER_DEPLOYMENT.md D4a now prepares private owner access, eight-hour sessions,30-day client links, shared-judge state and sponsor permission/coverage checks. SPONSOR_SUPPORT_REQUESTS.md supplies an owner-sendable no-card exception question; none sent. Next D4b sponsor/access confirmations and D3b account terms before D5. Elastic and R6 Narrator/actual zoom/touch stay deferred.
 
 October13 D2b/D3 update: owner reports USD50 Render credits applied, valid until October1,2027. Signup/redemption and reported date are recorded; promotion exclusions, accrued charges, card requirement, exhaustion behavior and exact compute quote remain unconfirmed. D3 planning worksheet is in RENDER_COST_PLAN.md: existing single Node/1GiB SQLite disk configuration, three monthly equivalents through December15, USD10 planning reserve and explicit quote/activation gates. Cost approval and deployment are not complete. Next finish account terms and actual quote, then D4 licence/judge-access review before provisioning. No live AI, service creation or paid activation. R6 Narrator/actual zoom/touch stays pending. This supersedes prior balance/expiry-pending notes.
@@ -57,7 +59,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] R9a: local publication preparation:244current/indexedfiles clear, cleantracked/index comparison,116localcommits/882blobs reviewed with operational matches deduplicated and values suppressed. RootMIT/environment placeholders/demo instructions checked; PUBLICATION_READINESS.md records limitations and concrete remaining owner/remote/vendor gates. Documentation only; no publication/history/provider action.
 - [ ] R9b: before actual publishing, rerun final source/index/history review, resolve R2b/R2c owner decisions and sponsor permissions, inspect actual remote About/licence links, demonstration data and access permissions. Making the repository public remains a separate owner action; R9a does not clear it.
 
-**Next checkpoint:** D4b sponsor/hosted-judge-access confirmations, with D3b account-specific terms and any no-card exception still open. D3 public-price research and D4a access preparation complete. No provisioning, card, paid activation or live AI. R6 manual testing remains deferred.
+**Next checkpoint:** H2/H4 owner-arranged independent scope reviewers and first freelancer interviews using existing packets; no agent outreach. D3b/D4b Render account terms/no-card exception and sponsor/judge-access confirmations remain external gates. F1 selected; F5 rehearsal pending. R6 manual testing and Elastic live verification remain owner-deferred.
 
 ### P — complete PayPal evidence (core priority2)
 
@@ -152,7 +154,7 @@ These conditional steps may close as **deferred with reason**, not implemented. 
 
 ### F — final product, demonstration and submission
 
-- [ ] F1: choose the single approved-scope → reviewed extra → client decision → PayPal payment story; show clause evidence and trust safeguards in a coherent user flow.
+- [x] F1: DEMO_STORYBOARD.md selects the2:40 booking-only approvedscope/reviewedextra/clientdecision/PayPalpayment/AGsnapshot story with exactamount and evidence gates. Story selection complete; live rehearsal, user impact and final video unverified.
 - [ ] F2: polish typography, motion/textures, responsiveness and error states without weakening semantics, contrast, reduced-motion or backend authority. Owner can revise frontend independently of stable contracts.
 - [ ] F3: refresh README, architecture, tools-used attribution, setup/run instructions and verification matrix; separate working/live/mocked/deferred claims and known limitations.
 - [ ] F4: confirm current official rules, deadline, judging/access period and video/public-repository requirements; do not infer dates or prize eligibility from old notes.
