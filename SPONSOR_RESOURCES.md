@@ -1,5 +1,7 @@
 # Nudge: sponsor resources and zero-cash plan
 
+October13 Zapier research complete: ZAPIER_RESEARCH.md rechecks sponsor14daytrial/free100tasks, explicit PayPal sandbox selector/premium entitlement, current APIwebhook versus limitedmanualIPN support, MCPtwo-task calls and agentic-default versus managed-tool controls. Recommended optional first use is an owner-reviewed minimal export to a dedicated spreadsheet; no broadAI/financialtools, no assumed premiumMCP/freeentitlement. Z2-Z7 future gates added, not activated. Bryntum B1b remains next selected implementation; no signup/connection/messages/export/liveAI or credits used. R6 manual testing, H research and E liveverification remain deferred; Render/sponsor gates unchanged.
+
 October13 owner selects Bryntum planning now, with user research deferred until later. BRYNTUM_PLAN.md selects a bounded owner-reviewed Gantt delivery-impact preview for accepted extras; usefulness is unvalidated. Dates/calendar are owner-entered, not invoice due/payment promise dates; no autonomous rescheduling, new client commitments, payment blocking or provider actions. Next B1b exact backend/date/state/projection contract; then B2 licence/package/45-day trial and December15 coverage before component installation. This overrides research-before-planning and F3a-next notes, while preserving later H validation. No signup/install/schema/code/AI/payment/deployment changes. Postman remains local Newman, no connected account. R6/E and Render external gates remain open.
 
 ## Deeper sponsor exploration and build order — October 10

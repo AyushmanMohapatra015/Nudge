@@ -1,5 +1,7 @@
 # Bryntum: owner-reviewed delivery impact
 
+October14 B1b complete: BRYNTUM_BACKEND_CONTRACT.md defines optional versioned SQLite JSON schedule, immutable original/internal current/preview, owner calendar/civil-date/exclusive-end rules, accepted-extra linkage, stage/apply/discard/version/idle gates, pure minimal projection and12future acceptance scenarios. Current source inspected: workspace GET spreads optional fields, client view is allowlisted, payment promise differs from delivery; payment mutations stale previews. No implementation/schema/package/licence/provider change, no scenarios claimed passed. Next B2a exact Gantt package/licence/React/installedNext guide inspection without installation, then B2b/c owner trial/judging permissions. Zapier remains researched, not activated. R6 Narrator/zoom/touch, H/E and Render external gates remain open.
+
 October13,2026. Owner selects Bryntum planning now and defers user research until later. This explicitly supersedes the earlier research-before-planning prerequisite, without claiming the need is validated. No package installed, trial claimed, code/schema changed, AI called or sponsor contacted.
 
 ## Product decision
@@ -25,7 +27,7 @@ Example, fictional only: the owner schedules website work and launch; an accepte
 ## Ordered implementation checklist
 
 1. **B1a complete:** product decision/limits/source review in this document. The benefit is a hypothesis, not an interview result.
-2. **B1b next:** write exact date/calendar/state/projection contracts and acceptance scenarios from existing domain/store/route authority. Include what an old SQLite workspace without schedule data does; preserve old workspaces and all financial identities.
+2. **B1b complete:** BRYNTUM_BACKEND_CONTRACT.md specifies exact date/calendar/state/projection contracts and acceptance scenarios from existing domain/store/route authority. Include what an old SQLite workspace without schedule data does; preserve old workspaces and all financial identities.
 3. **B2a:** review exact Gantt trial/package/version and React/Next compatibility from official guides and installed Next docs. Read package metadata/licence/install scripts before installing; no blind download execution or copied Scheduler package just because the sponsor example uses it.
 4. **B2b:** remind owner to claim the intended Gantt trial only when installation is ready. Review required signup fields, marketing preferences, licence/key handling, package redistribution, public-source and hosted-evaluation permissions. Stop at a card/subscription requirement. No automatic form submission.
 5. **B2c:** record actual start/expiry and obtain free coverage or a permitted reproducible judge path through December15. A45-day trial begun in mid-October would not cover December judging; published duration does not give an account-specific expiry or extension. Prepare owner-sent support question, no outreach by agent.
