@@ -1,0 +1,40 @@
+# B5a-2: owner delivery view
+
+October 15, 2026. The locally evaluated Bryntum trial is now integrated into Nudge at `/delivery`, linked from the owner workspace. This closes the read-only B5a screen; initial plan entry and preview/apply/discard controls are B5b and are not present yet. No ordinary workspace was seeded or modified for verification.
+
+## Behavior and boundaries
+
+- The server page enforces the existing sandbox owner session before rendering; `/api/delivery-plan` independently checks session and exposes the already-validated local projection. Demo retains the existing shared local simulation model. This does not introduce multi-user accounts or a public schedule link.
+- The page reads only `/api/delivery-plan`, never `/api/workspace` or PayPal. Refresh is explicit; reads have a ten-second deadline, cancellation on unmount, a one-MiB response bound and strict schema validation. Failure removes the snapshot/chart rather than presenting a stale success. API401 and404 have bounded recovery guidance.
+- Current, immutable original and staged preview are separate selections. A stale preview stays labelled and readable in its table but cannot open a chart or be applied. Initialization previews with no applied plan are supported. Invalid saved state shows review-needed without reconstructing or rewriting data.
+- The native date table is always available, including unscheduled work. It includes provenance, clause references, original extra identity/decision and exclusive finish boundaries. Native disclosure controls and labelled horizontal-scroll regions provide a narrow-screen alternative. No dates come from payment promises or invoice due dates.
+- The Gantt component loads only when requested. Ordinary licence preparation is retained, trial watermark is not removed, and icons/fonts use bundled local assets. Editing, task creation/dragging/resizing, task menus and tooltips are disabled. There is no remote transport or automatic save URL.
+- Task/dependency arrays are new chart projections, not mutable backend objects. Tasks are manually scheduled. The display uses a synthetic UTC date-only axis, a Monday-Friday/full-day calendar and recorded holidays; labels retain the owner's calendar timezone. This is not an intraday scheduling promise. After engine initialization, model civil dates are compared with saved dates; mismatch falls back to the table instead of silently showing moved work. This read-only path never serializes chart Dates back to the server.
+- Payment context is recorded status/amount/outstanding/pending-outcome data, with no payment URLs or credentials. A payment does not confirm a delivery date or reschedule a task. There are no new invoice/reminder/client-decision mutations.
+
+Source: `app/delivery/page.tsx`, `components/delivery.tsx`, `components/delivery-chart.tsx`, `lib/delivery-view.ts`. Exporting the existing stored-state shape does not move authority into the browser; the server's full state validation remains unchanged. The vendor store's generic Model return type is narrowed to TaskModel for the known task store, and the runtime date guard still rejects non-Date or invalid values.
+
+## Installation and notices
+
+Added exact dependencies `@bryntum/gantt: npm:@bryntum/gantt-trial@7.3.7` and `@bryntum/gantt-react: 7.3.7`, with helper1.0.1 in the lockfile. Only three package entries were added; existing locked versions were preserved. Normal install used filtered environment, empty dedicated npm user/global configs and the reviewed disposable cache. No private npm login, licence key or paid subscription was used.
+
+`DEPENDENCY_LICENSE_INVENTORY.json` now records114 non-root lock entries and the current lock digest. `THIRD_PARTY_BRYNTUM_NOTICES.md` retains vendor-supplied third-party notice text and identifies Font Awesome CSS/code MIT, fonts OFL and icon CC BY obligations. Vendor program source, licence identifiers and binaries remain excluded. This is not a complete bundled/target-platform binary audit or public distribution clearance. Nudge's MIT licence does not cover Bryntum.
+
+## Verification
+
+- TypeScript passes. All164offline outcomes pass, including two new tests for strict projection/privacy fields, version selection, UTC input projection, unknown dates and detached chart copies. The restricted tsx loader initially failed its Windows profile lookup before tests ran; approved normal-access execution passed.
+- Disposable production build and Postman Newman31requests/50assertions pass, including paid/approved/audit/client-link restart persistence and no provider-fetch attempt. Receipt: ignored `data/postman-workflow/4f9298ed-6b5f-4a75-90b3-26d9969c2cf1/summary.json`.
+- Six actual Edge browser checks pass against that matching production build: two new demo delivery journeys, one new sandbox owner/auth/session-loss journey and three existing core-workflow regressions. Receipt: ignored `data/delivery-browser/91b64848-f7a0-47ac-a258-816e26bbb61d/results.json`. The runner compares eight relevant app/config/package source hashes before using the build.
+- A genuine B4 stage/apply setup in a fresh fictional database supplies a three-working-day interval crossing a weekend and recorded holiday, an unscheduled task and a milestone. The UI loads the saved plan, renders the read-only chart without moving saved dates, switches original/current and survives reload. The browser issues no mutations, attempts no new external vendor requests and leaves compared workspace/financial/audit data unchanged. Existing Google Fonts requests were stubbed separately and are not claimed removed by this task.
+- At320CSS pixels the document stays within the viewport and the native table scrolls by keyboard. Focused nested-interactive/button-name/label/contrast checks pass on the native-table state. This is not an axe clearance for every Gantt control or actual Narrator/zoom/touch evidence. The earlier isolated trial's two-timezone result is separate; this in-app test verifies the local Edge timezone with a holiday calendar, not every timezone/calendar combination.
+- Mocked read scenarios cover stale preview, review-needed, unconfigured, unexpected private fields and lost connection. Real sandbox requests check anonymous401, login, missing-workspace404 without automatic seeding, server-page access and session loss.
+
+The first browser run had three harness failures: assertions included Next's independent route-announcement alert, and a standalone API cookie jar did not authenticate the browser. Scoped assertions and browser-context login corrected these without changing application behavior. Three existing workflow checks passed in that run; the final six passed together.
+
+An initial restricted Postman run built successfully but did not complete its workflow/cleanup. Its owned process was identified and stopped; that run is not a pass. Restricted Playwright cleanup similarly needed an approved stop of its two verified test servers. The approved final runs stopped normally; endpoint closure was independently checked. Ordinary development sessions were untouched. The disposable-copy multiple-lockfile warning remains a harness boundary, not a reason to remove lockfiles or change the app's bundler.
+
+## Next and unresolved work
+
+Next B5b: owner-entered initial plan and an explicit reviewed preview/apply/discard workflow using B4's strict IDs, versions, acceptance and transaction gates. Keep unknown dates and validation errors visible, and verify real UI concurrency/recovery before claiming end-to-end planning. No automatic AI estimates, client commitments or money actions should be introduced.
+
+B2b/c hosted/public-source/judging permissions, exact trial dates and free coverage through December15 remain open. Broad Gantt accessibility, other browsers, dependency-heavy/calendar cases and owner R6 Narrator/actual zoom/physical touch still require checks. E live-AI verification and H human validation remain owner-deferred; Render is not provisioned. No AI credits, real payments, subscription, deployment or upstream outreach were used for this task.

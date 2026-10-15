@@ -8,7 +8,7 @@ Nudge is a scope and payments workspace for freelance designers. A client approv
 
 This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
-The MIT licence covers Nudge's original code. AG Studio remains a commercial evaluation dependency; public demo and judge licence coverage are still being confirmed. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json) and [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt). Do not publish your evaluation key or vendor packages in the repository.
+The MIT licence covers Nudge's original code. AG Studio and Bryntum remain commercial evaluation dependencies; public demo and judge licence coverage are still being confirmed. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json), [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt) and [Bryntum third-party notices](THIRD_PARTY_BRYNTUM_NOTICES.md). Do not publish your evaluation key or vendor packages in the repository.
 
 Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md).
 
@@ -162,7 +162,7 @@ Reminder drafting is currently a deterministic editable template, not AI-written
 
 See [the architecture and evidence audit](ARCHITECTURE_REVIEW.md) for source authority, actual sponsor use and the distinction between implemented, offline-tested and live-verified behavior.
 
-The delivery-plan backend now supports reviewed schedule previews through `/api/delivery-plan`: stage, explicitly apply, or discard with server-assigned task IDs and stale-version checks. Sandbox access requires the owner session; client views omit internal schedules. This is an API capability, **not an installed Bryntum Gantt interface**. See [delivery API evidence and limits](DELIVERY_API_REVIEW.md) and [Bryntum integration plan](BRYNTUM_PLAN.md).
+The owner-only **Delivery** page at `/delivery` reads the saved plan through `/api/delivery-plan`, with current/original/proposed date tables, an optional read-only Bryntum Gantt timeline and local payment context. It never checks PayPal or saves chart edits. A fresh workspace correctly shows no plan; initial plan entry and preview/apply/discard controls are the next milestone. The backend already enforces those commands with server IDs, version and acceptance checks. See [delivery view evidence](DELIVERY_VIEW_REVIEW.md), [API evidence](DELIVERY_API_REVIEW.md) and [Bryntum integration plan](BRYNTUM_PLAN.md). Local trial use does not clear public demo/judging permissions.
 
 ```mermaid
 flowchart LR

@@ -35,6 +35,9 @@ const stateSchema = z.object({
   preview: previewSchema.optional(),
 }).strict();
 export type DeliveryPlan = z.infer<typeof stateSchema>;
+// Shape validation for the read-only browser projection; server authority checks
+// still run in validateStoredDeliveryPlan before the API exposes any plan.
+export const deliveryPlanStateSchema = stateSchema;
 export type DeliveryPreview = z.infer<typeof previewSchema>;
 
 const edgeKey = (edge: DeliverySnapshot['dependencies'][number]) => `${edge.predecessorId}:${edge.successorId}`;

@@ -4,12 +4,14 @@ R4 source review, October 10, 2026. Nudge's original application code is covered
 
 ## Reviewed dependencies
 
-Versions below come from the current lockfile, not the version ranges in package.json. [DEPENDENCY_LICENSE_INVENTORY.json](DEPENDENCY_LICENSE_INVENTORY.json) records all 111 non-root lockfile entries and the lockfile SHA-256. Platform-specific optional packages may not be installed; package metadata alone does not inventory everything bundled inside a dependency.
+Versions below come from the current lockfile, not the version ranges in package.json. October15 update: [DEPENDENCY_LICENSE_INVENTORY.json](DEPENDENCY_LICENSE_INVENTORY.json) records all114 non-root lockfile entries and the lockfile SHA-256 after adding the three pinned Bryntum trial packages. Platform-specific optional packages may not be installed; package metadata alone does not inventory everything bundled inside a dependency.
 
 | Direct runtime package | Locked version | Declared licence |
 | --- | --- | --- |
 | ag-studio | 3.0.0 | Commercial |
 | ag-studio-react | 3.0.0 | Commercial |
+| @bryntum/gantt (public trial alias) | 7.3.7 | Commercial |
+| @bryntum/gantt-react | 7.3.7 | Commercial |
 | lucide-react | 0.468.0 | ISC; installed notice acknowledges Feather MIT portions |
 | next | 16.3.8 | MIT |
 | react / react-dom | 19.3.0 | MIT |
@@ -27,6 +29,8 @@ The lockfile also includes ISC, BSD-3-Clause, 0BSD, CC-BY-4.0, LGPL-3.0-or-later
 - Sharp and platform binaries include libvips/LGPL components. Before sharing a prebuilt deployment image or binary archive, inspect the actual target-platform package notices and applicable source/relinking requirements. Installing from npm in judge setup differs from repackaging binaries. The Windows inventory does not clear a future Linux image. See [Sharp installation documentation](https://sharp.pixelplumbing.com/install/) and the installed platform package's LICENSE.
 
 Do not commit node_modules, vendor commercial source, generated bundles or private credentials to satisfy an attribution requirement. Judge setup installs locked dependencies; a later prebuilt artifact needs its own notice review.
+
+The Gantt alias depends on commercial `@bryntum/gantt-trial-lib`1.0.1 for normal trial preparation. The owner authorised local evaluation; hosted use, public-source/package distribution and judging coverage remain unconfirmed. Keep trial watermarks and expiry checks intact. [THIRD_PARTY_BRYNTUM_NOTICES.md](THIRD_PARTY_BRYNTUM_NOTICES.md) retains the wrapper's third-party notice text. The Delivery screen loads bundled Font Awesome Free6.7.2 CSS/fonts locally: CSS/code MIT, fonts SIL OFL1.1, icons CC BY4.0. No new vendor font CDN is intended; original site Google Fonts are a separate existing dependency. Retained notices do not amount to a complete audit of every bundled/runtime/target-platform component.
 
 ## Assets and external fonts
 

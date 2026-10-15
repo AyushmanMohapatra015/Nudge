@@ -1,6 +1,36 @@
-# Parallel contribution investigation: Studio accessibility
+# Sponsor contribution handoff: findings and remaining verification
 
 October 15, 2026. Side task requested by the owner, separate from Nudge's core action plan. No upstream issue, comment, fork or PR has been created. No private account, licence key, provider or actual workspace data was read. Nudge's selected next task remains B5a-2, the owner-only Bryntum screen.
+
+## Read first: instructions for another agent
+
+This document can be handed to another agent as context. It contains original minimal reproduction code, findings, source references, limitations and a per-resource inventory. Local paths refer to `D:\Nudge`; ignored evidence files exist on this laptop but are not in a Git clone. An agent without filesystem access can recreate the embedded sample instead of assuming those artifacts are available.
+
+Keep this side task in a separate project/checkout so concurrent work does not edit Nudge's files, dependencies, configuration, database or Git state. Begin with independent verification. Do not copy `.env` files, licences, API keys, client records, generated bundles or vendor source into a reproduction repository. Re-read current upstream AGENTS/contribution instructions before preparing changes in an upstream checkout.
+
+No paid or live-AI work is authorised by this handoff. Use fictional fixtures and public read-only research. Do not install tools globally, connect sponsor accounts, activate services, send messages or publish issues/PRs automatically. Prepare a concrete draft for the owner. Do not call a vendor defect confirmed merely because an earlier integration failed; preserve the distinctions below. Recheck versions, duplicates and repository restrictions because these observations are dated.
+
+## Inventory across all sponsor resources
+
+This is **all currently recorded sponsor-related findings and material gaps relevant to this project**, not an exhaustive audit of every vendor or all their bugs. “Pending” does not mean “vendor bug.” No candidate except Studio has a newly independent upstream reproduction from this side task.
+
+| Resource | Recorded finding or missing verification | Classification and contribution follow-up |
+| --- | --- | --- |
+| AG Grid / AG Studio | Studio3.0.0 edit-mode data headers reproduce two nested interactive controls without Nudge code. Shared Enterprise header source identified. | Independently reproduced accessibility finding; strongest reporting candidate. External PR creation is currently restricted and the relevant code is commercially licensed. Confirm maintainer route first. Full screen-reader behavior, keyboard impact and cross-browser evidence still need independent review. |
+| Elastic | Earlier conversation404 was resolved using explicit authenticated local execution. Other observed failures involved model selection, interactive/structured responses, a Markdown JSON wrapper and wrong scope interpretations. | No underlying platform defect established. Configuration fixes and model/prompt variability are not automatically SDK bugs. Further calls/evaluation are owner-deferred; do not consume trial tokens to pursue this side task. Check `ELASTIC_VERIFICATION.md`, `AI_EVIDENCE_REVIEW.md` and `ISSUE_CHECKPOINTS.md` locally for bounded historical evidence. |
+| Elastic access/usage | Fair-use managed-LLM allowance/exhaustion and free judging access beyond the November3 owner-reported expiry remain unresolved. | Account/support questions, not a code bug. No paid subscription or allowance extension may be assumed. |
+| Bryntum | Gantt7.3.7 normal installation and a disposable current Next/React/browser fixture pass. Resolved project-versus-inline-data conflict and bundled icon setup; date-only projection required understanding timezone-adjusted model Dates. | Configuration/serialization findings, not confirmed upstream bugs. Automatic icon-CDN fallback can be useful documentation feedback, but the guide already recommends local icon CSS. Do not report these as regressions without a documented-contract mismatch. See `BRYNTUM_LOCAL_EVALUATION.md`. |
+| Bryntum permissions | Trial email says45days; exact start/expiry, public hosted evaluation, source/package distribution and access through December15 remain open. Published trial and general EULA conditions differ. | Licence/support clarification, not an established code defect or permission to assume public deployment. Local evaluation is authorised; no licence identifiers may be published. |
+| Astropods | Official CLI checksum/download host previously failed with connection/TLS resets on this machine. Managed gateway access remained unresolved and no useful live integration was established. | Historical connectivity/setup blocker; vendor ownership and present reproducibility unknown. A fresh no-credential reproduction, network comparison, supported Windows path and existing support reply are needed before proposing a documentation/CLI issue. Do not disable TLS or run unverified installers. Credit-consuming gateway troubleshooting is deferred. See `ASTROPODS_SETUP.md`. |
+| Postman | Local Newman verification works without a connected Postman account. The existing31-request/50-assertion collection does not cover the newer delivery endpoint, which has separate HTTP evidence. | Missing collection coverage is our project backlog, not a Postman bug. No confirmed upstream defect. A hosted workspace is optional and must not contain credentials/private identifiers. |
+| Render | No deployment performed. Actual eligible charges, payment-method requirement, credit-exhaustion behavior, quote, persistent storage and hosted/Linux/HTTPS checks remain open despite owner-reported USD50 credits valid through October1,2027. | Deployment/account verification gaps, not observed platform defects. Do not create resources or activate billing for a reproduction. See `RENDER_DEPLOYMENT.md` and `RENDER_COST_PLAN.md`. |
+| Zapier | Research only; no connected workflow. Premium connector entitlement, sandbox configuration, MCP permission model and task accounting need actual account review if adopted. | No tested integration and no reported vendor defect. Do not start a trial, connect financial tools or send notifications just to find a PR. See `ZAPIER_RESEARCH.md`. |
+| Kernel | Not adopted; no concrete remote-browser need established. | No issue found because no integration was evaluated. Do not represent this as a passed security/quality review or activate browser credits for this handoff. |
+| Channel3 | Not adopted; no catalog/procurement feature in current scope. | No issue investigated. New scope/account/query usage is not authorised by this side task. |
+| APIMatic | Owner explicitly cancelled this integration and requested skipping it. | Excluded, not a vendor failure. Do not restore or investigate as part of this handoff unless the owner changes that decision. |
+| PayPal, the central platform | Signed event redelivery/deduplication is verified; the separate fresh-payment-triggered automatic PAID transition remains unverified. Fallback owner reconciliation is working evidence of a different path. | Integration-verification gap, not proof of a PayPal webhook defect. Do not create new invoices, retry payment or alter webhooks for the side investigation. See `WEBHOOK_VERIFICATION.md` and `FRESH_PAYMENT_WEBHOOK_TEST.md`. |
+
+Project-wide remaining work such as human validation, actual Narrator/zoom/touch checks, historical privacy decisions and publication permissions belongs to Nudge's existing action plan. Those are not upstream sponsor bugs or tasks for this parallel agent to silently complete.
 
 ## Verdict
 
@@ -58,6 +88,68 @@ Related, not established duplicates:
 The published package's bug contact is [AG support](https://ag-grid.zendesk.com/). Use that or the sponsor's designated channel to ask for the correct reporting and contribution route. Do not bypass GitHub restrictions or submit the same report to multiple channels without checking for an existing ticket.
 
 ## Handoff for a separate agent
+
+### Self-contained minimal React sample
+
+The following original source is the standalone sample actually tested. It uses no key, Nudge module, custom widget or payment data. Use the pinned versions above; a fresh reproduction will also need `react-dom`19.3.0, a JSX-capable build tool, an HTML root element and an explicitly sized container. It was bundled with installed esbuild0.28.2, served on loopback and checked with headless Edge/axe-core4.14.0. Creating a clean standalone package/lockfile and testing other supported React/browser versions remain for the parallel agent; this is not a ready-to-publish repository.
+
+```jsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { AgStudio, AgStudioProvider } from 'ag-studio-react';
+
+const data = { sources: [
+  {
+    id: 'first', name: 'First sample',
+    fields: [
+      { id: 'label', name: 'Label', format: 'textFormat' },
+      { id: 'value', name: 'Value', format: 'numberFormat' }
+    ],
+    data: [{ label: 'Alpha', value: 1 }]
+  },
+  {
+    id: 'second', name: 'Second sample',
+    fields: [{ id: 'label', name: 'Label', format: 'textFormat' }],
+    data: [{ label: 'Beta' }]
+  }
+] };
+
+const initialState = {
+  selectedPageId: 'sample',
+  panels: { data: { collapsed: false }, filters: { collapsed: true } },
+  pages: [{
+    id: 'sample',
+    widgets: {
+      grid: {
+        type: 'grid',
+        dataMapping: { cols: [{ id: 'first.label' }, { id: 'first.value' }] }
+      }
+    },
+    widgetLayout: { grid: { xTrack: 0, yTrack: 0, xSpan: 16, ySpan: 16 } }
+  }]
+};
+
+createRoot(document.getElementById('root')).render(
+  <AgStudioProvider>
+    <AgStudio mode="edit" data={data} initialState={initialState}
+      style={{ height: '800px', width: '100%' }} />
+  </AgStudioProvider>
+);
+```
+
+Reproduction checks: run axe's `nested-interactive` rule after the two `Add computed column` buttons appear; inspect each button's nearest interactive ancestor. Expected observed result is two affected headers with role button and tabindex0, each containing the native menu button with tabindex-1. Preserve the unmodified baseline before testing any semantic fix. No licence warning suppression, DOM patch or disabled control was used to obtain the finding.
+
+### Prioritised verification checklist
+
+1. Recheck latest public release and contribution restrictions; confirm a maintainer-approved path before coding a patch.
+2. Independently reproduce the embedded sample in a separate clean project and retain exact package/browser/axe versions and a lockfile.
+3. Recheck related issues and ask whether a private/internal ticket already tracks this specific Studio component. Do not assert novelty.
+4. Verify disclosure and menu keyboard interactions, names/states and actual screen-reader announcements; axe alone cannot establish those results.
+5. Decide the narrow source boundary with maintainers: shared Enterprise header versus Studio caller. Preserve all other header consumers.
+6. If a patch is welcome, demonstrate a failing regression first, then the fix, relevant upstream tests and no new keyboard/focus/layout regressions. Resolve licence/CLA requirements for that repository.
+7. Prepare the issue or PR text for owner review. No posting, outreach, fork creation or account access has been authorised by this document.
+
+### Local artifacts and continuation
 
 Local original reproduction source: `data/oss-studio-a11y/main.jsx`. Original runner: `data/oss-studio-repro.mjs`. Original evidence: `data/oss-studio-a11y/evidence.json`; screenshot `standalone.png`. Public release/repository checks: `public-check.json` and `source-check.json` in the same folder. These are ignored local artifacts; review before sharing. Do not upload generated bundles, commercial source copies, node_modules, keys or private project files. The saved upstream TypeScript text is reference material, not our code to relicense.
 

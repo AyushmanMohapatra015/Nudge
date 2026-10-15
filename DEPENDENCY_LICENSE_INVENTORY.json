@@ -1,9 +1,30 @@
 {
-  "reviewDate": "2026-10-10",
+  "reviewDate": "2026-10-15",
   "source": "package-lock.json",
-  "sourceSha256": "c2ab5ede9809ae51a34cb142b80290c13091099b2e621a8b8dc62adfddd914a0",
-  "scope": "Lockfile metadata only; excludes bundled package contents and separately installed Newman runner. Optional platform entries may not be installed.",
+  "sourceSha256": "c938e98b57f4b0aa3f8690b0ffc27cea31c8eec7ed0010d9ff1d600c952c1ea8",
+  "scope": "Lockfile metadata only; excludes bundled package contents and separately installed Newman runner. Optional platform entries may not be installed. Supplementary Bryntum vendor notices are retained separately; not a complete bundled/binary audit.",
   "packages": [
+    {
+      "path": "node_modules/@bryntum/gantt",
+      "version": "7.3.7",
+      "license": "Commercial",
+      "developmentOnly": false,
+      "optional": false
+    },
+    {
+      "path": "node_modules/@bryntum/gantt-react",
+      "version": "7.3.7",
+      "license": "Commercial",
+      "developmentOnly": false,
+      "optional": false
+    },
+    {
+      "path": "node_modules/@bryntum/gantt-trial-lib",
+      "version": "1.0.1",
+      "license": "Commercial",
+      "developmentOnly": false,
+      "optional": false
+    },
     {
       "path": "node_modules/@emnapi/runtime",
       "version": "1.11.3",
