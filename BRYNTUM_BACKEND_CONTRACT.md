@@ -1,5 +1,15 @@
 # B1b: delivery-plan backend contract
 
+## Implementation checkpoint — B3a, October15
+
+lib/delivery-plan.ts now implements pure canonical calendar/task/dependency schemas and validation, with copied results and no store/network/vendor imports. It checks civil dates, fixed weekdays/explicit holidays, timezone input, bounded graph size/span, computed exclusive finishes, unknown dates, cycles/duplicates/backward edges, immutable applied provenance/calendar and reviewed-extra acceptance. Calendar and current snapshot must be supplied together for changes. Preview warnings identify approved but not accepted extras; apply rejects them. Initial base work may include milestones, but no extra proposal task before an initial plan.
+
+Ten new tests pass, all145offline backend tests pass and TypeScript passes. This is validator evidence only. No deliveryPlan field was added to Workspace, no stored schedule was written, no route/UI/package was added, and no persistence/apply/concurrency scenario is claimed passed. B3b remains to define/validate persisted original/current/preview records and verify actual isolated restart/backward compatibility before B4 commands.
+
+Initial restricted tsx run failed at Windows user lookup; approved offline retry ran successfully. First test/typecheck run found a TypeScript never-returning-helper narrowing issue and a provenance test intercepted by the earlier base-task rule. Helper declaration and fixture were corrected; targeted checks/typecheck and the full suite then passed. No app guard was relaxed. Existing production/browser/Postman evidence is retained without a redundant run because the new standalone validator is not imported by application routes/components yet.
+
+Future canonical validator callers must not accept browser-chosen persisted task IDs: B4 still owns local-key-to-server-UUID mapping, strict command/version checks and apply/discard transactions. Existing accepted legacy proposals without a reviewed additional-work record cannot supply a new extra task automatically; surface that limitation without altering historical acceptance or invoices.
+
 October14,2026. Proposed implementation specification, not implemented API/schema or passed test evidence. Reviewed against lib/domain.ts, lib/store.ts, app/api/workspace/route.ts, app/api/client/[token]/route.ts, lib/reconciliation.ts and lib/owner-analytics.ts. No actual environment/database, package, provider or licence read or changed.
 
 ## Scope and authority
