@@ -1,5 +1,7 @@
 # B5a-2: owner delivery view
 
+October 16 update: B5b owner-entry and explicit preview/apply/discard controls are now implemented and verified separately in [DELIVERY_PLANNING_REVIEW.md](DELIVERY_PLANNING_REVIEW.md). The October 15 read-only baseline below is historical; current next work is B6a's backend coverage review, followed by B6b broader Gantt/accessibility checks.
+
 October 15, 2026. The locally evaluated Bryntum trial is now integrated into Nudge at `/delivery`, linked from the owner workspace. This closes the read-only B5a screen; initial plan entry and preview/apply/discard controls are B5b and are not present yet. No ordinary workspace was seeded or modified for verification.
 
 ## Behavior and boundaries

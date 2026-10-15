@@ -6,7 +6,7 @@ import { deliveryStateFixture } from './fixtures/delivery-state';
 test('delivery browser projection rejects private/unknown fields and preserves version choices', () => {
   const { plan } = deliveryStateFixture();
   const view = { version: 10, mode: 'demo', asOf: '2026-10-15T00:00:00.000Z', stateSource: 'local-records', remoteCheckedAt: null,
-    status: 'ready', plan, previewStale: false, extras: [], invoices: [] };
+    status: 'ready', plan, previewStale: false, extras: [], invoices: [], planning: { agreementAccepted: true, clauses: [], eligibleExtras: [] } };
   const parsed = deliveryViewSchema.parse(view);
   assert.deepEqual(deliverySelection(parsed, 'original')?.snapshot, plan.original?.snapshot);
   assert.deepEqual(deliverySelection(parsed, 'current')?.snapshot, plan.current?.snapshot);

@@ -4,6 +4,7 @@ import type { Workspace } from './domain';
 import { db, mode, log, requireIdle } from './store';
 import { deliveryCalendarSchema, deliverySnapshotSchema, validateDeliverySnapshot, type DeliverySnapshot, type DeliveryValidation } from './delivery-plan';
 import { readDeliveryPlan, validateStoredDeliveryPlan, deliveryImpact, type DeliveryPlan } from './delivery-plan-state';
+import { deliveryPlanningSchema } from './delivery-view';
 
 const version = z.number().int().min(1).max(Number.MAX_SAFE_INTEGER - 1);
 const reference = z.union([z.string().uuid(), z.string().regex(/^new:[A-Za-z0-9_-]{1,40}$/)]);
@@ -50,8 +51,13 @@ export function deliveryPlanView(state: Workspace) {
     recordIndex, proposalId: invoice.proposalId, status: invoice.status, amountCents: invoice.amountCents,
     outstandingCents: invoice.outstandingCents, pendingOutcome: !!(invoice.pendingSend || invoice.pendingReminder),
   })));
+  const planning = deliveryPlanningSchema.parse({ agreementAccepted: state.agreementStatus === 'accepted',
+    clauses: state.agreement.clauses.map(({ id, text }) => ({ id, text })),
+    eligibleExtras: state.proposals.filter(p => ['approved', 'accepted'].includes(p.status) && p.scopeReview?.classification === 'additional')
+      .map(p => ({ proposalId: p.id, status: p.status, references: p.scopeReview!.references, deliverables: p.deliverables })),
+  });
   return { version: state.version, mode: state.mode, asOf: new Date().toISOString(), stateSource: 'local-records' as const,
-    remoteCheckedAt: null, ...status, extras, invoices };
+    remoteCheckedAt: null, ...status, extras, invoices, planning };
 }
 export const readDeliveryPlanView = () => deliveryPlanView(existingWorkspace());
 

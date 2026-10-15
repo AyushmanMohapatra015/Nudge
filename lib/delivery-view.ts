@@ -2,9 +2,17 @@ import { z } from 'zod';
 import { deliveryPlanStateSchema } from './delivery-plan-state';
 import type { DeliverySnapshot } from './delivery-plan';
 
+export const deliveryPlanningSchema = z.object({
+  agreementAccepted: z.boolean(),
+  clauses: z.array(z.object({ id: z.string().regex(/^S\d+$/), text: z.string().min(5).max(500) }).strict()).max(12),
+  eligibleExtras: z.array(z.object({ proposalId: z.string().uuid(), status: z.enum(['approved', 'accepted']),
+    references: z.array(z.string().regex(/^S\d+$/)).max(20), deliverables: z.array(z.string().min(3).max(250)).min(1).max(8),
+  }).strict()).max(1000),
+}).strict();
 const base = z.object({
   version: z.number().int().min(1).max(Number.MAX_SAFE_INTEGER), mode: z.enum(['demo', 'sandbox']),
   asOf: z.string().datetime(), stateSource: z.literal('local-records'), remoteCheckedAt: z.null(),
+  planning: deliveryPlanningSchema,
   extras: z.array(z.object({ proposalId: z.string().min(1).max(100), status: z.enum(['approved', 'accepted', 'declined']) }).strict()).max(1000),
   invoices: z.array(z.object({ recordIndex: z.number().int().nonnegative(), proposalId: z.string().min(1).max(100),
     status: z.enum(['DRAFT', 'UNPAID', 'PARTIALLY_PAID', 'PAID', 'CANCELLED', 'OTHER']),

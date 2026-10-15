@@ -47,7 +47,7 @@ test('actual saved delivery plan renders read-only with holiday dates, no financ
 
 test('stored stale previews and malformed or lost reads never enable mutations or retain a misleading chart', async ({ page }) => {
   const { plan } = deliveryStateFixture();
-  const base = { version: 10, mode: 'demo', asOf: '2026-10-15T00:00:00.000Z', stateSource: 'local-records', remoteCheckedAt: null, extras: [], invoices: [] };
+  const base = { version: 10, mode: 'demo', asOf: '2026-10-15T00:00:00.000Z', stateSource: 'local-records', remoteCheckedAt: null, extras: [], invoices: [], planning: { agreementAccepted: true, clauses: [], eligibleExtras: [] } };
   let response: unknown = { ...base, status: 'ready', plan, previewStale: true }, failure = false;
   await page.route('**/api/delivery-plan', route => failure ? route.abort('failed') : route.fulfill({ json: response }));
   await page.goto('/delivery'); await page.getByRole('button', { name: 'Proposed preview' }).click();

@@ -13,6 +13,13 @@
 .delivery-table small{display:block;font-weight:400;color:#52635a}.delivery-table details{font-weight:400;font-size:.85rem;margin-top:8px}.delivery-table details p{overflow-wrap:anywhere}
 .delivery-table summary{cursor:pointer}.delivery-invoices{padding-left:22px}.delivery-invoices li{margin:12px 0;line-height:1.6;overflow-wrap:anywhere}
 .delivery-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.delivery-editor{margin:24px 0;padding:20px;background:#f5f8f4;border:1px solid #ccd9ce;border-radius:12px}
+.delivery-calendar,.delivery-task-editor,.delivery-decisions{border:1px solid #ccd9ce;border-radius:10px;padding:16px;margin:20px 0;min-width:0}
+.delivery-editor legend,.delivery-decisions legend{font-weight:700;padding:0 6px}.delivery-editor label{display:block;line-height:1.6;margin:12px 0}
+.delivery-editor input:not([type=checkbox]),.delivery-editor textarea,.delivery-editor select{display:block;width:100%;max-width:100%;padding:10px;border:1px solid #8b9c90;border-radius:6px;background:white;color:#263d33;font:inherit}
+.delivery-editor input[readonly],.delivery-editor textarea[readonly]{background:#edf1ec}.delivery-check{display:flex!important;align-items:flex-start;gap:10px;line-height:1.6;margin:14px 0;overflow-wrap:anywhere}
+.delivery-check input[type=checkbox]{flex-shrink:0;width:20px;height:20px;margin-top:3px}.delivery-editor details{margin:14px 0}.delivery-editor summary{cursor:pointer;font-weight:600}
+.delivery-decisions{background:#f5f8f4}.delivery-editor output{font-weight:700}.delivery-editor p,.delivery-decisions p{line-height:1.7;overflow-wrap:anywhere}
 .delivery-page [tabindex]:focus-visible,.delivery-page summary:focus-visible{outline:3px solid #2b6448;outline-offset:3px}
 .delivery-page .btn[aria-disabled=true]{opacity:.65;cursor:wait}.delivery-page .error-banner{flex-wrap:wrap}
 @media(max-width:640px){.delivery-page{padding:20px 16px 40px}.delivery-heading{align-items:flex-start;flex-direction:column;gap:10px}.delivery-section{padding:16px}.delivery-page .mode-banner{display:block;line-height:1.6}.delivery-table th,.delivery-table td{padding:12px}.delivery-page .btn{white-space:normal}.delivery-page .error-banner span{min-width:0;overflow-wrap:anywhere}}

@@ -76,6 +76,10 @@ test('delivery API owns schedule changes without seeding, provider calls or fina
         assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'no-store');
         assert.equal(view.status, 'unconfigured'); assert.equal(view.stateSource, 'local-records'); assert.equal(view.remoteCheckedAt, null);
         assert.equal(view.invoices[0].status, 'PAID'); assert.equal(view.invoices[0].outstandingCents, 0);
+        assert.equal(view.planning.agreementAccepted, true);
+        assert.deepEqual(view.planning.clauses.map((clause: { id: string }) => clause.id), ['S1', 'S3']);
+        assert.equal(view.planning.eligibleExtras[0].status, 'accepted');
+        assert.deepEqual(view.planning.eligibleExtras[0].references, ['S3']);
         for (const value of ['fictional-client-token', 'fictional-original-base-key', 'private.example', 'buyer@example.com', 'INV2-FICTIONAL', 'Fictional history retained']) {
           assert.equal(JSON.stringify(view).includes(value), false);
         }
