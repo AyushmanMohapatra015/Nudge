@@ -1,5 +1,45 @@
 # B2a: Gantt package and integration review
 
+## October 15: B2d exact installation verification complete
+
+Owner approved proceeding with local evaluation. This supersedes earlier notes that all component integration must await public-demo permission: local evaluation can proceed, while hosted use, public distribution, exact trial dates and judging coverage remain B2b/c questions. No vendor package has been installed or executed in this verification step. No private registry account, licence key, paid subscription or AI call was used.
+
+### Actual registry archive checks
+
+Downloaded the three exact public npm archives as data into memory, verified their complete SHA-512 digests against the corresponding HTTPS registry metadata, and inspected tar headers and selected files without extracting the packages or executing their contents. All entries processed had valid tar-header checksums; no traversal/rooted paths or tar links/extended headers were encountered. Registry metadata and embedded package name/version agreed. Matching registry integrity verifies consistency of the downloaded bytes, not publisher signing, absence of vulnerabilities or a full security audit.
+
+| Package | Compressed bytes | Tar entries | Embedded install hooks / dependencies |
+| --- | --- | --- | --- |
+| `@bryntum/gantt-trial@7.3.7` | 10,926,674 | 102 | `postinstall: node postinstall.js`; exact dependency `@bryntum/gantt-trial-lib: 1.0.1` |
+| `@bryntum/gantt-react@7.3.7` | 1,902,179 | 420 | No scripts, dependencies or peer dependencies in embedded metadata |
+| `@bryntum/gantt-trial-lib@1.0.1` | 1,679 | 4 | `postinstall: node postinstall.js`; no dependencies |
+
+Verified registry SHA-512 integrity values, in the same order:
+
+```text
+sha512-OHvlsCYDGzxdDcFF6JHjPDWiCOynJr8tP1RRteJSZ6c9NT0+DOtgwVyj8MABXmIY61rKABQ+t6csik5ZT1BMqA==
+sha512-nKIQ8/BVPF7BqeZDRZSWMFP+ZvjqK8p/TNA6L1e/lH+RQO18SRw6fQeGctj118LHcZQ/CA3utebXv7ORiCRwWA==
+sha512-VWtowNi9FBCC6EWz8zZjrnPALCsFrYt4HPwmsgqv3qediQPfyYM/5Bq3rFuEUa1/2C/1u7YXzW2q1HZykHnp+Q==
+```
+
+Read the actual archive hook files as text. Their behavior agrees with the earlier mirror-text review: the main hook starts the helper's `build.js` in its current working directory; helper postinstall prepares a UUID in its own build script; build recursively rewrites `.js` licence placeholders under its working directory. The helper is obfuscated. No direct network invocation was observed in these hook texts, but bundled runtime behavior has not been fully audited. Do not manually execute these scripts from the repository root. Future installation should use npm's ordinary package lifecycle in a disposable, credential-free directory first; do not bypass licence preparation or expiry with `--ignore-scripts` and then present the result as a working trial.
+
+The initial restricted download failed with EACCES. An approved retry verified the main and wrapper archives, then timed out fetching the helper archive. A narrowly scoped retry verified that helper; its subsequent guide fetch received HTTP403. These are separate retrieval outcomes, not a fully successful combined script run. All network reads were public and contained no owner/provider credentials.
+
+### Verified installation path and compatibility boundary
+
+Read the owner-downloaded official ZIP's exact `docs/data/Gantt/guides/npm/repository/installation.md`, `docs/data/Gantt/guides/quick-start/nextjs.md` and React Next App Router example metadata without running the example. These confirm the public trial alias and matching React wrapper. No private npm login or `.npmrc` change is required for that public path. The reviewed future command is:
+
+```powershell
+npm.cmd install --save-exact --registry=https://registry.npmjs.org "@bryntum/gantt@npm:@bryntum/gantt-trial@7.3.7" "@bryntum/gantt-react@7.3.7"
+```
+
+This command was **not run**. First use it in a disposable minimal workspace without `.env`, database, other app dependencies or provider credentials, then inspect the resulting lockfile/install logs and test integration in Nudge. Verify npm actually uses the intended registry before executing; the flag is not evidence about a private scoped registry configuration. Do not copy the ZIP, entire example app, its demo-resource dependencies or obsolete `next export` / `next lint` scripts into Nudge.
+
+The ZIP's example targets Next15.5.10/React18.2.0, whereas installed Nudge versions are Next16.3.8/React19.3.0/TypeScript5.9.3/Node24.12.0. The guide's broad minimum versions and absence of wrapper peer constraints do not establish compatibility with these versions. Actual dev/build/browser evidence is still required. Re-read installed Next lazy-loading and Turbopack guides: browser-only wrapper with `ssr:false` inside a Client Component; no automatic downgrade, bundler change or global stylesheet replacement.
+
+Local inspection helper, selected hook texts, two ZIP guide text copies and helper retry summary are under ignored `data/bryntum-install-review*`. They are review artifacts, not required judge setup tools or redistribution assets. The downloaded ZIP was not fully extracted. Next B5a step: isolated normal trial installation and then a minimal local read-only Gantt compatibility check against the completed delivery API. Public/hosted distribution and December15 access remain unconfirmed; R6/H/E are still deferred.
+
 October14,2026. Read-only public metadata/source/licence review. No package install, trial signup, lifecycle-script execution, registry configuration, application edit or licence activation. No private .npmrc/environment/licence/account inspected. This is a bounded review, not a security certification or tested integration.
 
 ## Exact candidates
