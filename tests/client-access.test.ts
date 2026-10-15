@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { GET, POST } from '../app/api/client/[token]/route';
 import { mutate, read, seed } from '../lib/store';
+import { deliveryStateFixture } from './fixtures/delivery-state';
 
 test('private client API hides owner records and enforces current links and one-time decisions', async () => {
   const oldMode = process.env.NUDGE_MODE, oldPath = process.env.NUDGE_DB_PATH;
@@ -16,6 +17,7 @@ test('private client API hides owner records and enforces current links and one-
   try {
     mutate(s => {
       Object.assign(s, seed());
+      s.deliveryPlan = deliveryStateFixture().plan;
       s.proposals = [{ id: 'private-draft', request: 'Owner-only notes', amountCents: 0, deliverables: ['Unreviewed work'], status: 'draft',
         analysis: { classification: 'ambiguous', summary: 'Private analysis for owner review.', references: [], questions: [], deliverables: ['Unreviewed work'], source: 'simulation' } }];
       s.invoices = [{ id: 'private-invoice', proposalId: 'base', status: 'DRAFT', amountCents: 10000, outstandingCents: 10000,
@@ -31,7 +33,7 @@ test('private client API hides owner records and enforces current links and one-
     assert.equal(view.agreement, null);
     assert.deepEqual(view.proposals, []);
     assert.deepEqual(view.invoices, []);
-    for (const field of ['clientToken', 'audit', 'policies', 'processing', 'integrationError', 'reminderDraft']) assert.equal(field in view, false);
+    for (const field of ['clientToken', 'audit', 'policies', 'processing', 'integrationError', 'reminderDraft', 'deliveryPlan']) assert.equal(field in view, false);
     assert.equal((await POST(request({ type: 'acceptAgreement' }), context(token))).status, 400);
     assert.equal((await POST(request({ type: 'acceptProposal', id: 'private-draft' }), context(token))).status, 400);
     assert.equal((await POST(request({ type: 'sendInvoice', id: 'private-invoice' }), context(token))).status, 400);
