@@ -160,13 +160,15 @@ Reminder drafting is currently a deterministic editable template, not AI-written
 
 ## Architecture
 
+See [the architecture and evidence audit](ARCHITECTURE_REVIEW.md) for source authority, actual sponsor use and the distinction between implemented, offline-tested and live-verified behavior.
+
 The delivery-plan backend now supports reviewed schedule previews through `/api/delivery-plan`: stage, explicitly apply, or discard with server-assigned task IDs and stale-version checks. Sandbox access requires the owner session; client views omit internal schedules. This is an API capability, **not an installed Bryntum Gantt interface**. See [delivery API evidence and limits](DELIVERY_API_REVIEW.md) and [Bryntum integration plan](BRYNTUM_PLAN.md).
 
 ```mermaid
 flowchart LR
   F[Freelancer workspace] --> A[Next.js server]
   C[Private client page] --> A
-  A --> AI[Claude scope analysis]
+  A -.-> AI[Elastic scope analysis: explicit enablement]
   A --> G[Validation and approval gates]
   G --> P[PayPal sandbox Invoicing]
   A --> DB[(SQLite workspace and audit)]
