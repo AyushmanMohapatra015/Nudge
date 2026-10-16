@@ -1,5 +1,7 @@
 # Nudge demo storyboard and rehearsal
 
+October16 B7a supporting evidence: [DELIVERY_IMPACT_REHEARSAL.md](DELIVERY_IMPACT_REHEARSAL.md) verifies a fictional USD300 booking change through client acceptance, explicit internal-date application, simulated invoice/payment and actual Studio/native tables. A three-working-day extra moves the exclusive finish by five calendar days; original dates and accepted prices are preserved. AI/payment are simulated in that rehearsal, with API setup and selected actual UI actions; it is not the final live/video or a human-timed rehearsal. The USD1,200 base is not invoiced/paid by this fixture. Keep the F1 core story and time limit; consider scheduling only as a concise supporting insert during F5, not an automatic extra scene or a client-deadline promise.
+
 Status: rehearsal plan, not final submission video. Target final runtime: 2:45, leaving fifteen seconds under the supplied three-minute limit. No public upload or narration has been produced by this task.
 
 ## F1 selected story — October13

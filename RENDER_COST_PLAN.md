@@ -1,5 +1,13 @@
 # D3: Render hosting budget and approval worksheet
 
+## October16 B7a local resource checkpoint
+
+[DELIVERY_IMPACT_REHEARSAL.md](DELIVERY_IMPACT_REHEARSAL.md) records the actual fictional approval/delivery/payment-simulation/Studio journey. Five Windows production-server observations ranged95.42–124.57MiB working set and124.84–145.62MiB private bytes; these overlapping measures must not be added. This is neither continuous peak nor Linux/concurrent/live-provider/build memory evidence. The512MB candidate remains unverified and no tier, payment method, service or disk was approved/created.
+
+Delivery including Gantt requested5.703MiB raw JS/CSS (1.982MiB per-file gzip estimate); Analytics/Studio requested5.685MiB (1.581MiB estimate). These are browser payload observations, not server RAM or wire-transfer totals. Whole-build JS/CSS totals11.047MiB, not total deployment storage. The small fictional SQLite/WAL/SHM set totaled0.330MiB before shutdown; it does not size real retention/backups.
+
+Rechecked [Render disk guidance](https://render.com/docs/disks) October16: the persistent disk is runtime-only and single-instance; build compute is separate and ordinary local files remain ephemeral. Keep the reviewed persistent SQLite mount/backup plan. Existing prices below remain dated public planning examples, not refreshed account quotes; D2b/D3b/D4b and Linux D6 gates remain open. Measurements do not permit automatic upgrade or deployment.
+
 Reviewed October 13, 2026. Planning only; no service, disk, subscription or deployment created.
 
 ## D3 public-source verification, owner requested
