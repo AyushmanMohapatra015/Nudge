@@ -23,7 +23,9 @@ Payment reconciliation validates invoice identity, approved USD totals and consi
 Requires Node.js **22.16 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice. The minimum includes the database backup API used by maintenance tools and their tests.
 
 ```sh
-npm ci
+npm ci --ignore-scripts
+npm rebuild @bryntum/gantt-trial-lib --foreground-scripts --ignore-scripts=false
+npm rebuild --foreground-scripts --ignore-scripts=false
 npm run dev
 ```
 
@@ -31,7 +33,7 @@ On Windows PowerShell, use `npm.cmd` if script execution policy blocks `npm.ps1`
 
 Open http://127.0.0.1:3000. By default the app runs in **simulation mode**. No AI provider call, email, or PayPal transaction occurs in this mode. The UI explicitly labels simulation. Records persist in `data/nudge.sqlite`, which is excluded from Git.
 
-The committed lockfile is required for `npm ci`. Do not copy another developer's `.env.local` or database. Docker, sponsor accounts and API keys are not needed for simulation. Stop the local server with Ctrl+C. For a production-mode local check, run `npm run build`, then `npm run start -- --hostname 127.0.0.1`; use the same URL.
+The committed lockfile is required for `npm ci`. Complete all three setup commands: the first unpacks dependencies, the second prepares the trial helper, and the third executes all normal dependency lifecycles. Unpacking alone is not a functioning trial. This order avoids an observed parent-before-helper preparation failure; no vendor code or expiry checks are patched. See [clean-source verification](CLEAN_CHECKOUT_VERIFICATION.md) for the preparation check and limits. Do not copy another developer's `.env.local` or database. Docker, sponsor accounts and API keys are not needed for simulation. Stop the local server with Ctrl+C. For a production-mode local check, run `npm run build`, then `npm run start -- --hostname 127.0.0.1`; use the same URL.
 
 ## Explore the workflow (no credentials)
 

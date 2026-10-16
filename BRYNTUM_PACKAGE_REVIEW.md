@@ -1,5 +1,7 @@
 # B2a: Gantt package and integration review
 
+October 16 R5b update: fresh installs exposed parent-before-helper lifecycle order and an unprocessed bundle marker despite npm success. Foreground install and subsequent parent-only rebuild were insufficient. CLEAN_CHECKOUT_VERIFICATION.md records failures and the verified fresh-unpack/helper-first/all-normal-lifecycles sequence with helper unchanged, bundle prepared and11Edge checks. No manual vendor edit, expiry bypass, helper reset or package/lock version change. Local evaluation evidence does not establish public/hosted/judge permissions; B2b/c remain open.
+
 ## October 15: B2d exact installation verification complete
 
 Owner approved proceeding with local evaluation. This supersedes earlier notes that all component integration must await public-demo permission: local evaluation can proceed, while hosted use, public distribution, exact trial dates and judging coverage remain B2b/c questions. No vendor package has been installed or executed in this verification step. No private registry account, licence key, paid subscription or AI call was used.

@@ -10,7 +10,7 @@ This guide runs the current source prototype in clearly labelled simulation. It 
 
 1. Clone or download the repository and open a terminal in its root (the folder containing package.json).
 2. Install Node.js 22.16 or later; Node 24 is the tested version. Check `node --version` and `npm --version`. The minimum includes SQLite's backup API for maintenance and recovery tests.
-3. Run `npm ci`, then `npm run dev`. On Windows PowerShell use `npm.cmd` if npm.ps1 is blocked.
+3. Follow all three dependency setup commands in [README.md](README.md#run-locally), then run `npm run dev`. They unpack locked dependencies, prepare the trial helper first, then execute all normal lifecycles. Unpacking alone is not a functioning trial; no expiry checks or trial rights are changed. On Windows PowerShell use `npm.cmd` if npm.ps1 is blocked. See [clean-source verification](CLEAN_CHECKOUT_VERIFICATION.md) for preparation checks and limits.
 4. Open http://127.0.0.1:3000. No .env file is needed. Do not bring over an existing .env.local. If your shell already defines NUDGE_MODE, remove it or set it to demo before starting.
 
 Dependency installation downloads packages; the application walkthrough does not call paid services. Docker and sponsor accounts are not needed. SQLite is built into Node. A new local data/nudge.sqlite file is created automatically and ignored by Git. Keep the folder writable. Stop the server with Ctrl+C.

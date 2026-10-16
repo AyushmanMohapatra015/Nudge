@@ -2,7 +2,7 @@ import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { randomUUID } from 'node:crypto';
-import { mkdirSync, readFileSync, writeFileSync, copyFileSync, readdirSync, lstatSync, existsSync, symlinkSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, copyFileSync, readdirSync, lstatSync, existsSync, symlinkSync, realpathSync } from 'node:fs';
 import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isolatedWorkflowEnv, verifyWorkflowCollection, runWorkflowCollection } from './postman-workflow-runner.mjs';
@@ -55,6 +55,22 @@ async function main() {
     child.once('error', () => { clearTimeout(timer); reject(Error('build-start')); });
     child.once('exit', code => { clearTimeout(timer); writeFileSync(resolve(runDir, 'build.log'), log, { flag: 'wx' }); code === 0 ? done() : reject(Error('build-failed')); });
   });
+  const traces = [];
+  function findTraces(directory) {
+    for (const name of readdirSync(directory)) {
+      const path = resolve(directory, name), stat = lstatSync(path);
+      if (stat.isSymbolicLink()) throw Error('unsupported-build-trace-link');
+      if (stat.isDirectory()) findTraces(path);
+      else if (name.endsWith('.nft.json')) { if (traces.length >= 2000) throw Error('build-trace-bound'); traces.push(path); }
+    }
+  }
+  findTraces(resolve(appDir, '.next/server'));
+  const dependencies = new Set(traces.flatMap(path => JSON.parse(readFileSync(path, 'utf8')).files.map(file => resolve(dirname(path), file))));
+  const allowed = realpathSync(root) + sep;
+  const outsideProject = [...dependencies].filter(path => !(existsSync(path) ? realpathSync(path) : path).startsWith(allowed)).length;
+  const traceReview = { traceFiles: traces.length, dependencyPaths: dependencies.size, outsideProject, success: traces.length > 0 && outsideProject === 0 };
+  writeFileSync(resolve(runDir, 'build-trace-review.json'), JSON.stringify(traceReview, null, 2), { flag: 'wx' });
+  if (!traceReview.success) throw Error('build-trace-outside-project');
   if (reviewArtifacts) {
     const report = reviewBrowserArtifacts(resolve(appDir, '.next/static'), markers);
     const publicReport = existsSync(resolve(appDir, 'public')) ? reviewBrowserArtifacts(resolve(appDir, 'public'), markers) : null;

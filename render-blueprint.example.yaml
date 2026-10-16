@@ -9,7 +9,7 @@ services:
     region: singapore
     numInstances: 1
     autoDeployTrigger: "off"
-    buildCommand: npm ci --include=dev --no-audit --no-fund && npm run build
+    buildCommand: npm ci --ignore-scripts --include=dev --no-audit --no-fund && npm rebuild @bryntum/gantt-trial-lib --foreground-scripts --ignore-scripts=false && npm rebuild --foreground-scripts --ignore-scripts=false && npm run build
     startCommand: npm run start:render
     healthCheckPath: /api/health
     disk:

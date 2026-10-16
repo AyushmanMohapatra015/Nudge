@@ -7,7 +7,9 @@ Nudge uses **Postman's Newman 6.2.1 runner** to execute reviewed API collections
 Use a clean source checkout and Node 22.16 or later (Node 24 recommended). Run from the repository root. On Windows PowerShell:
 
 ```powershell
-npm.cmd ci
+npm.cmd ci --ignore-scripts
+npm.cmd rebuild @bryntum/gantt-trial-lib --foreground-scripts --ignore-scripts=false
+npm.cmd rebuild --foreground-scripts --ignore-scripts=false
 npm.cmd install --prefix ./data/postman-runner --no-audit --no-fund --ignore-scripts --save-exact newman@6.2.1
 npm.cmd run postman:workflow
 ```

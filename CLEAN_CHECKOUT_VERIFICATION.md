@@ -1,5 +1,33 @@
 # Clean source verification
 
+## R5b refresh — October 16, 2026
+
+Current verification includes the pinned Gantt dependencies and delivery tooling. The wrapper copies reviewed working-tree source, not a remote clone; it excludes ordinary configuration, databases and application dependencies. Only existing pinned Newman tooling is linked. Install children receive an allowlist of system variables and empty npm configuration; application build/server children use fictional simulation and the provider-fetch guard. Registry installation is networked, not an OS network sandbox.
+
+Two setup findings were resolved in the verification path:
+
+- Next inferred the original repository as an ancestor root, leaving eight original dependency metadata paths in the first build traces. Explicit supported Turbopack/tracing roots now contain the disposable app and its fresh dependencies. The workflow rejects traced paths outside that source root.
+- A background install and foreground installs left a UUID preparation marker in the Gantt bundle despite successful npm exit. The foreground log shows the parent Gantt hook before its helper hook. A subsequent normal parent rebuild also did not repair the already-transformed bundle; that attempt is not counted as success. The final sequence starts from a fresh locked unpack with scripts temporarily deferred, runs the helper's normal lifecycle first, then runs all normal dependency lifecycles. The wrapper checks versions, absence of unprocessed markers and that the prepared helper text stayed unchanged across the final rebuild. It never patches vendor files or expiry checks. This is an observed lifecycle-order problem in this setup, not a demonstrated npm/upstream defect across environments.
+
+Reproduction: install the pinned Newman tooling as documented in POSTMAN_JUDGE_GUIDE.md, then run `npm.cmd run verify:clean`. The three application setup commands are in README.md. [npm documents rebuild](https://docs.npmjs.com/cli/v11/commands/npm-rebuild/) as executing lifecycle scripts after an install with scripts deferred. Foreground mode exposes output; it does not promise dependency hook order. All lifecycle stages must complete: unpacking with scripts deferred is never treated as a working trial. Installation was tested with npm11.6.2. Trial preparation success does not establish public/hosted/judge licence rights.
+
+Final pipeline receipt: ignored `data/postman-workflow/clean-c5b1d066-3f61-4927-9cf0-03379773d182/`, based on local HEAD `545fafd1492160670385b644cc5d8b77c2d04406`. The 302-file working-tree snapshot is 2,167,795 bytes, SHA-256 `51afa42adc9accb0287434affb11d7481243d9404e81b297213d1d59e73c0a48`. Later documentation/setup-template edits are outside that snapshot; tested runtime and verifier code remain unchanged. Node24.12.0/npm11.6.2/Next16.3.8/React19.3.0, Gantt and wrapper7.3.7/helper1.0.1.
+
+| Check | Final evidence |
+| --- | --- |
+| Fresh locked install | 57 packages; 61.786 seconds; application dependencies not linked to original workspace |
+| Normal lifecycle stages | Helper first, then all installed dependency hooks; both successful |
+| Preparation audit | Helper/bundle prepared; helper unchanged across final lifecycle stage; no identifiers printed |
+| TypeScript and offline suite | Passed; 170 passed, none failed/skipped/cancelled |
+| Production/Postman | Build passed; 31 requests, 50 assertions; real process restart persistence passed; no provider fetch attempts |
+| Dependency trace boundary | 14 trace files, 192 unique dependency paths, zero outside fresh source root |
+| Targeted Edge browser checks | 11 passed in 41.8 seconds; no failed/skipped/flaky outcomes; provider-fetch guard quiet |
+| Cleanup | Fresh and root workflow endpoints plus both browser endpoints confirmed closed |
+
+Nested workflow receipt: `source/data/postman-workflow/89612488-fec6-4e4c-b6b6-1c6434a1befc/`; browser receipt: `source/data/delivery-browser/f971bcb3-9cfc-481f-a0ff-576baef76147/`. The root workflow using the same config also passed (`data/postman-workflow/337e76f8-5358-4771-b1b5-27a89fa8e0cd/`). Diagnostic earlier runs remain local and are not substitutes for the final preparation audit. Logs/databases/generated trial values must not be uploaded. This is a same-Windows-machine working-tree check, not a remote clone, first-time Newman installation, Linux or hosted test. The lockfile and package versions were not changed.
+
+R6 Narrator/actual zoom/physical touch, E live website AI/evaluation, H validation, fresh payment-triggered webhook, sponsor permissions, publication history and Render billing/deployment remain open. Two known Gantt ARIA findings remain recorded; a passing regression does not clear them.
+
 ## R5 refresh — October 11, 2026
 
 Verified a **current working-tree source snapshot**, including uncommitted runner changes, based on local HEAD `324c2e518e7f`. This was not a remote clone, Git archive, different-machine test or hosted deployment. The snapshot contained 231 files, with SHA-256 `5df3fc53d5541d9d8b88fb22df8c19135cc1e21431b775b67a99b431c17b3151`. Documentation updates written after the run are outside that snapshot; the tested application/runner code is unchanged.

@@ -43,7 +43,11 @@ async function main() {
   // installed below, never linked to the original application's node_modules.
   mkdirSync(resolve(source, 'data'), { recursive: true });
   symlinkSync(resolve(root, 'data/postman-runner'), resolve(source, 'data/postman-runner'), process.platform === 'win32' ? 'junction' : 'dir');
-  const env = isolatedWorkflowEnv(process.env, root, runDir);
+  // Install hooks need system/runtime paths, not unrelated shell credentials or
+  // inherited npm settings. Explicit npm config/cache flags below remain authoritative.
+  const systemEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) =>
+    /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|TMPDIR|USERPROFILE|LOCALAPPDATA|APPDATA|NUMBER_OF_PROCESSORS|PROCESSOR_ARCHITECTURE)$/i.test(key)));
+  const env = isolatedWorkflowEnv(systemEnv, root, runDir);
   // The coordinator needs loopback fetch and npm registry access. The reviewed
   // workflow runner applies its fetch guard to its own build/server children.
   delete env.NODE_OPTIONS;
@@ -64,12 +68,37 @@ async function main() {
     results.push({ check: name, passed: true, elapsedMs: Date.now() - started });
     console.log(name + ' passed.');
   }
-  await step('locked-install', ['ci', '--include=dev', '--no-audit', '--no-fund', '--fetch-retries=0', '--fetch-timeout=120000', '--cache', resolve(root, 'data/clean-source-npm-cache'), '--userconfig', resolve(runDir, 'empty-user.npmrc'), '--globalconfig', resolve(runDir, 'empty-global.npmrc'), '--registry', 'https://registry.npmjs.org'], 600000);
+  await step('locked-install', ['ci', '--ignore-scripts', '--prefer-offline', '--include=dev', '--no-audit', '--no-fund', '--fetch-retries=0', '--fetch-timeout=120000', '--cache', resolve(root, 'data/clean-source-npm-cache'), '--userconfig', resolve(runDir, 'empty-user.npmrc'), '--globalconfig', resolve(runDir, 'empty-global.npmrc'), '--registry', 'https://registry.npmjs.org'], 600000);
   if (lstatSync(resolve(source, 'node_modules')).isSymbolicLink()) throw Error('fresh-dependencies');
+  // npm ran the parent before its helper in observed fresh installs. Unpacking
+  // alone is not a working trial: complete every normal lifecycle, helper first.
+  const lifecycleConfig = ['--foreground-scripts', '--ignore-scripts=false', '--no-audit', '--no-fund', '--userconfig', resolve(runDir, 'empty-user.npmrc'), '--globalconfig', resolve(runDir, 'empty-global.npmrc')];
+  await step('trial-helper-lifecycle', ['rebuild', '@bryntum/gantt-trial-lib', ...lifecycleConfig]);
+  const preparedHelper = readFileSync(resolve(source, 'node_modules/@bryntum/gantt-trial-lib/build.js'), 'utf8');
+  if (preparedHelper.includes('%UUID%')) throw Error('trial-helper-unprepared');
+  await step('dependency-lifecycles', ['rebuild', ...lifecycleConfig]);
+  // Check only preparation markers, never copy generated trial identifiers into
+  // reports or modify vendor files. A successful install alone is insufficient.
+  const packageVersion = name => JSON.parse(readFileSync(resolve(source, 'node_modules', name, 'package.json'), 'utf8')).version;
+  const gantt = readFileSync(resolve(source, 'node_modules/@bryntum/gantt/gantt.module.js'), 'utf8');
+  const helper = readFileSync(resolve(source, 'node_modules/@bryntum/gantt-trial-lib/build.js'), 'utf8');
+  const preparation = {
+    ganttVersion: packageVersion('@bryntum/gantt'),
+    reactVersion: packageVersion('@bryntum/gantt-react'),
+    helperVersion: packageVersion('@bryntum/gantt-trial-lib'),
+    helperPrepared: !helper.includes('%UUID%'),
+    preparedHelperUnchanged: helper === preparedHelper,
+    bundlePrepared: !gantt.includes('%UUID%') && !gantt.includes('%LICENSE%'),
+  };
+  preparation.success = preparation.ganttVersion === '7.3.7' && preparation.reactVersion === '7.3.7' && preparation.helperVersion === '1.0.1' && preparation.helperPrepared && preparation.preparedHelperUnchanged && preparation.bundlePrepared;
+  writeFileSync(resolve(runDir, 'trial-preparation.json'), JSON.stringify(preparation, null, 2));
+  if (!preparation.success) throw Error('trial-preparation');
+  results.push({ check: 'trial-preparation', passed: true });
+  console.log('Trial preparation passed.');
   await step('typecheck', ['run', 'typecheck']);
   await step('offline-tests', ['test']);
   await step('production-workflow', ['run', 'postman:workflow']);
-  writeFileSync(resolve(runDir, 'summary.json'), JSON.stringify({ ...sourceManifest, results, success: true, applicationDependencies: 'Fresh npm ci, no original node_modules link', verificationTooling: 'Existing pinned local Newman 6.2.1 runner', artifactDirectory: runDir }, null, 2));
+  writeFileSync(resolve(runDir, 'summary.json'), JSON.stringify({ ...sourceManifest, results, success: true, environmentPolicy: 'System-variable allowlist; no inherited provider, npm-config or unrelated credentials', applicationDependencies: 'Fresh npm ci, no original node_modules link', verificationTooling: 'Existing pinned local Newman 6.2.1 runner', artifactDirectory: runDir }, null, 2));
   console.log(JSON.stringify({ checks: results, success: true, artifactDirectory: runDir }));
 }
 main().catch(async () => { try { await stopOwned(); } catch { console.error('Owned verification process exit remains unconfirmed.'); } console.error('Clean-source verification stopped; inspect the ignored step logs. No raw errors printed or automatic retry.'); process.exitCode = 1; });
