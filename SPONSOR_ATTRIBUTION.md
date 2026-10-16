@@ -1,0 +1,49 @@
+# B7c: sponsor use, evidence and judging readiness
+
+Reviewed October 16, 2026. This is the current claim/access matrix. Older planning notes are historical; signup, credits, mocked adapters and public sponsor offers are not implementation or permission evidence. This document does not declare the project submission-ready.
+
+## What Nudge actually uses
+
+| Tool | Implemented contribution | Evidence and limits |
+| --- | --- | --- |
+| PayPal Developer Platform | Sandbox Invoicing/OAuth, invoice lifecycle, human approvals, signature-verified webhooks, authoritative reconciliation and duplicate/recovery safeguards. | Actual sandbox checkout and signed redelivery/deduplication are documented in WEBHOOK_VERIFICATION.md. Fresh payment-triggered PAID delivery without polling remains open. B7a's USD300 invoice/payment is simulation. Do not claim Orders, Payouts, live money or a closed subcontractor payout loop. |
+| Elastic Agent Builder / managed model | Restricted server-side structured scope review against agreement clauses; human classification, price and approval remain authoritative. | Limited real adapter/development responses exist in ELASTIC_VERIFICATION.md. Ordinary website AI, independent quality evaluation, account allowance reconciliation and judging access remain open. Calls are owner-paused. No claim of Elasticsearch vector search, a payment-executing agent or general model accuracy. |
+| AG Grid's AG Studio3.0.0 | Embedded owner invoice/change reports, theme, layout controls, cross-filtering/exports, custom pending-changes and invoice-check widgets, native reading fallback. | Implemented UI and browser/API evidence exist; B7a renders Studio and checks paid invoice/approved-quote tables. Agent Framework bridge/authority/allowance preparation has offline evidence; production dashboard AI is disconnected. Do not claim live natural-language dashboards, generated widgets or built-in-agent delegation. |
+| Bryntum Gantt7.3.7 | Optional read-only timeline of owner-entered original/current/proposed delivery dates, calendar/dependencies, backed by Nudge's guarded preview/apply/discard API. | B5/B6 and DELIVERY_IMPACT_REHEARSAL.md verify local workflows, original preservation and separation from payments. Two ARIA findings independently reproduce; BRYNTUM_ARIA_REPRODUCTION.md records the open vendor follow-up. No autonomous scheduling, resources, multiple clients or client-agreed deadlines. |
+| Postman Newman6.2.1 | Reviewed API collections and assertions: credential-free isolated production workflow, restart checks and separate read-only sandbox checks. | POSTMAN_JUDGE_GUIDE.md documents actual31request/50assertion simulation and separate sandbox3response/4assertion evidence. No connected Postman account, cloud monitor or public workspace is claimed or needed for the local runner. |
+| Render | Intended single Node host with persistent SQLite disk; guarded configuration, backup/recovery preparation and resource measurements. | Owner reports USD50 redeemed, valid until October1,2027. No resource, hosted URL or Workflows task exists. Quotes, accrued usage, card/exhaustion terms, permissions and Linux checks remain gates. Do not list Render as deployed or Workflows as used. |
+
+Astropods is inactive historical setup/mock fallback, not the selected provider. Zapier, Kernel and Channel3 remain conditional research, not adopted integrations. APIMatic remains skipped at the owner's request. Do not add those names to a used-tools list to imply actual use.
+
+## Ready-to-adapt implementation description
+
+Nudge connects reviewed scope changes and client approval to PayPal sandbox invoicing. Elastic Agent Builder supports structured, clause-cited scope assessments through a restricted server adapter. AG Studio supplies themed invoice/change analytics and custom widgets; Bryntum Gantt visualizes owner-reviewed delivery impact while Nudge retains date/version/acceptance authority. Postman's Newman runner verifies the API workflow and persistence with fictional records.
+
+This is an implementation description, not permission to claim an end-to-end live demonstration. Preserve the limits above in submission evidence until E/P live gates are closed. Add Render to demonstrated deployment claims only after D5–D7 verification.
+
+## Sponsor guidance and prize fit
+
+The [AG sponsor guidance](https://paypalaihackathon.devpost.com/details/aggrid) emphasizes polished Studio widgets/theming/layout and agent-framework exploration. Nudge has actual custom analytics; live Studio agent use remains a gap. The [Bryntum guidance](https://paypalaihackathon.devpost.com/details/bryntum) accepts Gantt/Scheduler/Calendar use; our owner-reviewed delivery impact is the bounded Gantt contribution, with usefulness still unvalidated. Sponsor examples do not require autonomous payment-driven rescheduling. The [Render page](https://paypalaihackathon.devpost.com/details/render) describes the credit offer and Workflows; neither redemption nor a prepared template proves use in the application. [Postman's sponsor page](https://paypalaihackathon.devpost.com/details/postman) provides API resources; our evidence is specifically Newman/collections. No prize eligibility or award is guaranteed by this mapping.
+
+## Access through judging: unresolved owner confirmations
+
+| Dependency/access | Last recorded state | Required confirmation or action |
+| --- | --- | --- |
+| Elastic | Owner-reported trial through November3; numerical managed-model allowance/exhaustion unspecified. | Existing account/support case: confirm remaining allowance/usage visibility, exhaustion/billing behavior and free Agent Builder/managed-model access for judging. The [sponsor page](https://paypalaihackathon.devpost.com/details/elastic) offers an extension form, but no new approval is assumed. Do not repeat signup or enable calls automatically. |
+| AG Studio | Owner-reported November21 expiry; watermark absence confirmed. | Confirm local/hosted evaluation, public application-source and judge reproduction rights plus authorised access through judging. Keep licence values out of source/history and video; browser delivery to the vendor component is expected, not secrecy from users. |
+| Bryntum | Owner-authorized local trial; email says45days; exact dates unknown. | Confirm actual start/end/timezone, public-source/dependency and hosted-evaluation permissions, no-cost judge setup/coverage and expiry behavior. Keep trial preparation/watermarks intact; no trial reset or assumed new-install extension. |
+| Render | Owner-reported USD50/October1,2027; no service created. | Confirm redeemed-credit validity rather than code redemption deadline, eligible charges/accrued usage, actual compute/disk quote, card requirement/no-card exception and exhaustion behavior. Then approve a concrete configuration separately. Windows samples are not Linux capacity or a hard spending cap. |
+| Public repository | Current-source scanner has bounded clear results; historical owner decisions remain open. | Resolve R2b older identity metadata and R2c historical invoice/link disclosure/remediation decisions using PUBLICATION_READINESS.md. No address or operational identifier is printed here; no history rewrite/public visibility change is authorized. |
+| Hosted owner/client access | Eight-hour owner sessions, expiring/rotatable client links and one shared workspace. No hosted access channel verified. | Confirm permitted private judge credential delivery; never put reusable admin/provider secrets in a public README. Review simultaneous judge state, client expiry/rotation and sandbox-only authority. Do not describe separate judge accounts or automatic safe resets that do not exist. |
+
+Copyable questions are in SPONSOR_SUPPORT_REQUESTS.md; Bryntum's separate ARIA follow-up is in BRYNTUM_ARIA_REPRODUCTION.md. Sending, replies and non-sensitive confirmed terms must be recorded by the owner. These are documentation reminders, not scheduled notifications. No messages were sent by this task.
+
+## Rules checkpoint and release decision
+
+The [official rules](https://paypalaihackathon.devpost.com/rules), rechecked October16, specify submission November12,2026 at noon Pacific and judging December1–15. They allow complete runnable-repository instructions or a hosted functional demo, require a public open-source repository and a publicly visible YouTube video under three minutes, and require working judge access through judging. Sponsor tools are optional; PayPal sandbox and meaningful AI remain central. Third-party authorisation is required. Owner's internal first-week-November target is earlier than the official deadline.
+
+Local setup is a valid access route only when its complete functional integrations and dependency permissions actually work for judges. Simulation is useful for reproducibility, not a substitute for the meaningful AI integration. A recording alone, an expired trial, or asking judges to buy access is not the selected solution. If free authorised access cannot be confirmed, review a permitted functional arrangement with the owner before changing providers/dependencies; do not hide replay or activate billing.
+
+**Current decision: continue local development; no public release or deployment approval.** B7c documentation is complete, but B7/H usefulness, E/P live evidence, R6/manual/B6d ARIA, sponsor access and publication/Render gates remain open.
+
+Next independent task is R5b: refresh a clean-source locked-install/typecheck/offline/build/Postman verification now that commercial Gantt dependencies and delivery tooling have been added. This validates source reproducibility, not judge licensing or live AI. Existing170offline/eleven-browser/build/Postman evidence is retained; this documentation task does not rerun application tests.

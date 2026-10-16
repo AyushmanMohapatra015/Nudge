@@ -8,6 +8,8 @@ Nudge is a scope and payments workspace for freelance designers. A client approv
 
 This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
+[SPONSOR_ATTRIBUTION.md](SPONSOR_ATTRIBUTION.md) records actual sponsor contributions, permitted claims and outstanding judge/licence/access confirmations. It separates working local integrations from paused AI, prospective Render hosting and unused sponsor candidates; source reproducibility does not itself clear publication or commercial evaluation rights.
+
 The MIT licence covers Nudge's original code. AG Studio and Bryntum remain commercial evaluation dependencies; public demo and judge licence coverage are still being confirmed. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json), [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt) and [Bryntum third-party notices](THIRD_PARTY_BRYNTUM_NOTICES.md). Do not publish your evaluation key or vendor packages in the repository.
 
 Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](REVIEW_ACTION_PLAN.md).
@@ -49,7 +51,7 @@ You can also create an invoice for the accepted original agreement from Payments
 
 Open the workspace first, then choose **Analytics**. The embedded Studio page shows recorded invoice balances, ageing and change quotes; report editing does not alter financial records. It reads the protected local analytics snapshot without checking PayPal or calling AI. In sandbox mode the existing owner session is required.
 
-AG Studio is a commercial dependency with local evaluation support. For a licensed hosted demo, privately configure `NUDGE_AG_STUDIO_LICENSE` in `.env.local` and restart; never commit its value. The browser runtime licence is intentionally visible to the vendor component. Licence receipt is owner-confirmed, but exact expiry/judging coverage and local validation remain pending. See [AG_STUDIO_INTEGRATION.md](AG_STUDIO_INTEGRATION.md) for setup, verification and remaining custom-widget/agent work.
+AG Studio is a commercial dependency with local evaluation support. For a licensed hosted demo, privately configure `NUDGE_AG_STUDIO_LICENSE` in `.env.local` and restart; never commit its value. The browser runtime licence is intentionally visible to the vendor component. The owner confirmed licence receipt and watermark removal and reported a November21,2026 expiry; current terms, hosted/public-source permission and judging coverage remain pending. Custom widgets are implemented; live dashboard AI remains disconnected. See [AG_STUDIO_INTEGRATION.md](AG_STUDIO_INTEGRATION.md) and the current sponsor matrix for evidence and limits.
 
 ## Connect actual PayPal sandbox and AI
 

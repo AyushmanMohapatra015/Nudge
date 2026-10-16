@@ -1,8 +1,10 @@
 # Run and review Nudge locally
 
+October16 readiness checkpoint: [SPONSOR_ATTRIBUTION.md](SPONSOR_ATTRIBUTION.md) is the current tools/access matrix. Hosted access is not verified; commercial dependency public/judge permissions and trial continuity, live website AI and release-history decisions remain open. These are development walkthrough instructions, not a claim that final judging access is ready. Installing a trial package does not establish licence coverage or authorise resetting an expired trial.
+
 For the planned short presentation and its outstanding evidence requirements, see [DEMO_STORYBOARD.md](DEMO_STORYBOARD.md). The local rehearsal is simulation, not the final submission video.
 
-This guide runs the current public-source prototype in clearly labelled simulation. It verifies product behavior without a PayPal or AI account. Simulation does **not** demonstrate the final hackathon requirement for real AI integration. Actual sandbox checkout, genuine signed webhook redelivery/deduplication and limited live Elastic scope responses have been verified during development. The owner website live-AI journey, broader model evaluation and fresh payment-triggered webhook transition remain pending. See ELASTIC_VERIFICATION.md and WEBHOOK_VERIFICATION.md for evidence and limits. Further live AI verification is deferred at the owner's request; final submission instructions must update these checkpoints when verified.
+This guide runs the current source prototype in clearly labelled simulation. It verifies product behavior without a PayPal or AI account. Simulation does **not** demonstrate the final hackathon requirement for real AI integration. Actual sandbox checkout, genuine signed webhook redelivery/deduplication and limited live Elastic scope responses have been verified during development. The owner website live-AI journey, broader model evaluation and fresh payment-triggered webhook transition remain pending. See ELASTIC_VERIFICATION.md and WEBHOOK_VERIFICATION.md for evidence and limits. Further live AI verification is deferred at the owner's request; final submission instructions must update these checkpoints when verified.
 
 ## Setup
 
@@ -25,6 +27,14 @@ Typography currently loads Google Fonts when available and falls back to system 
 6. Check Activity for the sequence of owner/client decisions. In Payments, Add overdue example and Draft reminder. Enable Protect this client in Agent rules and save rules; sending the existing reminder is rejected by server policy.
 
 Optional: before approving an agreement, My project offers manual brief review with empty missing fields, a review note, USD confirmation and draft-only confirmation. It does not perform automatic AI extraction. Agent rules offers client-link replacement with explicit confirmation; the old Nudge URL then stops working without cancelling existing work or invoices.
+
+## Optional owner delivery and analytics walkthrough
+
+After agreement acceptance, open Delivery. Enter a base task, select supporting clauses, choose your calendar/estimate and optionally a start date, then save a preview. Applied dates remain unchanged until the explicit review checkbox and Apply internal plan action. Approved extra work can be previewed, but only client-accepted extra work can be applied; a client decision makes a previous preview stale and requires explicit restaging. Original dates remain available separately.
+
+The optional Gantt is read-only. Use the native table and dependency list or Skip timeline to date table if needed; two known vendor ARIA findings and pending Narrator/real-zoom/touch results are documented in DELIVERY_ACCESSIBILITY_REVIEW.md. Dates are internal owner estimates, not client-agreed deadlines or payment conditions. A failed chart download offers a page-reload retry while the table remains available.
+
+Analytics shows stored invoice balances and approved quote values separately through AG Studio and native tables. It does not contact PayPal or run live dashboard AI. The exact API-assisted USD300 booking/delivery/payment simulation and Windows resource measurements are in DELIVERY_IMPACT_REHEARSAL.md. For its optional Windows/Edge runner, first obtain a passing isolated Postman build, then use `node scripts/rehearse-delivery-impact.mjs data/postman-workflow/<run-id>/app-source`. It creates its own fictional database, not the walkthrough's active workspace.
 
 ## Validation and production-mode local run
 

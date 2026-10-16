@@ -1,5 +1,7 @@
 # Render hosting preparation — review before activation
 
+October16 B7c: use SPONSOR_ATTRIBUTION.md for current tool/owner/judge/licence gates and DELIVERY_IMPACT_REHEARSAL.md for measured Windows samples/browser payloads. No hosted URL, repository connection, Workflows task or service is verified. Source-based judge setup remains a candidate only with functional integration and dependency permissions. D2b/D3b/D4b approvals and actual Linux/HTTPS/disk/backup/provider checks remain required; local resource observations do not approve a tier or bypass account terms.
+
 ## D4a: judge-access preparation, October13
 
 Prepared from existing source and sponsor checkpoints; no hosted access tested or credentials changed. This is a controlled single-owner prototype, not a multi-user hosted product.

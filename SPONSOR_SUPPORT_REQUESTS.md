@@ -30,15 +30,19 @@ Claim the official offer only after checking signup terms. Account creation and 
 
 Render documents that credits are applied at billing; an unchanged credit balance is not a hard spending cap. Inspect accrued usage and eligible charges before creating a service. Sources: [credits](https://render.com/docs/credits), [persistent disks](https://render.com/docs/disks). Read `RENDER_SIGNUP.md` and `RENDER_DEPLOYMENT.md` before setup.
 
-## Bryntum: conditional on demonstrated scheduling need
+## Bryntum: existing local trial, dates and judge permissions
 
-October14 update: owner has selected Gantt planning before deferred research. B1b backend contract and B2a read-only package review are complete. The older research-before-planning instruction below is superseded. No trial or package installed. Use this question before trial signup/component integration:
+October16 current request: the owner has authorised local trial installation and the Gantt7.3.7 workflow is implemented. Do not repeat signup. Actual trial dates, public-source/hosted evaluation and judge-access coverage remain unconfirmed. No message is sent by the agent. Current owner-sendable question:
+
+> Hello! I am evaluating Bryntum Gantt7.3.7 with its React wrapper for the PayPal AI Hackathon. Could you please confirm the applicable trial start/end dates and timezone, whether evaluation permits a hosted hackathon demo and public MIT application source with vendor packages installed separately, and how to provide authorised no-cost judge access through December15,2026? Please also clarify how to handle trial credentials/package files and what happens when the trial expires. I would like to stay within free evaluation terms without a paid subscription. Thank you!
+
+Historical October14 pre-trial draft follows for context only; installation has since been authorised and completed:
 
 > Hello! I am planning to use Bryntum Gantt for the PayPal AI Hackathon. The sponsor page advertises a 45-day trial, while the general EULA's trial section describes internal evaluation and different timing. Could you confirm the applicable hackathon terms, permission for a hosted sandbox evaluation demo and public MIT application source with vendor dependencies installed separately, and free working access through judging on December 15, 2026? The trial form asks for Company and Work email; how should an independent participant without a company complete those fields truthfully? I am using Next.js 16 and React 19; is Gantt 7.3.7 with the matching React wrapper supported with Turbopack, or do you recommend another bundler configuration? I would like to stay within free evaluation terms, without a paid subscription. Thank you!
 
 No message sent. Source/metadata findings and unresolved implementation checks are in BRYNTUM_PACKAGE_REVIEW.md. Ask before adopting vendor code; a45-day offer alone does not confirm public demo rights or December coverage.
 
-Do not start this trial yet. First ask the neutral delivery-impact questions in the validation kit and assess the findings.
+Historical research-before-signup instruction is superseded by the owner's local-evaluation decision. Human usefulness validation remains pending; the older pre-signup example below is not the current action.
 
 > Hello! I am considering Bryntum for a PayPal AI Hackathon evaluation demo. Before starting the 45-day trial, could you confirm whether it permits a hosted hackathon demo and a public open-source project, including how the commercial package or trial credentials should be handled? Is coverage through the official judging period available if the trial would end earlier? Thank you!
 
