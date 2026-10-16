@@ -1,5 +1,7 @@
 # B6b: actual delivery and Gantt accessibility review
 
+October16 B6c follow-up: the two findings now reproduce independently in plain JavaScript Gantt7.3.7, with one fictional task in both readonly/editable modes. [BRYNTUM_ARIA_REPRODUCTION.md](BRYNTUM_ARIA_REPRODUCTION.md) records existing open issue12114, related support guidance, original local fixture and an unsent follow-up draft. No supported correction is established; B6d retains the vendor follow-up and R6 actual speech remains pending. The initial integration-only qualification below is historical; no ARIA clearance is claimed.
+
 October 16, 2026. Automated browser review covers the real Bryntum 7.3.7 component and Nudge's delivery controls with fictional local snapshots. This is a review with an unresolved vendor finding, not an accessibility certification or completed manual sign-off.
 
 ## Findings and changes
