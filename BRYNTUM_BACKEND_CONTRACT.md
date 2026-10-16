@@ -1,5 +1,9 @@
 # B1b: delivery-plan backend contract
 
+## Current implementation checkpoint — B6a, October 16
+
+The endpoint, persisted state, read-only vendor view and owner-entry/preview/apply/discard workflow are implemented. [DELIVERY_BACKEND_REVIEW.md](DELIVERY_BACKEND_REVIEW.md) maps all twelve acceptance scenarios to actual evidence and limits. Separate-process SQLite command races/restarts, reset isolation and a tracked targeted production browser runner extend the earlier evidence. The proposed-design and next-step notes below are historical. B6b broader vendor/accessibility checks, owner-deferred manual testing and sponsor publication/judging permissions remain open.
+
 ## Implementation checkpoint — B3b, October15
 
 Workspace now has an optional typed deliveryPlan field; no SQL table change or read-time migration. lib/delivery-plan-state.ts validates schema1 original/current/preview structure, actors/timestamps/revisions, frozen calendar/scope links, computed impact/warnings and staging versions. Pure readDeliveryPlan returns unconfigured, ready (including explicit previewStale), or generic review-needed without printing malformed record data or rewriting it. This helper is not yet wired into a public command endpoint. Existing authenticated workspace GET still spreads Workspace; its behavior is not being replaced or described as a validated schedule projection.

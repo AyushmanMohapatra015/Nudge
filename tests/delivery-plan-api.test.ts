@@ -123,6 +123,7 @@ test('delivery API owns schedule changes without seeding, provider calls or fina
       mutate(s => { s.processing = { key: 'fictional-pending', operation: 'manual review', startedAt: new Date().toISOString() }; });
       const busy = body(); assert.equal((await post(command('apply'))).status, 409); assert.equal(body(), busy);
       assert.equal((await post(command('discard'))).status, 409); assert.equal(body(), busy);
+      assert.equal((await post(changed())).status, 409); assert.equal(body(), busy);
     });
     await t.test('extra acceptance and payment-state changes stale previews, with explicit restaging required', async () => {
       fixture(); await initialize();
