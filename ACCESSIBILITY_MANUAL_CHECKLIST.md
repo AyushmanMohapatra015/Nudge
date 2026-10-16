@@ -57,6 +57,16 @@ If the Windows laptop itself has touch, use this same loopback session. If the t
 
 On an available safe fictional preview, check portrait and landscape, tap navigation and disclosures, tick consent, type/edit a quote with the software keyboard, accept once, scroll the Analytics region/table and try layout controls. Check tap targets do not trigger neighbours, controls are not hover-only, the software keyboard does not permanently hide the submit control, and scrolling does not accidentally approve work. Physical touch is separate from browser mobile emulation.
 
+## Delivery and Gantt — owner checks still pending
+
+Use the same isolated fictional session after client agreement acceptance. Open **Delivery** from the owner workspace. These steps do not require real AI or a PayPal checkout.
+
+1. Use **Plan base scope**. Check that Narrator announces the focused Owner-entered plan heading, calendar labels, task estimate and supporting-clause checkboxes. Enter a fictional base task with S1 evidence, 3 working days, timezone Asia/Kolkata, holiday 2026-10-19 and start 2026-10-16. Verify the exclusive finish is 2026-10-22. Check error announcements if a required field or scope reference is missing.
+2. Cancel local edits and listen to the focused result. Re-enter, save the preview and inspect it. Confirm that applying is disabled until the explicit review checkbox is checked. Apply only to this fictional internal plan; listen to the result and distinguish Original plan, Current plan and Proposed preview.
+3. Open the read-only Gantt. Check keyboard entry and Tab/Shift+Tab exit, the **Skip timeline to date table** link, native table captions/row/column headers, unknown dates and the finish-to-start dependency list when present. Two vendor split-Gantt aria-required-children findings are known and remain unresolved; record actual speech rather than assuming chart accessibility from automated checks.
+4. Repeat editor, confirmations, calendar text, chart/table scrolling and dependency reading at actual 200% and 400% browser zoom. Restore 100%. A 320-CSS-pixel automated check is separate evidence.
+5. On the already-authorized touch session, check start-date entry, native disclosures and checkboxes, horizontal table/chart scrolling and show/hide controls. Do not set up LAN/public access for a separate device without reviewing that connection first.
+
 ## Results record
 
 | Check | Current result | Evidence to record |
@@ -66,5 +76,7 @@ On an available safe fictional preview, check portrait and landscape, tap naviga
 | Actual 200% zoom | Pending | Window size, views tested, clipping/focus/scroll findings |
 | Actual 400% zoom | Pending | Window size, views tested, clipping/focus/scroll findings |
 | Physical touch | Pending | Device/browser, safe preview used, orientation, tap/keyboard/scroll findings |
+| Delivery Narrator/keyboard reading | Pending | Heading/result speech, table/dependency reading, vendor ARIA findings and chart escape |
+| Delivery actual zoom/physical touch | Pending | 200/400% window size, focus/reflow, native date input and scroll behavior |
 
 Send only fictional observations or cropped fictional screenshots. Do not include keys, account pages, private URLs or actual client information. A failed or blocked check is useful evidence: record it rather than checking it off. R6 stays open until findings are reviewed and concrete fixes or external limits are documented. Independent R7 technical review can continue while these owner-assisted results are pending, as recorded in the authoritative action plan.

@@ -34,13 +34,13 @@ Object.assign(env,{NODE_ENV:'production',NEXT_TELEMETRY_DISABLED:'1',NUDGE_AI_EN
 const quote=value=>{if(/["\r\n`$&|<>]/.test(value))throw Error('Unsupported command path');return '"'+value+'"';};
 const next=resolve(root,'node_modules/next/dist/bin/next');
 const servers=[['demo',3118],['sandbox',3119]].map(([mode,port])=>({command:quote(process.execPath)+' '+quote(next)+' start --hostname 127.0.0.1 --port '+port,cwd:app,url:'http://127.0.0.1:'+port+'/api/health',reuseExistingServer:false,timeout:60000,env:{...env,NUDGE_MODE:mode,NUDGE_DB_PATH:resolve(run,mode+'.sqlite'),NUDGE_ADMIN_TOKEN:token,NUDGE_POSTMAN_RUN_DIR:run,NODE_OPTIONS:'--require='+quote(resolve(root,'scripts/postman-no-network.cjs').split(sep).join('/'))}}));
-const config={testDir:resolve(root,'tests/browser'),workers:1,fullyParallel:false,timeout:90000,reporter:[['list'],['json',{outputFile:resolve(run,'results.json')}]],outputDir:resolve(run,'test-results'),use:{browserName:'chromium',launchOptions:{executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',env},trace:'retain-on-failure'},projects:[{name:'delivery-demo',testMatch:['delivery.spec.ts','delivery-planning.spec.ts','workflow.spec.ts'],use:{baseURL:'http://127.0.0.1:3118'}},{name:'delivery-owner',testMatch:['delivery-owner.spec.ts'],use:{baseURL:'http://127.0.0.1:3119'}}],webServer:servers};
+const config={testDir:resolve(root,'tests/browser'),workers:1,fullyParallel:false,timeout:90000,reporter:[['list'],['json',{outputFile:resolve(run,'results.json')}]],outputDir:resolve(run,'test-results'),use:{browserName:'chromium',launchOptions:{executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',env},trace:'retain-on-failure'},projects:[{name:'delivery-demo',testMatch:['delivery.spec.ts','delivery-planning.spec.ts','delivery-accessibility.spec.ts','workflow.spec.ts'],use:{baseURL:'http://127.0.0.1:3118'}},{name:'delivery-owner',testMatch:['delivery-owner.spec.ts'],use:{baseURL:'http://127.0.0.1:3119'}}],webServer:servers};
 const configFile=resolve(run,'playwright.config.cjs');writeFileSync(configFile,'module.exports = '+JSON.stringify(config,null,2));
 console.log('Checking actual delivery UI in isolated demo and sandbox-owner servers.');
 const code=await new Promise((done,reject)=>{const child=spawn(process.execPath,[resolve(root,'node_modules/@playwright/test/cli.js'),'test','--config',configFile],{cwd:root,env,windowsHide:true,stdio:'inherit'});child.once('error',reject);child.once('exit',done);});
 if(code===0) {
  const {stats}=JSON.parse(readFileSync(resolve(run,'results.json'),'utf8'));
- if(stats.expected!==9 || stats.unexpected || stats.skipped || stats.flaky || existsSync(resolve(run,'blocked-fetch.log')))throw Error('Incomplete browser evidence or provider fetch attempted');
+ if(stats.expected!==11 || stats.unexpected || stats.skipped || stats.flaky || existsSync(resolve(run,'blocked-fetch.log')))throw Error('Incomplete browser evidence or provider fetch attempted');
 }
 const closed=await Promise.all([3118,3119].map(port=>new Promise(done=>{
  const socket=createConnection({host:'127.0.0.1',port});socket.setTimeout(2000);

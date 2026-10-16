@@ -13,7 +13,7 @@ const DeliveryChart = dynamic(() => import('./delivery-chart'), { ssr: false,
 class ChartBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
-  render() { return this.state.failed ? <p role="alert">The timeline could not load. Use the date table below; your saved plan has not changed.</p> : this.props.children; }
+  render() { return this.state.failed ? <p role="alert">The timeline could not load. Use the date table below; your saved plan has not changed. <a className="text-btn" href="/delivery">Reload page to retry timeline</a></p> : this.props.children; }
 }
 
 export default function Delivery() {
@@ -125,10 +125,10 @@ export default function Delivery() {
             <p className="delivery-note">Excluded holidays: {selection.calendar.holidays.length ? selection.calendar.holidays.join(', ') : 'None recorded'}.</p>
             {view.plan.preview && selected === 'preview' && <p className="delivery-warning">{view.plan.preview.diff.finishDeltaCalendarDays === null ? 'Finish impact is not established.' : `Finish-boundary change: ${view.plan.preview.diff.finishDeltaCalendarDays > 0 ? '+' : ''}${view.plan.preview.diff.finishDeltaCalendarDays} calendar days.`} {view.plan.preview.warnings.length > 0 ? `${view.plan.preview.warnings.length} task(s) await client acceptance of extra work.` : ''} Work acceptance does not approve these dates.</p>}
             {!stale && selection.snapshot.tasks.some(task => task.startDate) && <button className="btn" aria-expanded={showChart} onClick={() => setShowChart(value => !value)}>{showChart ? 'Hide Gantt timeline' : 'Show Gantt timeline'}</button>}
-            {showChart && !stale && <div className="delivery-chart-frame" tabIndex={0} role="region" aria-label="Read-only delivery timeline; scroll horizontally for dates">
+            {showChart && !stale && <><p id="delivery-chart-help" className="delivery-note">The visual timeline has known accessibility limitations. All saved dates and dependencies are available below. <a className="text-btn" href="#delivery-date-table">Skip timeline to date table</a></p><div className="delivery-chart-frame" tabIndex={0} role="region" aria-label="Read-only delivery timeline; scroll horizontally for dates" aria-describedby="delivery-chart-help">
               <ChartBoundary key={`${view.version}-${selected}`}><DeliveryChart snapshot={selection.snapshot} calendar={selection.calendar} /></ChartBoundary>
-            </div>}
-            <div className="delivery-table-scroll" tabIndex={0} role="region" aria-label="Delivery date table"><table className="delivery-table">
+            </div></>}
+            <div id="delivery-date-table" className="delivery-table-scroll" tabIndex={0} role="region" aria-label="Delivery date table"><table className="delivery-table">
               <caption>{selected === 'preview' ? 'Proposed delivery dates, not applied' : selected === 'original' ? 'Original delivery dates' : 'Current delivery dates'}</caption>
               <thead><tr><th scope="col">Work and scope</th><th scope="col">Starts</th><th scope="col">Finish before (exclusive)</th><th scope="col">Owner estimate</th></tr></thead>
               <tbody>{selection.snapshot.tasks.map(task => <tr key={task.id}><th scope="row">{task.label}<small>{task.kind === 'extra' ? 'Extra work' : task.kind === 'milestone' ? 'Milestone' : 'Base scope'} · {task.references.join(', ') || 'No clause reference'}</small>
@@ -136,6 +136,9 @@ export default function Delivery() {
                 <td>{task.startDate ?? 'Not scheduled'}</td><td>{task.endDateExclusive ?? 'Not scheduled'}</td><td>{task.kind === 'milestone' ? 'Milestone' : `${task.duration} working day${task.duration === 1 ? '' : 's'}`}</td></tr>)}</tbody>
             </table></div>
             <p className="delivery-note">{selection.snapshot.dependencies.length} finish-to-start dependencies recorded. Unscheduled work stays in the table and is omitted from the chart. The table is the saved date reference.</p>
+            {selection.snapshot.dependencies.length > 0 && <ul aria-label="Finish-to-start dependencies">{selection.snapshot.dependencies.map(edge => <li key={`${edge.predecessorId}-${edge.successorId}`}>
+              {selection.snapshot.tasks.find(task => task.id === edge.successorId)?.label} starts after {selection.snapshot.tasks.find(task => task.id === edge.predecessorId)?.label} finishes.
+            </li>)}</ul>}
           </> : <p>No applied dates yet. Select the proposed preview to inspect it.</p>}
         </>}
       </section>

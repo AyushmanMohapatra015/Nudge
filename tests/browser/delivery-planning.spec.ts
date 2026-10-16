@@ -19,7 +19,7 @@ async function initialEditor(page: Page, scheduled = true) {
 }
 const state = async (request: APIRequestContext) => (await request.get('/api/workspace')).json();
 const finances = (workspace: Record<string, unknown>) => { const { deliveryPlan: _plan, version: _version, audit: _audit, ...rest } = workspace; return rest; };
-const apply = async (page: Page) => { await page.getByLabel('I reviewed this preview and want to apply it internally.', { exact: true }).check(); await page.getByRole('button', { name: 'Apply internal plan', exact: true }).click(); await expect(page.getByRole('status').filter({ hasText: 'Internal plan applied.' })).toBeVisible(); };
+const apply = async (page: Page) => { await page.getByLabel('I reviewed this preview and want to apply it internally.', { exact: true }).focus(); await page.keyboard.press('Space'); await page.getByRole('button', { name: 'Apply internal plan', exact: true }).focus(); await page.keyboard.press('Enter'); await expect(page.getByRole('status').filter({ hasText: 'Internal plan applied.' })).toBeVisible(); };
 
 test('owner enters, reviews and applies a holiday plan; cancellation and discard preserve original dates and money', async ({ page, request }) => {
   await accepted(request); const baseline = await state(request);
@@ -34,7 +34,7 @@ test('owner enters, reviews and applies a holiday plan; cancellation and discard
   await page.getByLabel('Excluded holidays', { exact: false }).fill('2026-10-19');
   await page.getByText('Task 1 scope evidence', { exact: true }).click(); await page.getByRole('checkbox', { name: /^S1:/ }).check();
   await page.getByLabel('Set a start date for task 1', { exact: true }).check(); await page.getByLabel('Task 1 start date', { exact: true }).fill('2026-10-16');
-  await page.getByRole('button', { name: 'Save delivery preview' }).click();
+  await page.getByRole('button', { name: 'Save delivery preview' }).focus(); await page.keyboard.press('Enter');
   const saved = page.getByRole('status').filter({ hasText: 'Preview saved.' }); await expect(saved).toBeVisible(); await expect(saved).toBeFocused();
   let workspace = await state(request);
   expect(workspace.deliveryPlan.current).toBeNull(); expect(workspace.deliveryPlan.original).toBeNull();
@@ -54,7 +54,7 @@ test('owner enters, reviews and applies a holiday plan; cancellation and discard
   workspace = await state(request); expect(workspace.deliveryPlan.revision).toBe(1); expect(workspace.deliveryPlan.current.snapshot.tasks[0].endDateExclusive).toBe('2026-10-22');
   await page.getByRole('button', { name: 'Edit delivery preview' }).click();
   await expect(page.getByLabel('Calendar timezone', { exact: true })).toHaveAttribute('readonly', '');
-  await page.getByLabel('Task 1 estimated working days', { exact: true }).fill('4');
+  await page.getByLabel('Task 1 estimated working days', { exact: true }).focus(); await page.keyboard.press('ControlOrMeta+A'); await page.keyboard.type('4');
   await page.setViewportSize({ width: 320, height: 900 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.addScriptTag({ content: source });
@@ -67,7 +67,7 @@ test('owner enters, reviews and applies a holiday plan; cancellation and discard
   expect(workspace.deliveryPlan.original.snapshot.tasks[0].endDateExclusive).toBe('2026-10-22');
   await page.getByRole('button', { name: 'Edit delivery preview' }).click(); await page.getByLabel('Task 1 estimated working days', { exact: true }).fill('5');
   await page.getByRole('button', { name: 'Save delivery preview' }).click(); await expect(saved).toBeVisible();
-  await page.getByLabel('Discard this saved preview; keep applied dates.', { exact: true }).check(); await page.getByRole('button', { name: 'Discard saved preview' }).click();
+  await page.getByLabel('Discard this saved preview; keep applied dates.', { exact: true }).focus(); await page.keyboard.press('Space'); await page.getByRole('button', { name: 'Discard saved preview' }).focus(); await page.keyboard.press('Enter');
   await expect(page.getByRole('status').filter({ hasText: 'Preview discarded.' })).toBeVisible();
   const after = await state(request); expect(after.deliveryPlan.preview).toBeUndefined(); expect(after.deliveryPlan.current).toEqual(workspace.deliveryPlan.current); expect(after.deliveryPlan.original).toEqual(workspace.deliveryPlan.original);
   expect(finances(after)).toEqual(finances(baseline));

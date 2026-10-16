@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { blankDeliveryTask, deliveryDraftCalendar, deliveryDraftCommand, type DeliveryDraft, type DeliveryDraftTask } from '@/lib/delivery-draft';
 import { deliveryEndDate } from '@/lib/delivery-plan';
 import type { DeliveryView } from '@/lib/delivery-view';
@@ -10,6 +10,8 @@ export default function DeliveryEditor({ view, draft, busy, saving, onChange, on
   onCancel: () => void; onStage: (command: Extract<DeliveryCommand, { type: 'stage' }>) => void;
 }) {
   const sequence = useRef(0), [error, setError] = useState(''), [reviewedVersion, setReviewedVersion] = useState<number>();
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { heading.current?.focus(); }, []);
   const plan = view.status === 'ready' ? view.plan : undefined;
   const applied = new Set(plan?.current?.snapshot.tasks.map(task => task.id) ?? []);
   const changed = draft.basedOnVersion !== view.version;
@@ -29,7 +31,7 @@ export default function DeliveryEditor({ view, draft, busy, saving, onChange, on
     try { return deliveryEndDate(deliveryDraftCalendar(draft), task.startDate, Number(task.duration)); } catch { return 'Review start, estimate and calendar'; }
   };
   return <form className="delivery-editor" onSubmit={submit} aria-label="Delivery plan draft">
-    <h3>Owner-entered plan</h3><p>These entries are local until you save a preview. Saving does not apply dates, notify clients or move money.</p>
+    <h3 ref={heading} tabIndex={-1}>Owner-entered plan</h3><p>These entries are local until you save a preview. Saving does not apply dates, notify clients or move money.</p>
     {plan?.preview && <p className="delivery-warning">Saving will replace the existing saved preview. Applied and original dates stay unchanged.</p>}
     {changed && <div className="delivery-warning"><p>Workspace records changed from version {draft.basedOnVersion} to {view.version}. Your local entries were preserved.</p>
       <label><input type="checkbox" disabled={busy} checked={reviewedVersion === view.version} onChange={e => setReviewedVersion(e.target.checked ? view.version : undefined)} />I reviewed my entries against refreshed version {view.version}.</label></div>}
