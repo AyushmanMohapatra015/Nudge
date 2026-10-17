@@ -8,7 +8,7 @@ This guide runs the current source prototype in clearly labelled simulation. It 
 
 ## Bryntum evaluation access
 
-The sponsor permits this project's public non-commercial judge demo through December15,2026; see [permission checkpoint](BRYNTUM_EVALUATION_PERMISSION.md). For local evaluation, obtain Bryntum Gantt7.3.7 and matching React wrapper separately through Bryntum's evaluation process under applicable terms before following the pinned setup below. No owner credentials or vendor distribution is supplied by this repository. The current registry-install workflow is tested locally; independent judge acquisition and technical expiry remain to verify. AG Studio and other provider permissions are separate.
+The sponsor permits this project's public non-commercial judge demo through December15,2026; see [permission checkpoint](BRYNTUM_EVALUATION_PERMISSION.md). Follow [Bryntum's separate local acquisition and setup guide](BRYNTUM_JUDGE_SETUP.md) for evaluation terms, the public npm path, exact Gantt/wrapper versions, full lifecycle commands and the fictional chart walkthrough. No owner credentials or vendor distribution is supplied by this repository. The current registry-install workflow is tested locally; independent judge acquisition, effective technical expiry and hosted access remain to verify. AG Studio and other provider permissions are separate.
 
 ## Setup
 
@@ -17,7 +17,7 @@ The sponsor permits this project's public non-commercial judge demo through Dece
 3. Follow all three dependency setup commands in [README.md](README.md#run-locally), then run `npm run dev`. They unpack locked dependencies, prepare the trial helper first, then execute all normal lifecycles. Unpacking alone is not a functioning trial; no expiry checks or trial rights are changed. On Windows PowerShell use `npm.cmd` if npm.ps1 is blocked. See [clean-source verification](CLEAN_CHECKOUT_VERIFICATION.md) for preparation checks and limits.
 4. Open http://127.0.0.1:3000. No .env file is needed. Do not bring over an existing .env.local. If your shell already defines NUDGE_MODE, remove it or set it to demo before starting.
 
-Dependency installation downloads packages; the application walkthrough does not call paid services. Docker and sponsor accounts are not needed. SQLite is built into Node. A new local data/nudge.sqlite file is created automatically and ignored by Git. Keep the folder writable. Stop the server with Ctrl+C.
+Dependency installation downloads packages; the simulation walkthrough does not call paid services. Docker and PayPal/AI accounts are not needed for simulation. Bryntum's public trial npm path needs no private registry login, but applicable commercial-dependency evaluation terms still apply; see the separate guide above. SQLite is built into Node. A new local data/nudge.sqlite file is created automatically and ignored by Git. Keep the folder writable. Stop the server with Ctrl+C.
 
 Typography currently loads Google Fonts when available and falls back to system fonts if unavailable. This is a cosmetic network dependency, not an AI service.
 
