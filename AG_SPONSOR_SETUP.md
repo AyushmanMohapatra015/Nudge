@@ -1,5 +1,7 @@
 # AG Studio sponsor access: verified offer and manual steps
 
+October17 owner confirms the permission/December15 request is not yet sent. Use the prepared AG section in SPONSOR_SUPPORT_REQUESTS.md through the official sponsor-page Discord contact route; no new signup, licence sharing or message by the coding agent. Sending and approved terms remain open A3b/D4b, separate from local component evidence.
+
 ## October17 A3a: current permission request prepared
 
 The [official sponsor page](https://paypalaihackathon.devpost.com/details/aggrid) still offers a free45-day Studio trial and directs trial/hackathon questions to the AG Grid team through the PayPal Discord. Do not repeat signup. The owner's November21,2026 expiry and local watermark check remain the recorded account-specific evidence, not a current account inspection.

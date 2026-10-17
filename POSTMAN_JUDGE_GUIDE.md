@@ -16,13 +16,13 @@ npm.cmd run postman:workflow
 
 On macOS/Linux use the same commands with `npm` instead of `npm.cmd`. Install dependencies/tooling once; if already installed, run just the final command. Installation downloads packages and uses local disk/cache. The workflow itself needs no PayPal/AI credentials, licence key, Docker, paid plan or sponsor credit. It does not read `.env.local`.
 
-The wrapper builds a disposable production source copy, starts its own loopback server with a fresh fictional SQLite database and disabled integrations, and executes the 31-request/50-assertion collection. It then restarts that server and compares the recorded invoice/approval/policy/audit/client-access state. Its own processes are stopped; the ordinary development server/database are preserved. Copies remain under ignored `data/postman-workflow`, consume disk and are not automatically deleted.
+The wrapper builds a disposable production source copy, starts its own loopback server with a fresh fictional SQLite database and disabled integrations, and executes the 47-request/77-assertion collection. It then restarts that server and compares the recorded invoice/approval/delivery-plan/policy/audit/client-access state. Its own processes are stopped; the ordinary development server/database are preserved. Copies remain under ignored `data/postman-workflow`, consume disk and are not automatically deleted.
 
 Successful sanitized output includes:
 
 ```text
-requests: 31
-assertions: 50
+requests: 47
+assertions: 77
 failedAssertions: 0
 failedSteps: []
 restartPersistence: true
@@ -45,13 +45,14 @@ Repeating that run is optional, requires authorized private sandbox configuratio
 
 Suggested text, accurate to existing evidence:
 
-> Postman: We used Newman 6.2.1 to run two reviewed API collections. The isolated Nudge workflow verifies 31 local HTTP requests and 50 assertions across approval, client acceptance, simulated invoicing/payment and rejection paths, followed by a persistence check after process restart. A separate read-only PayPal sandbox collection verified authentication, invoice listing and lookup of an existing sandbox invoice with four assertions. Fixed collection fingerprints, bounded execution, destination controls and sanitized summaries protect the verification workflow.
+> Postman: We used Newman 6.2.1 to run two reviewed API collections. The isolated Nudge workflow verifies 47 local HTTP requests and 77 assertions across approval, client acceptance, simulated invoicing/payment, delivery previews/apply/discard and rejection paths, followed by a persistence check after process restart. A separate read-only PayPal sandbox collection verified authentication, invoice listing and lookup of an existing sandbox invoice with four assertions. Fixed collection fingerprints, bounded execution, destination controls and sanitized summaries protect the verification workflow.
 
 Do not describe desktop usage, cloud monitors, a public Postman workspace, sponsor-credit redemption or another live run as completed. The sandbox runner's fingerprint/TLS/redirect controls and the workflow runner's loopback agent are distinct; this text does not claim an operating-system network sandbox or a universal guard for arbitrary collections.
 
 ## Supporting evidence and sharing
 
 - [Local workflow evidence and isolation](POSTMAN_WORKFLOW_VERIFICATION.md)
+- [Delivery extension: actual47/77 evidence and limitations](POSTMAN_DELIVERY_VERIFICATION.md)
 - [Read-only sandbox evidence and private setup](POSTMAN_VERIFICATION.md)
 - [Template/export sharing boundaries](POSTMAN_SHARING_REVIEW.md)
 - [Functional product walkthrough](JUDGE_SETUP.md)

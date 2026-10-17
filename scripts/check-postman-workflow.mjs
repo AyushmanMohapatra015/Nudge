@@ -123,7 +123,7 @@ async function main() {
           const response = await fetch(origin + '/api/workspace', { redirect: 'error', signal: AbortSignal.timeout(1000) });
           if (response.ok) {
             const after = await response.json();
-            for (const field of ['version', 'agreement', 'agreementStatus', 'proposals', 'invoices', 'policies', 'audit', 'clientToken', 'clientLinkExpiresAt', 'processing', 'mode', 'aiEnabled', 'connections']) {
+            for (const field of ['version', 'agreement', 'agreementStatus', 'proposals', 'invoices', 'policies', 'audit', 'clientToken', 'clientLinkExpiresAt', 'processing', 'deliveryPlan', 'mode', 'aiEnabled', 'connections']) {
               if (JSON.stringify(before[field]) !== JSON.stringify(after[field])) throw Error('restart-persistence');
             }
             restartPersistence = true; break;
@@ -132,7 +132,7 @@ async function main() {
         await new Promise(done => setTimeout(done, 250));
       }
       if (!restartPersistence) throw Error('restart-ready');
-      console.log('Production server restart preserved the paid invoice, approvals, policies, audit and client access state.');
+      console.log('Production server restart preserved the paid invoice, approvals, delivery plan, policies, audit and client access state.');
     }
     const blockedProviderFetch = existsSync(resolve(runDir, 'blocked-fetch.log'));
     const report = { ...result, restartPersistence, blockedProviderFetch, success: result.success && restartPersistence && !blockedProviderFetch };

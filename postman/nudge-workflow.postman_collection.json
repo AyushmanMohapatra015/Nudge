@@ -28,6 +28,34 @@
     {
       "key": "original_analysis",
       "value": ""
+    },
+    {
+      "key": "delivery_owner_baseline",
+      "value": ""
+    },
+    {
+      "key": "delivery_stage_body",
+      "value": ""
+    },
+    {
+      "key": "delivery_command_body",
+      "value": ""
+    },
+    {
+      "key": "delivery_version",
+      "value": ""
+    },
+    {
+      "key": "delivery_preview_id",
+      "value": ""
+    },
+    {
+      "key": "delivery_saved_view",
+      "value": ""
+    },
+    {
+      "key": "delivery_original",
+      "value": ""
     }
   ],
   "item": [
@@ -1101,6 +1129,524 @@
               "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
               "function privateView(d) { ['audit','policies','clientToken','processing','connections','aiEnabled','reminderDraft'].forEach(k => pm.expect(d).not.to.have.property(k)); }",
               "const d = pm.response.json(); pm.test('Client sees settled invoice without owner records', () => { privateView(d); pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(d.invoices[0].status).to.eql('PAID'); pm.expect(d.invoices[0].outstandingCents).to.eql(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "32 Capture financial baseline before delivery planning",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Accepted paid simulation is the delivery baseline', () => { pm.expect(d.agreementStatus).to.eql('accepted'); pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(d.invoices[0].status).to.eql('PAID'); pm.expect(d.deliveryPlan).to.eql(undefined); }); pm.collectionVariables.set('delivery_owner_baseline', JSON.stringify(d));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "33 Read private minimal unconfigured delivery view",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Local read is uncached and omits owner secrets and invoice links', () => { pm.expect(pm.response.headers.get('Cache-Control')).to.eql('no-store'); pm.expect(d.status).to.eql('unconfigured'); pm.expect(d.stateSource).to.eql('local-records'); pm.expect(d.remoteCheckedAt).to.eql(null); ['clientToken','agreement','policies','audit','connections','processing'].forEach(k => pm.expect(d).not.to.have.property(k)); d.invoices.forEach(i => { ['id','payUrl','recipientEmail'].forEach(k => pm.expect(i).not.to.have.property(k)); }); });",
+              "pm.collectionVariables.set('delivery_stage_body', JSON.stringify({type:'stage', expectedWorkspaceVersion:d.version, expectedPlanRevision:0, expectedPreviewId:null, calendar:{timezone:'Asia/Kolkata',weekdays:[1,2,3,4,5],holidays:[]}, candidate:{tasks:[{key:'new:website',label:'Fictional website delivery',kind:'base',proposalId:null,references:['S1'],duration:3,startDate:'2026-10-19',endDateExclusive:'2026-10-22'}],dependencies:[]}}));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "34 Cross-origin delivery command rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "https://untrusted.example"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_stage_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "35 Rejected origin did not change workspace",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Workspace including audit and version is unchanged', () => pm.expect(pm.response.json()).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_owner_baseline'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "36 Stage initial internal plan without applying",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_stage_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Preview is server identified and leaves original/current unapplied', () => { pm.expect(d.status).to.eql('ready'); pm.expect(d.plan.revision).to.eql(0); pm.expect(d.plan.current).to.eql(null); pm.expect(d.plan.original).to.eql(null); pm.expect(d.previewStale).to.eql(false); pm.expect(d.plan.preview.candidate.snapshot.tasks[0].id).to.match(/^[0-9a-f-]{36}$/); pm.expect(d.plan.preview.candidate.snapshot.tasks[0].id).not.to.eql('new:website'); });",
+              "pm.collectionVariables.set('delivery_version', d.version); pm.collectionVariables.set('delivery_preview_id', d.plan.preview.id); pm.collectionVariables.set('delivery_command_body', JSON.stringify({type:'apply',expectedWorkspaceVersion:d.version,previewId:d.plan.preview.id,confirmed:true}));",
+              "const saved = {...d}; delete saved.asOf; pm.collectionVariables.set('delivery_saved_view', JSON.stringify(saved));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "37 Apply without explicit confirmation rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"apply\",\"expectedWorkspaceVersion\":{{delivery_version}},\"previewId\":\"{{delivery_preview_id}}\",\"confirmed\":false}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "38 Unconfirmed apply preserves preview",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); const saved = {...d}; delete saved.asOf; pm.test('Rejected command left delivery view unchanged', () => pm.expect(saved).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_saved_view'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "39 Apply reviewed initial internal plan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_command_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Original is recorded exactly once and current equals reviewed plan', () => { pm.expect(d.plan.revision).to.eql(1); pm.expect(d.plan.preview).to.eql(undefined); pm.expect(d.plan.current.snapshot).to.deep.eql(d.plan.original.snapshot); pm.expect(d.plan.current.snapshot.tasks[0].duration).to.eql(3); pm.expect(d.plan.calendar.timezone).to.eql('Asia/Kolkata'); }); pm.collectionVariables.set('delivery_original', JSON.stringify(d.plan.original));",
+              "const tasks = d.plan.current.snapshot.tasks.map(({id,...t}) => ({...t,key:id,duration:4,endDateExclusive:'2026-10-23'})); pm.collectionVariables.set('delivery_stage_body', JSON.stringify({type:'stage',expectedWorkspaceVersion:d.version,expectedPlanRevision:d.plan.revision,expectedPreviewId:null,calendar:d.plan.calendar,candidate:{tasks,dependencies:[]}}));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "40 Repeated initial apply rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_command_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 409', () => pm.response.to.have.status(409));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "41 Stage changed dates while original and current remain fixed",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_stage_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('One-day date impact remains a preview', () => { pm.expect(d.plan.original).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_original'))); pm.expect(d.plan.revision).to.eql(1); pm.expect(d.plan.current.snapshot.tasks[0].duration).to.eql(3); pm.expect(d.plan.preview.candidate.snapshot.tasks[0].duration).to.eql(4); pm.expect(d.plan.preview.diff.finishDeltaCalendarDays).to.eql(1); });",
+              "pm.collectionVariables.set('delivery_version', d.version - 1); pm.collectionVariables.set('delivery_preview_id', d.plan.preview.id); pm.collectionVariables.set('delivery_command_body', JSON.stringify({type:'discard',expectedWorkspaceVersion:d.version,previewId:d.plan.preview.id,confirmed:true}));",
+              "const saved = {...d}; delete saved.asOf; pm.collectionVariables.set('delivery_saved_view', JSON.stringify(saved));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "42 Stale-version apply rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"type\":\"apply\",\"expectedWorkspaceVersion\":{{delivery_version}},\"previewId\":\"{{delivery_preview_id}}\",\"confirmed\":true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 409', () => pm.response.to.have.status(409));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "43 Stale apply did not mutate delivery plan",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); const saved = {...d}; delete saved.asOf; pm.test('Rejected command left delivery view unchanged', () => pm.expect(saved).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_saved_view'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "44 Discard changed preview without changing applied dates",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_command_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Discard retains original and applied revision', () => { pm.expect(d.plan.revision).to.eql(1); pm.expect(d.plan.preview).to.eql(undefined); pm.expect(d.plan.original).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_original'))); pm.expect(d.plan.current.snapshot).to.deep.eql(d.plan.original.snapshot); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "45 Repeated discard rejected",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/delivery-plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{{delivery_command_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 409', () => pm.response.to.have.status(409));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "46 Client still sees paid work and no internal delivery plan",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/client/{{client_token}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); pm.test('Internal plan and owner records remain private', () => { ['deliveryPlan','audit','policies','clientToken','connections'].forEach(k => pm.expect(d).not.to.have.property(k)); pm.expect(d.invoices).to.have.lengthOf(1); pm.expect(d.invoices[0].status).to.eql('PAID'); pm.expect(d.invoices[0].outstandingCents).to.eql(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "47 Delivery commands preserve full financial baseline and rejection audit",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{base_url}}"
+          }
+        ],
+        "url": "{{base_url}}/api/workspace"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const d = pm.response.json(); const baseline = JSON.parse(pm.collectionVariables.get('delivery_owner_baseline')); pm.test('Only four valid delivery commands changed version and audit', () => { function finances({version,audit,deliveryPlan,...rest}) { return rest; } pm.expect(finances(d)).to.deep.eql(finances(baseline)); pm.expect(d.version).to.eql(baseline.version + 4); pm.expect(d.audit.length).to.eql(baseline.audit.length + 4); pm.expect(d.audit.slice(4)).to.deep.eql(baseline.audit); pm.expect(d.audit.slice(0,4).map(a => a.title)).to.deep.eql(['Delivery preview discarded','Delivery preview staged','Delivery plan applied','Delivery preview staged']); pm.expect(d.deliveryPlan.original).to.deep.eql(JSON.parse(pm.collectionVariables.get('delivery_original'))); pm.expect(d.deliveryPlan.current.snapshot).to.deep.eql(d.deliveryPlan.original.snapshot); pm.expect(d.deliveryPlan.preview).to.eql(undefined); });"
             ]
           }
         }

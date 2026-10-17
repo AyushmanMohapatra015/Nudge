@@ -1,5 +1,9 @@
 # Postman: isolated Nudge workflow verification
 
+## M6 delivery extension — October17
+
+The current reviewed collection passed **47requests/77assertions**, preserving all original31steps and adding16delivery-plan steps. The isolated production build, process restart (now including deliveryPlan), no-provider-fetch check and independent endpoint-closure probe pass. Four focused safety checks and TypeScript pass. Read [POSTMAN_DELIVERY_VERIFICATION.md](POSTMAN_DELIVERY_VERIFICATION.md) for exact coverage, final receipt, retained sandbox failures and limitations; the older31/50 results below are historical. The template now has13empty variables and the explicitly reviewed fingerprint was updated. No app/dependency/account changes or live calls occurred.
+
 Before sharing templates or any desktop export, read [POSTMAN_SHARING_REVIEW.md](POSTMAN_SHARING_REVIEW.md). Workflow scripts populate collection variables during execution; share the empty repository template, not a used export. No public Postman account/workspace is needed for the verified local wrapper.
 
 ## R5 restart and fresh-install refresh — October11

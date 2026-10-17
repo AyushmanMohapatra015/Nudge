@@ -3,7 +3,10 @@ import { Agent as HttpAgent } from 'node:http';
 import { Agent as HttpsAgent } from 'node:https';
 import { resolve, sep } from 'node:path';
 
-const reviewedDigest = '8c21fbca806b1584aec83723230593b84533db9cc9ca4679868aef2fbac5da70';
+// M6 review: original 31 steps retained; 16 delivery-only steps added. All
+// requests remain on the owned origin; the hostile Origin value is a header,
+// not an outbound destination. Runtime baseline/command variables stay local.
+const reviewedDigest = '93773f154bff183d857d9f545720c2b7d4853d5d51920b6fb1345e90bacd5f80';
 export function verifyWorkflowCollection(collection) {
   if (createHash('sha256').update(JSON.stringify(collection)).digest('hex') !== reviewedDigest) throw Error('Workflow collection changed. Review before running.');
 }
@@ -41,7 +44,7 @@ export function runWorkflowCollection(newman, collection, origin, workingDir) {
       const count = n => Number.isSafeInteger(n) && n >= 0 ? n : 0;
       const assertions = count(summary?.run?.stats?.assertions?.total), failedAssertions = count(summary?.run?.stats?.assertions?.failed);
       const failedSteps = [...new Set((summary?.run?.failures || []).map(f => f.cursor?.position).filter(n => Number.isSafeInteger(n) && n >= 0 && n < expected.length).map(n => n + 1))];
-      const success = !error && summary?.run?.failures?.length === 0 && requests.length === expected.length && requests.every(r => r.status === r.expected) && assertions === 50 && failedAssertions === 0;
+      const success = !error && summary?.run?.failures?.length === 0 && requests.length === expected.length && requests.every(r => r.status === r.expected) && assertions === 77 && failedAssertions === 0;
       resolveResult({ tool: 'Postman Newman', environment: 'isolated local simulation', requests, assertions, failedAssertions, failedSteps, success });
     });
   });

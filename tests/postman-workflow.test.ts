@@ -20,7 +20,7 @@ test('workflow rejects changed scripts/destinations and non-loopback origins bef
   assert.equal(calls, 0); assert.ok(original.variable.every((v: { value: string }) => v.value === ''));
 });
 test('workflow retains fail-stop/no-export bounds, blocks other destinations and sanitizes failures', async () => {
-  const c = collection(); let fail = false;
+  const c = collection(); let fail = false, wrongCount = false, incomplete = false;
   const newman = { run(options: any, callback: (error: unknown, summary: unknown) => void) {
     assert.equal(options.iterationCount, 1); assert.equal(options.abortOnFailure, true); assert.equal(options.abortOnError, true);
     assert.deepEqual(options.bail, ['failure']); assert.deepEqual(options.reporters, []); assert.equal(options.ignoreRedirects, true);
@@ -30,10 +30,15 @@ test('workflow retains fail-stop/no-export bounds, blocks other destinations and
     assert.throws(() => options.requestAgents.http.createConnection({ host: '127.0.0.1', port: 3000 }), /blocked/);
     assert.throws(() => options.requestAgents.https.createConnection({}), /blocked/);
     const expected: number[] = c.item.map((item: any) => Number(item.event[0].script.exec[0].match(/HTTP (\d{3})/)[1]));
-    callback(fail ? Error('secret-looking-error') : null, { run: { executions: (fail ? [500] : expected).map(code => ({ response: { code, body: 'private-response' } })), failures: fail ? [{ message: 'secret-looking-error', cursor: { position: 0 } }] : [], stats: { assertions: { total: fail ? 1 : 50, failed: fail ? 1 : 0 } } } });
+    callback(fail ? Error('secret-looking-error') : null, { run: { executions: (fail ? [500] : incomplete ? expected.slice(0, -1) : expected).map(code => ({ response: { code, body: 'private-response' } })), failures: fail ? [{ message: 'secret-looking-error', cursor: { position: 0 } }] : [], stats: { assertions: { total: fail ? 1 : wrongCount ? 50 : 77, failed: fail ? 1 : 0 } } } });
   } };
   const result = await runWorkflowCollection(newman, c, 'http://127.0.0.1:3200', resolve('data'));
-  assert.equal(result.success, true); assert.equal(result.requests.length, 31);
+  assert.equal(result.success, true); assert.equal(result.requests.length, 47);
+  wrongCount = true;
+  assert.equal((await runWorkflowCollection(newman, c, 'http://127.0.0.1:3200', resolve('data'))).success, false);
+  wrongCount = false; incomplete = true;
+  assert.equal((await runWorkflowCollection(newman, c, 'http://127.0.0.1:3200', resolve('data'))).success, false);
+  incomplete = false;
   fail = true;
   const failed = await runWorkflowCollection(newman, c, 'http://127.0.0.1:3200', resolve('data'));
   assert.equal(failed.success, false); assert.deepEqual(failed.failedSteps, [1]);
