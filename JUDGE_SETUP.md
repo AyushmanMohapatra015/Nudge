@@ -6,6 +6,10 @@ For the planned short presentation and its outstanding evidence requirements, se
 
 This guide runs the current source prototype in clearly labelled simulation. It verifies product behavior without a PayPal or AI account. Simulation does **not** demonstrate the final hackathon requirement for real AI integration. Actual sandbox checkout, genuine signed webhook redelivery/deduplication and limited live Elastic scope responses have been verified during development. The owner website live-AI journey, broader model evaluation and fresh payment-triggered webhook transition remain pending. See ELASTIC_VERIFICATION.md and WEBHOOK_VERIFICATION.md for evidence and limits. Further live AI verification is deferred at the owner's request; final submission instructions must update these checkpoints when verified.
 
+## Bryntum evaluation access
+
+The sponsor permits this project's public non-commercial judge demo through December15,2026; see [permission checkpoint](BRYNTUM_EVALUATION_PERMISSION.md). For local evaluation, obtain Bryntum Gantt7.3.7 and matching React wrapper separately through Bryntum's evaluation process under applicable terms before following the pinned setup below. No owner credentials or vendor distribution is supplied by this repository. The current registry-install workflow is tested locally; independent judge acquisition and technical expiry remain to verify. AG Studio and other provider permissions are separate.
+
 ## Setup
 
 1. Clone or download the repository and open a terminal in its root (the folder containing package.json).

@@ -1,5 +1,7 @@
 # Render hosting preparation — review before activation
 
+October 17 Bryntum permission confirmed by owner-supplied sponsor reply: free hackathon evaluation through December15,2026, including a public non-commercial judge demo; own MIT source permitted with proprietary Bryntum files/credentials excluded; no automatic paid conversion or payment obligation. Conflicting trial-duration/hosting EULA restrictions are overridden for this use/period only. BRYNTUM_EVALUATION_PERMISSION.md records scope and remaining technical-expiry/separate local acquisition checks. This does not clear AG/Elastic/Render gates or authorize deployment. Next implementation task remains F2p.
+
 October16 B7c: use SPONSOR_ATTRIBUTION.md for current tool/owner/judge/licence gates and DELIVERY_IMPACT_REHEARSAL.md for measured Windows samples/browser payloads. No hosted URL, repository connection, Workflows task or service is verified. Source-based judge setup remains a candidate only with functional integration and dependency permissions. D2b/D3b/D4b approvals and actual Linux/HTTPS/disk/backup/provider checks remain required; local resource observations do not approve a tier or bypass account terms.
 
 ## D4a: judge-access preparation, October13

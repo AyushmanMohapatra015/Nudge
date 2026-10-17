@@ -32,6 +32,8 @@ Render documents that credits are applied at billing; an unchanged credit balanc
 
 ## Bryntum: existing local trial, dates and judge permissions
 
+October17 reply received by owner: permission/free evaluation through December15,2026, public non-commercial demo, own MIT source excluding vendor files/credentials and no automatic payment obligation confirmed. See BRYNTUM_EVALUATION_PERMISSION.md. Requests below are historical; do not resend answered questions. Follow up only if technical expiry requires the offered extension or separate judge acquisition needs clarification.
+
 October16 current request: the owner has authorised local trial installation and the Gantt7.3.7 workflow is implemented. Do not repeat signup. Actual trial dates, public-source/hosted evaluation and judge-access coverage remain unconfirmed. No message is sent by the agent. Current owner-sendable question:
 
 > Hello! I am evaluating Bryntum Gantt7.3.7 with its React wrapper for the PayPal AI Hackathon. Could you please confirm the applicable trial start/end dates and timezone, whether evaluation permits a hosted hackathon demo and public MIT application source with vendor packages installed separately, and how to provide authorised no-cost judge access through December15,2026? Please also clarify how to handle trial credentials/package files and what happens when the trial expires. I would like to stay within free evaluation terms without a paid subscription. Thank you!
