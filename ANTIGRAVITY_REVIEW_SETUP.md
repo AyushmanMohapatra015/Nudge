@@ -1,5 +1,7 @@
 # Independent source-only Antigravity review
 
+October17 recovery checkpoint: the owner reports the agent stopped at its token limit. ANTIGRAVITY_PROGRESS.md records a full bounded inventory/hash comparison, targeted triage and a second local raw-report copy. All310original files match the retained manifest; only REVIEW_FINDINGS.md was added; all61runtime files also match active Nudge. No frontend brief/mockup was saved in this folder. ANTIGRAVITY_RESUME_PROMPT.md preserves the optional design-only assignment with early saved checkpoints. These findings supersede the creation-time statement below that no agent review had yet occurred, without claiming tests, unsaved conversation recovery or actual design completion. No review-folder edits, settings/permission changes or automatic merge were performed.
+
 Created October17,2026 at `D:\Nudge-Antigravity-Review`. This is an independent snapshot, not a Git worktree/clone, live application or automatically synchronised mirror. No changes were made to application behavior, accounts, licences or provider settings. The user authorised preparation of a separate review folder; no Antigravity account connection or permission setting was changed by this task.
 
 ## Included and excluded
