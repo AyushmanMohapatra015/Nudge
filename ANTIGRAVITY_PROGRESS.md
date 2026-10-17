@@ -1,6 +1,10 @@
 # Antigravity work: recovered artifacts and continuation checkpoint
 
+Later October17 frontend deliverables received: FRONTEND_DESIGN_BRIEF.md and FRONTEND_MOCKUP.html now exist; the earlier absence below describes the recovery-time snapshot. All310original manifest files remain unchanged. FRONTEND_DESIGN_REVIEW.md records an actual offline Edge1440/390inspection, preserved input hashes/copies, visual judgment and required revisions (mobile overflow, price/gate inconsistency, client shell, factual/a11y claims). No design file or app code modified/merged. The candidate is useful but not implementation-ready; actual UI-only/unsaved work still cannot be inferred from files.
+
 Inspected October 17, 2026 at the owner's request after Antigravity stopped because its token allowance expired. This is a filesystem recovery and targeted static source cross-check. No code from the review folder was run, no source was merged, and no application, provider, licence, account or private database was changed. Pre-existing M6/Postman and documentation edits in Nudge were preserved.
+
+Later October17 R10c follow-up: [RECONCILIATION_CONCURRENCY_REVIEW.md](RECONCILIATION_CONCURRENCY_REVIEW.md) records implemented wait/failure/recovery regressions, seven passing focused outcomes/TypeScript and rejection of a disposable missing-guard mutant. This supersedes observation15's pending-test status below; the recovery task itself remained read-only for runtime source. R10b and the other unresolved gates remain open.
 
 ## What was actually saved
 
@@ -60,7 +64,7 @@ These are assessments from static source reading, not newly reproduced exploits 
 | 12 | Cancelled invoice has zero collectible balance | Existing domain behaviour keeps CANCELLED distinct from PAID, with payment-integrity coverage. No new defect established. |
 | 13 | Provider HTTP/error details in owner response | Existing privacy tests/documents apply; the report presents no concrete newly leaked secret. General handling is not universally cleared by these examples. Preserve as review context, not evidence that all possible errors are safe. |
 | 14 | No explicit literal UNPAID/smaller-balance case | A possible explicit-case improvement, with important overlap: tests/payment-integrity.test.ts already rejects status SENT using a smaller balance from snapshot(); lib/paypal.ts normalises SENT to UNPAID before the same guard. The smaller-balance rejection branch is already exercised. A literal UNPAID alias case would clarify status coverage, not establish an untested branch or money bug. |
-| 15 | Missing concurrent reconciliation coalescing test | Useful regression candidate. Current tests cover sequential throttle/newer-state preservation but not an explicitly blocked in-flight leader/follower. A test should prove follower waiting or use a second time beyond the throttle interval; checking one fetch alone could pass because of throttle. No test or bug fix applied by this recovery task. |
+| 15 | Missing concurrent reconciliation coalescing test | Useful candidate from the recovery pass, since sequential throttle could hide a missing guard. Subsequent R10c now tests controlled leader/follower waiting beyond throttle, failure nonmutation and recovery; seven focused outcomes pass and a missing-guard mutant is caught. See RECONCILIATION_CONCURRENCY_REVIEW.md; no active backend fix was required. |
 | 16 | Constant-time token equality | Positive existing observation in lib/auth.ts/lib/client-access.ts; no defect claimed. It is not independent security certification. |
 
 The report also positively describes human review, owner-controlled prices, accepted-work invoice gates, authoritative money/status checks, webhook deduplication, transactions and processing recovery. Retain these as useful review commentary; they do not replace the actual test receipts or close live/judge/user checkpoints.
@@ -73,13 +77,13 @@ Inspect app/api/workspace/route.ts, components/workspace.tsx, components/client-
 
 ### B. Consider a meaningful in-flight regression
 
-Use a fresh fictional sandbox-mode database, controlled time and a manually released promise, with provider fetching injected/mocked. Keep the first request unresolved, start a second request and prove it cannot finish early or launch a second lookup. After releasing the first request, check both complete with one authoritative mutation/audit, and verify cleanup/failure permits a later call. Avoid sleep-only timing, shared module-clock leakage or paid requests. Reuse tests/reconciliation.test.ts conventions. This is a proposal, not implemented/passing evidence.
+This proposal was implemented after recovery as R10c. A fresh fictional sandbox-mode test database, controlled time and manually released promises check waiting, one lookup/mutation/audit, shared failure and later recovery. The follower's injected time exceeds the throttle interval, and the missing-guard mutant is rejected. See RECONCILIATION_CONCURRENCY_REVIEW.md for actual results and limits; this is not a live provider or HTTP concurrency check.
 
 ### C. Optional explicit UNPAID spelling check
 
 If refining payment tests, add the explicit alias case to the existing invalid-data table and preserve its nonmutation assertion. Explain the existing SENT overlap. Do not write a new feature or claim a discovered reconciliation defect just to increase test counts.
 
-These items are parked in REVIEW_ACTION_PLAN.md. The owner asked to inspect/preserve work now, so this task does not implement them or resume deferred E/H/R6/provider work.
+These items were recorded in REVIEW_ACTION_PLAN.md during recovery. Subsequent R10c is complete within its focused-test scope; R10b and optional alias clarification remain distinct. Neither recovery nor the later test work resumes deferred E/H/R6/provider work.
 
 ## Resume the frontend work without repeating the backend review
 
