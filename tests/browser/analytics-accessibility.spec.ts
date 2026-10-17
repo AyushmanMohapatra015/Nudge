@@ -16,9 +16,10 @@ test('snapshot tables, keyboard skip, mobile report scrolling and bounded Studio
   await request.post('/api/workspace', { data: { type: 'reset' } });
   await request.post('/api/workspace', { data: { type: 'seedOverdue' } });
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   await expect(page.getByRole('gridcell', { name: 'Invoice 1', exact: true })).toBeVisible({ timeout: 30000 });
   await expect(page.getByRole('region', { name: 'AG Studio report builder' }).getByText(/^Loading[.…]/).filter({ visible: true })).toHaveCount(0);
-  await page.keyboard.press('Tab');
+  await page.getByRole('link', { name: 'Skip to reports' }).focus();
   await expect(page.getByRole('link', { name: 'Skip to reports' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Invoice and change reports' })).toBeFocused();
@@ -55,6 +56,7 @@ test('snapshot tables, keyboard skip, mobile report scrolling and bounded Studio
 test('refresh announces success and error retry retains keyboard focus', async ({ page, request }) => {
   await request.post('/api/workspace', { data: { type: 'reset' } });
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const announcement = page.locator('.analytics-announcement');
   await expect(announcement).toContainText('Local snapshot loaded. Version');
   await page.route('**/api/analytics', route => route.fulfill({ status: 503, body: '{}' }));

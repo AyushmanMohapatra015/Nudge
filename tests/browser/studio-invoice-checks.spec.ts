@@ -10,6 +10,7 @@ test('Invoice checks render exact independent warnings, remain unfiltered and re
   page.on('request', r => { if (r.method() !== 'GET' && new URL(r.url()).pathname.startsWith('/api/')) writes.push(r.url()); });
   page.on('pageerror', e => errors.push(e.message));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const checks = page.getByRole('region', { name: 'Invoice checks', exact: true });
   await expect(checks).toContainText('4 invoices need status review.', { timeout: 30000 });
   await expect(checks).toContainText('2 invoices have an unknown due date: $5.79 USD');
@@ -43,6 +44,7 @@ test('Invoice checks menu, duplicate, delete, resize and refresh preserve sessio
   const snapshot = ownerAnalytics(invoiceChecksFixture(), checksNow);
   await page.route('**/api/analytics', route => route.fulfill({ json: { ...snapshot, stateSource: 'local-records' } }));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const studio = page.getByRole('region', { name: 'AG Studio report builder' });
   const checks = studio.getByRole('region', { name: 'Invoice checks', exact: true });
   await expect(checks).toHaveCount(1, { timeout: 30000 });
@@ -70,7 +72,7 @@ test('Invoice checks menu, duplicate, delete, resize and refresh preserve sessio
   await page.getByRole('button', { name: 'Finish editing layout' }).click();
   await page.getByRole('button', { name: 'Refresh local snapshot' }).click();
   await expect(checks).toHaveCount(2);
-  await page.reload(); await expect(checks).toHaveCount(1, { timeout: 30000 });
+  await page.reload(); await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click(); await expect(checks).toHaveCount(1, { timeout: 30000 });
   await page.setViewportSize({ width: 320, height: 900 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await checks.getByRole('link').focus(); await expect(checks.getByRole('link')).toBeFocused();

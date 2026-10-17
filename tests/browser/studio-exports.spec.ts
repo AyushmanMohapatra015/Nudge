@@ -45,6 +45,7 @@ test('Studio exports respect invoice selections, preserve quote cents and contai
   page.on('request', req => { if (req.method() !== 'GET' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.url()); });
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const studio = page.getByRole('region', { name: 'AG Studio report builder' });
   await expect(studio.getByRole('gridcell', { name: 'Invoice 2', exact: true })).toBeVisible({ timeout: 30000 });
   await expect(studio.getByText(/^Loading[.…]/).filter({ visible: true })).toHaveCount(0);

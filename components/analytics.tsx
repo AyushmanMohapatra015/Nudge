@@ -1,16 +1,22 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { OwnerAnalytics } from '@/lib/owner-analytics';
 import { money } from '@/lib/domain';
 import { emptyStudioAllowance, studioAllowanceViewSchema, type StudioAllowanceView } from '@/lib/studio-allowance-view';
-const StudioCanvas = dynamic(() => import('./studio-canvas'), { ssr: false, loading: () => <p role="status">Loading report tools…</p> });
+const StudioCanvas = dynamic(() => import('./studio-canvas'), { ssr: false, loading: () => <p role="status">Loading interactive reports. The snapshot tables remain available.</p> });
+class ReportBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? <p role="alert">Interactive reports could not load. Use the snapshot tables below; your records have not changed. <a className="text-btn" href="/analytics">Reload page to retry reports</a></p> : this.props.children; }
+}
 
 export default function Analytics({ licenseKey }: { licenseKey?: string }) {
   const [snapshot, setSnapshot] = useState<OwnerAnalytics>();
   const [allowance, setAllowance] = useState<StudioAllowanceView>();
   const [error, setError] = useState(''); const [busy, setBusy] = useState(true); const [edit, setEdit] = useState(false);
   const [announcement, setAnnouncement] = useState('');
+  const [studioEnabled, setStudioEnabled] = useState(false);
   const refreshButton = useRef<HTMLButtonElement>(null);
   const active = useRef<AbortController | null>(null);
   const refresh = useCallback(async () => {
@@ -68,14 +74,17 @@ export default function Analytics({ licenseKey }: { licenseKey?: string }) {
       </section>
       <p className="analytics-note">Totals above cover the complete workspace and are unaffected by report filters. Quote values are not payments; they may already be invoiced. Do not add them to outstanding balances.</p>
       {(snapshot.totals.statusReviewCount > 0 || snapshot.totals.unknownDueDateCents > 0) && <p role="status">Review {snapshot.totals.statusReviewCount} invoice status discrepancies. Unknown due dates account for {money(snapshot.totals.unknownDueDateCents)} of outstanding balance.</p>}
-      <div className="analytics-controls"><h2 id="analytics-reports" tabIndex={-1}>Invoice and change reports</h2><button className="btn" aria-pressed={edit} onClick={() => setEdit(value => !value)}>{edit ? 'Finish editing layout' : 'Edit report layout'}</button></div>
+      <div className="analytics-controls"><h2 id="analytics-reports" tabIndex={-1}>Invoice and change reports</h2>
+        <button className="btn" aria-expanded={studioEnabled} aria-controls="interactive-reports" aria-disabled={studioEnabled} onClick={() => { if (!studioEnabled) setStudioEnabled(true); }}>{studioEnabled ? 'Interactive reports enabled' : 'Load interactive reports'}</button>
+        {studioEnabled && <button className="btn" aria-pressed={edit} onClick={() => setEdit(value => !value)}>{edit ? 'Finish editing layout' : 'Edit report layout'}</button>}</div>
+      {!studioEnabled && <p className="analytics-note">Read the complete snapshot in the tables below, or load interactive charts and layout tools when you need them.</p>}
       <p className="analytics-note">Report edits stay in this page session. Refreshing the snapshot retains layout; leaving the page resets it. No analytics AI is connected.</p>
       <p className="analytics-note">Select an ageing-chart bar to filter invoice rows. Select it again, or remove its Cross Filter in Filters, to clear the selection. Workspace totals and change quotes stay unchanged.</p>
       <p className="analytics-note">CSV amounts are in USD. Invoice exports follow filters; chart exports retain all highlighted groups. Page filters narrow both. Change quote exports stay independent of invoice filters. Downloaded charts show stored snapshot balances, not current PayPal status.</p>
       {!licenseKey && <p className="analytics-note">Local licence configuration is pending; Studio may display evaluation warnings. Hosted use requires a valid licence.</p>}
       {!snapshot.invoices.length && !snapshot.changes.length && <p role="status">No invoice or change records yet. Return to the workspace to follow the approval workflow.</p>}
       <p id="report-navigation" className="analytics-note">Tab between report controls; Escape leaves a widget. On narrow screens, scroll inside the report area to reach the canvas and panels. The tables below provide the complete snapshot without chart interaction.</p>
-      <section className="analytics-studio" tabIndex={0} aria-describedby="report-navigation" aria-label="AG Studio report builder"><div className="analytics-studio-canvas"><StudioCanvas snapshot={snapshot} edit={edit} licenseKey={licenseKey} /></div></section>
+      <div id="interactive-reports">{studioEnabled && <section className="analytics-studio" tabIndex={0} aria-describedby="report-navigation" aria-label="AG Studio report builder"><div className="analytics-studio-canvas"><ReportBoundary><StudioCanvas snapshot={snapshot} edit={edit} licenseKey={licenseKey} /></ReportBoundary></div></section>}</div>
       <details className="analytics-tables"><summary>Read complete snapshot as tables</summary>
         <p className="analytics-note">These tables show all stored snapshot records, unaffected by report filters. Quote values are not payments. Record numbers refer only to this snapshot.</p>
         <div className="analytics-table-scroll" role="region" aria-label="Invoice snapshot table" tabIndex={0}><table><caption>Invoice records · USD</caption><thead><tr><th scope="col">Record</th><th scope="col">Status</th><th scope="col">Receivable</th><th scope="col">Due date</th><th scope="col">Status review</th></tr></thead><tbody>

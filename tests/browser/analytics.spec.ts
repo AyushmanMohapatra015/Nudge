@@ -36,6 +36,7 @@ test('custom Studio widget counts approved quotes and removes them after client 
   page.on('request', req => { if (req.method() === 'POST' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.url()); });
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const widget = page.getByRole('region', { name: 'Changes awaiting client acceptance', exact: true });
   await expect(widget).toBeVisible({ timeout: 30000 });
   await expect(widget).toContainText('$300.01');
@@ -61,6 +62,7 @@ test('Studio uses real local analytics records, exact USD display and session-on
   const pageErrors: string[] = []; page.on('pageerror', error => pageErrors.push(error.message));
   const writes: string[] = []; page.on('request', req => { if (req.method() === 'POST' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.method()); });
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Your work, in perspective.' })).toBeVisible();
   const totals = page.getByRole('region', { name: 'Complete workspace totals' });
   await expect(totals.getByText('$800.00', { exact: true })).toHaveCount(2);
@@ -86,6 +88,7 @@ test('Studio uses real local analytics records, exact USD display and session-on
 test('analytics hides records after a failed refresh and offers safe recovery without displaying server errors', async ({ page, request }) => {
   await request.post('/api/workspace', { data: { type: 'reset' } });
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   await expect(page.getByText(/No invoice or change records yet/)).toBeVisible();
   await page.route('**/api/analytics', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'private server credential' }) }));
   await page.getByRole('button', { name: 'Refresh local snapshot' }).click();

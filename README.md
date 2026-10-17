@@ -51,7 +51,7 @@ You can also create an invoice for the accepted original agreement from Payments
 
 ## Explore AG Studio analytics
 
-Open the workspace first, then choose **Analytics**. The embedded Studio page shows recorded invoice balances, ageing and change quotes; report editing does not alter financial records. It reads the protected local analytics snapshot without checking PayPal or calling AI. In sandbox mode the existing owner session is required.
+Open the workspace first, then choose **Analytics**. Totals and the complete snapshot tables are available without loading the report builder. Choose **Load interactive reports** for AG Studio charts, widgets and layout tools. Report editing does not alter financial records. It reads the protected local analytics snapshot without checking PayPal or calling AI. In sandbox mode the existing owner session is required. If report loading fails, the tables remain available and **Reload page to retry reports** starts a fresh attempt; page reload/navigation resets report layout edits.
 
 AG Studio is a commercial dependency with local evaluation support. For a licensed hosted demo, privately configure `NUDGE_AG_STUDIO_LICENSE` in `.env.local` and restart; never commit its value. The browser runtime licence is intentionally visible to the vendor component. The owner confirmed licence receipt and watermark removal and reported a November21,2026 expiry; current terms, hosted/public-source permission and judging coverage remain pending. Custom widgets are implemented; live dashboard AI remains disconnected. See [AG_STUDIO_INTEGRATION.md](AG_STUDIO_INTEGRATION.md) and the current sponsor matrix for evidence and limits.
 

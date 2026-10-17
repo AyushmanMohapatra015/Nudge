@@ -1,5 +1,36 @@
 # F2p: optional chart and report performance
 
+## October17 F2q: explicitly activated Studio reports
+
+Analytics now renders native totals and complete snapshot tables without mounting Studio. Load interactive reports explicitly mounts the existing dynamic component; the control retains keyboard focus and communicates expanded state. Existing session-only layout/editing, filtering, widgets and exports are preserved. A report error boundary retains the page/tables and offers an actual page reload, rather than retrying a cached rejected import. A reload resets session layout edits; no automatic provider request/fallback is added.
+
+`tests/browser/analytics-loading.spec.ts` verifies the large JavaScript response belongs to a request first made after activation; it also holds deferred requests to check the loading announcement, focus and usable table, then releases them. A separate failed-download scenario verifies table access and a successful explicit reload/re-activation. Existing report tests now explicitly activate the tools; the full keyboard journey still uses Tab/Enter. The scoped accessibility test directly focuses its skip link after activation, while the separate keyboard journey tests actual tab traversal.
+
+Validation: TypeScript,170offline tests, production build/Postman31requests/50assertions/restart and all20 targeted browser outcomes passed. Browser receipt: ignored `data/analytics-browser/0851a304-9028-47b5-a16c-bbf71041dee4/`, no failed/skipped/flaky outcomes, provider-fetch guard quiet, endpoint3118 confirmed closed. The two known vendor edit-mode accessibility findings remain explicitly bounded by the existing tests; this change does not clear them. Actual Narrator/zoom/touch remain pending.
+
+Production receipt: `data/postman-workflow/4153b298-7ac3-4fca-a971-8026b4284ae6/`; trace-boundary guard passed. Reproduce the20 targeted checks with `node scripts/check-analytics-browser.mjs data/postman-workflow/<successful-run-id>/app-source`. The runner checks matching runtime/config source and a passing production receipt, then uses a fresh fictional demo database with integrations disabled and guarded provider fetches. Ordinary workspace/env and paid services are not used.
+
+The API-assisted rehearsal now explicitly activates reports; only this interaction was adapted, and the full B7a rehearsal was not rerun as part of F2q. The performance runner uses the new explicit activation action and records activation time for both routes.
+
+### Repeat measurements
+
+All12 matching-condition observations passed with no page errors/provider fetch, the entire fictional workspace unchanged and owned endpoint closed. Receipt: ignored `data/route-performance/cb1f26f1-b9ad-4e42-8de6-ecd2db14dacc/` (summary, aggregate and cleanup). Same Edge version, viewport, reduced-motion setting, sequence, new-context/cache-disabled routing, unthrottled loopback and CPU1x/4x methodology as the baseline. This is a later run, not a randomized controlled comparison; system/cache variation remains material. Analytics explicitly activates reports immediately after its native-ready measurement, so full chart timings still include activation. A user who chooses only tables does not activate that work, as verified by the request-level test.
+
+Times are median [min–max] milliseconds, three observations per row:
+
+| Route / CPU | Native ready | Tool ready from navigation | Tool activation | Interaction |
+| --- | --- | --- | --- | --- |
+| Delivery / normal | 239 [205–383] | 1660 [1564–1706] | 1356 [1275–1464] | 40 [34–41] |
+| Analytics / normal | 170 [164–171] | 943 [917–981] | 777 [745–807] | 160 [160–170] |
+| Delivery /4x | 829 [664–1062] | 4811 [4393–5021] | 3745 [3716–4189] | 277 [220–292] |
+| Analytics /4x | 610 [474–679] | 3532 [3287–3541] | 2850 [2673–3064] | 781 [744–811] |
+
+Analytics normal native/tool/action medians were168/891/157ms before and170/943/160ms after, so there is no demonstrated across-the-board latency reduction. Slowed observations improved719/4812/895ms to610/3532/781ms, but unchanged Delivery also varied considerably; do not attribute all differences to this code. The strong result is deferring the approximately5.4MB raw report module until requested, not shrinking it or removing post-activation work. Slowed Analytics still had916–1269ms maximum long tasks across the three samples, so it is not cleared for low-end-device responsiveness. No vendor code/dependency/version/expiry change or backend change. Performance ceilings, warm-cache/mobile/hosted and large-record datasets remain unverified.
+
+F2q is complete within this scope. Next existing action-plan checkpoint is A3/D4b: obtain AG Studio public-source/hosted judging permission and coverage through December15, with no message sent or paid activation by the agent. Other deferred/live/manual gates remain open.
+
+## Historical F2p baseline
+
 October 17, 2026. Measured the unchanged production application on the owner's Windows laptop using headless Edge155.0.4283.45 and Node24.12.0. This is a baseline measurement, not an optimization result or hosted/mobile performance guarantee.
 
 ## Method and reproducibility
@@ -43,6 +74,6 @@ All12 samples passed; no browser page errors or application provider-fetch attem
 
 ## Decision and next task
 
-F2p measurement is complete. The samples justify reducing automatic report-builder work, without removing the sponsor integration or changing financial/date safeguards. **F2q next:** make AG Studio explicitly opt-in while retaining the native summary/tables, clear loading/failure/retry states, keyboard focus and existing widgets/layout controls. Verify the large Studio chunk is not requested before activation, then measure the same conditions and test report behavior. Adapt this runner's explicit activation measurement when that UI changes. Do not promise faster post-activation editing before measuring it.
+F2p measurement selected F2q: make AG Studio explicitly opt-in while retaining native reading, error recovery, keyboard focus and existing report controls, then verify deferred requests and compare measurements. That task is now complete in the October17 section above; the baseline does not itself prove an optimization result.
 
 Preserve Delivery's existing explicit Gantt activation and table bypass. Revisit supported bundle/configuration changes only after this bounded improvement; no proprietary source patches or unreviewed package changes. Actual Narrator/zoom/touch, independent usefulness, live AI/fresh webhook, AG/Elastic access, Bryntum technical-expiry/judge acquisition, publication and Render gates remain open. No paid activation, deployment, account access, external outreach or ordinary workspace/env use occurred.

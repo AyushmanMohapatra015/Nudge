@@ -6,6 +6,7 @@ test('Analytics shows simulation allowance without activation controls or writes
   const writes: string[] = [];
   page.on('request', request => { if (request.method() !== 'GET') writes.push(request.url()); });
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const panel = page.getByRole('region', { name: 'Dashboard AI allowance', exact: true });
   await expect(panel).toContainText('Simulation mode: no AI calls or request allowance.');
   await expect(panel).toContainText('Dashboard AI is not connected.');
@@ -24,6 +25,7 @@ test('allowance display handles refresh, UTC expiry, exhaustion, expiry and malf
   await page.route('**/api/analytics', route => route.fulfill({ status: fail ? 503 : 200, contentType: 'application/json',
     body: JSON.stringify(fail ? { error: 'private provider detail' } : { ...snapshot, dashboardAllowance: view }) }));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const panel = page.getByRole('region', { name: 'Dashboard AI allowance', exact: true });
   await expect(panel).toContainText('3 of 5 request slots remain.');
   await expect(panel.locator('time')).toHaveAttribute('datetime', '2026-10-20T00:00:00.000Z');

@@ -93,6 +93,7 @@ test('keyboard reaches snapshot tables and moves and resizes Studio widget witho
   const writes: string[] = [];
   page.on('request', request => { if (request.method() !== 'GET' && new URL(request.url()).pathname.startsWith('/api/')) writes.push(new URL(request.url()).pathname); });
   await page.goto('/analytics');
+  await activate(page, page.getByRole('button', { name: 'Load interactive reports', exact: true }));
   await expect(page.getByRole('region', { name: 'Changes awaiting client acceptance', exact: true })).toBeVisible({ timeout: 30000 });
   await activate(page, page.getByRole('link', { name: 'Skip to reports', exact: true }));
   await expect(page.getByRole('heading', { name: 'Invoice and change reports', exact: true })).toBeFocused();

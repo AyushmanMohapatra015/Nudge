@@ -137,6 +137,7 @@ try {
   const analytics = await json('/api/analytics'); assert.equal(analytics.totals.approvedExtraCents, 30000); assert.equal(analytics.totals.outstandingCents, 0);
   await inspectPage('/analytics', 'analytics-studio-and-native-tables', async page => {
     await page.getByRole('heading', { name: 'Your work, in perspective.' }).waitFor();
+    await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
     await page.getByRole('region', { name: 'AG Studio report builder' }).locator('.ag-studio-layout-widget').first().waitFor({ timeout: 30000 });
     await page.getByText('Read complete snapshot as tables', { exact: true }).click();
     assert.ok((await page.getByRole('table', { name: 'Invoice records · USD' }).innerText()).includes('PAID'));

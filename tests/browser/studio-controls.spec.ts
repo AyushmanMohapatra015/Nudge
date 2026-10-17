@@ -45,6 +45,7 @@ test('Studio menu adds, duplicates, deletes and resizes a custom widget; refresh
   page.on('request', req => { if (req.method() !== 'GET' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.url()); });
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const studio = page.getByRole('region', { name: 'AG Studio report builder' });
   const widgets = studio.getByRole('region', { name: 'Changes awaiting client acceptance', exact: true });
   await expect(widgets).toHaveCount(1, { timeout: 30000 });
@@ -91,6 +92,7 @@ test('Studio menu adds, duplicates, deletes and resizes a custom widget; refresh
   await expect.poll(async () => (await first.boundingBox())!.x).toBeCloseTo(movedX, 0);
   await page.getByRole('link', { name: 'Back to workspace', exact: true }).click();
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   await expect(widgets).toHaveCount(1, { timeout: 30000 });
   expect(await workspace(request)).toEqual(before);
   expect(writes).toEqual([]); expect(errors).toEqual([]);
@@ -102,6 +104,7 @@ test('page filters affect matching invoices, retain unrelated quotes and full-wo
   page.on('request', req => { if (req.method() !== 'GET' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.url()); });
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/analytics');
+  await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
   const studio = page.getByRole('region', { name: 'AG Studio report builder' });
   const pending = studio.getByRole('region', { name: 'Changes awaiting client acceptance', exact: true });
   await expect(studio.getByRole('gridcell', { name: 'PAID', exact: true })).toBeVisible({ timeout: 30000 });

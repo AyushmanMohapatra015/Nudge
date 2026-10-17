@@ -62,12 +62,12 @@ async function measure(path, rate, repetition) {
   await cdp.send('Performance.enable');
   await page.goto(origin + path, {waitUntil:'domcontentloaded',timeout:45000});
   if (path === '/delivery') await page.getByRole('table',{name:'Current delivery dates'}).waitFor();
-  else await page.getByRole('button',{name:'Edit report layout',exact:true}).waitFor();
+  else await page.getByRole('button',{name:'Load interactive reports',exact:true}).waitFor();
   await painted(page); const nativeReadyMs = await stamp(page);
   const nativeResources = await page.evaluate(() => performance.getEntriesByType('resource').filter(e=>e.name.includes('/_next/static/')).map(e=>new URL(e.name).pathname));
   let chartStart = 0;
   if (path === '/delivery') { chartStart = await stamp(page); await page.getByRole('button',{name:'Show Gantt timeline',exact:true}).click(); await page.getByRole('status').filter({hasText:'Read-only timeline ready.'}).waitFor(); }
-  else await page.getByRole('region',{name:'AG Studio report builder'}).locator('.ag-studio-layout-widget').first().waitFor();
+  else { chartStart = await stamp(page); await page.getByRole('button',{name:'Load interactive reports',exact:true}).click(); await page.getByRole('region',{name:'AG Studio report builder'}).locator('.ag-studio-layout-widget').first().waitFor(); }
   await painted(page); const chartReadyMs = await stamp(page);
   const interactionStart = await stamp(page);
   if (path === '/delivery') {
@@ -87,7 +87,7 @@ async function measure(path, rate, repetition) {
   }));
   const metrics = Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.filter(m=>['ScriptDuration','TaskDuration','JSHeapUsedSize'].includes(m.name)).map(m=>[m.name,m.value]));
   const longTasks = browserMetrics.longTasks;
-  const result = {path,rate,repetition,nativeReadyMs,chartReadyMs,chartActivationMs:path==='/delivery'?chartReadyMs-chartStart:null,interactionMs:interactionEnd-interactionStart,
+  const result = {path,rate,repetition,nativeReadyMs,chartReadyMs,chartActivationMs:chartReadyMs-chartStart,interactionMs:interactionEnd-interactionStart,
     longTaskCount:longTasks.length,maxLongTaskMs:Math.max(0,...longTasks.map(t=>t.duration)),blockingTimeMs:longTasks.reduce((sum,t)=>sum+Math.max(0,t.duration-50),0),
     nativeResources,browserMetrics,metrics};
   results.push(result); await context.close(); context=null;
