@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October17 F8a complete while A3b awaits owner follow-up: JUDGING_MAINTENANCE.md prepares dated sponsor/access checkpoints, bounded no-model routine, shared judge-state handling, incident decisions, existing SQLite recovery boundaries and explicitly owner-approved shutdown. Source/docs reviewed; no monitoring, scheduled reminders, account/resource/credential/DB changes, messages, provider usage or shutdown performed. F8 remains open for actual approved-access rehearsal and operations. Next independent task B2c separate local Bryntum judge acquisition/setup documentation; keep technical expiry and independent install verification open. A3b/D4b and other live/manual/billing/publication gates remain unchanged.
+
 October17 A3a complete: official AG sponsor45day/contact and Studio deployment/built-in-widget scope rechecked; AG_SPONSOR_SETUP.md records evidence, source-only import review and limitations. SPONSOR_SUPPORT_REQUESTS.md now has the consolidated owner-sendable hosted/source/local-judge/December15/key-domain/expiry-payment request. No account/key inspected, message sent, extension granted, paid/live activation or deployment. Next A3b: owner sends/follows existing thread and records non-sensitive written terms; A3 and D4b remain open until actual confirmations. Avoid duplicate signup/request. Bryntum approval is separate; R6/H/E/P/B6d/Render/history gates unchanged.
 
 October17 F2q complete: Analytics native totals/tables now precede explicit Studio activation with retained button focus, loading status and table-preserving reload recovery. TypeScript,170offline tests, production/Postman31/50/restart,20targeted report/keyboard checks and12normal/4xCPU observations pass; owned endpoints closed, no provider fetch or stored mutation. ROUTE_PERFORMANCE_REVIEW.md preserves raw ranges and small-sample limits: deferred large module is verified, no blanket latency/low-end guarantee. No backend/vendor/dependency/expiry edits, actual workspace/env, paid/live use or deployment. Next existing checkpoint A3/D4b: AG public-source/hosted/judging permission and December15 coverage; no outreach by agent. R6/H/E/P/B6d, Bryntum technical/judge-acquisition, history and Render gates remain open.
@@ -236,6 +238,9 @@ These conditional steps may close as **deferred with reason**, not implemented. 
 - [ ] F6: record/upload a publicly visible video under three minutes; review permissions for trademarks/music/material, remove secrets/account details and check links.
 - [ ] F7: perform a final clean setup and privacy/access/licence/allowance check, submit project description/repository/demo/video/tool details, and verify the submission ahead of the deadline.
 - [ ] F8: document judging-period maintenance, credit-expiry/access continuity and safe shutdown after obligations end.
+  - [x] F8a: JUDGING_MAINTENANCE.md prepares dated checks, bounded operations, incident/recovery and owner-approved shutdown guidance; no actual monitoring/account/resource action.
+  - [ ] F8b: rehearse actual approved judge access/hosting, expiry, usage and recovery before judging; record real outcomes and remaining limits. Depends on relevant sponsor/deployment gates.
+  - [ ] F8c: owner-approved judging operations and eventual shutdown/retention/billing verification after obligations; do not infer completion from the runbook.
 
 Complete one selected checklist task at a time. Do not mark an entire workstream complete from a unit-test count, sponsor signup, prepared document or informal percentage estimate.
 
