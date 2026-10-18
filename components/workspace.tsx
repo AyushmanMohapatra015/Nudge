@@ -70,8 +70,8 @@ export default function WorkspaceApp() {
       <a className="wordmark" href="/"><span className="brand-icon">n</span>nudge<span className="brand-dot">.</span></a>
       <div className="workspace-switch"><span className="studio-avatar">S</span><div><strong>Studio workspace</strong><small>Independent by design</small></div><PanelLeftClose size={15} /></div>
       <p className="nav-label">WORKSPACE</p>
-      <a className="nav-item" href="/analytics"><LayoutDashboard size={18} /><span>Analytics</span></a>
-      <a className="nav-item" href="/delivery"><Clock3 size={18} /><span>Delivery</span></a>
+      <a className="nav-item" href="/analytics" aria-label="Analytics"><LayoutDashboard size={18} /><span>Analytics</span></a>
+      <a className="nav-item" href="/delivery" aria-label="Delivery"><Clock3 size={18} /><span>Delivery</span></a>
       <nav aria-label="Workspace navigation">{(Object.keys(iconMap) as View[]).map(item => { const Icon = iconMap[item]; const label = item === 'Project' ? 'My project' : item === 'Rules' ? 'Agent rules' : item; return <button key={item} aria-label={label} aria-current={view === item ? 'page' : undefined} className={`nav-item ${view === item ? 'active' : ''}`} onClick={() => setView(item)}><Icon size={18} /><span>{label}</span>{item === 'Approvals' && pending > 0 && <span className="nav-count">{pending}</span>}</button>; })}</nav>
       <div className="sidebar-bottom"><div className="trust-card"><ShieldCheck size={20} /><strong>You have the final say.</strong><p>Every external action needs your approval. Your rules stay in charge.</p><button onClick={() => setView('Rules')}>View your rules <ArrowUpRight size={14} /></button></div><div className="profile"><span className="profile-avatar">YO</span><div><strong>Your studio</strong><small>{data.mode === 'demo' ? 'Local simulation' : 'Sandbox workspace'}</small></div></div></div>
     </aside>

@@ -1,5 +1,19 @@
 # Current website review — retain the design
 
+## October 18 follow-up: two fixes verified (F2s-a)
+
+Added explicit accessible names to the existing owner Analytics/Delivery links in components/workspace.tsx, and a scoped .btn.dark hover background in app/globals.css. No layout/handler/backend/dependency change. The review below describes the earlier unfixed source; these two findings are now resolved in the rebuilt app.
+
+TypeScript and the disposable production build pass. Existing Postman checks pass 47 requests/77 assertions and restart preservation: `data/postman-workflow/ac26f1fb-c1a2-4392-870f-4e4e67848d70/summary.json`. A separate TCP check confirms its owned endpoint closed in independent-cleanup.json.
+
+At actual 320/390/820/1440 widths, computed Analytics/Delivery names exist; normal/hover/keyboard-focus text contrast exceeds 4.5:1, focus remains visible and selected axe rules report no violations in the inspected owner state. Receipt: `data/postman-workflow/current-design-72f56dc3-380c-43b7-818f-c2689583a065/review.json`; browser/server closed, stored fixture unchanged and no provider attempt. Desktop hover screenshot inspected. Font requests intercepted as in the review below.
+
+All 14 existing browser checks in accessibility.spec.ts, quote-explanation.spec.ts and workflow.spec.ts pass together (59.1 seconds), no skipped/flaky outcomes: `data/postman-workflow/ui-fixes-19144579-2214-4d74-8de8-4aba4f3f58ed/summary.json`. They cover actual owner/client actions, reviewed pricing, included/ambiguous blocking, consent, simulated invoicing/payment, keyboard/focus/reflow/error recovery and rejection of forged/cross-origin requests. Provider-fetch guard quiet; owned endpoint closed. No backend full-suite rerun or new implementation-mirroring test was needed for these limited UI changes.
+
+Ordinary data, credentials, live AI/PayPal and vendor activation were not used. This is not full accessibility or submission clearance. Manual Narrator/actual zoom/touch and existing live/human/judge-access gates remain pending. Further redesign is not selected; prioritize the existing functional-demo and submission checkpoints.
+
+## Original review and retained evidence
+
 October 18, 2026. F2t reviews the actual current website, not either Antigravity mockup. The owner prefers the current design and wants changes only where justified. No application code, configuration, dependency, environment, normal database, sponsor account or original design artifact was changed in this task.
 
 ## Recommendation

@@ -21,3 +21,4 @@ input,textarea,select{font-size:14px}.request-card textarea,.quote-form textarea
 input::placeholder,textarea::placeholder{color:#596650;opacity:1}
 .page-heading h1:focus{outline:3px solid #304e38;outline-offset:4px}
 @media(max-width:650px){.stats-grid{grid-template-columns:1fr}.client-top,.invoice-main,.invoice-info,.scope-heading,.proposal-summary{flex-wrap:wrap}.client-shell{width:100%}.toast{left:50%;max-width:calc(100vw - 32px)}.topbar-right .tiny-avatar{display:none}.card-header{flex-wrap:wrap}}
+.btn.dark:hover:not(:disabled){background:#203628}
