@@ -14,6 +14,8 @@ Support already described fair-use limits and monitoring. This follow-up asks fo
 
 ## AG Studio: existing trial licence
 
+October18 owner confirms this request has **not yet been sent** and prefers email/contact support over Discord. Current official [AG Grid website](https://www.ag-grid.com/) publishes info@ag-grid.com for trial enquiries; the [contact form](https://www.ag-grid.com/contact/) is an alternative and links its technical-support portal. These are general official routes, not a verified dedicated hackathon inbox. Send once by email or form and continue in that thread; no account/key or automatic outbound message is needed. If using the form, select licensing/trial or the closest enquiry category actually offered, use truthful contact details and Personal project if a company field is required. Marketing opt-in is optional. No support message was sent by the coding agent.
+
 October17 A3a: official sponsor offer/contact route and Studio licence-scope documentation rechecked; AG_SPONSOR_SETUP.md records sources and limits. This replaces the older brief request, not a confirmation that it was sent or approved. Use the existing licence email thread if appropriate, or the AG Grid team channel in the official hackathon Discord. If a request is already open, follow up there rather than duplicate it. No licence key, project name or personal/account details are needed in a public message.
 
 **Subject: PayPal AI Hackathon — AG Studio evaluation and judging access**
@@ -24,12 +26,13 @@ October17 A3a: official sponsor offer/contact route and Studio licence-scope doc
 >
 > Could you please clarify the following?
 >
-> 1. Is a publicly hosted, non-commercial hackathon evaluation demo using PayPal sandbox permitted under this trial, including its evaluation-only/no-production wording?
+> 1. Is a publicly hosted, non-commercial hackathon demo using AG Studio, its built-in grid/chart widgets and custom widgets permitted under this trial, including its evaluation-only/no-production wording?
 > 2. Could free evaluation access cover judging through December15,2026? If approved, is a replacement key or another activation step required?
 > 3. May I publish my own application code under MIT, keeping AG's proprietary library files and licence key out of the repository and identifying AG Studio as a separate commercial dependency?
 > 4. What setup do you recommend for judges running the source locally without sharing my key? Does the same evaluation permission cover the built-in grid/chart widgets and custom widgets using only Studio APIs?
 > 5. Are any domain or deployment restrictions relevant, and is the normal browser delivery of the runtime licence permitted for the hosted evaluation?
 > 6. Does evaluation expire without automatically starting a paid subscription or creating a payment obligation? Are there any conditions or steps I should follow when the approved period ends?
+> 7. May the public hackathon demo video show the AG Studio interface and identify AG Grid as a tool used?
 >
 > I would like to remain entirely within the free hackathon evaluation allowance. Please confirm the applicable terms in writing, including any exception needed for hosted evaluation through judging.
 >

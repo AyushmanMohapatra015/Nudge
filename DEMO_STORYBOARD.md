@@ -1,8 +1,28 @@
 # Nudge demo storyboard and rehearsal
 
+## F5a — current minimum path to submission, October 18
+
+Keep the selected **2:40 booking-only story** below. The current design is retained; the two confirmed navigation/hover defects are fixed. No new sponsor integration, redesign, database migration or broad test campaign is selected. This is a reconciliation of existing evidence, not a new live rehearsal. Current account replies, remote repository settings and recorded final footage have not been verified by this task.
+
+| Remaining item | What already exists | Smallest next evidence/action |
+| --- | --- | --- |
+| Functional website AI (E3/E6) | Real Elastic adapter/development responses; strict output/human-price controls; website AI owner-paused. | Owner supplies only current trial/free-use/exhaustion guidance and decides whether to resume. Then prepare one fictional booking-request website attempt with the verified local model configuration, explicit attempt limit, usage review and no automatic retry. Capture actual website result/citation and stop again. Do not enable calls or read secrets in this documentation step. |
+| One consistent PayPal demo journey (P/F5) | Real sandbox checkout/reconciliation and signed SENT redelivery/deduplication; complete USD300 simulated owner/client flow. | Rehearse one real sandbox quote/invoice at one consistent amount after reviewing the concrete operation plan. No new invoice, send, checkout, tunnel or replay is authorized by this ledger. Fresh PAID webhook proof is required only before describing that specific transition as payment-triggered webhook delivery; do not confuse polling/reconciliation with it. |
+| Functional judge access (A3/D4/E/B2c/R5) | Complete local simulation setup, separately verified dependencies; Bryntum written project permission through December15; Render credits claimed but no service. | Obtain actual AG public-source/hosted-or-local-judge rights and continuity, plus Elastic free model access through judging. Last confirmed dates remain Elastic November3 / AG November21, pending newer owner evidence. Confirm Bryntum technical validity/independent acquisition. A local working build is an allowed route; choose hosting only after its separate billing/storage/access review. Simulation alone does not complete meaningful live AI verification. |
+| Public source and honest text/tools (R2/R9/F7) | MIT file, source/setup/notice docs, bounded clear current-source scans and actual tool-attribution matrix. | Owner resolves historical identity/operational-link disclosure decisions privately; final remote visibility/About/access checks remain. Draft the project description using implemented features and accurate tool roles, keeping internal open gates explicit until verified. No history rewrite or publication by this task. |
+| Final video and submission (F5/F6/F7) | Selected story, functional simulation evidence and old raw technical captures. | Rehearse verified exact screens/amount, record readable actual functioning footage, then owner reviews/uploads public YouTube video under three minutes and completes the form. No final narrated video, upload or submission is established by old test captures. |
+
+**Exact owner inputs, without secrets:** any new Elastic/AG support reply; whether to resume a separately bounded live website test after usage review; publication decisions in PUBLICATION_READINESS.md; and later the chosen permitted judge-access route. No repeat signups or complete new questionnaires are needed. The current request for updated Elastic/AG terms is pending; silence does not grant permission or extend a trial.
+
+**Next independent task: F7a**, draft the required project description and used-tools explanation from current implementation, with an internal verification checklist for claims. This can progress while support replies/live-use decisions are pending; it does not postpone the core AI/access blockers or authorize them. Reuse SPONSOR_ATTRIBUTION.md/JUDGE_SETUP.md rather than create more infrastructure or a second roadmap.
+
+**Useful but separate:** consenting freelancer feedback strengthens Impact; targeted Narrator/actual zoom/touch checks remain in TESTING_CHECKPOINT.md before final sign-off. Larger held-out/repeated AI evaluations, dashboard-agent activation, extra sponsors and speculative layout changes remain optional/deferred rather than prerequisites invented by this ledger. Do not invent user findings or model reliability claims.
+
+Everything below retains prior planning/evidence. The F5a priority and F1 selected 2:40 outline supersede older next-task and 2:45 statements.
+
 October16 B7a supporting evidence: [DELIVERY_IMPACT_REHEARSAL.md](DELIVERY_IMPACT_REHEARSAL.md) verifies a fictional USD300 booking change through client acceptance, explicit internal-date application, simulated invoice/payment and actual Studio/native tables. A three-working-day extra moves the exclusive finish by five calendar days; original dates and accepted prices are preserved. AI/payment are simulated in that rehearsal, with API setup and selected actual UI actions; it is not the final live/video or a human-timed rehearsal. The USD1,200 base is not invoiced/paid by this fixture. Keep the F1 core story and time limit; consider scheduling only as a concise supporting insert during F5, not an automatic extra scene or a client-deadline promise.
 
-Status: rehearsal plan, not final submission video. Target final runtime: 2:45, leaving fifteen seconds under the supplied three-minute limit. No public upload or narration has been produced by this task.
+Status: rehearsal plan, not final submission video. Current target runtime: 2:40, leaving twenty seconds under the supplied three-minute limit. No final public upload or narration has been verified.
 
 ## F1 selected story — October13
 
@@ -43,7 +63,7 @@ Audience hypothesis: a freelance web designer delivering a fixed-price website. 
 
 Use a booking-only request for the main story: “Could we add appointment booking with available time slots?” This makes the exclusion clear. A revision-count ambiguity is useful in evaluation but adds another branch to the short video. Use fictional identities throughout; do not claim interviews or measured time/revenue savings that have not happened.
 
-## Final recording outline
+## Historical recording outline — superseded by F1's 2:40 selection
 
 | Time | Screen and action | Suggested narration |
 | --- | --- | --- |
