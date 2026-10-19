@@ -146,10 +146,10 @@ function openSession(directory, now = Date.now) {
   }
   function environment(settings, os = {}) {
     const s = read();
-    if (s.version !== version || now() >= s.expiresAt || !['ai', 'payment'].includes(s.phase)) fail();
+    if (s.version !== version || now() >= s.expiresAt || !['ai', 'review', 'payment'].includes(s.phase)) fail();
     const env = Object.fromEntries(Object.entries(os).filter(([k]) => /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA|NUMBER_OF_PROCESSORS|PROCESSOR_ARCHITECTURE)$/i.test(k)));
     Object.assign(env, { NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', NUDGE_MODE: 'sandbox', NUDGE_DB_PATH: path.join(run, 'fictional.sqlite'), NUDGE_ADMIN_TOKEN: s.ownerToken, NUDGE_AI_PROVIDER: 'elastic', NUDGE_AI_ENABLED: s.phase === 'ai' ? 'true' : 'false' });
-    const names = s.phase === 'ai' ? ['ELASTIC_KIBANA_URL', 'ELASTIC_API_KEY', 'ELASTIC_AGENT_ID', 'ELASTIC_SPACE_ID', 'ELASTIC_INFERENCE_ID'] : ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'];
+    const names = s.phase === 'ai' ? ['ELASTIC_KIBANA_URL', 'ELASTIC_API_KEY', 'ELASTIC_AGENT_ID', 'ELASTIC_SPACE_ID', 'ELASTIC_INFERENCE_ID'] : s.phase === 'payment' ? ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'] : [];
     for (const name of names) if (typeof settings[name] === 'string') env[name] = settings[name];
     if (s.phase === 'payment' && env.PAYPAL_MERCHANT_EMAIL !== s.fixture.merchantEmail) fail();
     return env;

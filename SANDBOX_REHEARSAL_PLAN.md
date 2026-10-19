@@ -2,6 +2,73 @@
 
 Prepared October19,2026 from the current website/routes, PayPal adapter, reconciliation, webhook relay and existing receipts. **Plan complete; session tooling and execution are not complete.** No live operation is authorised merely by reading or running a generic development command from this document.
 
+## October19 P4b4: minimal live binding prepared, not activated
+
+`scripts/sandbox-rehearsal-live.cjs` now connects the controller's exact request limits to a separately supplied transport and the existing sanitized AI usage observer. Its child preloader retains real fetch only behind an explicit matching session/phase grant, fixed budgets, expiry and phase-separated credentials. It has no standalone live CLI or default transport in its exported factory. Review mode rejects every provider request. Grant checks occur before every dispatch; they do not impose a token/account billing cap or establish trial allowance. The original stub-only runner remains unchanged and has no live switch.
+
+`scripts/prepare-sandbox-rehearsal-live.mjs` provides the operator commands below. Preparation alone checks the existing matching production build, reads normal configuration/SQLite read-only and selects the generated buyer from the existing PAID sandbox fixture. It creates a **new isolated run only**, with no grant, server, provider request, invoice or payment. It neither resets ordinary data nor rewrites an accepted agreement. Current preparation succeeded at `data/sandbox-rehearsal/401079ac-68e1-40bc-b36b-b8e4733ea96d/`: 30000cents, zero external calls, `approvalCreated:false`. Buyer address, owner token, credentials and private endpoints were not printed. The run has a one-hour manifest deadline; do not assume it stays usable across sessions.
+
+### Commands for P4c review — do not activate them from this document alone
+
+Safe preparation command (already run; no need to repeat just for evidence):
+
+```powershell
+node scripts/prepare-sandbox-rehearsal-live.mjs prepare data/postman-workflow/<matching-verified-run>/app-source
+```
+
+The future approved operator session uses its returned directory. These **serve** commands start a real-provider-capable loopback app; they are review material until P4c is approved:
+
+```powershell
+$rehearsalRun = 'D:\Nudge\data\sandbox-rehearsal\<prepared-run-id>'
+node scripts/prepare-sandbox-rehearsal-live.mjs serve-ai $rehearsalRun --confirm-one-ai-conversation
+node scripts/prepare-sandbox-rehearsal-live.mjs serve-review $rehearsalRun --confirm-local-review-only
+node scripts/prepare-sandbox-rehearsal-live.mjs serve-payment $rehearsalRun --confirm-one-usd300-sandbox-invoice-and-send
+```
+
+Run them **one at a time**, stopping each with Ctrl+C and waiting for its closure receipt before starting the next. Never paste all three into a terminal as a batch. These flags express distinct operation approvals; they are not proof the owner's allowance/licensing gates are cleared. No serve command was run by this preparation task.
+
+- `serve-ai`: checks no AI attempt/ledger was consumed, starts a separate loopback app with Elastic settings only and prepopulates the exact draft scope through authenticated local routes. User opens the private `owner-access.txt` locally for sign-in, approves scope, accepts it in Client view and compares the exact booking request once. API keys are never placed in that file. After Ctrl+C/confirmed app closure, a completed Elastic draft advances the same session to review. A consumed failure does not allow this command to retry inference. A stopped unattempted AI phase may resume the same run without a new slot.
+- `serve-review`: starts against the same DB/token with no provider credentials or network authority. User records the actual scope decision, sets USD300, reviews the explanation/extra-work confirmation and approves; client separately accepts work/price. After closure, only a matching accepted snapshot can freeze the payment body and advance to payment. No synthetic approval or price is inserted by the controller.
+- `serve-payment`: requires the matching accepted snapshot/body and a still-current due-date plan before startup; provides sandbox PayPal settings only, with AI disabled. User chooses the accepted extra's create/send buttons, never Create base invoice. Creation/send slots remain consumed across restarts and uncertainty. Buyer checkout is manual with the existing generated sandbox buyer, USD300 test funds only. User then explicitly refreshes status and inspects Analytics. This path has **no webhook registration/tunnel**; record reconciliation provenance, not fresh-webhook proof.
+- Every phase has a maximum ten-minute grant within the one-hour session deadline. A serving lease prevents two phase servers from running concurrently; unconfirmed closure preserves its lock for inspection rather than blindly starting another server. Do not delete stale locks/ledgers, extend expiries, create a new run or clear markers to bypass an attempted financial operation. If review crosses the prepared due-date day, payment preflight stops rather than silently changing the frozen body.
+- Ctrl+C/deadline stops only the child app this invocation owns and independently checks its loopback port. Private `serve-<phase>-<time>.json` records stop/finalization/next-phase outcomes; a failed closure does not advance the session. No public interface, tunnel, cloud resource or registration is created. Provider grant expiry can reject further requests but does not cancel already-running provider work or establish that an invoice was unpaid. Reconcile an uncertain checkout against the same authoritative invoice before any further action.
+- `owner-access.txt`, `owner-plan.json`, `manifest.json`, `live-approval.json`, usage receipts and DB remain private ignored run artifacts. No source licence key or normal environment change is needed to share this plan. Never upload these run files or copy their contents into chat/submission/video. Do not type real buyer credentials into a terminal/script or add real funding details.
+
+New tests in `tests/sandbox-rehearsal-live.test.ts` cover grant identity/phase/budget/expiry, expiry on later dispatch, sanitized usage with response preservation, persisted failure consumption across binding recreation, provider-free review, exact sandbox-only financial binding, missing CLI confirmation before startup and competing serving leases/incomplete closure. They use injected fictional transports, not real-provider permission or billing proof. Node syntax and TypeScript checks pass. The known sandbox test-loader ENOMEM was resolved by approved outside-sandbox tests; a missing test-child NODE_ENV typing field was corrected before the passing typecheck. No application runtime/build change is needed.
+
+Final focused run: **28 passed, zero failed** (7 live-binding/lease/CLI checks plus21 preceding focused regressions). Current-source privacy check reviews338 candidate files with zero findings; history content is not thereby cleared. A separate read-only preparation check confirms the current run is still in setup with zero AI/create/send attempts, no live approval file and no serving lock. No serve command or new provider call has occurred. These are preparation/fictional-transport results, not live connection, trial entitlement or complete-demo verification.
+
+**Next P4c:** review this ready minimal route and current free-use/account conditions with the owner. Confirm separately whether to activate one AI conversation and later one USD300 sandbox invoice/send plus manual buyer checkout, or defer. The task has prepared that reviewable result and stops before activation. A fresh expired **unused** prepared plan can be replaced only after confirming it contains zero AI/create/send attempts; an already-attempted or uncertain payment requires inspection/recovery of its original run, not a replacement fixture. Sponsor/judging access, manual checks and final live/video evidence remain pending. Optional P5 webhook connectivity is still a separate scope.
+
+## October19 P4b3: actual website offline integration complete
+
+`scripts/check-sandbox-rehearsal-offline.mjs` now connects the controller to a source-matched existing production app with actual headless Edge owner/client interactions and the real server/Elastic/PayPal adapters. `scripts/sandbox-rehearsal-offline.cjs` installs **stub-only** transport per phase; it never retains/delegates to original fetch. It accepts only fictional test accounts/settings and rejects non-fictional AI/payment settings before application startup. No `.env` file or actual provider credential is loaded. The controller's credential-free `review` phase now supports owner/client approval between provider phases.
+
+Final receipt: `data/sandbox-rehearsal/f4fc3b14-75c4-4e14-918f-7928e3fd542b/website-summary.json`; preceding passing run: `29937c53-00b1-455b-a621-7640c331e50e`. Both have browser/app cleanup confirmed, independent loopback ECONNREFUSED and zero real AI/PayPal calls. No app source/configuration/dependency, ordinary environment/database or existing developer server changed. All61 runtime files and relevant build inputs matched the retained `ac26f1fb-c1a2-4392-870f-4e4e67848d70` production copy; no redundant build or full application-suite claim.
+
+Observed actual website journey:
+
+1. Owner signs in, saves/approves scope; separate client context checks review consent and accepts scope. The setup save uses the actual owner HTTP route; the decisions below use actual UI buttons.
+2. Website Compare passes through the Elastic adapter into the guarded fictional response. S2 evidence appears on an unpriced draft and price entry remains disabled before scope review. This source label is not a live-AI claim; every screenshot has an offline-response overlay.
+3. The owned app is stopped and its port closure confirmed. Same DB/token restart into review mode has no provider credentials. Owner records scope decision, sets USD300 and client explanation, confirms extras and approves. The separate client UI displays USD300 and accepts work/price.
+4. The runner obtains the actual authenticated server snapshot, stops the review server, freezes the controller's matching accepted-work body and restarts the same DB in payment mode with fake PayPal settings only. The AI key/preloader are absent from this phase.
+5. Owner UI creates one matching draft, then separately sends it. The actual PayPal adapter handles the fictional OAuth/create/send/detail responses through the controller. A local fake remote fixture is marked paid by the runner (no checkout/payment occurs); actual Refresh status reconciles that exact invoice to PAID/$0. Exactly one invoice is present, with one create/send audit and the original USD1200 base left uninvoiced.
+6. Actual Analytics page and snapshot API show one USD300 PAID invoice, outstanding0, approved extra30000cents and one accepted change. Native summary screenshot inspected. Interactive AG Studio was not activated in this check, and no new licence/AI-agent claim follows.
+
+Controller counters for each passing run: AI1, OAuth1, create1, send1, detail reads4. All refer to **fictional delegate operations**, not actual provider calls or buyer transactions. Screenshots `offline-unpriced-draft.png`, `offline-paid-invoice.png` and `offline-local-analytics.png` are annotated offline artifacts, not submission/live footage. Run receipts exclude credentials, private client links and real provider identifiers. The run's generated owner token and fixture state remain only under ignored data.
+
+Failure history retained: `4a5c9b8f-617d-4608-99e5-1a96d6636fd1` stopped at sign-in before any delegate operation; the owner-page check needed an explicit hydration-ready wait. `eb60f5f2-e44c-4777-83fd-d4853967d649` reached approved USD300 review but asserted client-price text before its client page loaded; adding the accept-button readiness wait fixed it. Both recorded successful cleanup with zero create/send/real provider calls. No application repair, quota expansion or automatic live retry was made. After the first passing run, exact Analytics assertions replaced a weaker substring check; the final run passes these stronger assertions.
+
+The focused regression suite now has **21 passing outcomes** (13 controller/preloader plus8 existing gate/observer tests), including credential-free review-phase settings and subprocess rejection of non-fictional preloader values. TypeScript passes. Actual browser/process cleanup is now exercised, beyond the prior callback-only tests; remote registration/tunnel cleanup remains unexercised by this no-tunnel runner. Staged work from the prior task was preserved; additional edits require restaging before commit.
+
+To repeat this **offline** check on Windows/Node24/installed Edge with a matching verified build:
+
+```powershell
+node scripts/check-sandbox-rehearsal-offline.mjs data/postman-workflow/<matching-verified-run>/app-source
+```
+
+There is no live switch in this runner or preloader. **Next P4b4:** prepare/review the minimal loopback live-transport/usage-observer binding and exact commands, with persistent operation limits and no dispatch by default. Only then P4c owner activation review can precede a same-quote live rehearsal. Optional webhook registration/tunnel wiring requires its own explicit boundary; it is not needed merely to demonstrate authoritative reconciliation. Do not convert the stub by replacing its delegate with fetch or run another inference just to improve the screenshot.
+
 ## October19 P4b1/P4b2: controller core and fictional failure verification complete
 
 `scripts/sandbox-rehearsal-controller.cjs` is a reusable operator module, outside application runtime. It exports session creation/reopening only; importing it loads no environment/key/database, launches no process and has no default network delegate or live CLI. Node24.12.0 import and TypeScript checks pass. Application source/configuration/dependencies, ordinary `.env.local` and database remain unchanged.
@@ -95,6 +162,6 @@ In every exit path, stop the session-owned tunnel first if exposure cannot other
 
 ## Completion and next task
 
-P4a preparation and P4b1/P4b2 core/fictional tests are complete. **P4b3 is next:** connect the core to the actual isolated website with fictional transports and verify owned-process cleanup. Review real commands and specific external operations with the owner only once that concrete implementation is ready. Existing create/send routes and relay are reused; application architecture, dependencies and financial business rules do not need a redesign.
+P4a preparation and P4b1–P4b4 controller, fictional tests, actual offline website integration and minimal live binding/commands are prepared. **P4c is next:** review the concrete operation scope and active account conditions before any live serve command. Existing create/send routes and relay are reused; application architecture, dependencies and financial business rules do not need a redesign.
 
 P4 owner activation review, P5/P6 execution and F5 matched rehearsal/video remain open. E4 dashboard reconciliation, licence/free judging access, source-publication decisions and R6 Narrator/actual zoom/physical-touch checks remain separately pending. This plan does not establish a hosted demo, sponsor extension, trial quota or measured human benefit.

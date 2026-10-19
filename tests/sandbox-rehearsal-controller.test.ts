@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
+import { spawnSync } from 'node:child_process';
 import { elasticScopeInstructions } from '../lib/scope-instructions';
 const require = createRequire(import.meta.url);
 const { createSession, openSession } = require('../scripts/sandbox-rehearsal-controller.cjs');
@@ -33,6 +34,7 @@ test('session uses dedicated paths and filters phase credentials without loading
   session.transition('ai'); const env = session.environment(settings, { PATH: 'fictional', NODE_OPTIONS: 'unsafe', GITHUB_TOKEN: 'private', PAYPAL_CLIENT_SECRET: 'wrong' });
   assert.equal(env.ELASTIC_API_KEY, 'fictional-ai'); assert.equal(env.PAYPAL_CLIENT_SECRET, undefined); assert.equal(env.NODE_OPTIONS, undefined); assert.equal(env.GITHUB_TOKEN, undefined);
   const { policy, options } = ai(session); await session.aiFetch(policy, async () => Response.json({}))(policy.endpoint, options); session.transition('review', true);
+  const reviewEnv = session.environment(settings); assert.equal(reviewEnv.ELASTIC_API_KEY, undefined); assert.equal(reviewEnv.PAYPAL_CLIENT_SECRET, undefined); assert.equal(reviewEnv.NUDGE_AI_ENABLED, 'false');
   session.approve(approved(session), 'fictional-proposal', '2026-11-01'); session.transition('payment', true);
   const paymentEnv = session.environment(settings); assert.equal(paymentEnv.ELASTIC_API_KEY, undefined); assert.equal(paymentEnv.NUDGE_AI_ENABLED, 'false'); assert.equal(paymentEnv.PAYPAL_CLIENT_SECRET, 'fictional-paypal'); assert.equal(paymentEnv.NUDGE_ADMIN_TOKEN, env.NUDGE_ADMIN_TOKEN); assert.equal(paymentEnv.NUDGE_DB_PATH, env.NUDGE_DB_PATH);
 });
@@ -140,4 +142,13 @@ test('hung cleanup reports timeout, requests abort and still attempts remaining 
   const s = setup(); let signal!: AbortSignal, appStopped = false;
   const report = await s.cleanup({ registration: async (value: AbortSignal) => { signal = value; return new Promise(() => {}); }, app: async () => { appStopped = true; return true; } }, 10);
   assert.equal(report.registration, 'timed-out'); assert.equal(report.complete, false); assert.equal(signal.aborted, true); assert.equal(appStopped, true);
+});
+
+test('offline preloader rejects non-fictional settings before application startup', () => {
+  const s = setup(); s.transition('ai'); writeFileSync(resolve(s.directory, 'offline-remote.json'), '{}');
+  const os = Object.fromEntries(Object.entries(process.env).filter(([k]) => /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA)$/i.test(k)));
+  const env = { ...s.environment({ ELASTIC_KIBANA_URL: 'https://nudge-offline.elastic.cloud', ELASTIC_API_KEY: 'fictional-ai-no-access' }, os), NUDGE_REHEARSAL_OFFLINE_SESSION: s.directory };
+  const run = (extra: object) => spawnSync(process.execPath, ['--require', resolve('scripts/sandbox-rehearsal-offline.cjs'), '-e', "process.stdout.write('app-started')"], { env: { ...env, ...extra }, encoding: 'utf8', windowsHide: true, timeout: 10000 });
+  for (const extra of [{ ELASTIC_API_KEY: 'not-an-allowed-test-key' }, { PAYPAL_CLIENT_SECRET: 'not-permitted-in-ai-phase' }]) { const result = run(extra); assert.equal(result.status, 1); assert.equal(result.stdout, ''); }
+  const valid = run({}); assert.equal(valid.status, 0); assert.equal(valid.stdout, 'app-started'); assert.equal(s.snapshot().attempts.ai, 0);
 });

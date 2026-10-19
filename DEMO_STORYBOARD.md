@@ -1,5 +1,7 @@
 # Nudge demo storyboard and rehearsal
 
+October19 P4b3: actual owner/client UI and server adapters now complete the same-USD300 journey with controller-enforced fictional transports, three isolated restarts, exact PAID/$0/Analytics checks and confirmed owned cleanup. SANDBOX_REHEARSAL_PLAN.md retains final receipt and corrected harness failures. This is offline evidence, not new live AI/payment/webhook/recording proof; next separate live-binding preparation/activation review.
+
 October19 P4a: [SANDBOX_REHEARSAL_PLAN.md](SANDBOX_REHEARSAL_PLAN.md) now supplies the concrete same-USD300-quote rehearsal specification, isolated AI/payment phases, attempt/recovery and cleanup boundaries, plus minimum reconciliation versus optional fresh-PAID webhook evidence. Session controller/offline checks and owner activation review are next; no live rehearsal or provider operation occurred. Earlier next-step statements are historical where superseded.
 
 ## F5a — current minimum path to submission, October 18
