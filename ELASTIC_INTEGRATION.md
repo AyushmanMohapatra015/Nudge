@@ -1,5 +1,15 @@
 # Elastic integration: next checkpoint
 
+## October 19 — replacement key authenticated for agent read
+
+Owner reports creating the replacement and updating only the private local configuration. `npm.cmd run elastic:check` exits0 with all seven checks passing and AI paused. A single successful documented GET of the dedicated agent returns HTTP200, with matching agent ID, private access, empty tool assignments and Elastic capabilities disabled. Skill IDs are absent from this response shape, so saved-agent skills are **unknown from this read**, not assumed verified empty; the application request override still explicitly disables skills. No response body, key, private endpoint, prompt or account identifier was printed or retained.
+
+Sanitized receipt: `data/elastic-key-review/391acf3c-188a-4c37-8bda-e2acbab8d206/summary.json`. The first restricted-network attempt failed with EACCES and no HTTP status (`17d737fd-6c38-420d-b858-ea4229c1de09/summary.json`); the separately approved network retry succeeded. Both attempts are retained, not reported as one total transport attempt. The ignored helper data/check-elastic-replacement-key.mjs validates the Cloud origin and uses only GET agent metadata, no redirects, bounded body/timeout and no automatic retry. It writes sanitized local receipt flags only, not application/environment/remote configuration.
+
+This confirms current authentication and agent-read authorization, **not** complete key privilege restriction, its actual expiry, connector/model execution permissions, model availability, free allowance or judging continuity. Replacement expiry was recommended December16; owner has not supplied the actual displayed expiry. Trial remains owner-reported November4 05:29UTC. Feature-assigned model routing remains unchanged. No conversation, AI inference, PayPal call, normal workspace mutation or live-AI enablement occurred. The initially guessed documentation URL returned404; the actual [documented get-agent route](https://www.elastic.co/docs/api/doc/kibana/operation/operation-get-agent-builder-agents-id) was verified before the request.
+
+Next: resolve E5b usage/model/isolated-attempt boundaries and obtain explicit resumption for the proposed single fictional website comparison before E6. Do not repeat direct adapter inference as a substitute for website verification. Existing manual testing and judge/sponsor/source/video gaps remain open.
+
 ## October 19 — expired key and owner-reported trial date
 
 Owner reports the API key is Expired and the dashboard states the trial ends **2026-11-04 05:29 UTC (10:59 IST)**. This supersedes earlier November3 trial records for the current dashboard status, not the historical support reply. Current paid-plan/allowance/exhaustion/judging-extension terms remain unverified. The earlier seven offline PASS checks establish presence/shape only, not validity of this expired credential.
