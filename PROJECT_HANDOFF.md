@@ -1,5 +1,8 @@
 # Nudge project handoff
 
+October19 E4 desk review: saved live receipt totals22295 tokens (21848 input/447 output), attempt07:48:50UTC/13:18:50IST. Official consumption API requires agentBuilder:manageAgents; recorded read-only key was not expanded and no request/inference was attempted. ELASTIC_WEBSITE_REHEARSAL.md now gives owner-only existing-conversation/aggregate dashboard checks and explains API-key/browser identity and period/filter limitations. Independent dashboard comparison remains pending, not completed. GitHub CLI is installed but not authenticated; owner browser login requested, no remote repository/settings changes. Local Git tree was clean at this task start.
+
+
 October19 live website E6 verified after the owner explicitly resumed one bounded check. One actual website comparison against Elastic completed HTTP200: fictional booking request classified additional with S2, amount0, human-review/price/approval gates intact and no invoice. Reported usage21848 input/447 output; no retry. Browser/owned server closed; normal environment/database/application source unchanged. See ELASTIC_WEBSITE_REHEARSAL.md for exact receipt, tested live-only helper and limitations. Eight transport tests and TypeScript pass. Ordinary AI remains paused. E3 account quota/exhaustion/judging access and E4 dashboard reconciliation remain unknown/open; no extension, cost, general accuracy, live dashboard agent or full PayPal journey is implied. Next: reconcile this single receipt with Agent Builder usage without another inference, then plan the same-quote sandbox demo under existing F5/P gates.
 
 

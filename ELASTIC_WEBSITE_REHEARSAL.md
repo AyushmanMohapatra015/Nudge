@@ -25,6 +25,21 @@ node scripts/check-elastic-website-live.mjs data/postman-workflow/<matching-veri
 
 Next: E4 read-only reconciliation against Agent Builder usage for this one conversation/round. Record unknowns rather than making another model call to investigate usage. E3 free-use/exhaustion and judging access, the matched same-quote PayPal/video flow, manual checks and publication gates remain open. No further AI batch, new sponsor integration or design rewrite follows automatically from this success.
 
+## E4 read-only usage review, October19
+
+Local receipt independently reread: 21,848 input plus447 output equals **22,295 reported total tokens** for the single completed conversation. The reserved attempt timestamp is October19 07:48:50UTC (13:18:50IST); completion followed shortly afterward. This is a request receipt, not an independent dashboard reconciliation or remaining-credit balance.
+
+Elastic's [usage guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/monitor-usage) describes per-round usage and View JSON. Its [consumption endpoint](https://www.elastic.co/docs/api/doc/kibana/operation/operation-post-agent-builder-agents-agent-id-consumption) is a read-oriented POST requiring `agentBuilder:manageAgents`. The recorded restricted Default-space key has read privileges only. No consumption request was attempted and no privilege was expanded; that API is not an inference endpoint, but using it is unnecessary for the owner UI check. Account subscription/free-use terms remain account-specific and unverified by these public docs.
+
+Owner check, without sending another message to the agent:
+
+1. Open the existing Nudge scope-review agent in the same Elastic project and space. Look for its existing conversation/history or usage view around October19 13:18IST. UI labels may vary; do not start a replacement conversation to reproduce the counts.
+2. If that API-created private conversation is visible to your signed-in account, inspect the completed round's input/output counters or View JSON. Compare **21848 / 447** (total22295), conversation/round scope and timestamp. Conversation access may differ between the API-key identity and browser identity; absence from the UI is not evidence of missing metering.
+3. If only aggregate usage is available, note its exact time window, timezone, filters and totals. Earlier development calls may be included; do not compare an account total as though it were this single round. If tracking was disabled or the round is inaccessible, record that limitation rather than changing settings, broadening the key or running another inference.
+4. Share only the numeric counters, time/filter labels and any discrepancy. Keep keys, private URLs, identities, conversation IDs and raw response/JSON content private. A cropped/redacted usage screenshot may be kept under ignored `data/` for review.
+
+**E4 remains partial:** the receipt arithmetic and monitoring/privilege boundary are checked; independent owner dashboard evidence has not been supplied. No additional provider call, AI usage, account action or application change occurred in this review. Continue the existing same-quote rehearsal plan after this checkpoint; don't count it as a completed final recording.
+
 ## Historical offline preparation
 
 October19,2026. Two preparation tasks completed at the owner's request: a tested one-attempt transport gate and an isolated rehearsal through the actual owner website/server/Elastic adapter. **No real model ran. This does not complete E6 live website verification.** Application runtime source, dependencies, ordinary environment and database remain unchanged.
