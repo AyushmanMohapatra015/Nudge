@@ -1,5 +1,7 @@
 # Genuine sandbox webhook verification checkpoint
 
+October19 P4a: [SANDBOX_REHEARSAL_PLAN.md](SANDBOX_REHEARSAL_PLAN.md) now supplies the concrete same-USD300-quote rehearsal specification, isolated AI/payment phases, attempt/recovery and cleanup boundaries, plus minimum reconciliation versus optional fresh-PAID webhook evidence. Session controller/offline checks and owner activation review are next; no live rehearsal or provider operation occurred. Earlier next-step statements are historical where superseded.
+
 ## P3 existing-fixture and cleanup review: October19,2026
 
 Read-only local evidence and current sandbox API checks agree: the existing USD1 fresh-payment fixture is **PAID with zero outstanding**, with matching invoice identity and USD currency/total. Its saved local session baseline was UNPAID; the session's own deadline has expired. That local deadline does not establish whether PayPal's invoice link itself expired, and is not a reason to create/pay another invoice. The proposal remains present and the ordinary workspace has no processing marker. Normal AI remains disabled.

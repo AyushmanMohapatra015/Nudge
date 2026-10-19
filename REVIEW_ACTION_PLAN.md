@@ -1,5 +1,8 @@
 # Nudge: external review decisions
 
+October19 P4a concrete preparation complete: SANDBOX_REHEARSAL_PLAN.md defines one fictional USD1200 scope plus reviewed USD300 booking extra, same quote/client/invoice/payment, isolated DB/env/owner session, one bounded AI phase then restart with AI disabled and separate PayPal settings, logical create/send limits, lost-response recovery and owned cleanup. Source review found the AI-only guard also blocks PayPal, E6 recipient is not the sandbox buyer and old webhook helper writes ordinary .env.local; none is reused blindly. Minimum loopback reconciliation and optional separately approved fresh-PAID webhook route are distinguished, including owner/in-flight polling exclusion and SENT-versus-PAID attribution. Documentation only; no app/config/DB/provider operation. Next P4b prepares/tests the isolated controller with fictional transports before concrete live activation review. E4, manual R6 and existing sponsor/judging/publication/video gates remain open.
+
+
 October19 P3 complete: read-only local existing USD1 fixture and current PayPal sandbox GETs agree PAID/USD1/$0 due with exact identity. OAuth plus two GETs returned200; app webhook-registration list empty, prior temporary ID/URL absent, local webhook ID empty. Two saved verified audits are SENT, not fresh PAID evidence. WEBHOOK_VERIFICATION.md records sanitized receipts, expired local-session deadline, unused reference-env prerequisite and limits. No invoice/create/send/pay/replay/registration/config/DB/application/AI action. GitHub CLI login verified outside sandbox and repository is private with owner admin access; no remote setting/source/publication change. Next P4 reviews the exact same-quote sandbox/session plan before activation; USD1 history cannot substitute for the selected USD300 recording. E4 owner dashboard, R6 manual Narrator/actual zoom/touch and sponsor/judging gates remain pending.
 
 
@@ -168,7 +171,10 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [x] P1: sandbox checkout and payment reconciliation evidence exists.
 - [x] P2: genuine signed event replay, duplicate suppression and rejection of unsigned events exist.
 - [x] P3: October19 local read-only review and current sandbox OAuth/two GETs confirm existing USD1 PAID/$0 and empty remote registrations with local ID cleared. Saved audit events remain SENT, not fresh PAID proof. WEBHOOK_VERIFICATION.md retains receipts/limits and reference-env prerequisite; no provider mutations/AI/workspace changes.
-- [ ] P4: review a concrete sandbox-only connectivity/session plan with the owner before a temporary public endpoint or new provider operation. Polling is not webhook delivery.
+- [ ] P4: review the concrete sandbox-only session with the owner before new provider operations/public endpoint activation. Polling is not webhook delivery.
+  - [x] P4a: SANDBOX_REHEARSAL_PLAN.md source-checked specification covers same USD300 quote, isolated AI/payment phase separation, sandbox buyer, attempt/recovery and owned cleanup. Plan only, no live operation.
+  - [ ] P4b (next): prepare and offline-test the isolated controller with fictional transports; exact commands/limits and session manifest must be reviewable before live activation. No ordinary env/DB edits or old broad-env helper reuse.
+  - [ ] P4c: review the ready commands and concrete allowed operations with the owner, then record approved session scope. No automatic inference, invoice, send, buyer payment, tunnel or registration follows merely from P4a/b.
 - [ ] P5: verify a fresh payment-triggered signed delivery, recording event receipt and authoritative PAID/$0 reconciliation while polling cannot explain the transition. If the original event cannot be verified retrospectively, state the gap and seek approval before a new fixture.
 - [ ] P6: verify duplicate handling and invoice identity, confirm temporary connectivity cleanup, and update WEBHOOK_VERIFICATION.md/action-plan evidence without exposing event payloads or credentials.
 

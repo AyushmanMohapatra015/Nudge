@@ -1,5 +1,7 @@
 # Nudge demo storyboard and rehearsal
 
+October19 P4a: [SANDBOX_REHEARSAL_PLAN.md](SANDBOX_REHEARSAL_PLAN.md) now supplies the concrete same-USD300-quote rehearsal specification, isolated AI/payment phases, attempt/recovery and cleanup boundaries, plus minimum reconciliation versus optional fresh-PAID webhook evidence. Session controller/offline checks and owner activation review are next; no live rehearsal or provider operation occurred. Earlier next-step statements are historical where superseded.
+
 ## F5a — current minimum path to submission, October 18
 
 Keep the selected **2:40 booking-only story** below. The current design is retained; the two confirmed navigation/hover defects are fixed. No new sponsor integration, redesign, database migration or broad test campaign is selected. This is a reconciliation of existing evidence, not a new live rehearsal. Current account replies, remote repository settings and recorded final footage have not been verified by this task.
