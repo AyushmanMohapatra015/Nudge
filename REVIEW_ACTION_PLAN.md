@@ -1,5 +1,8 @@
 # Nudge: external review decisions
 
+October19 P3 complete: read-only local existing USD1 fixture and current PayPal sandbox GETs agree PAID/USD1/$0 due with exact identity. OAuth plus two GETs returned200; app webhook-registration list empty, prior temporary ID/URL absent, local webhook ID empty. Two saved verified audits are SENT, not fresh PAID evidence. WEBHOOK_VERIFICATION.md records sanitized receipts, expired local-session deadline, unused reference-env prerequisite and limits. No invoice/create/send/pay/replay/registration/config/DB/application/AI action. GitHub CLI login verified outside sandbox and repository is private with owner admin access; no remote setting/source/publication change. Next P4 reviews the exact same-quote sandbox/session plan before activation; USD1 history cannot substitute for the selected USD300 recording. E4 owner dashboard, R6 manual Narrator/actual zoom/touch and sponsor/judging gates remain pending.
+
+
 October19 E4 desk review: saved live receipt totals22295 tokens (21848 input/447 output), attempt07:48:50UTC/13:18:50IST. Official consumption API requires agentBuilder:manageAgents; recorded read-only key was not expanded and no request/inference was attempted. ELASTIC_WEBSITE_REHEARSAL.md now gives owner-only existing-conversation/aggregate dashboard checks and explains API-key/browser identity and period/filter limitations. Independent dashboard comparison remains pending, not completed. GitHub CLI is installed but not authenticated; owner browser login requested, no remote repository/settings changes. Local Git tree was clean at this task start.
 
 
@@ -164,7 +167,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 
 - [x] P1: sandbox checkout and payment reconciliation evidence exists.
 - [x] P2: genuine signed event replay, duplicate suppression and rejection of unsigned events exist.
-- [ ] P3: inspect existing paid fixture/registration evidence without creating, replacing, sending or paying another invoice; retain fixture identities privately.
+- [x] P3: October19 local read-only review and current sandbox OAuth/two GETs confirm existing USD1 PAID/$0 and empty remote registrations with local ID cleared. Saved audit events remain SENT, not fresh PAID proof. WEBHOOK_VERIFICATION.md retains receipts/limits and reference-env prerequisite; no provider mutations/AI/workspace changes.
 - [ ] P4: review a concrete sandbox-only connectivity/session plan with the owner before a temporary public endpoint or new provider operation. Polling is not webhook delivery.
 - [ ] P5: verify a fresh payment-triggered signed delivery, recording event receipt and authoritative PAID/$0 reconciliation while polling cannot explain the transition. If the original event cannot be verified retrospectively, state the gap and seek approval before a new fixture.
 - [ ] P6: verify duplicate handling and invoice identity, confirm temporary connectivity cleanup, and update WEBHOOK_VERIFICATION.md/action-plan evidence without exposing event payloads or credentials.

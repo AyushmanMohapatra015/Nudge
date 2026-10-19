@@ -1,5 +1,8 @@
 # Nudge: current status and priority order
 
+October19 P3 complete: read-only local existing USD1 fixture and current PayPal sandbox GETs agree PAID/USD1/$0 due with exact identity. OAuth plus two GETs returned200; app webhook-registration list empty, prior temporary ID/URL absent, local webhook ID empty. Two saved verified audits are SENT, not fresh PAID evidence. WEBHOOK_VERIFICATION.md records sanitized receipts, expired local-session deadline, unused reference-env prerequisite and limits. No invoice/create/send/pay/replay/registration/config/DB/application/AI action. GitHub CLI login verified outside sandbox and repository is private with owner admin access; no remote setting/source/publication change. Next P4 reviews the exact same-quote sandbox/session plan before activation; USD1 history cannot substitute for the selected USD300 recording. E4 owner dashboard, R6 manual Narrator/actual zoom/touch and sponsor/judging gates remain pending.
+
+
 October19 E4 desk review: saved live receipt totals22295 tokens (21848 input/447 output), attempt07:48:50UTC/13:18:50IST. Official consumption API requires agentBuilder:manageAgents; recorded read-only key was not expanded and no request/inference was attempted. ELASTIC_WEBSITE_REHEARSAL.md now gives owner-only existing-conversation/aggregate dashboard checks and explains API-key/browser identity and period/filter limitations. Independent dashboard comparison remains pending, not completed. GitHub CLI is installed but not authenticated; owner browser login requested, no remote repository/settings changes. Local Git tree was clean at this task start.
 
 
