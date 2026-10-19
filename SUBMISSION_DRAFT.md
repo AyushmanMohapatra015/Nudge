@@ -55,7 +55,7 @@ Render has deployment preparation and redeemed sponsor credits, but no deployed 
 
 ## Current prototype and verification note
 
-Nudge is a working single-owner prototype with a reproducible local simulation workflow. PayPal sandbox checkout/reconciliation, signed webhook redelivery/deduplication and limited real Elastic adapter responses have been verified separately. **The ordinary website live-AI journey and one matched end-to-end live recording remain pending.** AI calls are currently owner-paused.
+Nudge is a working single-owner prototype with a reproducible local simulation workflow. PayPal sandbox checkout/reconciliation, signed webhook redelivery/deduplication and limited real Elastic adapter responses have been verified separately. **One isolated real website AI comparison is now verified (October19); a matched end-to-end live recording remains pending.** Ordinary AI remains paused after that one authorized check.
 
 The recent UI update passes TypeScript, a disposable production build, 47 local API requests/77 assertions with restart persistence, and 14 owner/client browser checks. These checks use fictional data and simulated payments/model output where specified; they are not evidence of general AI accuracy, customer impact or an end-to-end live PayPal+AI demo.
 
@@ -79,7 +79,7 @@ This section is a preparation checklist. Preserve the evidence boundaries above 
 
 | Claim or deliverable | Current boundary / smallest next action | Existing checkpoint |
 | --- | --- | --- |
-| Website AI | Adapter success is not website success. Obtain current free-use/access guidance and separately approve one bounded fictional website attempt; inspect actual result and usage. No automatic retries/batch or enablement from this draft. | E3/E5/E6; ELASTIC_VERIFICATION.md |
+| Website AI | E6 one real website booking comparison passed with S2 and human approval gates. Usage21848 input/447 output recorded; one development case is not accuracy or full-demo evidence. Account quota/exhaustion and judging coverage remain open; no repeat from this draft. | E3/E4; ELASTIC_WEBSITE_REHEARSAL.md |
 | One live booking-to-payment story | Use the same approved extra, currency and amount for owner, client, invoice and checkout. The earlier USD 1 connectivity fixture must not be presented as payment of a USD 300 quote. | F5; DEMO_STORYBOARD.md |
 | Payment-triggered webhook | Signed SENT redelivery is verified; fresh payment-triggered PAID transition without polling is not. Omit that specific claim unless verified; describe confirmed reconciliation accurately. | P5; WEBHOOK_VERIFICATION.md |
 | Judge and sponsor access | AG permission/December15 request was last reported unsent; no extension assumed. Elastic judging access/allowance, Bryntum technical/local acquisition and the selected functional access route remain to confirm. Hosting is optional; no paid activation is authorized. | A3b/D4/E3/B2c; SPONSOR_CHECKPOINTS.md |

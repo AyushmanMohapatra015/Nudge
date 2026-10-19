@@ -1,5 +1,12 @@
 # Elastic integration: next checkpoint
 
+October19 live website E6 verified after the owner explicitly resumed one bounded check. One actual website comparison against Elastic completed HTTP200: fictional booking request classified additional with S2, amount0, human-review/price/approval gates intact and no invoice. Reported usage21848 input/447 output; no retry. Browser/owned server closed; normal environment/database/application source unchanged. See ELASTIC_WEBSITE_REHEARSAL.md for exact receipt, tested live-only helper and limitations. Eight transport tests and TypeScript pass. Ordinary AI remains paused. E3 account quota/exhaustion/judging access and E4 dashboard reconciliation remain unknown/open; no extension, cost, general accuracy, live dashboard agent or full PayPal journey is implied. Next: reconcile this single receipt with Agent Builder usage without another inference, then plan the same-quote sandbox demo under existing F5/P gates.
+
+
+## October19 — two offline website preparation tasks complete
+
+[ELASTIC_WEBSITE_REHEARSAL.md](ELASTIC_WEBSITE_REHEARSAL.md) records the new shared one-attempt delegate gate, five passing offline tests/TypeScript and the actual isolated website→server→Elastic-adapter rehearsal with a fictional local response. Draft remains unpriced; repeated comparison is blocked and original preserved. Browser/server closed; normal app/env/data unchanged and zero real inference. The new preloader supports only stub transport and refuses live mode, so this is preparation, not E6 or a remote model/access result. E3/E5b resumption/model/allowance and final judge/manual/PayPal evidence remain open. No new key/agent/paid subscription changes or provider calls occurred.
+
 ## October 19 — replacement key authenticated for agent read
 
 Owner reports creating the replacement and updating only the private local configuration. `npm.cmd run elastic:check` exits0 with all seven checks passing and AI paused. A single successful documented GET of the dedicated agent returns HTTP200, with matching agent ID, private access, empty tool assignments and Elastic capabilities disabled. Skill IDs are absent from this response shape, so saved-agent skills are **unknown from this read**, not assumed verified empty; the application request override still explicitly disables skills. No response body, key, private endpoint, prompt or account identifier was printed or retained.
