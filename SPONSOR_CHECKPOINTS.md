@@ -1,5 +1,7 @@
 # Sponsor signup, usage and expiry checkpoints
 
+October21 owner-supplied Elastic follow-up: support invites reports of token-usage errors and offers to review a request for a higher allowance. No new numerical limit, granted increase, trial extension, judging-period access or billing commitment was stated. No token-limit error has been verified in the retained live receipts. A short thank-you/monitor-and-report reply was drafted for the owner; sending it is unverified and no message was sent by the coding agent. Existing usage/account/judging checks remain open. For persistent unresolved technical errors, the owner welcomes a sanitized second-agent review; verify proposed changes in this primary workspace before adopting them.
+
 October19 E4 desk review: saved live receipt totals22295 tokens (21848 input/447 output), attempt07:48:50UTC/13:18:50IST. Official consumption API requires agentBuilder:manageAgents; recorded read-only key was not expanded and no request/inference was attempted. ELASTIC_WEBSITE_REHEARSAL.md now gives owner-only existing-conversation/aggregate dashboard checks and explains API-key/browser identity and period/filter limitations. Independent dashboard comparison remains pending, not completed. GitHub CLI is installed but not authenticated; owner browser login requested, no remote repository/settings changes. Local Git tree was clean at this task start.
 
 

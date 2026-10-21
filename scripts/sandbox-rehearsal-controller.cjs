@@ -9,6 +9,24 @@ const base = path.resolve(__dirname, '../data/sandbox-rehearsal');
 const origin = 'https://api-m.sandbox.paypal.com';
 const fail = () => { throw Error('Rehearsal boundary rejected; inspect private session evidence before continuing.'); };
 const fingerprint = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+// Shared pure validation/body construction; calling this does not authorise a transport.
+function reviewedApproval(f, snapshot, proposalId, dueDate) {
+  const p = snapshot.proposals?.find(p => p.id === proposalId);
+  if (snapshot.processing || snapshot.mode !== 'sandbox' || snapshot.agreementStatus !== 'accepted' ||
+      !isDeepStrictEqual(snapshot.agreement, f.agreement) || !p || p.status !== 'accepted' || p.amountCents !== 30000 ||
+      p.analysis?.source !== 'elastic' || p.scopeReview?.classification !== 'additional' || !p.scopeReview.id ||
+      !p.scopeReview.references?.includes('S2') || !isDeepStrictEqual(p.deliverables, p.scopeReview.deliverables) ||
+      !Array.isArray(p.deliverables) || p.deliverables.length !== 1 || typeof p.deliverables[0] !== 'string' ||
+      p.deliverables[0].trim().length < 3 || p.deliverables[0].length > 250 || !/^[a-zA-Z0-9-]{1,64}$/.test(p.id) ||
+      snapshot.invoices?.length !== 0 || !/^\d{4}-\d{2}-\d{2}$/.test(dueDate) ||
+      !Number.isFinite(Date.parse(dueDate)) || new Date(dueDate).toISOString().slice(0, 10) !== dueDate) fail();
+  const description = p.deliverables.join('; ');
+  return { proposalId: p.id, reviewId: p.scopeReview.id, body: {
+    detail: { invoice_number: 'N-' + p.id.slice(0, 16), currency_code: 'USD', note: `Approved change to ${f.agreement.title}. ${description}`.slice(0, 4000), payment_term: { term_type: 'DUE_ON_DATE_SPECIFIED', due_date: dueDate } },
+    invoicer: { email_address: f.merchantEmail }, primary_recipients: [{ billing_info: { email_address: f.agreement.clientEmail } }],
+    items: [{ name: 'Approved additional work', description, quantity: '1', unit_amount: { currency_code: 'USD', value: '300.00' } }], configuration: { allow_tip: false },
+  } };
+}
 function rejectLinks(target) {
   let current = path.parse(target).root;
   for (const component of target.slice(current.length).split(path.sep)) {
@@ -72,21 +90,8 @@ function openSession(directory, now = Date.now) {
   }
   function approve(snapshot, proposalId, dueDate) {
     change(s => {
-      const p = snapshot.proposals?.find(p => p.id === proposalId), f = s.fixture;
-      if (s.phase !== 'review' || s.approval || snapshot.processing || snapshot.mode !== 'sandbox' || snapshot.agreementStatus !== 'accepted' ||
-          !isDeepStrictEqual(snapshot.agreement, f.agreement) || !p || p.status !== 'accepted' || p.amountCents !== 30000 ||
-          p.analysis?.source !== 'elastic' || p.scopeReview?.classification !== 'additional' || !p.scopeReview.id ||
-          !p.scopeReview.references?.includes('S2') || !isDeepStrictEqual(p.deliverables, p.scopeReview.deliverables) ||
-          !Array.isArray(p.deliverables) || p.deliverables.length !== 1 || typeof p.deliverables[0] !== 'string' ||
-          p.deliverables[0].trim().length < 3 || p.deliverables[0].length > 250 || !/^[a-zA-Z0-9-]{1,64}$/.test(p.id) ||
-          snapshot.invoices?.length !== 0 || !/^\d{4}-\d{2}-\d{2}$/.test(dueDate) ||
-          !Number.isFinite(Date.parse(dueDate)) || new Date(dueDate).toISOString().slice(0, 10) !== dueDate) fail();
-      const description = p.deliverables.join('; ');
-      s.approval = { proposalId: p.id, reviewId: p.scopeReview.id, body: {
-        detail: { invoice_number: 'N-' + p.id.slice(0, 16), currency_code: 'USD', note: `Approved change to ${f.agreement.title}. ${description}`.slice(0, 4000), payment_term: { term_type: 'DUE_ON_DATE_SPECIFIED', due_date: dueDate } },
-        invoicer: { email_address: f.merchantEmail }, primary_recipients: [{ billing_info: { email_address: f.agreement.clientEmail } }],
-        items: [{ name: 'Approved additional work', description, quantity: '1', unit_amount: { currency_code: 'USD', value: '300.00' } }], configuration: { allow_tip: false },
-      } };
+      if (s.phase !== 'review' || s.approval) fail();
+      s.approval = reviewedApproval(s.fixture, snapshot, proposalId, dueDate);
       s.approvalHash = fingerprint(s.approval);
     });
   }
@@ -184,4 +189,4 @@ function createSession({ buyerEmail, merchantEmail, now = Date.now }) {
   fs.writeFileSync(path.join(run, 'manifest.json'), JSON.stringify({ schema: 1, id, version: 0, phase: 'setup', expiresAt: now() + 3600000, fixture, fixtureHash: fingerprint(fixture), ownerToken: randomUUID() + randomUUID(), attempts: { ai: 0, oauth: 0, create: 0, send: 0, read: 0 } }, null, 2), { flag: 'wx', mode: 0o600 });
   return openSession(run, now);
 }
-module.exports = { createSession, openSession };
+module.exports = { createSession, openSession, reviewedApproval };
