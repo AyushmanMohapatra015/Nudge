@@ -65,6 +65,12 @@ function openSession(directory, now = Date.now) {
     }
     if ((s.approval && fingerprint(s.approval) !== s.approvalHash) || (s.phase === 'payment' && !s.approval) ||
         (s.invoiceId !== undefined && (typeof s.invoiceId !== 'string' || !/^INV2-[A-Z0-9-]+$/.test(s.invoiceId)))) fail();
+    if (s.paymentContinuation) {
+      const c = s.paymentContinuation;
+      if (!/^[a-f0-9-]{36}$/.test(c.id) || !Number.isSafeInteger(c.grantedAt) || !Number.isSafeInteger(c.expiresAt) ||
+          c.expiresAt !== c.grantedAt + 600000 || c.grantedAt < s.expiresAt || c.originalExpiresAt !== s.expiresAt ||
+          c.approvalHash !== s.approvalHash || !s.approval || !/^[a-f0-9]{64}$/.test(c.sourceManifestHash)) fail();
+    }
     return s;
   }
   let version = read().version;
@@ -95,6 +101,26 @@ function openSession(directory, now = Date.now) {
       s.approvalHash = fingerprint(s.approval);
     });
   }
+  function authorizePaymentContinuation(plan, workspace, confirmation) {
+    if (confirmation !== 'approve-one-usd300-sandbox-invoice-and-send') fail();
+    let id;
+    change(s => {
+      if (s.paymentContinuation) fail();
+      // Verify the original source and accepted quote under the existing manifest lock.
+      require('./sandbox-payment-plan.cjs').verify(plan, { session: { snapshot: () => s }, workspace, now: now() });
+      s.approval = structuredClone(plan.proposedApproval); s.approvalHash = fingerprint(s.approval);
+      id = randomUUID(); const grantedAt = now();
+      s.paymentContinuation = { id, grantedAt, expiresAt: grantedAt + 600000,
+        originalExpiresAt: s.expiresAt, sourceManifestHash: plan.sourceManifestHash, approvalHash: s.approvalHash };
+    }, true);
+    return id;
+  }
+  function continuationAuthority(s, id, dispatch = true) {
+    const c = s.paymentContinuation;
+    if (!id || !c || c.id !== id || s.phase !== 'review' || c.approvalHash !== s.approvalHash ||
+        (dispatch && (now() < c.grantedAt || now() >= c.expiresAt ||
+          new Date(now()).toISOString().slice(0, 10) !== new Date(c.grantedAt).toISOString().slice(0, 10)))) fail();
+  }
   function aiFetch(expected, delegate) {
     if (typeof delegate !== 'function') fail();
     const s = read();
@@ -111,13 +137,14 @@ function openSession(directory, now = Date.now) {
     } });
     return guard;
   }
-  function paymentFetch(delegate) {
+  function paymentFetch(delegate, continuationId) {
     if (typeof delegate !== 'function') fail();
     return async (url, options = {}) => {
       if (typeof url !== 'string' || options.redirect !== 'error' || !options.signal || options.signal.aborted) fail();
       let kind;
       change(s => {
-        if (s.phase !== 'payment') fail();
+        if (continuationId) continuationAuthority(s, continuationId);
+        else if (s.phase !== 'payment') fail();
         if (url === origin + '/v1/oauth2/token' && options.method === 'POST' && options.body === 'grant_type=client_credentials') kind = 'oauth';
         else if (url === origin + '/v2/invoicing/invoices' && options.method === 'POST') {
           let body; try { body = JSON.parse(options.body); } catch { fail(); }
@@ -129,7 +156,7 @@ function openSession(directory, now = Date.now) {
         } else fail();
         const limits = { oauth: 4, create: 1, send: 1, read: 12 };
         if (s.attempts[kind] >= limits[kind]) fail(); s.attempts[kind]++;
-      }); // Reserve BEFORE delegation, including HTTP errors and timeouts.
+      }, Boolean(continuationId)); // Reserve BEFORE delegation, including HTTP errors and timeouts.
       const response = await delegate(url, options);
       if (kind !== 'create' || !response.ok) return response;
       if (!response.body) fail();
@@ -145,18 +172,25 @@ function openSession(directory, now = Date.now) {
         id = link.pathname.split('/').pop();
       }
       if (typeof id !== 'string' || !/^INV2-[A-Z0-9-]+$/.test(id)) fail();
-      change(s => { if (s.invoiceId) fail(); s.invoiceId = id; });
+      change(s => {
+        // Retain the identity of a reserved create even if its response arrives after grant expiry.
+        // This records evidence only; any later dispatch still checks the deadline.
+        if (continuationId) continuationAuthority(s, continuationId, false);
+        if (s.invoiceId) fail(); s.invoiceId = id;
+      }, Boolean(continuationId));
       return new Response(buffer, { status: response.status, headers: { 'content-type': 'application/json' } });
     };
   }
-  function environment(settings, os = {}) {
+  function environment(settings, os = {}, continuationId) {
     const s = read();
-    if (s.version !== version || now() >= s.expiresAt || !['ai', 'review', 'payment'].includes(s.phase)) fail();
+    if (s.version !== version) fail();
+    if (continuationId) continuationAuthority(s, continuationId);
+    else if (now() >= s.expiresAt || !['ai', 'review', 'payment'].includes(s.phase)) fail();
     const env = Object.fromEntries(Object.entries(os).filter(([k]) => /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA|NUMBER_OF_PROCESSORS|PROCESSOR_ARCHITECTURE)$/i.test(k)));
     Object.assign(env, { NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', NUDGE_MODE: 'sandbox', NUDGE_DB_PATH: path.join(run, 'fictional.sqlite'), NUDGE_ADMIN_TOKEN: s.ownerToken, NUDGE_AI_PROVIDER: 'elastic', NUDGE_AI_ENABLED: s.phase === 'ai' ? 'true' : 'false' });
-    const names = s.phase === 'ai' ? ['ELASTIC_KIBANA_URL', 'ELASTIC_API_KEY', 'ELASTIC_AGENT_ID', 'ELASTIC_SPACE_ID', 'ELASTIC_INFERENCE_ID'] : s.phase === 'payment' ? ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'] : [];
+    const names = s.phase === 'ai' ? ['ELASTIC_KIBANA_URL', 'ELASTIC_API_KEY', 'ELASTIC_AGENT_ID', 'ELASTIC_SPACE_ID', 'ELASTIC_INFERENCE_ID'] : s.phase === 'payment' || continuationId ? ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET', 'PAYPAL_MERCHANT_EMAIL'] : [];
     for (const name of names) if (typeof settings[name] === 'string') env[name] = settings[name];
-    if (s.phase === 'payment' && env.PAYPAL_MERCHANT_EMAIL !== s.fixture.merchantEmail) fail();
+    if ((s.phase === 'payment' || continuationId) && env.PAYPAL_MERCHANT_EMAIL !== s.fixture.merchantEmail) fail();
     return env;
   }
   async function cleanup(owned, timeoutMs = 10000) {
@@ -177,7 +211,7 @@ function openSession(directory, now = Date.now) {
     change(s => { s.phase = 'closed'; s.cleanup = report; }, true);
     return { ...report, complete: Object.values(report).every(v => ['confirmed', 'not-owned'].includes(v)) };
   }
-  return { directory: run, snapshot: read, transition, approve, aiFetch, paymentFetch, environment, cleanup };
+  return { directory: run, snapshot: read, transition, approve, authorizePaymentContinuation, aiFetch, paymentFetch, environment, cleanup };
 }
 function createSession({ buyerEmail, merchantEmail, now = Date.now }) {
   if (!/^sb-[a-zA-Z0-9]+@personal\.example\.com$/.test(buyerEmail) || typeof merchantEmail !== 'string' || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(merchantEmail) || buyerEmail === merchantEmail) fail();
