@@ -1,5 +1,8 @@
 # Nudge project handoff
 
+October21 matched AI phase complete: old October19 run expired unused and closed; expiry assertion prevented any request. Fresh run48343e5b-18e3-40ce-86d8-d1a6efb3cb39 used one actual website Elastic comparison after fictional UI scope acceptance; additional/S2, HTTP200, reported10768 input/207 output, unpriced/unreviewed draft and zero invoices. Actual browser/app closure confirmed, manifest now review; no PayPal credentials/operations, tunnel, normal env/DB/app change or retry. SANDBOX_REHEARSAL_PLAN.md retains receipts and expiry/fictional-role/quality limits. Normal AI remains paused, seven offline checks pass. Next local human review of this existing response, owner price/client acceptance if proceeding, then separate payment activation. Preserve response if lease expires: review same-record provider-free continuation, never rerun AI/reset financial attempts. Manual/access/usage/publication/video gates remain pending.
+
+
 October19 P4c partial: owner continued; started only the isolated AI-phase loopback workspace for manual scope approval/client acceptance/one exact comparison. No PayPal settings/public tunnel/payment phase. Startup succeeded and initial read-only check shows AI/create/send attempts0 and no usage receipt. User must click Compare once to dispatch; no automatic comparison or all-phase approval was inferred. Active private run401079ac-68e1-40bc-b36b-b8e4733ea96d has a ten-minute grant ending12:19:45UTC; launcher owns its app and stops it on deadline/Ctrl+C. Next inspect the same run after user result/expiry, record sanitized usage and closure before any review/payment phase. Normal env/DB/app unchanged; UI instructions/token remain private under owner-access.txt.
 
 
