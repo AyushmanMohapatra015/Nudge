@@ -170,7 +170,8 @@ export async function verifyDatabaseSnapshot(root, snapshotPath, storageDirector
   const connection = openReadonly(file);
   let counts;
   try { counts = inspectDatabase(connection); } finally { connection.close(); }
-  if (Object.keys(counts).some(name => counts[name] !== manifest.counts[name])) fail('Snapshot record counts do not match its manifest.');
+  const countKeys = Object.keys(counts), manifestKeys = Object.keys(manifest.counts);
+  if (countKeys.length !== manifestKeys.length || countKeys.some(name => counts[name] !== manifest.counts[name])) fail('Snapshot record counts do not match its manifest.');
   return { directory, file, manifest, counts };
 }
 

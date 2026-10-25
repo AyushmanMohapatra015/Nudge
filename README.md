@@ -193,6 +193,8 @@ Local snapshot/verification/offline-recovery commands are documented in [DATABAS
 
 ## Checks
 
+For offline comparison of saved lexical/plain-LLM/Nudge outputs, see [evaluation comparison guide](EVALUATION_COMPARISON_GUIDE.md). The companion reports matched coverage, invalid/missing/simulated outputs, repeated-run disagreement and reported telemetry without calling a provider. Its synthetic tool tests establish neither actual AI accuracy nor a billing allowance. [Storage assurance addendum](STORAGE_RECOVERY_ADDENDUM.md) records the reviewed snapshot consistency checks and remaining real-platform recovery gates.
+
 ```sh
 npm run typecheck
 npm test

@@ -1,6 +1,38 @@
 # External agent response review — October25
 
-Status: PA-1/PA-2 responses received and reviewed. No returned application patch has been applied. Demo scripting remains deferred by the owner. This review uses the current repository and fictional offline reproductions, not either agent's unexecuted test claims.
+Current status, October26: PA-2 client presentation and the reviewed PA-3/PA-4 changes below are integrated. PA-1 backend proposals remain unadopted. The extensive frontend template search is deferred until the next session; no makeover was started during this integration. Demo scripting remains deferred. Earlier proposal-only statements are historical.
+
+## Round two — PA-3/PA-4 review and integration, October26
+
+Received `Agent1/SecondTask_Agent1.txt` and Agent2's separate library, CLI, test and guide attachments. All15 supplied baseline entries match (14 unique paths). Original response bytes were retained; three downloaded TypeScript attachments in Agent2 were renamed with `.ts.txt` suffixes so Next/TypeScript does not compile review attachments as application modules. Byte-identical private extraction/fingerprint receipts are in `data/agent-round2-review/`. The pre-existing deletion of Agent2/Response1_Agent2.txt was left untouched; this task neither removed nor restored it.
+
+### PA-3 decisions
+
+Accepted A3-01: the old snapshot verifier compared only computed count keys, accepting a legacy database manifest with invented optional allowance counts. The new regression failed before the fix with `Missing expected rejection`, establishing the fault independently. The validator now requires matching count-key lengths as well as matching values. Supported old snapshots still verify; no migration, overwrite, active recovery, replay, lock clearing or provider authority was added. This is metadata consistency hardening, not authentication against someone able to rewrite both snapshot and manifest.
+
+Integrated the storage tests and STORAGE_RECOVERY_ADDENDUM.md with primary corrections:
+
+- Returned inventory said five tests but supplied four, and claimed212 test lines/80 addendum lines versus actual327/95. Complete files were extracted, not truncated to those inaccurate numbers. Tests are now five after isolating the platform-dependent sidecar-symlink check.
+- Allowance status is `available`, not the invented `active`. The actual supplied store API was inspected before correction.
+- The simulated Render storage fixture now copies a verified standalone snapshot, not only the main file from an open WAL database. Copying the latter can omit committed WAL state.
+- Source-sidecar file-symlink creation fails EPERM on this host. That one check is separately skipped with an explicit pending outcome; partial-folder and unexpected-WAL checks still run and pass. No Windows security settings were changed.
+- Child startup receives synthetic/minimal settings. The addendum distinguishes storage-layout checks from full domain validation, local checksum mismatch detection from authenticity, and Windows simulation from actual Linux/Render verification. Its operational examples are not permission to touch the ordinary database.
+
+Remaining A limitations: no new real mounted-Linux/Render rehearsal, hosted startup/signals/backup promotion, file-sidecar symlink proof or distributed assurance. No leftover-lock deletion or financial retry fix was accepted. D6/F8b remain open.
+
+### PA-4 decisions
+
+Integrated evaluation/compare-scope-runs.ts, scripts/compare-scope-runs.ts, tests/scope-run-comparison.test.ts and EVALUATION_COMPARISON_GUIDE.md. The companion reuses existing scoreScope/summarizeScope semantics; original labels, prompts, baseline results and runners are unchanged. It compares saved caller-labelled groups on matching cases/repeats, reports missing/invalid/simulation coverage, class disagreement, directional errors and reported telemetry, and never establishes actual provider use or semantic correctness. CLI is bounded to one regular non-symlink JSON input, reads at most256KiB plus an overflow byte, and prints generic errors without raw outputs.
+
+Primary corrections: Node assert.throws RegExp matching includes the Error prefix, so strict message checks now use `{ message: ... }`. CLI test children use whitelisted OS settings, synthetic NODE_ENV and the existing provider-fetch blocker, rather than inheriting credentials. Fictional artifacts stay under ignored data instead of recursively deleting temporary directories. Added a full225-record/three-system/three-repeat control. The CLI final-component file-symlink test is also explicitly skipped due to unavailable Windows permissions. No hidden numeric usage, cost or model-performance claim is inferred from tests.
+
+### Actual final verification
+
+- Final TypeScript passes.
+- One targeted final run:44 tests,42pass,0fail,2explicit file-symlink platform skips. Includes new storage/comparison tests plus existing lifecycle, Render wrapper/config and scope evaluation/summary regressions. Exact log: `data/agent-round2-review/final-targeted-tests.log`.
+- Initial expected-red bug reproduction and earlier fixture/assertion failures were resolved before the final run. The earlier41pass/2skip result predates the added225-slot case; do not combine runs into a larger total.
+- No application UI/routes/library, dependencies, environment files, normal database, real AI/PayPal, cloud account, deployment or billing changes. Only the maintenance validator changes an existing executable source file; the comparison companion is offline tooling. Browser/production build was not repeated because app runtime source is unchanged; preceding PA-2 evidence remains separate.
+- Actual model comparison and meaningful-usefulness claims are still pending. Manual Narrator/actual zoom/touch, sponsor/judge access, publication and final deliverables remain open. Packet/response baselines remain preserved and must not be regenerated to conceal drift after integration.
 
 ## PA-2 integration outcome — supersedes initial proposal-only status
 
