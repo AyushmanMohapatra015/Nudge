@@ -1,5 +1,7 @@
 # Nudge: external review decisions
 
+October25 PA-1/PA-2 responses received in owner-created Agent1/Agent2 folders and reviewed in AGENT_RESPONSE_REVIEW.md. All13 returned baseline checks match (10 unique paths). Five primary offline reproduction/existing recovery checks pass, no provider/app change. A-01 recovery limitation reproduced but existing validated app recovery works; broader controller-read patch not adopted. A-02 blanket DRAFT marker clearing rejected because it weakens uncertain-send safety. A-03 stale handle reproduced, current launcher reopens before cleanup; broad relaxation deferred and returned diff is corrupt. B-01 presentation approach accepted for next controlled integration, not applied or tested in browser. Demo script remains owner-deferred. Next PA-2 integration/checks; manual R6 and sponsor/judge/publication gates remain open.
+
 October25 owner defers demo-script work. R10b client/owner trust-boundary review complete: CLIENT_ACCESS.md records trusted owner sharing, scoped bearer authority, scanner GET nonmutation, intentional owner token exposure and remaining browser/proxy/logging limits. Two new fictional route tests plus three existing access/expiry/rotation tests pass together (5), and TypeScript passes. Initial restricted tsx user-info failure required approved offline execution; new test header-array typing was corrected before final passing rerun. No runtime source, provider call, ordinary workspace/env, sponsor activation or external-agent packet baseline changed. PA-1/PA-2 returns remain pending; review any received proposals here before integration. Next owner-dependent R6 hands-on checks and A3b/D4b access follow-up remain open; final script stays deferred.
 
 October25 F5b judge-access desk review complete: JUDGE_SETUP.md now separates the verified same-record live AI/PayPal PAID journey from the working simulation and still-unverified final judge-access arrangement. Its release matrix records latest owner-reported dates, confirmed Bryntum permission versus technical acquisition, local versus optional hosted prerequisites and remaining manual/publication/video gates. No account/provider/browser/test run, deployment, application change or external message. Existing runtime evidence reused. Next owner-dependent A3b/D4b AG permission/extension follow-up; independent next F5 recording-script preparation or returned PA-1/PA-2 review. R6 Narrator/actual zoom/physical touch and deferred publication audit remain open.
@@ -12,17 +14,17 @@ These tasks support the existing backend-reliability and client/demo-clarity wor
 
 - [x] Prepare self-contained master packet, refine return contract to A2 and add current PAID evidence plus the read-only guard. Original14 source blocks verified byte-for-byte preserved;15 sources now included.
 - [x] Prepare WEB_AGENT_A_UPDATE.md so an agent already using A1 can receive only the changed instructions/evidence and one new source, retaining prior work.
-- [ ] Owner receives review; save privately as data/web-agent-return.md. Sending/receipt is unverified, not assumed.
-- [ ] Primary checks referenced hashes and manifests, reproduces at most three concrete findings with fictional inputs, records accept/defer/reject decisions and reviews diffs.
-- [ ] Apply only accepted fixes, run relevant verification and update judge/demo claims if necessary. A no-change result is valid when evidence does not justify a fix.
+- [x] Owner received review in Agent1/Response1_Agent1.txt; preserved original input. Alternate owner path supersedes suggested private return filename.
+- [x] Primary checked hashes/manifests and reproduced the three relevant limitations with fictional inputs; accept/defer/reject decisions are in AGENT_RESPONSE_REVIEW.md.
+- [x] Review concluded with no supplied backend patch adopted: A-01 not accepted as a combined fix, A-02 rejected, A-03 deferred. Five offline checks pass; future narrow changes need their own justified plan. No unsafe patch remains implicitly queued for application.
 
 Backend/controller/guard patches and tests only, as constrained in the packet. No client-page/CSS/dependency/schema/sponsor redesign. Return integration manifests, independent complete diffs and unexecuted test proposals. This is substantial reasoning work across crashes, atomic reservations, uncertain remote effects, concurrent requests, recovery and webhooks; length alone is not the target.
 
 ### PA-2: medium client invoice-status clarity proposal
 
 - [x] Prepare WEB_AGENT_MEDIUM_PACKET.md with7 own-source snapshots, concrete stale-copy observations, acceptance cases, exact allowed paths and a test/diff/manifest handback.
-- [ ] Owner receives implementation proposal; save privately as data/web-agent-b-return.md. Sending/receipt is unverified.
-- [ ] Primary checks hashes and confirms the targeted copy/state issues; assess proposed presentation helper and fictional tests without changing server authority or payment eligibility.
+- [x] Owner received implementation proposal in Agent2/Response1_Agent2.txt; preserved original input.
+- [x] Primary checked all seven hashes and confirmed copy/state issues; B-01 approach accepted for controlled integration with no server-authority/link-policy changes. Browser results remain unverified.
 - [ ] Apply only reviewed client-page/helper/test changes; verify price/status labels, existing acceptance/recovery behavior and relevant browser checks before merging.
 
 PA-2 owns components/client-page.tsx and optional new lib/client-invoice-presentation.ts, tests/client-invoice-presentation.test.ts and tests/browser/client-invoice-presentation.spec.ts only. Current accepted-change text can remain at the pre-invoice stage even when a paid invoice is displayed; cancelled/unknown invoice fallback wording needs accurate presentation. Keep existing design, API fields, cents/status authority, payment-link policy and network/action locks. The client projection lacks invoice-to-proposal mapping, so do not infer it. Backend agent PA-1 must not patch these paths. This is a bounded proposal, not an already-applied frontend change or a new product feature workstream.
