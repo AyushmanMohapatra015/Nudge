@@ -2,6 +2,21 @@
 
 Status: PA-1/PA-2 responses received and reviewed. No returned application patch has been applied. Demo scripting remains deferred by the owner. This review uses the current repository and fictional offline reproductions, not either agent's unexecuted test claims.
 
+## PA-2 integration outcome — supersedes initial proposal-only status
+
+B-01 is now integrated and verified: `components/client-page.tsx`, new `lib/client-invoice-presentation.ts` and new `tests/browser/client-invoice-presentation.spec.ts`. The component changes only the presentation import and two existing rendering blocks. Accepted-change receipts no longer imply an invoice has yet to be prepared; invoice status/caption/fallback messages distinguish due, partial, settled, cancelled and needs-confirmation states. Payment URLs/eligibility, pricing, requests, polling, consent, locks and recovery code are unchanged. No CSS, backend, dependency or configuration changes.
+
+The pre-edit component hash matched B1. Original agent response/packet baselines remain preserved; the current component intentionally differs after integration. Primary review found that B's new-file hunk counts omit final lines despite passing `git apply --check`; the missing helper/test tails were restored from the complete response. A temporary duplicate test-tail placement was corrected. Final TypeScript and execution pass. Added one fictional320px screenshot capture for visual review; the screenshot shows readable wrapping, an unclipped payment control and visible keyboard focus. It does not establish physical touch/actual zoom/Narrator results.
+
+Verification:
+
+- TypeScript passes on final source.
+- Fresh isolated production build and Postman Newman workflow pass:47requests/77assertions, restart persistence true, provider-fetch guard quiet. Receipt: `data/postman-workflow/89513601-ffa6-4b66-b1a6-15a32f24d67c/summary.json`.
+- Seventeen targeted Playwright checks pass together: seven new presentation checks (one pure helper check and six browser cases), six connection/recovery, three acceptance/payment-policy workflow and one actual client-link replacement check. Both demo/sandbox presentation fixtures are mocked client projections; the actual test server is isolated demo mode, not a live sandbox transaction.
+- Browser receipt/results: `data/client-presentation-browser/550ff412-ceb8-49e0-a00f-b9a34a93157b/`. Source-matched production copy, credential-free whitelisted child environment, provider fetch blocked, final owned TCP endpoint confirmed closed. The private runner is `data/agent-response-review/check-client-browser.mjs`, adapted from the existing reviewed Analytics runner. No ordinary data/env, real AI/PayPal, account or billing changes.
+
+PA-1 decisions below remain unchanged. Manual R6, sponsor/judge access, publication and final video are still open; demo scripting stays deferred. Successful UI tests are not real-user validation.
+
 ## Inputs and integrity
 
 Owner supplied `Agent1/Response1_Agent1.txt` (PA-1/A2) and `Agent2/Response1_Agent2.txt` (PA-2/B1). Preserve the originals. SHA-256:
@@ -33,12 +48,12 @@ The proposal adds a small status-to-copy helper, neutral acceptance receipt, acc
 
 Integration checklist:
 
-- [ ] Recheck current `components/client-page.tsx` hash before any edit; preserve incoming owner changes.
-- [ ] Read installed Next client/testing guidance; apply only the helper, component presentation lines and proposed browser spec after primary review. Preserve accepted original response rather than regenerating packets mid-review.
-- [ ] Review every test assertion/fixture. In particular check 320px wrapping, keyboard focus, both modes, paid/cancelled/unknown/partial cases, no-URL fallback and receipt stability across polling. The frozen-input test is narrow, not evidence of application-wide nonmutation.
-- [ ] Run TypeScript and relevant tests against a freshly isolated credential-free fixture/build. Avoid using the ordinary workspace or enabling AI/PayPal. Existing production artifacts may no longer match after UI changes.
-- [ ] Include existing recovery/acceptance checks; inspect actual browser results and resolve failures. Do not turn browser automation into a claim of Narrator/physical touch/actual zoom completion.
-- [ ] Update PA-2 with actual adopted files, verification and remaining limitations; do not count the proposal as completed work now.
+- [x] Rechecked current component hash before edits; preserved incoming owner changes.
+- [x] Read installed Next client/testing guidance and integrated only the three selected files; retained original response/packet baselines.
+- [x] Reviewed fixtures/assertions, corrected new-file patch truncation and inspected actual320px screenshot; no broad nonmutation/accessibility claim.
+- [x] Final TypeScript and fresh isolated production/Postman verification pass, with no ordinary workspace/provider activation.
+- [x] All17 targeted checks pass including existing recovery/acceptance/link replacement; manual accessibility remains separate.
+- [x] Recorded adopted files, receipts and limitations here and in the action plan/status/handoffs.
 
 ## Executed verification and limits
 

@@ -1,8 +1,27 @@
 # Focused reviews for another AI agent
 
-## Master packet for the powerful web agent
+## Current assignments — round two, October25
 
-Both assignments are explicit checklists PA-1/PA-2 in REVIEW_ACTION_PLAN.md. No agent response/patch has been received or integrated merely by preparing these files.
+Round one is reviewed: PA-1 supplied backend patches were not adopted for the reasons in AGENT_RESPONSE_REVIEW.md; PA-2 client invoice wording is integrated with TypeScript/build/Postman and17targeted Playwright checks passing. Do not send the old packets as new assignments or redo that work.
+
+| Agent | Send this one self-contained file | New task / return |
+| --- | --- | --- |
+| A | WEB_AGENT_A_STORAGE_PACKET.md | PA-3/A3: substantial storage/recovery and Render-readiness review, fault matrix, proposed regression tests and an addendum. Save response as Agent1/Response2_Agent1.txt or privately data/web-agent-a-round2.md. |
+| B | WEB_AGENT_B_EVALUATION_PACKET.md | PA-4/B2: substantial offline saved-output/repetition comparison library, bounded CLI, tests and guide. Save response as Agent2/Response2_Agent2.txt or privately data/web-agent-b-round2.md. |
+
+Use the same conversations to retain useful reasoning, but each new packet is self-contained and its snapshot governs the new task. No full-repository account access or additional attachment is required initially. Share only these packets; not environment files, data, history, licence credentials or private correspondence. New files return as complete contents with expected line counts; existing-file patches need complete minimal diffs with manually checked hunk counts. Do not trust patch parsing or claimed source labels as proof.
+
+**Agent A prompt:** Read the entire attached A3 packet and complete PA-3. Incorporate its round-one feedback before analysing storage recovery, preserved financial evidence and deployment boundaries. Return the contract/fault matrix, evidence-backed findings, permitted minimal fixes only if justified, complete regression-test file and recovery addendum. Distinguish local simulation from real Linux/Render evidence and all proposed tests from executed results. Keep uncertain-operation, path, locking and overwrite guards intact. Follow the manifest/full-file return contract exactly; primary workspace reviews and runs everything.
+
+**Agent B prompt:** Read the entire attached B2 packet and complete PA-4. Build the specified offline comparison companion, bounded CLI, meaningful tests and guide using supplied scorers and benchmark semantics. Handle missing/invalid/simulated outputs, matched coverage, repetition disagreement and reported telemetry honestly; no provider calls or superiority claims. Return complete new-file contents with correct line counts and integration manifests. Preserve existing files/labels/scoring; primary workspace reviews and executes the proposal.
+
+These are larger in reasoning/deliverables than round one, not permission to expand product scope. A owns maintenance/startup proposals; B owns new evaluation files. Primary retains app/backend decisions, R6 manual testing support, sponsor/judge-access follow-up, F3b evidence refresh and eventual publication only when authorised. Packets prepared means work assigned for owner sharing, not that either web agent is running. No automatic outreach/upload, provider use or integration.
+
+Existing packet files remain unchanged. scripts/build-followup-agent-packets.mjs exports each new allowlisted snapshot with hashes, selected-source checks and create-only output; it does not load .env/data/vendor code or rerun the deferred publication audit. Both outputs were verified against all29 included source snapshots. No need to regenerate a packet while its response is pending; primary detects source drift before integration.
+
+## Round-one instructions retained as history
+
+The following describes the original PA-1/PA-2 handoff. Responses have since been reviewed and PA-2 integrated; consult the current assignments above.
 
 | Agent | What to send | Scope and private return file |
 | --- | --- | --- |
