@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { elasticScopeInstructions } from '../lib/scope-instructions';
 const require = createRequire(import.meta.url);
 const { createSession, openSession } = require('../scripts/sandbox-rehearsal-controller.cjs');
@@ -103,4 +104,19 @@ test('deadline timer schedules absolute shutdown, rejects expired or extended de
   armDeadline(2000, options); assert.equal(delay, 1000); scheduled(); assert.equal(stopped, 1);
   assert.throws(() => armDeadline(1000, options)); assert.throws(() => armDeadline(601001, options));
   armDeadline(2000, { ...options, now: () => 1500 }); assert.equal(delay, 500);
+});
+test('live CLI rejects incomplete activation without writing permission or starting an app', async () => {
+  const f = await fixture(), bytes = readFileSync(join(f.session.directory, 'manifest.json'));
+  const env = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA)$/i.test(k))), NODE_ENV: 'test' as const };
+  for (const args of [[], ['serve', f.session.directory], ['serve', f.session.directory, 'payment-plan-invalid.json', '--confirm-one-usd300-sandbox-invoice-and-send'], ['serve', f.session.directory, 'payment-plan-00000000-0000-0000-0000-000000000000.json', 'wrong-confirmation']]) {
+    const r = spawnSync(process.execPath, ['scripts/serve-sandbox-payment.mjs', ...args], { env, windowsHide: true, encoding: 'utf8', timeout: 10000 });
+    assert.equal(r.status, 1); assert.equal(r.stdout, ''); assert(readFileSync(join(f.session.directory, 'manifest.json')).equals(bytes));
+  }
+});
+test('live preloader rejects missing confirmation and missing session before application execution', () => {
+  const env = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => /^(SystemRoot|WINDIR|ComSpec|Path|PATHEXT|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA)$/i.test(k))), NODE_ENV: 'test' as const };
+  for (const extra of [{}, { NUDGE_PAYMENT_LIVE_CONFIRMATION: 'wrong' }, { NUDGE_PAYMENT_LIVE_CONFIRMATION: 'one-usd300-sandbox-invoice-and-send' }]) {
+    const r = spawnSync(process.execPath, ['--require', './scripts/sandbox-payment-live.cjs', '-e', 'console.log("application-executed")'], { env: { ...env, ...extra }, windowsHide: true, encoding: 'utf8', timeout: 10000 });
+    assert.equal(r.status, 1); assert.equal(r.stdout, '');
+  }
 });

@@ -41,7 +41,7 @@ User-supplied requirements: meaningfully integrate PayPal's free sandbox and AI;
 
 - One live Elastic comparison on the selected fictional case completed, additional/S2. The same saved response received recorded human review, USD300 owner approval and fictional client acceptance in the actual UI. Operator played both roles; this is not independent client/user research. Current accepted quote has zero invoices and zero financial attempts. No confidential record is included here.
 - A separate seeded disposable fixture passed the actual website create/restart/send/reconcile journey using fictional PayPal responses. The original deadline remained expired, a separate ten-minute payment permission used the original durable ledger, one create/send was reserved, and browser/app closure was confirmed. Injected failure after fictional creation also cleaned up. This does not prove matched live sandbox payment or fresh PAID delivery.
--45 focused offline checks and TypeScript passed at this snapshot. These are bounded engineering checks, not product validation, full-system security certification, model accuracy or independent user evidence.
+-47 focused offline checks and TypeScript passed at this snapshot. These are bounded engineering checks, not product validation, full-system security certification, model accuracy or independent user evidence.
 - Prior real PayPal sandbox checkout/reconciliation exists at a different amount. Retained signed events prove SENT/redelivery behavior, not the selected quote's fresh PAID webhook. Do not overclaim.
 - Numerical Elastic allowance/billing exhaustion and judging continuity are not fully established. Sponsor permission/access/technical-expiry checks, manual Narrator/actual zoom/touch, user validation, public-source/history decisions, final judge access and video remain open. No paid subscription, public deployment or final submission is established.
 - The main agent is preparing the finite live sandbox payment launcher while you review core integrity. Do not duplicate that launcher implementation. Changes you propose to shared controller/runtime files will be checked against current source before application.
@@ -65,5 +65,7 @@ for (const file of files) {
   const hash = createHash('sha256').update(source).digest('hex');
   output += '\n### ' + file + '\n\nSHA256: ' + hash + '\n\n```' + (file.endsWith('.ts') ? 'typescript' : 'javascript') + '\n' + source + '\n```\n';
 }
-writeFileSync('WEB_AGENT_MASTER_PACKET.md', output, { flag: 'wx' });
+const refresh = process.argv[2] === '--refresh';
+if (refresh && !readFileSync('WEB_AGENT_MASTER_PACKET.md', 'utf8').startsWith('# Nudge: self-contained web-agent master packet')) throw Error('Unexpected packet; do not overwrite');
+writeFileSync('WEB_AGENT_MASTER_PACKET.md', output, { flag: refresh ? 'w' : 'wx' });
 console.log(JSON.stringify({ file: 'WEB_AGENT_MASTER_PACKET.md', sourceFiles: files.length, sourceBytes: bytes, packetBytes: Buffer.byteLength(output), privateDataIncluded: false }));

@@ -1,5 +1,13 @@
 # Focused reviews for another AI agent
 
+## Master packet for the powerful web agent
+
+State update after the original packet: one live PayPal sandbox invoice has now been created/sent for the same accepted USD300 quote; provider status SENT and local UNPAID/$300 due are verified. Buyer checkout/PAID reconciliation remain pending. Source fingerprints are unchanged. If the packet was already shared, paste this short evidence update into that conversation without replacing its code snapshot or treating its recommendations as accepted.
+
+Attach only `WEB_AGENT_MASTER_PACKET.md` and send: **Read the entire attached packet and complete its payment-integrity/crash-recovery assignment. Work only from the included source; mark missing evidence and proposed tests honestly. Return the findings, failure matrix, minimal proposed diffs and integration handback in the requested format. Our primary coding workspace will reproduce and review everything before integration.**
+
+The packet includes verified project context, evidence/limitations,14 allowlisted own-source files with hashes, complex review tasks and return rules. It is self-contained: no repository access, credentials or other files are needed initially. The primary agent continues the launcher independently. Save the returned answer as `data/web-agent-return.md` here, then ask the primary agent to review it; no response is adopted automatically. The owner shares the packet manually; no external message/upload is performed by this preparation. `scripts/build-web-agent-packet.mjs` can regenerate a fresh snapshot with an explicit `--refresh` after source changes; do not overwrite a packet being actively reviewed without preserving the shared version.
+
 Keep D:\Nudge as the primary workspace. Give another agent a separate copy of only the named documents below, or paste their text into a web chat. Exclude environment files, ignored data, credentials, licence keys, private correspondence, Git history and generated browser artifacts. Reviews do not require account access. Review and apply useful suggestions here; do not let two agents edit the same working files or commit/push automatically.
 
 ## Recommended first review: judge journey and demo story

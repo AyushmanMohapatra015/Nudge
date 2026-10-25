@@ -2,6 +2,52 @@
 
 Prepared October19,2026 from the current website/routes, PayPal adapter, reconciliation, webhook relay and existing receipts. **Plan complete; session tooling and execution are not complete.** No live operation is authorised merely by reading or running a generic development command from this document.
 
+## October25: live same-quote USD300 invoice creation/send VERIFIED
+
+Following the owner's instruction to perform the next two workspace tasks, the finite launcher was actually activated and the existing accepted quote was invoiced/sent through its UI. The ignored finite operator helper `data/complete-matched-sandbox-invoice.mjs` first inspected original accepted USD300 state, financial attempts0 and no serving lease/permission. After the explicit desktop/network sandbox approval, it prepared a fresh same-day plan, started the bounded sandbox-only launcher, privately read its local access file and opened an owner browser restricted to that loopback origin. No AI credentials entered the payment child and no new inference occurred.
+
+Task1 is actual launcher startup and cleanup verification. Task2 is exactly one accepted-extra Create PayPal invoice click and one Approve & send invoice click. Provider-backed invoice detail reports **SENT**, Nudge stores **UNPAID /30000 cents due**, amount30000, same proposal, one invoice and one create/send audit each. Original agreement and saved Elastic response unchanged. No pending send/processing remains. The operator did not open or execute buyer checkout; UNPAID is the expected current state. This is live sandbox invoice evidence, not a PAID payment or fresh-PAID webhook claim.
+
+Private evidence in `data/sandbox-rehearsal/48343e5b-18e3-40ce-86d8-d1a6efb3cb39/`: `matched-live-invoice-summary.json`, the terminal `payment-window-*.json`, and labelled `matched-sandbox-invoice-sent.png`. The exact provider invoice ID, generated buyer, recipient payment URL, token and access/stop paths were not printed in the report or copied into public source. Checkout URL was validated as HTTPS on www.sandbox.paypal.com with the invoice recipient path before writing private `sandbox-checkout.txt`. Existing evidence was preserved; no invoice retry/recreation was attempted.
+
+After the read-only detail checks, the operator browser closed and a stop request ended only its owned launcher. The launcher confirmed app/TCP closure, recorded complete terminal cleanup, and released the serving lease. Ledger: original AI1, OAuth1, create1, send1, read3. Cleanup marks the permission closed, so the old live transport cannot be reused. There is no retained browser/app/tunnel/webhook registration. No real-money checkout, refund, payout, additional AI call, normal environment/database, application runtime source, dependency, remote Git or deployment change occurred. The ignored operator helper's Node syntax and actual bounded UI/provider result were checked; existing47 tests/TypeScript were not rerun or represented as new runs for this execution-only task.
+
+**Next user step:** open the private checkout instructions below and pay this one existing invoice using the already-generated personal sandbox buyer. Do not create another invoice or supply a real card/bank account.
+
+```powershell
+notepad.exe "D:\Nudge\data\sandbox-rehearsal\48343e5b-18e3-40ce-86d8-d1a6efb3cb39\sandbox-checkout.txt"
+```
+
+After the owner reports completion, explicitly verify the exact existing provider identity/amount/status through a bounded read-only path and reconcile the retained local record. The old create/send permission is closed: do not revive it, extend its deadline, reset its counters, use the original serve command again, or bypass invoice-attempt caches. New verification must have only read/auth transport authority and preserve create1/send1. A completed buyer payment, local PAID/$0 and any fresh PAID webhook delivery require their own evidence; none is implied by SENT. Manual R6, sponsor/judge-access continuity, public-source/privacy decisions and final video remain pending. The full repository audit stays deferred at the owner's instruction.
+
+The web-agent master packet predates this execution and remains an explicit source snapshot. Its code hashes have not changed; if already shared, supplement the other agent with this non-sensitive fact: the same USD300 invoice now has verified live sandbox create/send and provider SENT, but buyer checkout and PAID reconciliation remain pending. Do not alter a response or assume its findings remain current without checking its referenced hashes.
+
+## October25: live payment launcher prepared; activation not performed (historical)
+
+`scripts/sandbox-payment-live.cjs` is the explicit live sandbox preloader around the already-tested child binding. It requires the exact payment-only confirmation, retains real fetch only as that guarded delegate and installs the saved absolute shutdown timer. `scripts/serve-sandbox-payment.mjs` offers two distinct commands: provider-free `prepare` and explicitly confirmed `serve`. Incomplete serve arguments fail before configuration/session access. Preparation checks the original retained session, accepted quote, disposable production build/source equality and absence of environment files in the build; it appends a new private preparation file without replacing the expired original deadline or old evidence. No provider or credential is needed for preparation.
+
+Actual preparation-only command succeeded:
+
+```powershell
+node scripts/serve-sandbox-payment.mjs prepare data/sandbox-rehearsal/48343e5b-18e3-40ce-86d8-d1a6efb3cb39
+```
+
+It produced private `payment-plan-15596763-04a3-4aa1-bae9-8deb2418f6b6.json`, for30000 cents/dueNovember1,2026, activation:false/externalCalls0/credentialsRead:false. It is valid only while source/accepted quote and preparation UTC day remain unchanged. On a later day, repeat preparation explicitly; do not edit an old file's date or manifest, reset attempts or recreate the quote. The controller rejects any refresh once actual financial authority/attempts have begun.
+
+The concrete serve command is prepared for a later explicit activation, **not executed by this checkpoint**:
+
+```powershell
+node scripts/serve-sandbox-payment.mjs serve data/sandbox-rehearsal/48343e5b-18e3-40ce-86d8-d1a6efb3cb39 payment-plan-15596763-04a3-4aa1-bae9-8deb2418f6b6.json --confirm-one-usd300-sandbox-invoice-and-send
+```
+
+Serve acquires the same exclusive lease, verifies the current exact preparation, privately reads sandbox configuration with ordinary AI paused, copies only PayPal settings into the child and requires the generated sandbox buyer. The existing atomic controller records the single finite permission. Loopback Next then uses the live sandbox preloader; no automatic create/send clicks are issued. Owner access/token and fixed stop-file location go only to a unique private payment-owner-access file, never console/source. Use only the accepted extra's Create PayPal invoice and subsequent Approve & send invoice, not the original project invoice. Ctrl+C, the fixed stop request or original absolute grant deadline ends the window. Parent and child timers share that deadline; parent cleanup kills only its owned PID, verifies TCP closure, records terminal cleanup/attempts/sanitized invoice status, and releases the lease only after closure. No tunnel, webhook registration or buyer login automation was added. If a request/window fails, inspect the retained DB/remote attempt markers; no automated retry or permission renewal is supplied. A browser opened manually belongs to the owner and is not killed by the CLI.
+
+**47 focused checks and TypeScript pass**, including new CLI missing/invalid confirmation and preloader missing-authority cases that prove no permission mutation/application execution. New test-only NODE_ENV typing was corrected; the known restricted tsx user-info loader failed before tests and the same approved offline command passed. Syntax checks pass. Shared child/transport/lifecycle have earlier offline UI/restart/failure-cleanup evidence; the new live launcher has not yet been started, so actual startup/deadline/cleanup and live provider behavior remain to verify. No new app build was needed for operator-only scripts. Existing uncommitted work was preserved.
+
+Independent review package: `WEB_AGENT_MASTER_PACKET.md` contains14 allowlisted own-source files with hashes and sufficient context for a web model to examine payment integrity and crash recovery, propose minimal diffs and deterministic tests, and distinguish hypotheses from evidence. Generated by `scripts/build-web-agent-packet.mjs`; source-pattern checks are limited export checks, not the deferred full repository/history audit. No environment/data/history/vendor distribution/private correspondence was included. Owner shares it manually and saves returned text privately as `data/web-agent-return.md`. Check fingerprints, reproduce findings, record accepted/deferred decisions and verify patches here before adoption. No other agent was spawned or contacted.
+
+**Next:** activate the concrete minimal sandbox window when ready to complete one exact invoice/send and manual buyer checkout, then verify the same identity/amount/status. Refresh preparation first if the UTC day changed. No additional AI call is needed. Optional fresh PAID webhook evidence remains a separate claim. Functional judge access, manual R6, sponsor coverage, public-source/privacy decisions and final video remain pending.
+
 ## October25: actual website continuation and failure cleanup verified offline
 
 `scripts/sandbox-payment-child.cjs` exports an explicit transport binding. Startup validates the existing finite payment permission, exact DB path, owner token, merchant, sandbox mode, AI disabled and absence of AI settings/other phase preloaders. Each request reopens the same session and uses its persistent attempt guard. Importing does not retain fetch, load credentials or start anything. `armDeadline` schedules shutdown against the saved absolute permission deadline; reusing a permission cannot start a fresh ten-minute timer. Its optional clock/scheduler injection exists for deterministic tests, not an environment override.
