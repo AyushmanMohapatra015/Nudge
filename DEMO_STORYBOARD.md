@@ -1,5 +1,18 @@
 # Nudge demo storyboard and rehearsal
 
+## October25 current recording readiness
+
+The selected same-USD300 booking example is now verified across real website/Elastic/PayPal sandbox sessions through owner-performed checkout, provider/local PAID and $0 due, plus local Analytics. This closes the earlier matched-payment engineering gap. The retained labelled snapshots and receipts are documented in SANDBOX_REHEARSAL_PLAN.md; they are evidence for planning, not an already completed public demo video. Use this row before historical next-step paragraphs below.
+
+| Item | Current status | Next action |
+| --- | --- | --- |
+| Same-record PayPal + AI journey | Verified across sessions; single development case and fictional owner/client roles | Prepare actual readable footage for the selected2:40 story without claiming user validation or broad AI accuracy |
+| Payment status mechanism | Explicit read-only PayPal reconciliation verified; fresh PAID webhook unverified | Say payment is verified/reconciled; do not describe a fresh PAID webhook unless separately proven |
+| Judge access and sponsor continuity | Local instructions exist; final access/licence coverage pending | Review current Elastic/AG terms, Bryntum technical/local-install validity and functional local-versus-hosted access; no new paid activation |
+| Final quality/publication/video | Manual R6 and publication decisions/video remain open | Complete Narrator/real zoom/touch, resume full history audit when owner authorises it, then finalise public source/video/submission |
+
+No second payment or inference is needed merely to confirm this completed milestone. The last owner-confirmed Elastic trial banner was November4,2026 at05:29UTC; earlier November3 shorthand below is historical. All older non-current priorities remain preserved as history.
+
 October19 P4b3: actual owner/client UI and server adapters now complete the same-USD300 journey with controller-enforced fictional transports, three isolated restarts, exact PAID/$0/Analytics checks and confirmed owned cleanup. SANDBOX_REHEARSAL_PLAN.md retains final receipt and corrected harness failures. This is offline evidence, not new live AI/payment/webhook/recording proof; next separate live-binding preparation/activation review.
 
 October19 P4a: [SANDBOX_REHEARSAL_PLAN.md](SANDBOX_REHEARSAL_PLAN.md) now supplies the concrete same-USD300-quote rehearsal specification, isolated AI/payment phases, attempt/recovery and cleanup boundaries, plus minimum reconciliation versus optional fresh-PAID webhook evidence. Session controller/offline checks and owner activation review are next; no live rehearsal or provider operation occurred. Earlier next-step statements are historical where superseded.
