@@ -7,6 +7,7 @@ import { elasticScopeInstructions } from '../lib/scope-instructions';
 const require = createRequire(import.meta.url);
 const { createSession, openSession } = require('../scripts/sandbox-rehearsal-controller.cjs');
 const { prepare } = require('../scripts/sandbox-payment-plan.cjs');
+const { bindPaymentChild, armDeadline } = require('../scripts/sandbox-payment-child.cjs');
 const origin = 'https://api-m.sandbox.paypal.com';
 const confirmation = 'approve-one-usd300-sandbox-invoice-and-send';
 const opts = (body: unknown) => ({ method: 'POST', redirect: 'error', signal: AbortSignal.timeout(10000), body: JSON.stringify(body) });
@@ -88,4 +89,18 @@ test('crossing the preparation UTC day blocks dispatch even inside the ten-minut
   const id = f.session.authorizePaymentContinuation(f.plan, f.workspace, confirmation); f.advance(11000); let calls = 0;
   await assert.rejects(f.session.paymentFetch(async () => { calls++; }, id)(origin + '/v2/invoicing/invoices', opts(f.plan.proposedApproval.body)));
   assert.equal(calls, 0); assert.equal(f.session.snapshot().attempts.create, 0);
+});
+test('child environment binds exact DB, owner, merchant and payment permission without AI settings', async () => {
+  const f = await fixture(), id = f.session.authorizePaymentContinuation(f.plan, f.workspace, confirmation);
+  const env = { ...f.session.environment({ PAYPAL_CLIENT_ID: 'fictional', PAYPAL_CLIENT_SECRET: 'fictional', PAYPAL_MERCHANT_EMAIL: 'fictional@business.example.com' }, {}, id), NUDGE_PAYMENT_SESSION: f.session.directory, NUDGE_PAYMENT_GRANT: id };
+  assert.throws(() => bindPaymentChild(env, undefined, f.now));
+  assert.equal(bindPaymentChild(env, async () => {}, f.now).expiresAt, f.session.snapshot().paymentContinuation.expiresAt);
+  for (const bad of [{ NUDGE_DB_PATH: 'other.sqlite' }, { NUDGE_ADMIN_TOKEN: 'other' }, { ELASTIC_API_KEY: 'never-allowed' }, { NUDGE_AI_ENABLED: 'true' }, { PAYPAL_MERCHANT_EMAIL: 'other@example.com' }, { NUDGE_PAYMENT_GRANT: 'wrong-grant' }]) assert.throws(() => bindPaymentChild({ ...env, ...bad }, async () => {}, f.now));
+});
+test('deadline timer schedules absolute shutdown, rejects expired or extended deadlines and does not renew on reuse', () => {
+  let stopped = 0, delay = 0, scheduled!: () => void;
+  const options = { now: () => 1000, stop: () => { stopped++; }, schedule: (fn: () => void, ms: number) => { delay = ms; scheduled = fn; return { unref() {} }; } };
+  armDeadline(2000, options); assert.equal(delay, 1000); scheduled(); assert.equal(stopped, 1);
+  assert.throws(() => armDeadline(1000, options)); assert.throws(() => armDeadline(601001, options));
+  armDeadline(2000, { ...options, now: () => 1500 }); assert.equal(delay, 500);
 });
