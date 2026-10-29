@@ -27,8 +27,12 @@ async function token() {
   cachedToken = { token: data.access_token, expires: Date.now() + (data.expires_in - 60) * 1000 }; return cachedToken.token;
 }
 export async function paypal(path: string, method = 'GET', body?: unknown, key?: string): Promise<Record<string, any>> {
-  const response = await safeFetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${await token()}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: typeof body === 'string' ? body : JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
+  const accessToken = await token();
+  const response = await safeFetch(`${base}${path}`, { method, headers: { Authorization: `Bearer ${accessToken}`, 'content-type': 'application/json', Prefer: 'return=representation', ...(key ? { 'PayPal-Request-Id': createHash('sha256').update(key).digest('hex').slice(0, 32) } : {}) }, ...(body ? { body: typeof body === 'string' ? body : JSON.stringify(body) } : {}), signal: AbortSignal.timeout(25000), cache: 'no-store' });
   if (!response.ok) {
+    // Invalidate only this rejected token, never one refreshed by another request.
+    // A later request may authenticate again; do not replay this operation.
+    if (response.status === 401 && cachedToken?.token === accessToken) cachedToken = undefined;
     throw new Error(`PayPal request failed (${response.status}). Check sandbox access and reconcile any uncertain action before retrying.`);
   }
   return safeJson(response);
