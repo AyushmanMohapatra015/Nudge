@@ -20,13 +20,17 @@ export async function POST(request: NextRequest) {
     const nested = event.resource?.invoice;
     const candidate = nested && typeof nested === 'object' && 'id' in nested ? nested.id : event.resource?.id;
     const id = typeof candidate === 'string' ? candidate : undefined;
-    const current = read().invoices.find(i => i.id === id);
+    const snapshot = read();
+    const current = snapshot.invoices.find(i => i.id === id);
     if (!current) return NextResponse.json({ ignored: true });
     // Fetch authoritative current state instead of trusting event order or treating every PAID event as full settlement.
     const invoice = await syncInvoice(current);
     mutate(s => {
       requireIdle(s); // Return 503 below so PayPal retries during an owner action rather than race its state update.
       if (db().prepare('SELECT id FROM webhook_events WHERE id = ?').get(event.id)) return;
+      // Another webhook/owner action can finish while this remote GET is in flight.
+      // Reject the stale result atomically; do not record it as processed or erase newer evidence.
+      if (s.version !== snapshot.version) throw new Error('Workspace changed during webhook reconciliation. Retry delivery.');
       const latest = s.invoices.find(i => i.id === invoice.id)!;
       s.invoices = s.invoices.map(i => i.id === invoice.id ? { ...latest, status: invoice.status, remoteStatus: invoice.remoteStatus, outstandingCents: invoice.outstandingCents, payUrl: invoice.payUrl, pendingSend: invoice.pendingSend } : i);
       db().prepare('INSERT INTO webhook_events (id, received_at) VALUES (?, ?)').run(event.id, new Date().toISOString());
