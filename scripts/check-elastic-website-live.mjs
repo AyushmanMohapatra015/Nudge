@@ -68,7 +68,11 @@ try {
   let state = await json('/api/workspace'); assert.equal(state.mode, 'sandbox'); assert.equal(state.aiEnabled, true); assert.equal(state.connections.paypal, false); assert.equal(state.connections.webhook, false);
   await json('/api/workspace', { type: 'saveAgreement', agreement }); await json('/api/workspace', { type: 'approveAgreement' }); state = await json('/api/workspace'); await json('/api/client/' + state.clientToken, { type: 'acceptAgreement' });
   await page.reload(); const input = page.getByLabel('CLIENT REQUEST', { exact: true }); await input.fill(requestText);
-  await page.getByRole('button', { name: 'Compare with agreement', exact: true }).click(); await page.getByText('Elastic AI analysis', { exact: true }).waitFor();
+  const comparisonResponse = page.waitForResponse(response => response.url() === origin + '/api/workspace' && response.request().method() === 'POST');
+  const [comparison] = await Promise.all([comparisonResponse, page.getByRole('button', { name: 'Compare with agreement', exact: true }).click()]);
+  report.comparisonHttpStatus = comparison.status();
+  if (!comparison.ok()) { const error = new Error('Website rejected scope comparison'); error.name = 'ComparisonRejected'; throw error; }
+  await page.getByText('Elastic AI analysis', { exact: true }).waitFor();
   const draft = await json('/api/workspace'); assert.equal(draft.proposals.length, 1); assert.equal(draft.proposals[0].analysis.source, 'elastic'); assert.equal(draft.proposals[0].analysis.classification, 'additional'); assert(draft.proposals[0].analysis.references.includes('S2')); report.analysis = draft.proposals[0].analysis;
   assert.equal(draft.proposals[0].status, 'draft'); assert.equal(draft.proposals[0].amountCents, 0); assert.equal(draft.proposals[0].scopeReview, undefined); assert.equal(draft.invoices.length, 0);
   assert(await page.getByPlaceholder('e.g. 300.00').isDisabled()); assert(await page.getByRole('button', { name: 'Approve proposal', exact: true }).isDisabled());
@@ -88,8 +92,9 @@ finally {
   if (!report.serverClosed) process.exitCode = 1;
   report.realConversationAttempts = existsSync(ledgerPath) ? 1 : 0;
   if (existsSync(config.usagePath)) report.usage = JSON.parse(readFileSync(config.usagePath, 'utf8'));
+  if (report.failure && report.usage?.status === 'awaiting_prompt') report.failure.category = 'elastic-interactive-response-rejected';
   report.modelIdentity = 'Requested Sonnet endpoint; internal orchestration models not independently verified';
   report.sourceFingerprint = createHash('sha256').update(readFileSync(resolve(root, 'lib/elastic-ai.ts'))).digest('hex');
   writeFileSync(resolve(run, 'summary.json'), JSON.stringify(report, null, 2), { flag: 'wx' });
-  console.log(JSON.stringify({ run, success: report.success, checks: report.checks, failure: report.failure, realConversationAttempts: report.realConversationAttempts, usage: report.usage, modelVerified: report.modelVerified, browserClosed: report.browserClosed, serverClosed: report.serverClosed }, null, 2));
+  console.log(JSON.stringify({ run, success: report.success, checks: report.checks, failure: report.failure, comparisonHttpStatus: report.comparisonHttpStatus, realConversationAttempts: report.realConversationAttempts, usage: report.usage, modelVerified: report.modelVerified, browserClosed: report.browserClosed, serverClosed: report.serverClosed }, null, 2));
 }

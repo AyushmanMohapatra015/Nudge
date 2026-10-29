@@ -3,9 +3,23 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { resolve, sep } = require('node:path');
 const { createOneAttemptFetch } = require('./elastic-one-attempt-guard.cjs');
 
+// Never derive receipt keys from provider text: unknown types are counted only.
+function typeCounts(items, allowed, allowMap = false) {
+  // Object containers are defensive diagnostics, not an accepted application response shape.
+  const values = Array.isArray(items) ? items : allowMap && items && typeof items === 'object' ? Object.values(items) : null;
+  if (!values) return null;
+  const counts = Object.fromEntries(allowed.map(type => [type, 0]));
+  counts.other = 0;
+  for (const item of values) {
+    const type = item && typeof item === 'object' ? item.type : undefined;
+    counts[allowed.includes(type) ? type : 'other']++;
+  }
+  return counts;
+}
+
 function observedTransport(delegate, save) {
   return async (url, options) => {
-    const receipt = { attempted: true, httpStatus: null, inputTokens: null, outputTokens: null, status: 'unknown', cost: 'unknown' };
+    const receipt = { attempted: true, httpStatus: null, inputTokens: null, outputTokens: null, status: 'unknown', cost: 'unknown', promptsShape: null, promptTypeCounts: null, stepTypeCounts: null };
     try {
       const response = await delegate(url, options);
       receipt.httpStatus = response.status;
@@ -24,6 +38,10 @@ function observedTransport(delegate, save) {
         receipt.inputTokens = count(data.model_usage?.input_tokens);
         receipt.outputTokens = count(data.model_usage?.output_tokens);
         receipt.status = ['completed', 'failed', 'awaiting_prompt'].includes(data.status) ? data.status : 'unknown';
+        const prompts = data.response?.prompts;
+        receipt.promptsShape = prompts === undefined ? 'absent' : Array.isArray(prompts) ? 'array' : prompts !== null && typeof prompts === 'object' ? 'object' : 'other';
+        receipt.promptTypeCounts = typeCounts(prompts, ['ask_user_question', 'confirmation', 'authorization'], true);
+        receipt.stepTypeCounts = typeCounts(data.steps, ['tool_call', 'tool_result', 'reasoning', 'ask_user_question', 'confirmation', 'authorization']);
       } catch { /* Never save raw responses, provider errors, IDs or reasoning. */ }
       return new Response(buffer, { status: response.status, headers: { 'content-type': 'application/json' } });
     } finally { save(receipt); }

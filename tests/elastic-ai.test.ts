@@ -97,6 +97,8 @@ test('Elastic rejects untrusted endpoints, incomplete/approval/tool outcomes, ma
     }
     assert.equal(calls, 0); process.env.ELASTIC_KIBANA_URL = 'https://scope.elastic.cloud';
     const invalid: unknown[] = [ { ...complete(), status: 'awaiting_prompt', response: { prompts: [{ id: 'approve-payment' }] } }, { ...complete(), status: undefined }, { ...complete(), steps: [{ type: 'tool_call', tool_id: 'any.tool' }] }, { ...complete(), response: { message: '```json\n{}\n```' } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, references: ['S99'] }) } }, { ...complete(), response: { message: JSON.stringify({ ...analysis, priceCents: 90000 }) } }, { ...complete(), response: { message: 'x'.repeat(140000) } } ];
+    invalid.push({ ...complete(), status: 'awaiting_prompt', response: { prompts: { 'private-prompt-id': { type: 'ask_user_question' } } } });
+    invalid.push({ ...complete(), response: { message: JSON.stringify(analysis), prompts: {} } });
     for (const badAnalysis of [ { ...analysis, references: ['S5', 'S5'] }, { ...analysis, deliverables: ['   '] }, { ...analysis, questions: ['   '] }, { ...analysis, summary: ' '.repeat(30) } ]) invalid.push({ ...complete(), response: { message: JSON.stringify(badAnalysis) } });
     for (const type of ['ask_user_question', 'confirmation', 'authorization']) invalid.push({ ...complete(), steps: [{ type, questions: [] }] });
     for (const candidate of invalid) { payload = candidate; const callsBefore: number = calls; await assert.rejects(analyzeWithElastic('Add appointment booking.', scopeAgreement), /Elastic returned/); assert.equal(calls, callsBefore + 1); }
