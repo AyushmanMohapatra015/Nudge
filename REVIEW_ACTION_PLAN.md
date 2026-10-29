@@ -1,5 +1,12 @@
 # Nudge: external review decisions
 
+**October 29, 2026 — Elastic live validation completed.** ELASTIC_LIVE_CHECKPOINT.md records current auth/config checks and exactly two separately inspected fictional requests: case21 ambiguous/S5+S7, case24 injection rejected/additional/S5, both HTTP200/completed and frozen checks passing. Reported usage22,680input+928output=23,608tokens; no retry, tool/interactive steps, invoice, normal DB/env or paid-setting change. Existing25targeted offline checks pass. Ordinary AI remains paused. Public sanitized evaluation/elastic-live-checks-2026-10-29.json reproduces the matched comparison (Nudge2/2, lexical1/2);23cases missing, no independent/held-out/general accuracy claim. Old missing-S7/awaiting_prompt failures remain preserved and their cause/stability unresolved. Owner handles extension via supplied form; Nov4trial/aggregate allowance and judging coverage are not automatically extended.
+
+- [x] C10/E7a/E8a: current bounded Elastic ambiguity/request-injection validation, latency/usage and saved lexical comparison; no app/prompt change.
+- [ ] E7/E8 remainder: independent/unseen/source-brief semantic/repeated evaluation within separately reviewed allowance; do not label all quality work complete.
+
+Next release dependency remains Render/AG terms then actual hosted persistence/recovery and fresh-payment webhook; extension form is owner-operated, not a reason to repeat already successful Elastic checks.
+
 **October 29, 2026 — active backend checkpoint.** C8 API error privacy complete: client decisions use typed safe errors, owner/client storage failures return generic 503/no-store, and failed cleanup preserves the lock. Eight new subcases; focused 18 passed; full 273 reported/271 passed/2 existing Windows symlink skips/0 failures. TypeScript, fresh production build, Postman 47 requests/77 assertions/restart and synthetic browser-secret scan (25 files, zero findings/maps) pass. Receipt 27538dd8-641b-43b3-83c8-28372faed48f includes independent port closure. C9 saved comparison complete: four historical ambiguous outputs versus unchanged lexical baseline, Nudge 4/4 labels and 3/4 checks, lexical 1/4 and 0/4. SAVED_AI_COMPARISON.md preserves selection, earlier wrong answer/missing-S7 failure and missing coverage; independent E7/E8 is still open. No new AI/PayPal calls, normal DB/env, dependency, UI, deployment or Git mutation. BACKEND_RELEASE_REVIEW.md governs current evidence and remaining gates.
 
 Current order supersedes older NEXT labels below: (1) owner sends/obtains Render no-card/credit-only exhaustion and actual quote/accrued-usage terms, plus AG hosted/judging permission; (2) approved single-instance deployment and actual HTTPS/access, mount, restart and backup/recovery verification; (3) controlled fresh payment-triggered signed sandbox webhook; (4) independent semantic/held-out/repeated evaluation within approved allowance, manual R6 and source/judge/video/submission checks. Render balance USD50/October1,2027 and no-card status are known; October29 owner says no reply/not sent yet. Do not re-ask those known facts, fabricate participant findings, reset consumed grants or enable ordinary AI automatically. Credit expiry alone is acceptable to the owner, but paid charges are not approved. Website refinement remains deferred. The October28 one-case live success remains valid; its earlier awaiting_prompt cause and stability remain unresolved.
@@ -353,7 +360,7 @@ These recurring boxes are a per-task procedure, not a backlog of six separate fe
 - [ ] H6: synthesize actual consenting findings with counts/denominators; include negative evidence and PayPal-fit limitations. Extend to five/eight conversations where practical.
 - [ ] H7: choose one product improvement supported by findings, write acceptance criteria and sponsor implications here, then implement/test it. Do not invent quotes or time savings.
 
-### E — Elastic scope AI and verification (owner-deferred)
+### E — Elastic scope AI and verification (bounded live validation resumed; broader evaluation pending)
 
 - [x] E1: dedicated private/tool-free request configuration, limited live adapter responses and observed-case corrections exist; original failures retained.
 - [x] E2: saved evidence desk review and offline authority-boundary checks exist; these do not establish general accuracy or live website success.

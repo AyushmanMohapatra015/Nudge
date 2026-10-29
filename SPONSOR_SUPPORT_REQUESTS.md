@@ -4,6 +4,8 @@ October 10, 2026. Copyable messages for the owner to send manually when needed. 
 
 ## Elastic: existing account, extended trial
 
+October29 Elastic extension update: owner will use the supplied sponsor form. Do not send a duplicate extension email automatically. Current key authenticated and two bounded model checks completed October29; replacement-key-pending text below is historical. Last reported trial end remains November4,2026 05:29UTC until the form is approved. ELASTIC_LIVE_CHECKPOINT.md records actual usage and remaining evaluation boundaries.
+
 October19 owner dashboard now shows November4,2026 at05:29UTC, superseding the prior November3 current-date assumption. Use that updated date in any new follow-up below; no December extension or new model allowance has been confirmed. Old key expired; replacement creation is pending and does not extend trial access.
 
 Timing verified October10 against [official rules](https://paypalaihackathon.devpost.com/rules): submission November12,2026; judging December1–15,2026. The current November3 extension does not cover submission or judging. Include these dates in the existing case when requesting continued free access; no provider calls are resumed by this request.
