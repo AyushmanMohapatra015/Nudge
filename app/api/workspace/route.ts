@@ -44,12 +44,16 @@ function view() {
   const s = read();
   return { ...s, aiEnabled: realAiEnabled(), aiProviderLabel: aiProviderLabel(), processingRecovery: s.processing ? processingRecovery(s.processing) : undefined, connections: { paypal: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET && process.env.PAYPAL_MERCHANT_EMAIL), ai: aiCredentialsConfigured(), webhook: !!process.env.PAYPAL_WEBHOOK_ID } };
 }
+const unavailableMessage = 'Workspace is unavailable. Refresh and check the recorded status before retrying.';
+const unavailable = () => NextResponse.json({ error: unavailableMessage }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Sign in to the sandbox workspace.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
   const retry = ownerReadWindow.take();
   if (retry) return NextResponse.json({ error: 'Too many workspace reads. Try again shortly.' }, { status: 429, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
-  await reconcileOutstanding();
-  return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
+  try {
+    await reconcileOutstanding();
+    return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
+  } catch { return unavailable(); }
 }
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ error: 'Cross-site request rejected.' }, { status: 403 });
@@ -58,7 +62,10 @@ export async function POST(request: NextRequest) {
   if (retry) return NextResponse.json({ error: 'Too many workspace actions. Try again shortly.' }, { status: 429, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
   let runningKey: string | undefined;
   try {
-    const action = actionSchema.parse(JSON.parse(await boundedRequestText(request, ownerBodyMaxBytes)));
+    const text = await boundedRequestText(request, ownerBodyMaxBytes);
+    let input: unknown;
+    try { input = JSON.parse(text); } catch { throw new RequestGuardError('Invalid workspace action. Supply valid JSON.', 400); }
+    const action = actionSchema.parse(input);
     if (action.type === 'recoverProcessing') mutate(s => {
       const pending = s.processing;
       if (!pending || pending.key !== action.key) throw new Error('Interrupted action has changed. Refresh before recovering.');
@@ -218,8 +225,13 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(view(), { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
-    const message = error instanceof z.ZodError ? error.issues.map(i => i.message).join(' ') : error instanceof Error ? error.message : 'Action failed.';
-    if (runningKey && read().processing?.key === runningKey) mutate(s => { if (s.processing?.key === runningKey) { s.processing = undefined; s.integrationError = message; log(s, 'System', 'Action did not finish', `${message} For ambiguous remote errors, reconcile the invoice before repeating an external action.`, runningKey); } });
-    return NextResponse.json({ error: message }, { status: error instanceof RequestGuardError ? error.status : 400, headers: { 'Cache-Control': 'no-store' } });
+    // Native storage/parsing/programming errors are not safe owner-facing diagnostics.
+    // Existing plain domain/adapter Errors contain deliberately authored action guidance.
+    const expected = error instanceof RequestGuardError || error instanceof z.ZodError || (error instanceof Error && error.constructor === Error && !('code' in error));
+    const message = error instanceof z.ZodError ? 'Invalid workspace action. Review the submitted fields.' : expected && error instanceof Error ? error.message : unavailableMessage;
+    try {
+      if (runningKey && read().processing?.key === runningKey) mutate(s => { if (s.processing?.key === runningKey) { s.processing = undefined; s.integrationError = message; log(s, 'System', 'Action did not finish', `${message} For ambiguous remote errors, reconcile the invoice before repeating an external action.`, runningKey); } });
+    } catch { return unavailable(); } // Preserve the lock if cleanup cannot be committed.
+    return NextResponse.json({ error: message }, { status: error instanceof RequestGuardError ? error.status : expected ? 400 : 503, headers: { 'Cache-Control': 'no-store' } });
   }
 }
