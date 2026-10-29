@@ -1,5 +1,11 @@
 # D3: Render hosting budget and approval worksheet
 
+October28 owner confirms no payment method (Add payment method shown). Combined withUSD50remaining/October1,2027 validity, this closes account-observation questions about balance/date/card presence only. Sponsor exception to paid-service method requirement, eligible costs/exhaustion, accrued usage, concretequote/access and activation approval remain unresolved. Owner can use updated SPONSOR_SUPPORT_REQUESTS.md; no card or service created.
+
+October28 follow-up: owner supplied actual displayedUSD50.00 remaining/October1,2027 promo validity. First-party pricing search now exposesUSD7/mo0.5c-512mb andUSD0.25/GB/mo disk; direct text remains shell-only. Conservative3fullmonths baseUSD21.75 leavesUSD28.25 before extra charges/taxes, includingUSD10 reserve; not a binding account quote, spending cap or512MB suitability proof. First-party terms search reconfirms section4.7 valid payment-method requirement during paid use, so any hackathon no-card exception is still to obtain. Pending Payment method question/accrued usage/concretequote/access gates; no service created. Source build/auth/persistence audit and21combined offline checks are recorded in CORE_READINESS_CHECKPOINT.md; no Linux/hosted claim.
+
+October28 core-first: official credits/disks/build guidance refreshed; credits applied at billing, visible balance not accrued-usage cap. Dynamic pricing/terms text did not expose numeric/contract sections today, so older prices/payment-method findings below remain dated. Owner Billing/quote/accrued usage/card-exception question pending.4offline startup/recovery tests pass with disposable data; no hosted durability/service creation. CORE_READINESS_CHECKPOINT.md records evidence/next C3b gate. No extra resource/payment method approved.
+
 ## October16 B7a local resource checkpoint
 
 [DELIVERY_IMPACT_REHEARSAL.md](DELIVERY_IMPACT_REHEARSAL.md) records the actual fictional approval/delivery/payment-simulation/Studio journey. Five Windows production-server observations ranged95.42–124.57MiB working set and124.84–145.62MiB private bytes; these overlapping measures must not be added. This is neither continuous peak nor Linux/concurrent/live-provider/build memory evidence. The512MB candidate remains unverified and no tier, payment method, service or disk was approved/created.

@@ -1,5 +1,28 @@
 # Focused reviews for another AI agent
 
+## Current design assignments — FD-A / FD-B
+
+OWNER RESET: FD-A's visual direction is rejected. See FRONTEND_DESIGN_RESET.md; do not ask A to continue polishing the same ivory/document look or implement it. Current plan/reference documents now intentionally differ from their original packet hashes. FD-B's state/privacy work is still useful after existing corrections; B may continue independently when access returns, with this reset as a brief delta. Do not redo its entire packet or treat old palette/prototype assumptions as requirements. Actual MotionSites selection precedes the next bounded visual proof.
+
+October26 FD-A2 now reviewed: Agent1/FRONTEND_AGENT1_LATEST_RESPONSE4.txt and five baselines preserved; primary corrected a separate local preview, documented in FRONTEND_AGENT_A_REVISION_REVIEW.md. No need to resend the original A revision prompt or repeat that completed review. B temporarily unavailable (~5hours per owner); its existing review is useful and primary can continue independently. F2-M2b concrete preview selection precedes F2-M3a app integration. No frontend proposal has been transplanted into production; earlier PA integrations remain complete.
+
+October26 FD-B1 return received in Agent2/FRONTEND_AGENT2 and reviewed in FRONTEND_AGENT_B_REVIEW.md. All17 source hashes match; no claimed packet corruption reproduced. Files remain review inputs, not integrated tests/components. The two .ts downloads now use .ts.txt, with original hashes preserved. Send FRONTEND_AGENT_B_REVISION_PROMPT.md and review in the same Agent B conversation; save response as Agent2/Frontend_Agent2_response4.txt or new clearly named revised attachments using .ts.txt. Agent A's FRONTEND_AGENT1_LATEST_RESPONSE4.txt appeared during this review and is present but NOT yet reviewed. Next primary reconciles corrected B return with actual A revision before implementation. Earlier B-pending statements are historical.
+
+October26 FD-A1 response received and reviewed in FRONTEND_AGENT_A_REVIEW.md. Candidate is preserved offline, not integrated. Send FRONTEND_AGENT_A_REVISION_PROMPT.md plus that review to the same Agent A conversation; optional screenshots are under ignored data/frontend-agent-review/2026-10-26-a1. Save next complete response as Agent1/Frontend_Agent1_response4.txt; retain response3 unchanged. FD-B remains pending: save as Agent2/Frontend_Agent2_response3.txt, with .ts attachments using .ts.txt. Primary reconciles both before adoption. Do not resend original packets as unrelated new assignments.
+
+October26 owner selects complete frontend planning. PA-3/PA-4 below are completed history; do not repeat them. The primary owns final decisions and all production changes. FRONTEND_DESIGN_PLAN.md is the shared plan; packet preparation does not mean either web agent has started.
+
+| Agent | Attach this single file | Deliverables / save |
+| --- | --- | --- |
+| A — visual prototype | FRONTEND_AGENT_A_PACKET.md | Complete original NUDGE_DESIGN_PROTOTYPE.html and NUDGE_VISUAL_SPEC.md; save in Agent1 with a Frontend_ prefix or ignored data/frontend-agent-return/. No production app edits. |
+| B — state/interaction assurance | FRONTEND_AGENT_B_PACKET.md | Complete FRONTEND_STATE_CONTRACT.md, typed fictional fixtures and proposed tests; save in Agent2 with Frontend_ prefix. TypeScript attachments must use .ts.txt, avoiding accidental Next compilation. |
+
+**Prompt A:** Read the entire FD-A1 packet and create the specified original, complete four-view responsive prototype and visual spec. Follow the proposed Nudge project-desk direction, preserve fictional-state/human-approval/payment distinctions and use purposeful original motion with reduced-motion fallback. No network, libraries, copied template assets or app edits. Return complete files and the required manifest; honestly label all runtime/render/test results unverified. Our primary workspace will render and review before integration.
+
+**Prompt B:** Read the entire FD-B1 packet and complete the independent core state/interaction contract, typed fictional fixtures and meaningful proposed tests. Ground every authority/transition/privacy claim in supplied source. Preserve current handlers, projections, cent/status semantics, consent and recovery; make no existing-file changes. Return complete files and manifest, with exact missing context and proposed-not-run verification. Coordinate through the shared plan; do not duplicate Agent A's visual prototype.
+
+Use separate conversations (or the prior corresponding conversations with the new packet as authoritative). Send only the packet initially; no env, databases, keys, licence values, history or private correspondence. All source snapshots are self-contained. Keep original packets/returns, and do not overwrite a packet during active review. Primary may accept/defer/reject proposed deviations; neither agent may change the action plan/backend directly. Responses do not establish final functional-demo compliance, accessibility or model quality.
+
 October26 round two completed: both responses received, reviewed and useful changes integrated. PA-3 count-consistency fix/tests/addendum and PA-4 offline comparison companion are verified with TypeScript and42passing checks; two Windows file-symlink tests skipped explicitly. AGENT_RESPONSE_REVIEW.md has actual source decisions/fixture corrections. The send instructions below are historical; do not reassign the same work. Original packets retained; three .ts response attachments now have .ts.txt suffixes. No further agent assignment or live evaluation is automatically authorised.
 
 ## Current assignments — round two, October25

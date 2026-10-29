@@ -1,0 +1,71 @@
+# Core readiness: Elastic resumption and Render deployment
+
+October28 C7 complete: lib/paypal.ts invalidates only the exact cached token rejected with401, without replay; late rejection cannot erase newer authentication and403does not reset cache. PAYPAL_AUTH_RECOVERY.md documents reproduced failure and owner-route send uncertainty regression. Focused14pass; full262pass/2Windows-symlink-skips/0fail, TypeScript/freshbuild/Newman47requests/77assertions/restart pass. Production receipt89332455-fd42-4566-8edf-5a43d18e10eb/independentcleanup confirms closure. No provider usage/env/normalDB/UI/dependency change. Use matching fresh source for future checks; old consumed payment grants stay closed. External gaps unchanged.
+
+October28 C2b-d authorized diagnostic completed successfully: one guarded fictional website comparison200/completed,11090input/249output=11339tokens. Actual additional/S2/questions[]/booking-only output validated; prompts absent, zero tool/interactive steps. Draft unpriced/unreviewed, no invoice, price/approval disabled. Receipt data/ai-website-check/1a59059a-2911-4ce1-ae80-55c298040817/summary.json;62runtime files match fresh production build; screenshot inspected/server+browser closed. No PayPal/env/ordinaryDB changes; normal AI paused. Current one-case live operation verified, exact earlier cause and consistency remain unproven. No further automatic calls; ELASTIC_EXTERNAL_REVIEW.md is current evidence.
+
+October28 independent response integrated locally: ELASTIC_EXTERNAL_REVIEW.md records defensive array/map prompt counting plus fixed shape, secret-key/body/guard regressions and review corrections.20targeted offline tests, nonincremental TypeScript/syntax pass; no inference. Current docs support nested skill/capability overrides, while request prompts-map shape does not establish response shape. Saved October19/28 requested same endpoint. Read-only status/tool GETs200 yield no reviewed version value,26visibletools/no matched interactive IDs; not proof of unavailable platform prompts. Root cause/current resumption remains unresolved; metadata helper/receipt under ignored data/elastic-context-review/65366867-0aa1-4d4a-826b-c24370150116. App adapter/guard/env remain unchanged, AI paused. Old packet hashes are historical after operator edits; no automatic new call.
+
+October28 local-core C6 COMPLETE: owner defers external follow-ups while continuing backend work. Fixed the demonstrated stale-webhook commit race in app/api/paypal/webhook/route.ts with a snapshot/version guard inside the existing transaction, after deduplication. Three controlled concurrency regressions preserve newerPAID/zero balance, uncertain send evidence and one-event/audit behavior. WEBHOOK_CONCURRENCY_REVIEW.md records reproduction, conservative conflict/retry semantics and limits. Full offline258pass/2Windows-symlink-skips/0fail (260reported), focused14pass, nonincremental TypeScript, fresh build and production Newman47/77/restart pass. Receipt data/postman-workflow/5629e496-ded1-46b8-9aaf-f46779d7afbe/summary.json; independent port closure confirmed. No AI/payment/normalDB/env/UI/dependency/deployment action. Earlier ordinary-AI/hosting blockers remain checkpointed; do not call core external readiness complete.
+
+October28 owner response resolves the Payment method question: Billing shows No payment method / Add payment method. No card is on file; do not ask again or add one to discover eligibility. ExistingUSD50/October1,2027 credit facts stand. Next Render action is owner-sent request to devrel@render.com (official credits documentation contact) for a hackathon no-card exception/credit-only eligibility and safe exhaustion behavior. Generic paid-service terms do not establish that exception. No message/service/card action by the agent. Copyable current request is in SPONSOR_SUPPORT_REQUESTS.md; exact quote/accrued usage/permissions remain separate gates.
+
+## October28 follow-up: diagnostic tooling and deployment audit
+
+Owner now supplied the Billing text: Hackathon Participant promo, remainingUSD50.00, valid until October1,2027,12-month credit. This confirms those displayed facts as owner-reported; accrued usage/payment-method/exhaustion/eligibility are still unknown. A focused Payment method question is pending. Do not ask the owner to reconfirm the balance again.
+
+**Task C2b-a complete (offline diagnostics only):** scripts/elastic-live-review.cjs now retains fixed prompt/step type counts, unknown types grouped as other, absent/malformed arrays null. No prompt text, IDs, arguments, messages or reasoning retained. Response bytes and one-attempt guard unchanged. scripts/check-elastic-website-live.mjs observes the comparison POST, fails promptly on application rejection and labels saved awaiting_prompt distinctly. Syntax/source checked; new runner branch has not been exercised in a live/browser run. The underlying provider cause remains unresolved. Earlier failure receipt is unchanged.
+
+**Verification:**21targeted offline tests pass,0fail/skip: observer5, attemptguard5, Elasticadapter/owner7, Render4. Two new privacy regressions cover interactive/unknown/malformed types, private fixture fields and absent/empty arrays. Both helper syntax checks and nonincremental TypeScript pass. No application runtime change, fresh build, inference, payment, deployment or normal env/DB change. Independent web-agent packet has a clearly marked appended diagnostic update/current observer snapshot; original evidence is preserved.
+
+**Task C3d deployment configuration audit complete:** proposed plan ID0.5c-512mb appears in the current official Blueprint reference. Native Node web service, pinned Node24.12.0, one instance, autodeploy off, helper-first/full dependency lifecycle build, private owner token and runtime persistent disk remain aligned with source/setup instructions. SQLite opens lazily, health performs a database readiness query, and login uses existing HTTP-only/strict session logic; actual Render HTTPS/proxy behavior remains to test. AG licence is read only on protected Analytics and delivered intentionally to its browser vendor component. Secret values are not in the template. No full remote Blueprint/schema validation, Linux install or hosted assertion is implied.
+
+Current first-party [pricing search result](https://render.com/pricing) exposes USD7/month for0.5c-512mb and USD0.25/GB/month disk; direct text extraction still omits the numeric section. Conservative three-full-month base remainsUSD21.75, leavingUSD28.25 ofUSD50 before extra charges/taxes, including the existingUSD10 planning reserve. This refreshes public list-price evidence, not an account quote, compute suitability or spending cap. [Terms section4.7](https://render.com/terms), exposed in first-party search text, requires a valid payment method during paid use; no hackathon exception is confirmed. Credit alone does not establish an exception. Existing support wording at SPONSOR_SUPPORT_REQUESTS.md Render section remains appropriate.
+
+Next: owner sends the updated Elastic diagnosis packet to the independent agent; primary reviews returned evidence/proposals. Resolve Render Payment method/sponsor exception and accrued-usage/account quote plus AG/judging permission before actual resource creation. Website remains deferred. No more AI calls merely to test these diagnostics.
+
+October28,2026. Owner explicitly defers website changes until core AI/backend/deployment work is ready. This supersedes the visual-first next step in earlier October28 notes. Existing frontend reviews remain saved for later.
+
+## Task 1: bounded Elastic resumption - attempted, not verified working
+
+Seven offline configuration checks pass; normal AI remains paused. No environment change was made. Initial read-only metadata request was blocked by sandbox EACCES; separately approved request returned HTTP200, matching dedicated agent, private access, empty tools and disabled Elastic capabilities. Stored skill IDs were unreported, not proven empty. Sanitized successful receipt: data/elastic-key-review/b548d7fd-0d45-4c27-87b1-eae73e737ec5/summary.json. Failed restricted attempt retained separately.
+
+Ran the existing one-attempt website helper against data/postman-workflow/89513601-ffa6-4b66-b1a6-15a32f24d67c/app-source after all62 runtime files/build inputs matched. Fresh fictional database/session, no PayPal credentials. Receipt: data/ai-website-check/437b3890-64c6-4f6e-8a39-5a0329df4472/summary.json.
+
+- Exactly one reserved request returned HTTP200 and awaiting_prompt, reporting11090 input plus89 output tokens (11179 total). Cost, remaining allowance and billing are unknown.
+- The adapter rejects non-completed/interactive responses. The runner subsequently timed out waiting for successful analysis. No successful current analysis was established; no retry, prompt response, approval, price or invoice was sent.
+- Browser/server closed; TCP closure confirmed and no browser page errors. Normal app/env/DB untouched.
+- Observer deliberately retained no raw prompt, steps, conversation ID or reasoning. Whether the prompt was a question, confirmation or authorization is unknown. Exact root cause remains unresolved; do not attribute it to credentials or a particular tool/model without evidence.
+
+The [converse API](https://www.elastic.co/docs/api/doc/kibana/operation/operation-post-agent-builder-converse) and [API tutorial](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/agent-builder-api-tutorial) describe interactive prompt states. This supports an interaction-required interpretation, not an authentication failure, but does not identify this unseen prompt or prove a fix. Current request overrides tools/skills/capabilities and already prohibits interactive prompts in instructions.
+
+**Next C2b:** owner sends ELASTIC_RESUMPTION_REVIEW_PACKET.md to the independent web agent. It contains five current own-source snapshots/hashes, fictional input and sanitized evidence, without credentials/private endpoint. Require ranked hypotheses and the smallest privacy-safe diagnostic/fix proposal. Primary reviews before integration. Do not rerun, reset a ledger, auto-answer prompts, broaden permissions or accept awaiting_prompt as success. Packet preparation contacts nobody.
+
+Latest owner-reported trial end remains November4,2026 05:29UTC, in the future today but not independently account-read today. Earlier successful October19/21 analyses and matched USD300 payment remain historical evidence. This failed attempt does not erase them or establish current availability; normal website AI is not generally re-enabled.
+
+## Task 2: deployment preflight - local checks complete, provisioning pending
+
+Reviewed render-blueprint.example.yaml, scripts/start-render.mjs, scripts/render-config.mjs and storage/recovery tests. Unapplied template: one Node instance, sandbox, AI paused, automatic deploys off, generated private owner token,1GiB disk at /var/data and SQLite at /var/data/nudge.sqlite. No architecture/database/provider change selected.
+
+Existing tests/render-config.test.ts and tests/render-database.test.ts: **4pass,0fail,0skip** in approved offline execution. Restricted first attempt failed in the tsx loader (uv_os_get_passwd ENOMEM) before tests executed. No dependency fix needed. These checks use disposable fictional databases, preserve financial uncertainty and verify backup/offline-copy boundaries; not actual Linux mount/hosted durability evidence.
+
+Official sources rechecked October28:
+
+- [Disks](https://render.com/docs/disks): paid service required, only mounted files persist, database-consistent backups needed rather than assuming disk snapshots are safe recovery.
+- [Credits](https://render.com/docs/credits): deducted at monthly billing, not continuously as usage accrues; uncovered costs can charge the payment method. Redemption does not itself change services/plans.
+- [Build pipeline](https://render.com/docs/build-pipeline): Hobby includes500 Starter minutes; additional pipeline spending is separately controlled, not an account-wide compute/storage cap.
+- [Pricing](https://render.com/pricing) and [terms](https://render.com/terms) did not expose numeric/contract sections in this text research view. Older USD7 compute/USD0.25 disk examples remain dated estimates, not refreshed quotes. Prior payment-method finding remains unresolved, not independently reconfirmed today.
+
+**Next C3b/D3b:** owner checks intended workspace Billing for remaining credits, accrued usage, payment-method requirement/sponsor exception, exhaustion behavior and actual service/disk quote without submitting creation. Asynchronous question pending. No connected Render account tool exists here; Billing has not been independently inspected. Share only non-sensitive terms, never card details/codes/credentials.
+
+Existing owner report: USD50 valid until October1,2027. Reconfirm redeemed-credit validity. Keep the conservative budget/reserve until actual rates/accrued costs are known. Repository permissions, AG hosted/judging permission and Elastic coverage remain separate gates. Bryntum December15 permission is recorded; technical access remains to verify. Provisioning needs a concrete approved cost/access configuration under the owner's no-unapproved-spending constraint. No service, repository connection, card or paid upgrade created.
+
+## Execution order
+
+1. C2b: independent diagnosis of saved Elastic failure; review/apply only justified bounded diagnostics/fixes. Further inference is separately budgeted, never an automatic retry.
+2. C3: resolve Render quote/billing/access gates; approved provisioning, HTTPS/private access, mounted SQLite, restart and backup/restore verification.
+3. C4: fresh hosted signed payment-triggered webhook and relevant end-to-end checks; preserve prior paid records, never repeat financial operations blindly.
+4. C5: independent AI quality/failure evaluation, remaining backend correctness, real freelancer/manual accessibility, judge/privacy/submission gates.
+5. Resume F2-I3 visual refinement after core readiness or later owner reprioritization.
+
+No application/config/dependency/env edits, real-money payment, deployment, external message or Git commit/push. Only the one bounded inference used AI resources; its failure and usage remain recorded.
