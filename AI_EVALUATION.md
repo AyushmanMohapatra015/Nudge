@@ -1,5 +1,7 @@
 ﻿# Scope-analysis evaluation checkpoint
 
+October29: SAVED_AI_COMPARISON.md records an executed four-case comparison using prior accepted fictional development outputs: Nudge matches 4/4 labels and 3/4 automated checks, unchanged lexical baseline 1/4 and 0/4. Reproduce using evaluation/saved-development-comparison.json and the existing comparison CLI. Missing S7, the earlier incorrect revision answer, two instruction versions and 21 missing cases are explicit. No new AI usage; independent/held-out/repeated evaluation remains pending.
+
 Prepared October 3, 2026. These are fictional engineering-labelled evaluation cases, not customer research. No AI calls are needed to prepare or review them. The original support hold has been superseded by trial confirmation and bounded live checks; exact fair-use capacity and judging continuity remain open.
 
 ## Latest development regression evidence — October 7

@@ -1,5 +1,7 @@
 # Saved AI evidence review
 
+October29: SAVED_AI_COMPARISON.md now records a reproducible four-case lexical comparison using unchanged copies of accepted ambiguity outputs. This supplements the existing desk review below; it supplies no independent reviewer and preserves prior failures.
+
 October 10, 2026. Coding-agent desk review of the six fictional analyses in `evaluation/HUMAN_SCOPE_OUTPUTS.md` against `evaluation/HUMAN_SCOPE_CASES.md`. No model calls, participant sessions, payments or usage grants. Original outputs, prompts, expected labels and receipts are unchanged. Independent semantic review remains pending.
 
 ## Findings

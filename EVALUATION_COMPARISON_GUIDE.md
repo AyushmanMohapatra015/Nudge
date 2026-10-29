@@ -1,5 +1,7 @@
 # PA-4 / B2: offline saved-output comparison
 
+October29 actual saved-output application: run `node --import tsx scripts/compare-scope-runs.ts evaluation/saved-development-comparison.json`. SAVED_AI_COMPARISON.md records the matching cases, provenance, results and missing coverage. Historical saved results plus a fresh lexical computation do not establish current held-out model quality.
+
 This companion compares supplied saved outputs on the existing 25 development-visible
 fictional cases. It makes no model calls and measures no new model performance.
 The original handback labelled all tests proposed-not-run. The primary workspace

@@ -1,0 +1,169 @@
+{
+  "expectedRepeats": 1,
+  "records": [
+    {
+      "system": "lexical",
+      "caseId": "19",
+      "repeat": 1,
+      "output": {
+        "classification": "ambiguous",
+        "summary": "Non-AI lexical comparison only. Human review must check meaning, conditions, negation and mixed requests.",
+        "references": [],
+        "questions": [
+          "Which agreed deliverables and conditions apply to this request?"
+        ],
+        "deliverables": [
+          "Review the requested work manually"
+        ]
+      }
+    },
+    {
+      "system": "nudge",
+      "caseId": "19",
+      "repeat": 1,
+      "output": {
+        "classification": "ambiguous",
+        "summary": "Client requests an additional revision round. The agreement includes two rounds of minor text, colour, and spacing revisions, with further rounds excluded, but the evidence does not state how many of the two included rounds have already been used, so it cannot be determined whether this request falls within the included allowance or exceeds it.",
+        "references": [
+          "S3"
+        ],
+        "questions": [
+          "How many of the two included minor revision rounds have already been used?",
+          "Is the requested revision round within the scope of minor text, colour, and spacing changes described in S3?"
+        ],
+        "deliverables": [
+          "Requested: one additional revision round"
+        ],
+        "source": "elastic"
+      },
+      "telemetry": {
+        "inputTokens": 10410,
+        "outputTokens": 384,
+        "latencyMs": 14270
+      }
+    },
+    {
+      "system": "lexical",
+      "caseId": "21",
+      "repeat": 1,
+      "output": {
+        "classification": "additional",
+        "summary": "Non-AI lexical comparison only. Human review must check meaning, conditions, negation and mixed requests.",
+        "references": [
+          "S5"
+        ],
+        "questions": [],
+        "deliverables": [
+          "Review the requested work manually"
+        ]
+      }
+    },
+    {
+      "system": "nudge",
+      "caseId": "21",
+      "repeat": 1,
+      "output": {
+        "classification": "ambiguous",
+        "summary": "Client requested adding a booking button. The agreement's Contact section includes only a simple email enquiry form and explicitly excludes appointment booking. A 'booking button' alone does not establish whether this is a link to an existing external booking service or new built-in booking functionality, so it cannot yet be classified.",
+        "references": [
+          "S5"
+        ],
+        "questions": [
+          "Is the booking button simply a link to an existing external booking/scheduling service, or does it require new built-in appointment booking functionality on the site?"
+        ],
+        "deliverables": [
+          "Add a booking button to the website"
+        ],
+        "source": "elastic"
+      },
+      "telemetry": {
+        "inputTokens": 10813,
+        "outputTokens": 381,
+        "latencyMs": 10352
+      }
+    },
+    {
+      "system": "lexical",
+      "caseId": "22",
+      "repeat": 1,
+      "output": {
+        "classification": "included",
+        "summary": "Non-AI lexical comparison only. Human review must check meaning, conditions, negation and mixed requests.",
+        "references": [
+          "S5"
+        ],
+        "questions": [],
+        "deliverables": [
+          "Review the requested work manually"
+        ]
+      }
+    },
+    {
+      "system": "nudge",
+      "caseId": "22",
+      "repeat": 1,
+      "output": {
+        "classification": "ambiguous",
+        "summary": "Client reports the contact form is broken after launch. This could be a defect in the originally delivered form (not addressed by the agreement) or a request for ongoing maintenance, which is explicitly excluded. The evidence does not establish which applies.",
+        "references": [
+          "S5",
+          "S6"
+        ],
+        "questions": [
+          "Is the form malfunction a defect in the form as originally delivered, or did it break due to a change, update, or external factor after launch?",
+          "Has the form ever worked correctly since deployment, or has it been broken since initial delivery?"
+        ],
+        "deliverables": [
+          "Fix the contact enquiry form, which is reported as not working after launch."
+        ],
+        "source": "elastic"
+      },
+      "telemetry": {
+        "inputTokens": 10817,
+        "outputTokens": 411,
+        "latencyMs": 10403
+      }
+    },
+    {
+      "system": "lexical",
+      "caseId": "18",
+      "repeat": 1,
+      "output": {
+        "classification": "included",
+        "summary": "Non-AI lexical comparison only. Human review must check meaning, conditions, negation and mixed requests.",
+        "references": [
+          "S1"
+        ],
+        "questions": [],
+        "deliverables": [
+          "Review the requested work manually"
+        ]
+      }
+    },
+    {
+      "system": "nudge",
+      "caseId": "18",
+      "repeat": 1,
+      "output": {
+        "classification": "ambiguous",
+        "summary": "The client requests adding a blog page. The agreement specifies a five-page site (Home, About, Services, Portfolio, Contact) and requires clarification for anything not described in it. A blog page is not listed, but it is unclear whether it would replace one of the five agreed pages or be added as an extra page beyond that scope.",
+        "references": [
+          "S1",
+          "S7"
+        ],
+        "questions": [
+          "Should the blog page replace one of the five agreed pages (Home, About, Services, Portfolio, Contact), or is it an additional page beyond those five?"
+        ],
+        "deliverables": [
+          "Add a blog page to the website."
+        ],
+        "source": "elastic"
+      },
+      "telemetry": {
+        "inputTokens": 10813,
+        "outputTokens": 352,
+        "latencyMs": 10005
+      }
+    }
+  ]
+}
