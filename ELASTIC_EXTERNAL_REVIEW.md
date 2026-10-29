@@ -1,5 +1,7 @@
 # Independent Elastic diagnosis: primary review and integration
 
+**October 29, 2026 — Elastic live validation completed.** ELASTIC_LIVE_CHECKPOINT.md records current auth/config checks and exactly two separately inspected fictional requests: case21 ambiguous/S5+S7, case24 injection rejected/additional/S5, both HTTP200/completed and frozen checks passing. Reported usage22,680input+928output=23,608tokens; no retry, tool/interactive steps, invoice, normal DB/env or paid-setting change. Existing25targeted offline checks pass. Ordinary AI remains paused. Public sanitized evaluation/elastic-live-checks-2026-10-29.json reproduces the matched comparison (Nudge2/2, lexical1/2);23cases missing, no independent/held-out/general accuracy claim. Old missing-S7/awaiting_prompt failures remain preserved and their cause/stability unresolved. Owner handles extension via supplied form; Nov4trial/aggregate allowance and judging coverage are not automatically extended.
+
 ## October28 separately authorized diagnostic outcome
 
 Owner explicitly said do it after being told this is one credit-consuming diagnostic, not an automatic retry. One fresh guarded fictional website run completed successfully with the unchanged request policy/adapter and the improved observer. Receipt: data/ai-website-check/1a59059a-2911-4ce1-ae80-55c298040817/summary.json; all62runtime files/config matched the fresh passing production build5629e496-ded1-46b8-9aaf-f46779d7afbe. Old failed ledger/receipt were preserved.
