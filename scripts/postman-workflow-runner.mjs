@@ -15,7 +15,9 @@ export function verifyWorkflowCollection(collection) {
 export function isolatedWorkflowEnv(parent, projectRoot, runDir) {
   const root = resolve(projectRoot), directory = resolve(runDir);
   if (!directory.startsWith(resolve(root, 'data/postman-workflow') + sep)) throw Error('Disposable workflow directory required.');
-  const env = Object.fromEntries(Object.entries(parent).filter(([key]) => !/^(PAYPAL_|ELASTIC_|ANTHROPIC_|ASTRO_|NUDGE_|POSTMAN_|NEXT_PUBLIC_|NODE_OPTIONS$|HTTP_PROXY$|HTTPS_PROXY$|ALL_PROXY$|NO_PROXY$|NODE_ENV$|PORT$)/i.test(key)));
+  // Codex/Next's inherited upgrade nudge can fetch npm advisories during a
+  // build; the isolated workflow runs its own dependency audit separately.
+  const env = Object.fromEntries(Object.entries(parent).filter(([key]) => !/^(PAYPAL_|ELASTIC_|ANTHROPIC_|ASTRO_|NUDGE_|POSTMAN_|NEXT_PUBLIC_|__NEXT_AGENT_UPGRADE$|NODE_OPTIONS$|HTTP_PROXY$|HTTPS_PROXY$|ALL_PROXY$|NO_PROXY$|NODE_ENV$|PORT$)/i.test(key)));
   const guard = resolve(root, 'scripts/postman-no-network.cjs').split(sep).join('/');
   if (/["\r\n]/.test(guard)) throw Error('Unsupported guard path.');
   return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', NUDGE_MODE: 'demo', NUDGE_AI_ENABLED: 'false', NUDGE_AI_PROVIDER: 'anthropic', NUDGE_DB_PATH: resolve(directory, 'workflow.sqlite'), NUDGE_POSTMAN_RUN_DIR: directory, NODE_OPTIONS: `--require "${guard}"` };

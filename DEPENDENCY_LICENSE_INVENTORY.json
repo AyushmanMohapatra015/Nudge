@@ -1,7 +1,7 @@
 {
-  "reviewDate": "2026-10-15",
+  "reviewDate": "2026-10-31",
   "source": "package-lock.json",
-  "sourceSha256": "c938e98b57f4b0aa3f8690b0ffc27cea31c8eec7ed0010d9ff1d600c952c1ea8",
+  "sourceSha256": "58591611f95df682b38207f3b3303e3cb8ed492d3ccff25617fd107b26c134b6",
   "scope": "Lockfile metadata only; excludes bundled package contents and separately installed Newman runner. Optional platform entries may not be installed. Supplementary Bryntum vendor notices are retained separately; not a complete bundled/binary audit.",
   "packages": [
     {
@@ -405,63 +405,63 @@
     },
     {
       "path": "node_modules/@next/env",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": false
     },
     {
       "path": "node_modules/@next/swc-darwin-arm64",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-darwin-x64",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-linux-arm64-gnu",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-linux-arm64-musl",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-linux-x64-gnu",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-linux-x64-musl",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-win32-arm64-msvc",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
     },
     {
       "path": "node_modules/@next/swc-win32-x64-msvc",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": true
@@ -664,7 +664,7 @@
     },
     {
       "path": "node_modules/next",
-      "version": "16.3.8",
+      "version": "16.4.1",
       "license": "MIT",
       "developmentOnly": false,
       "optional": false
@@ -797,7 +797,7 @@
     },
     {
       "path": "node_modules/zod",
-      "version": "3.25.76",
+      "version": "4.6.7",
       "license": "MIT",
       "developmentOnly": false,
       "optional": false

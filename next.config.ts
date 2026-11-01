@@ -18,6 +18,10 @@ for (;;) {
 const config: NextConfig = {
   turbopack: { root: buildRoot },
   outputFileTracingRoot: buildRoot,
+  // The disposable, credential-free workflow audits dependencies separately.
+  // Disable Next's default advisory fetch only there so its network guard can
+  // distinguish application transport from framework upgrade reminders.
+  experimental: { agentUpgrade: process.env.NUDGE_POSTMAN_RUN_DIR ? false : 'security' },
   poweredByHeader: false,
   devIndicators: false,
   // Private client tokens live in URLs. Avoid routine request/fetch/browser log forwarding.

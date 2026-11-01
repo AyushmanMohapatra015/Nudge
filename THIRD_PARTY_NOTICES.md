@@ -1,5 +1,7 @@
 # Third-party assets, licences and release checkpoints
 
+October31 security update: Next16.4.1 and Zod4.6.7 are pinned after advisory review; the inventory, lockfile digest and unmodified direct runtime notices were refreshed. Commercial permissions and bundled/target-platform review limits remain unchanged.
+
 R4 source review, October 10, 2026. Nudge's original application code is covered by the root [MIT licence](LICENSE). That licence does not change the licences of dependencies, fonts, icons, vendor services or trademarks. This inventory is release preparation, not a statement that all distribution permissions are cleared.
 
 ## Reviewed dependencies
@@ -13,9 +15,9 @@ Versions below come from the current lockfile, not the version ranges in package
 | @bryntum/gantt (public trial alias) | 7.3.7 | Commercial |
 | @bryntum/gantt-react | 7.3.7 | Commercial |
 | lucide-react | 0.468.0 | ISC; installed notice acknowledges Feather MIT portions |
-| next | 16.3.8 | MIT |
+| next | 16.4.1 | MIT |
 | react / react-dom | 19.3.0 | MIT |
-| zod | 3.25.76 | MIT |
+| zod | 4.6.7 | MIT |
 
 Unmodified notices from the five permissive direct runtime packages are retained in [THIRD_PARTY_LICENSE_TEXTS.txt](THIRD_PARTY_LICENSE_TEXTS.txt), including Lucide's Feather attribution. Keep this file with redistributed application bundles that contain their code. It is a partial collection: it does not replace the additional notices supplied by transitive or bundled packages.
 

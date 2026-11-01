@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   if (retry) return NextResponse.json({ error: 'Webhook capacity exceeded; retry delivery.' }, { status: 503, headers: { 'Retry-After': String(retry), 'Cache-Control': 'no-store' } });
   try {
     const rawBody = await boundedRequestText(request, 262144);
-    const event = z.object({ id: z.string().min(1).max(200), event_type: z.string(), resource: z.record(z.unknown()).optional() }).passthrough().parse(JSON.parse(rawBody));
+    const event = z.object({ id: z.string().min(1).max(200), event_type: z.string(), resource: z.record(z.string(), z.unknown()).optional() }).passthrough().parse(JSON.parse(rawBody));
     if (!await verifyWebhook(request.headers, event, rawBody)) return NextResponse.json({ error: 'Invalid webhook signature.' }, { status: 401 });
     if (db().prepare('SELECT id FROM webhook_events WHERE id = ?').get(event.id)) return NextResponse.json({ duplicate: true });
     if (!event.event_type.startsWith('INVOICING.INVOICE.')) return NextResponse.json({ ignored: true });

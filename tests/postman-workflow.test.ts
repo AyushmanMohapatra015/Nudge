@@ -46,8 +46,8 @@ test('workflow retains fail-stop/no-export bounds, blocks other destinations and
 });
 test('disposable workflow strips inherited credentials and blocks provider fetches before transport', () => {
   const dir = resolve('data/postman-workflow', 'guard-test-' + randomUUID()); mkdirSync(dir, { recursive: true });
-  const env = isolatedWorkflowEnv({ ...process.env, PAYPAL_CLIENT_SECRET: 'fictional-secret', elastic_api_key: 'fictional-key', NUDGE_DB_PATH: './data/nudge.sqlite', NUDGE_AI_ENABLED: 'true', HTTP_PROXY: 'http://external.example', NODE_OPTIONS: '--inspect' }, process.cwd(), dir);
-  assert.equal(env.PAYPAL_CLIENT_SECRET, undefined); assert.equal(env.elastic_api_key, undefined); assert.equal(env.HTTP_PROXY, undefined);
+  const env = isolatedWorkflowEnv({ ...process.env, PAYPAL_CLIENT_SECRET: 'fictional-secret', elastic_api_key: 'fictional-key', NUDGE_DB_PATH: './data/nudge.sqlite', NUDGE_AI_ENABLED: 'true', HTTP_PROXY: 'http://external.example', NODE_OPTIONS: '--inspect', __NEXT_AGENT_UPGRADE: 'security' }, process.cwd(), dir);
+  assert.equal(env.PAYPAL_CLIENT_SECRET, undefined); assert.equal(env.elastic_api_key, undefined); assert.equal(env.HTTP_PROXY, undefined); assert.equal(env.__NEXT_AGENT_UPGRADE, undefined);
   assert.equal(env.NUDGE_MODE, 'demo'); assert.equal(env.NUDGE_AI_ENABLED, 'false'); assert.equal(env.NUDGE_DB_PATH, resolve(dir, 'workflow.sqlite'));
   assert.throws(() => isolatedWorkflowEnv({}, process.cwd(), resolve('data/nudge.sqlite')), /Disposable/);
   const child = spawnSync(process.execPath, ['-e', "Promise.allSettled([fetch('https://external.example'),fetch('http://127.0.0.1:9')]).then(r=>console.log(r.every(x=>x.status==='rejected'&&x.reason.message==='Provider fetch disabled in isolated workflow.')))"], { env, encoding: 'utf8', timeout: 10000 });

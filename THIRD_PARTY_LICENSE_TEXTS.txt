@@ -1,9 +1,9 @@
 Direct permissive runtime dependency licence texts
-Reviewed 2026-10-10. Copied verbatim from the installed package files below.
-This is not a complete transitive/bundled licence collection. Commercial AG Studio is excluded and remains subject to its own terms. See THIRD_PARTY_NOTICES.md.
+Reviewed 2026-10-31. Copied verbatim from installed package files.
+Not a complete transitive/bundled collection. Commercial AG Studio and Bryntum remain separately licensed. See THIRD_PARTY_NOTICES.md.
 
 ============================================================
-lucide-react 0.468.0 ? node_modules/lucide-react/LICENSE
+lucide-react 0.468.0 - node_modules/lucide-react/LICENSE
 ============================================================
 
 ISC License
@@ -24,7 +24,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 ============================================================
-next 16.3.8 ? node_modules/next/license.md
+next 16.4.1 - node_modules/next/license.md
 ============================================================
 
 The MIT License (MIT)
@@ -51,7 +51,7 @@ SOFTWARE.
 
 
 ============================================================
-react 19.3.0 ? node_modules/react/LICENSE
+react 19.3.0 - node_modules/react/LICENSE
 ============================================================
 
 MIT License
@@ -78,7 +78,7 @@ SOFTWARE.
 
 
 ============================================================
-react-dom 19.3.0 ? node_modules/react-dom/LICENSE
+react-dom 19.3.0 - node_modules/react-dom/LICENSE
 ============================================================
 
 MIT License
@@ -105,7 +105,7 @@ SOFTWARE.
 
 
 ============================================================
-zod 3.25.76 ? node_modules/zod/LICENSE
+zod 4.6.7 - node_modules/zod/LICENSE
 ============================================================
 
 MIT License

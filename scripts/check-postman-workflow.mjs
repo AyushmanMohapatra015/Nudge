@@ -48,10 +48,14 @@ async function main() {
   const cli = resolve(root, 'node_modules/next/dist/bin/next');
   console.log('Building disposable production source copy; integrations disabled.');
   await new Promise((done, reject) => {
-    const child = spawn(process.execPath, [cli, 'build'], { cwd: appDir, env: buildEnv, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    // Next's documented Webpack path passes in this isolated Windows build;
+    // the patched Turbopack path exhausted Rust allocation during compilation.
+    const child = spawn(process.execPath, [cli, 'build', '--webpack'], { cwd: appDir, env: buildEnv, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let log = ''; const append = chunk => { if (log.length < 1048576) log += chunk.toString().slice(0, 1048576 - log.length); };
     child.stdout.on('data', append); child.stderr.on('data', append);
-    const timer = setTimeout(() => { void stopOwned(child).then(() => reject(Error('build-timeout')), () => reject(Error('build-stop-failed'))); }, 120000);
+    // A cold patched-framework build may exceed two minutes on Windows.
+    // Keep a finite ceiling and retain owned-process cleanup on timeout.
+    const timer = setTimeout(() => { void stopOwned(child).then(() => reject(Error('build-timeout')), () => reject(Error('build-stop-failed'))); }, 300000);
     child.once('error', () => { clearTimeout(timer); reject(Error('build-start')); });
     child.once('exit', code => { clearTimeout(timer); writeFileSync(resolve(runDir, 'build.log'), log, { flag: 'wx' }); code === 0 ? done() : reject(Error('build-failed')); });
   });
