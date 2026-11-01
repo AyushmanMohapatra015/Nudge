@@ -23,7 +23,8 @@ async function main() {
   const review = checkPublicSource(root);
   if (review.findings.length || review.historicalSensitivePaths.length) throw Error('source-review');
   const git = args => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', windowsHide: true, maxBuffer: 4 * 1024 * 1024 });
-  const paths = [...new Set(git(['ls-files', '-z', '--cached', '--others', '--exclude-standard']).split('\0').filter(Boolean))].sort();
+  const pendingDeleted = new Set(review.pendingDeletedPaths);
+  const paths = [...new Set(git(['ls-files', '-z', '--cached', '--others', '--exclude-standard']).split('\0').filter(Boolean))].filter(path => !pendingDeleted.has(path)).sort();
   if (paths.length > 2000) throw Error('source-bound');
   const runDir = resolve(root, 'data/postman-workflow', 'clean-' + randomUUID()), source = resolve(runDir, 'source');
   mkdirSync(source, { recursive: true });

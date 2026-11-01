@@ -5,3 +5,32 @@ node_modules/
 data/
 *.tsbuildinfo
 test-results/
+
+# Local credentials, agent state and generated reports are not project source.
+/.aws/
+/.codex/
+/.agents/
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log
+coverage/
+playwright-report/
+blob-report/
+.DS_Store
+Thumbs.db
+
+# Private review inputs/exports remain locally archived, not published.
+/Agent1/
+/Agent2/
+/*_TECH_INTERVIEW_PREP.txt
+/WEB_AGENT_*PACKET.md
+/WEB_AGENT_A_UPDATE.md
+/WEB_MODEL_REVIEW_PACKET.md
+/FRONTEND_AGENT_A_PACKET.md
+/FRONTEND_AGENT_B_PACKET.md
+/ELASTIC_RESUMPTION_REVIEW_PACKET.md

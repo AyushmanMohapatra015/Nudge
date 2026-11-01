@@ -35,10 +35,13 @@ export function checkPublicSource(root) {
   const directory = realpathSync(root);
   const git = args => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8', maxBuffer: 4 * 1024 * 1024, windowsHide: true });
   const paths = [...new Set(git(['ls-files', '-z', '--cached', '--others', '--exclude-standard']).split('\0').filter(Boolean))];
+  const deleted = new Set(git(['ls-files', '-z', '--deleted']).split('\0').filter(Boolean));
   if (paths.length > 2000) throw Error('Review file limit exceeded.');
-  const findings = []; let reviewedFiles = 0, bytes = 0;
+  const findings = [], pendingDeletedPaths = []; let reviewedFiles = 0, bytes = 0;
   for (const path of paths) {
     if (sensitivePath(path)) { findings.push({ path, category: 'tracked-sensitive-file' }); continue; }
+    // Report reviewed working-tree deletions explicitly; history is not cleared.
+    if (deleted.has(path)) { pendingDeletedPaths.push(path); continue; }
     const target = resolve(directory, path);
     if (!target.startsWith(directory + sep)) throw Error('Tracked path outside workspace.');
     const stat = lstatSync(target);
@@ -51,7 +54,7 @@ export function checkPublicSource(root) {
   // hosting are not inspected. Sensitive historical paths are never opened.
   const history = git(['log', '--all', '--pretty=format:', '--name-only', '--diff-filter=A']);
   const historicalSensitivePaths = [...new Set(history.split(/\r?\n/).filter(Boolean).filter(sensitivePath))];
-  return { scope: 'Tracked and non-ignored candidate working-tree text; local-history path inventory', reviewedFiles, findings, historicalSensitivePaths, historyContentScanned: false, remoteInspected: false };
+  return { scope: 'Tracked and non-ignored candidate working-tree text; local-history path inventory', reviewedFiles, findings, pendingDeletedPaths, historicalSensitivePaths, historyContentScanned: false, remoteInspected: false };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

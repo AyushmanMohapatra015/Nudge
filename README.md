@@ -22,6 +22,12 @@ Payment reconciliation validates invoice identity, approved USD totals and consi
 
 ## Run locally
 
+For navigation, see the [documentation index](docs/README.md),
+[contribution guide](CONTRIBUTING.md) and [security policy](SECURITY.md).
+The latest [publication/security review](PUBLICATION_SECURITY_REVIEW.md) records
+security updates and remaining release gates; the repository is not automatically
+cleared for publication by a passing dependency or source scan.
+
 Before installing, read [Bryntum local evaluation setup](BRYNTUM_JUDGE_SETUP.md): acquire the proprietary dependency separately under applicable terms using the pinned public trial packages. No owner's vendor files, credentials or private environment are supplied. Independent judge setup, effective trial expiry and hosted access remain pending.
 
 Requires Node.js **22.16 or later** (Node 24 recommended) and npm. SQLite is built into Node; no database service is needed for this slice. The minimum includes the database backup API used by maintenance tools and their tests.

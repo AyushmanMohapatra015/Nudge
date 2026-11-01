@@ -1,5 +1,7 @@
 # R9 local publication preparation — October 12
 
+> **October 31 update:** [PUBLICATION_SECURITY_REVIEW.md](PUBLICATION_SECURITY_REVIEW.md) is the current repository/GitHub/security audit. Its 193-commit history review found two distinct sandbox payment URLs and unresolved historical identity/operational references. The October 12 counts below are retained as dated evidence, not current clearance. The patched disposable production build passes; owner-approved historical remediation and sponsor publication permission remain open. Keep the repository private.
+
 Local preparation is complete; publication is not cleared. No remote inspection, repository visibility change, history rewrite, provider operation or ordinary-data access occurred. This checklist must be rerun against the final source before publication/submission.
 
 ## Local evidence
