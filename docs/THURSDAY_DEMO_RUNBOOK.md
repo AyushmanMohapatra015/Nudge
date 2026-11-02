@@ -142,6 +142,22 @@ If Elastic extension is unavailable, retain demo mode and AI disabled. You can s
 
 ## 6. Main demo: exact story and clicks
 
+### Who plays each role
+
+You demonstrate both roles using two browser windows on your laptop: the owner
+workspace is the freelancer/merchant side, and **Client view** is the limited
+client side. Explain each switch to the audience. The current client page records
+agreement and change-quote decisions; it does not submit new extra-work requests.
+Introduce the fictional booking request as a message received by email or chat,
+then paste it into the merchant's scope assistant yourself.
+
+Follow this order: merchant approves agreement → client accepts agreement →
+merchant pastes the extra request and reviews AI assessment → merchant sets and
+approves the quote → client accepts the quote → merchant creates/sends the
+invoice → separate personal sandbox buyer completes checkout → merchant refreshes
+payment status and shows Analytics, Delivery and Activity. Client acceptance is
+required before creating the extra-work invoice.
+
 Allow roughly 8–12 minutes for a spoken technical demo, plus provider waiting time. For the final hackathon video, use `DEMO_VIDEO_SCRIPT.md` and keep the final export under three minutes. These are different formats.
 
 ### A. Set the commercial baseline
