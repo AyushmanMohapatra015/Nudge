@@ -2,11 +2,11 @@
 
 October31 security update: Next16.4.1 and Zod4.6.7 are pinned after advisory review; the inventory, lockfile digest and unmodified direct runtime notices were refreshed. Commercial permissions and bundled/target-platform review limits remain unchanged.
 
-R4 source review, October 10, 2026. Nudge's original application code is covered by the root [MIT licence](LICENSE). That licence does not change the licences of dependencies, fonts, icons, vendor services or trademarks. This inventory is release preparation, not a statement that all distribution permissions are cleared.
+R4 source review, October 10, 2026. Nudge's original application code is covered by the root [MIT licence](../LICENSE). That licence does not change the licences of dependencies, fonts, icons, vendor services or trademarks. This inventory is release preparation, not a statement that all distribution permissions are cleared.
 
 ## Reviewed dependencies
 
-Versions below come from the current lockfile, not the version ranges in package.json. October15 update: [DEPENDENCY_LICENSE_INVENTORY.json](DEPENDENCY_LICENSE_INVENTORY.json) records all114 non-root lockfile entries and the lockfile SHA-256 after adding the three pinned Bryntum trial packages. Platform-specific optional packages may not be installed; package metadata alone does not inventory everything bundled inside a dependency.
+Versions below come from the current lockfile, not the version ranges in package.json. October15 update: [DEPENDENCY_LICENSE_INVENTORY.json](../DEPENDENCY_LICENSE_INVENTORY.json) records all114 non-root lockfile entries and the lockfile SHA-256 after adding the three pinned Bryntum trial packages. Platform-specific optional packages may not be installed; package metadata alone does not inventory everything bundled inside a dependency.
 
 | Direct runtime package | Locked version | Declared licence |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Versions below come from the current lockfile, not the version ranges in package
 | react / react-dom | 19.3.0 | MIT |
 | zod | 4.6.7 | MIT |
 
-Unmodified notices from the five permissive direct runtime packages are retained in [THIRD_PARTY_LICENSE_TEXTS.txt](THIRD_PARTY_LICENSE_TEXTS.txt), including Lucide's Feather attribution. Keep this file with redistributed application bundles that contain their code. It is a partial collection: it does not replace the additional notices supplied by transitive or bundled packages.
+Unmodified notices from the five permissive direct runtime packages are retained in [THIRD_PARTY_LICENSE_TEXTS.txt](../THIRD_PARTY_LICENSE_TEXTS.txt), including Lucide's Feather attribution. Keep this file with redistributed application bundles that contain their code. It is a partial collection: it does not replace the additional notices supplied by transitive or bundled packages.
 
 Direct development dependencies: @playwright/test 1.63.0 (Apache-2.0), @types/node 22.20.5, @types/react 19.3.0, @types/react-dom 19.3.0 (MIT), axe-core 4.14.0 (MPL-2.0), esbuild 0.28.2 and tsx 4.23.15 (MIT), typescript 5.9.3 (Apache-2.0). The separately installed, ignored Newman runner is outside this lockfile inventory; review its pinned runner dependencies if distributing a runner or container image.
 
@@ -32,7 +32,7 @@ The lockfile also includes ISC, BSD-3-Clause, 0BSD, CC-BY-4.0, LGPL-3.0-or-later
 
 Do not commit node_modules, vendor commercial source, generated bundles or private credentials to satisfy an attribution requirement. Judge setup installs locked dependencies; a later prebuilt artifact needs its own notice review.
 
-The Gantt alias depends on commercial `@bryntum/gantt-trial-lib`1.0.1 for normal trial preparation. The owner-supplied sponsor reply permits this project's free evaluation/public non-commercial judge demo through December15,2026 and publication of Nudge's own MIT source with Bryntum files/credentials excluded; it does not permit vendor-package redistribution. See [permission summary](BRYNTUM_EVALUATION_PERMISSION.md) and [separate local acquisition guide](BRYNTUM_JUDGE_SETUP.md). Independent evaluator setup, effective software expiry and hosted operation remain unverified. Keep trial watermarks and expiry checks intact. [THIRD_PARTY_BRYNTUM_NOTICES.md](THIRD_PARTY_BRYNTUM_NOTICES.md) retains the wrapper's third-party notice text. The Delivery screen loads bundled Font Awesome Free6.7.2 CSS/fonts locally: CSS/code MIT, fonts SIL OFL1.1, icons CC BY4.0. No new vendor font CDN is intended; original site Google Fonts are a separate existing dependency. Retained notices do not amount to a complete audit of every bundled/runtime/target-platform component.
+The Gantt alias depends on commercial `@bryntum/gantt-trial-lib`1.0.1 for normal trial preparation. The owner-supplied sponsor reply permits this project's free evaluation/public non-commercial judge demo through December15,2026 and publication of Nudge's own MIT source with Bryntum files/credentials excluded; it does not permit vendor-package redistribution. See [permission summary](../BRYNTUM_EVALUATION_PERMISSION.md) and [separate local acquisition guide](BRYNTUM_JUDGE_SETUP.md). Independent evaluator setup, effective software expiry and hosted operation remain unverified. Keep trial watermarks and expiry checks intact. [THIRD_PARTY_BRYNTUM_NOTICES.md](THIRD_PARTY_BRYNTUM_NOTICES.md) retains the wrapper's third-party notice text. The Delivery screen loads bundled Font Awesome Free6.7.2 CSS/fonts locally: CSS/code MIT, fonts SIL OFL1.1, icons CC BY4.0. No new vendor font CDN is intended; original site Google Fonts are a separate existing dependency. Retained notices do not amount to a complete audit of every bundled/runtime/target-platform component.
 
 ## Assets and external fonts
 

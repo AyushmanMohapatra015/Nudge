@@ -34,7 +34,7 @@ Every run stopped on its first validation or scoring failure. A retry or continu
 
 ## Reproducible runner
 
-Source: [evaluation/scope-challenges.ts](evaluation/scope-challenges.ts), [scripts/run-scope-challenges.ts](scripts/run-scope-challenges.ts), and [tests/scope-challenges.test.ts](tests/scope-challenges.test.ts).
+Source: [evaluation/scope-challenges.ts](../evaluation/scope-challenges.ts), [scripts/run-scope-challenges.ts](../scripts/run-scope-challenges.ts), and [tests/scope-challenges.test.ts](../tests/scope-challenges.test.ts).
 
 Offline harness verification needs no credentials:
 

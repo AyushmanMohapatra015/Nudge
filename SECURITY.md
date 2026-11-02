@@ -31,6 +31,6 @@ does not activate GitHub security features.
 - If a real credential is exposed, revoke/rotate it first. Removing a latest file
   does not remove historical commits, existing clones or cached artifacts.
 
-See [current publication review](PUBLICATION_SECURITY_REVIEW.md),
-[publication gates](PUBLICATION_READINESS.md), [client access](CLIENT_ACCESS.md)
-and [AI data handling](AI_DATA_HANDLING.md).
+See [current publication review](docs/PUBLICATION_SECURITY_REVIEW.md),
+[publication gates](docs/PUBLICATION_READINESS.md), [client access](docs/CLIENT_ACCESS.md)
+and [AI data handling](docs/AI_DATA_HANDLING.md).
