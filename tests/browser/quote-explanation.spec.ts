@@ -16,7 +16,7 @@ for (const forcedColors of [false, true]) {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.emulateMedia({ forcedColors: forcedColors ? 'active' : 'none', reducedMotion: 'reduce' });
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
     const editor = page.getByRole('textbox', { name: 'Explanation for your client (optional)' });
     await expect(editor).toBeEnabled();
     await page.getByPlaceholder('e.g. 300.00').fill('300.00');

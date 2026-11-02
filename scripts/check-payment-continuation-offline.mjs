@@ -52,7 +52,7 @@ try {
   browser = await chromium.launch({ channel: 'msedge', headless: true, env: os }); const context = await browser.newContext({ viewport: { width: 1280, height: 1000 }, serviceWorkers: 'block' }); context.setDefaultTimeout(15000);
   await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage(); page.on('pageerror', e => report.browserErrors.push(e.name)); await page.goto(origin); await page.getByLabel('Workspace token', { exact: true }).fill(env.NUDGE_ADMIN_TOKEN); await page.getByRole('button', { name: 'Open workspace', exact: true }).click();
-  await page.getByRole('heading', { name: 'Good work deserves to get paid.', exact: true }).waitFor();
+  await page.getByRole('heading', { name: 'Project overview', exact: true }).waitFor();
   const state = async () => { const r = await context.request.get(origin + '/api/workspace'); assert.equal(r.status(), 200); return r.json(); };
   let current = await state(); assert.equal(current.aiEnabled, false); assert.equal(current.connections.ai, false);
   stage = 'create'; await page.getByRole('button', { name: 'Create PayPal invoice', exact: true }).click(); await page.getByRole('button', { name: 'Invoice created', exact: true }).waitFor(); current = await state(); assert.equal(current.invoices.length, 1); assert.equal(current.invoices[0].status, 'DRAFT'); assert.equal(current.invoices[0].amountCents, 30000); assert.equal(current.invoices[0].proposalId, workspace.proposals[0].id);

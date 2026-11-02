@@ -12,7 +12,7 @@ test('owner initial read failure recovers without a stale error or mutation', as
   await expect(alerts(page)).toContainText('Fictional workspace unavailable.');
   failed = false;
   await page.getByRole('button', { name: 'Try again' }).click();
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   await expect(alerts(page)).toHaveCount(0);
   const state = await (await request.get('/api/workspace')).json();
   expect(state.agreementStatus).toBe('draft');

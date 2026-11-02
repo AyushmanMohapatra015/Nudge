@@ -24,7 +24,7 @@ for (const kind of ['owner', 'client'] as const) {
     // an explicit retry can proceed. No financial action is ever retried.
     for (const route of held) await route.abort().catch(() => {});
     await page.getByRole('button', { name: 'Try again' }).click();
-    await expect(page.getByRole('heading', { name: kind === 'owner' ? 'Good work deserves to get paid.' : 'Your project scope' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: kind === 'owner' ? 'Project overview' : 'Your project scope' })).toBeVisible();
     await expect(page.locator('.loading')).toHaveCount(0);
     expect((await (await request.get('/api/workspace')).json()).agreementStatus).toBe('approved');
   });

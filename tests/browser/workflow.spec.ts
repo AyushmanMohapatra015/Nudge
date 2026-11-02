@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 test('client acceptance gates changes and invoicing; reminders obey current policy and payment state', async ({ page, request, context }) => {
   await request.post('/api/workspace', { data: { type: 'reset' } });
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Compare with agreement' })).toBeDisabled();
   let response = await request.post('/api/workspace', { data: { type: 'createInvoice', id: 'base' } });
   expect(response.status()).toBe(400);
@@ -58,7 +58,7 @@ test('client acceptance gates changes and invoicing; reminders obey current poli
   await page.screenshot({ path: 'test-results/workspace-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => window.scrollTo(0, 0));
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/workspace-mobile.png', fullPage: true });
   await client.close();

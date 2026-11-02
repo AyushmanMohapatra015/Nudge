@@ -57,7 +57,7 @@ try {
   const json = async (path, body) => { const r = body ? await context.request.post(origin + path, { headers: { origin }, data: body }) : await context.request.get(origin + path); assert.equal(r.status(), 200, 'Fictional local setup'); return r.json(); };
   await page.goto(origin); await page.getByRole('heading', { name: 'Your workspace, protected.' }).waitFor();
   await page.getByLabel('Workspace token', { exact: true }).fill(token); await page.getByRole('button', { name: 'Open workspace', exact: true }).click();
-  await page.getByRole('heading', { name: 'Good work deserves to get paid.' }).waitFor();
+  await page.getByRole('heading', { name: 'Project overview' }).waitFor();
   let state = await json('/api/workspace'); assert.equal(state.mode, 'sandbox'); assert.equal(state.aiEnabled, true); assert.equal(state.connections.paypal, false); assert.equal(state.connections.webhook, false);
   await json('/api/workspace', { type: 'saveAgreement', agreement }); await json('/api/workspace', { type: 'approveAgreement' }); state = await json('/api/workspace'); await json('/api/client/' + state.clientToken, { type: 'acceptAgreement' });
   await page.reload(); const input = page.getByLabel('CLIENT REQUEST', { exact: true }); await input.fill(requestText);

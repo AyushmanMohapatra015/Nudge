@@ -63,7 +63,7 @@ test('Studio uses real local analytics records, exact USD display and session-on
   const writes: string[] = []; page.on('request', req => { if (req.method() === 'POST' && new URL(req.url()).pathname.startsWith('/api/')) writes.push(req.method()); });
   await page.goto('/analytics');
   await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Your work, in perspective.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Financial reports' })).toBeVisible();
   const totals = page.getByRole('region', { name: 'Complete workspace totals' });
   await expect(totals.getByText('$800.00', { exact: true })).toHaveCount(2);
   await expect(page.getByText(/Illustrative simulation data/)).toBeVisible();

@@ -43,7 +43,7 @@ export default function Analytics({ licenseKey }: { licenseKey?: string }) {
     <a className="skip-link" href="#analytics-reports">Skip to reports</a>
     <p className="analytics-announcement" role="status" aria-live="polite" aria-atomic="true">{announcement}</p>
     <a className="btn" href="/">Back to workspace</a>
-    <header className="analytics-heading"><div><p className="eyebrow">NUDGE · AG STUDIO</p><h1>Your work, in perspective.</h1>
+    <header className="analytics-heading"><div><p className="eyebrow">NUDGE · AG STUDIO</p><h1>Financial reports</h1>
       <p>Inspect invoice balances and approved changes. Build reports without changing your financial records.</p></div>
       <button ref={refreshButton} className="btn" onClick={() => { if (!busy) void refresh(); }} aria-disabled={busy}>{busy ? 'Loading…' : 'Refresh local snapshot'}</button>
     </header>

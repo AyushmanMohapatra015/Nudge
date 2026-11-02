@@ -60,12 +60,12 @@ async function context() {
 }
 async function ownerPage() {
   stage = 'owner-login'; page = await ownerContext.newPage(); await page.goto(origin);
-  await page.getByRole('heading', { name: 'Good work deserves to get paid.', exact: true }).or(page.getByLabel('Workspace token', { exact: true })).first().waitFor();
+  await page.getByRole('heading', { name: 'Project overview', exact: true }).or(page.getByLabel('Workspace token', { exact: true })).first().waitFor();
   if (await page.getByLabel('Workspace token', { exact: true }).count()) {
     await page.getByLabel('Workspace token', { exact: true }).fill(session.snapshot().ownerToken);
     await page.getByRole('button', { name: 'Open workspace', exact: true }).click();
   }
-  await page.getByRole('heading', { name: 'Good work deserves to get paid.', exact: true }).waitFor();
+  await page.getByRole('heading', { name: 'Project overview', exact: true }).waitFor();
 }
 async function json(path, body) {
   const r = body ? await ownerContext.request.post(origin + path, { headers: { origin }, data: body }) : await ownerContext.request.get(origin + path);
@@ -115,7 +115,7 @@ try {
   assert.equal(state.invoices[0].status, 'PAID'); assert.equal(state.invoices[0].outstandingCents, 0); assert.equal(state.invoices.length, 1); assert.equal(state.agreement.amountCents, 120000); assert.equal(state.proposals[0].id, proposalId);
   assert.equal(state.audit.filter(a => a.title === 'Invoice created').length, 1); assert.equal(state.audit.filter(a => a.title === 'Invoice sent').length, 1);
   await screenshot('offline-paid-invoice');
-  stage = 'local-analytics'; await page.goto(origin + '/analytics'); await page.getByRole('heading', { name: 'Your work, in perspective.', exact: true }).waitFor();
+  stage = 'local-analytics'; await page.goto(origin + '/analytics'); await page.getByRole('heading', { name: 'Financial reports', exact: true }).waitFor();
   await page.getByRole('button', { name: 'Refresh local snapshot', exact: true }).click();
   const analytics = await json('/api/analytics'); assert.equal(analytics.stateSource, 'local-records');
   assert.equal(analytics.invoices.length, 1); assert.equal(analytics.invoices[0].status, 'PAID'); assert.equal(analytics.invoices[0].amountCents, 30000); assert.equal(analytics.invoices[0].outstandingCents, 0);

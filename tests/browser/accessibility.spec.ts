@@ -5,7 +5,7 @@ test('forced-colors owner and client workflows retain focus, labels and explicit
   await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 640, height: 900 });
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to workspace content' })).toBeFocused();
@@ -76,7 +76,7 @@ test('agreement save rejection and connection failure preserve every edit until 
   await page.getByRole('button', { name: 'Save agreement' }).click();
   await expect(page.getByRole('heading', { name: 'Make the agreement yours.' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: values.title, exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'One agreement. A clear way forward.' })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Project agreement' })).toBeFocused();
   const saved = await (await request.get('/api/workspace')).json();
   expect(saved.agreement.amountCents).toBe(45678);
   expect(saved.agreementStatus).toBe('draft');
@@ -134,8 +134,8 @@ test('keyboard users can skip navigation and reach the owner content', async ({ 
   await page.getByRole('button', { name: 'My project', exact: true }).focus();
   await expect(page.getByRole('button', { name: 'My project', exact: true })).toHaveCSS('outline-style', 'solid');
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('heading', { name: 'One agreement. A clear way forward.' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'One agreement. A clear way forward.' })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Project agreement' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project agreement' })).toBeFocused();
 });
 
 test('owner views and forms reflow at narrow and half-width zoom-equivalent sizes with named fields', async ({ page, request }) => {
@@ -155,7 +155,7 @@ test('owner views and forms reflow at narrow and half-width zoom-equivalent size
     await expect(page.getByLabel('Client email', { exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
-    await expect(page.getByRole('heading', { name: 'One agreement. A clear way forward.' })).toBeFocused();
+    await expect(page.getByRole('heading', { name: 'Project agreement' })).toBeFocused();
     if (width === 320) await page.screenshot({ path: test.info().outputPath('owner-mobile.png'), fullPage: true });
   }
 });
@@ -168,7 +168,7 @@ test('reminder editor has a label and disappearing approval returns focus to hea
   await page.getByRole('button', { name: 'Draft reminder', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Reminder message', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Dismiss draft', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'From agreed to paid.' })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Invoices and payments' })).toBeFocused();
 });
 
 test('client reflow, reduced motion, invalid-link alert and keyboard acceptance remain accessible', async ({ page, request }) => {

@@ -76,7 +76,7 @@ try {
   context.setDefaultTimeout(20000); context.setDefaultNavigationTimeout(20000);
   context.on('page', page => page.on('pageerror', error => browserErrors.push(error.name)));
   await context.route('**/*', route => { const url = new URL(route.request().url()); if (url.origin === origin) return route.continue(); external.push(url.hostname); return route.fulfill({ status: 200, contentType: 'text/css', body: '' }); });
-  await inspectPage('/', 'workspace-empty', async page => { await page.getByRole('heading', { name: 'Good work deserves to get paid.' }).waitFor(); });
+  await inspectPage('/', 'workspace-empty', async page => { await page.getByRole('heading', { name: 'Project overview' }).waitFor(); });
   await json('/api/workspace', { type: 'approveAgreement' }); let state = await workspace();
   await json('/api/client/' + encodeURIComponent(state.clientToken), { type: 'acceptAgreement' }); state = await workspace();
   const calendar = { timezone: 'Asia/Kolkata', weekdays: [1,2,3,4,5], holidays: ['2026-10-19'] };
@@ -136,7 +136,7 @@ try {
   assert.equal(state.invoices[0].status, 'PAID'); assert.equal(state.invoices[0].outstandingCents, 0); assert.deepEqual(state.deliveryPlan, applied);
   const analytics = await json('/api/analytics'); assert.equal(analytics.totals.approvedExtraCents, 30000); assert.equal(analytics.totals.outstandingCents, 0);
   await inspectPage('/analytics', 'analytics-studio-and-native-tables', async page => {
-    await page.getByRole('heading', { name: 'Your work, in perspective.' }).waitFor();
+    await page.getByRole('heading', { name: 'Financial reports' }).waitFor();
     await page.getByRole('button', { name: 'Load interactive reports', exact: true }).click();
     await page.getByRole('region', { name: 'AG Studio report builder' }).locator('.ag-studio-layout-widget').first().waitFor({ timeout: 30000 });
     await page.getByText('Read complete snapshot as tables', { exact: true }).click();

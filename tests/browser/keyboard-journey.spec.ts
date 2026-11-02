@@ -35,7 +35,7 @@ test('keyboard alone completes approved scope, reviewed quote, client consent an
   test.setTimeout(120000);
   expect((await request.post('/api/workspace', { data: { type: 'reset' } })).status()).toBe(200);
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   await activate(page, page.getByRole('link', { name: 'Skip to workspace content' }));
   await activate(page, page.getByRole('button', { name: 'Approve scope', exact: true }));
   await expect(page.getByText('Waiting for client acceptance', { exact: true })).toBeVisible();
@@ -120,7 +120,7 @@ test('keyboard reaches snapshot tables and moves and resizes Studio widget witho
   await activate(page, page.getByRole('button', { name: 'Refresh local snapshot', exact: true }));
   await expect(page.locator('.analytics-announcement')).toContainText('Local snapshot loaded. Version');
   await activate(page, page.getByRole('link', { name: 'Back to workspace', exact: true }));
-  await expect(page.getByRole('heading', { name: 'Good work deserves to get paid.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Project overview' })).toBeVisible();
   expect(writes).toEqual([]);
   expect(await (await request.get('/api/workspace')).json()).toEqual(before);
 });

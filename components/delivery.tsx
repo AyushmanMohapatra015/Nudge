@@ -79,7 +79,7 @@ export default function Delivery() {
   return <main className="delivery-page">
     <a className="skip-link" href="#delivery-records">Skip to delivery records</a>
     <a className="text-btn" href="/">← Back to workspace</a>
-    <header className="delivery-heading"><div><p className="eyebrow">AGREED WORK. A VISIBLE PLAN.</p><h1>Delivery, with room to review.</h1>
+    <header className="delivery-heading"><div><p className="eyebrow">INTERNAL SCHEDULE</p><h1>Delivery plan</h1>
       <p>Your internal plan. These dates are not client-agreed deadlines.</p></div>
       <button className="btn" ref={refreshButton} aria-disabled={busy || saving} onClick={() => { if (!busy && !saving) void refresh(); }}>{busy ? 'Loading…' : 'Refresh delivery snapshot'}</button>
     </header>
