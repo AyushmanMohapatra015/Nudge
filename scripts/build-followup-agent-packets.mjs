@@ -114,10 +114,10 @@ Use PA-4/B2 in manifests, change IDs B2-01 library+tests, B2-02 CLI+CLI tests (s
 
 const spec = mode === '--a' ? {
   file: 'WEB_AGENT_A_STORAGE_PACKET.md', intro: a,
-  files: ['package.json', 'scripts/database-lifecycle.mjs', 'scripts/database-maintenance.mjs', 'scripts/render-database-operations.mjs', 'scripts/render-database-maintenance.mjs', 'scripts/render-config.mjs', 'scripts/start-render.mjs', 'lib/store.ts', 'lib/processing.ts', 'tests/database-lifecycle.test.ts', 'tests/render-database.test.ts', 'tests/render-config.test.ts', 'DATABASE_RECOVERY.md', 'JUDGING_MAINTENANCE.md'],
+  files: ['package.json', 'scripts/database-lifecycle.mjs', 'scripts/database-maintenance.mjs', 'scripts/render-database-operations.mjs', 'scripts/render-database-maintenance.mjs', 'scripts/render-config.mjs', 'scripts/start-render.mjs', 'lib/store.ts', 'lib/processing.ts', 'tests/database-lifecycle.test.ts', 'tests/render-database.test.ts', 'tests/render-config.test.ts', 'docs/DATABASE_RECOVERY.md', 'docs/JUDGING_MAINTENANCE.md'],
 } : {
   file: 'WEB_AGENT_B_EVALUATION_PACKET.md', intro: b,
-  files: ['package.json', 'lib/domain.ts', 'lib/scope-instructions.ts', 'evaluation/scope-cases.ts', 'evaluation/score-scope.ts', 'evaluation/summarize-scope.ts', 'evaluation/scope-challenges.ts', 'evaluation/lexical-baseline.ts', 'scripts/score-scope.ts', 'scripts/summarize-scope.ts', 'scripts/run-scope-baseline.ts', 'tests/scope-evaluation.test.ts', 'tests/scope-summary.test.ts', 'tests/scope-challenges.test.ts', 'BASELINE_EVALUATION.md'],
+  files: ['package.json', 'lib/domain.ts', 'lib/scope-instructions.ts', 'evaluation/scope-cases.ts', 'evaluation/score-scope.ts', 'evaluation/summarize-scope.ts', 'evaluation/scope-challenges.ts', 'evaluation/lexical-baseline.ts', 'scripts/score-scope.ts', 'scripts/summarize-scope.ts', 'scripts/run-scope-baseline.ts', 'tests/scope-evaluation.test.ts', 'tests/scope-summary.test.ts', 'tests/scope-challenges.test.ts', 'docs/BASELINE_EVALUATION.md'],
 };
 
 let output = spec.intro + '\n## Exact source snapshot\n\nDocumentation snapshots can contain older checkpoints; current verified state above governs this assignment. Source hashes detect drift, not execution or correctness.\n';

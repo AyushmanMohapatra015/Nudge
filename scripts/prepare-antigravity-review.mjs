@@ -9,7 +9,7 @@ const root=realpathSync(resolve(dirname(fileURLToPath(import.meta.url)),'..'));
 const stagingRoot=resolve(root,'data/review-copies');
 const target=resolve(root,'../Nudge-Antigravity-Review');
 const hash=content=>createHash('sha256').update(content).digest('hex');
-const allowedDirectories=new Set(['app','components','lib','tests','scripts','postman','evaluation','public']);
+const allowedDirectories=new Set(['app','components','lib','tests','scripts','postman','evaluation','public','docs']);
 const allowedExtensions=new Set(['.ts','.tsx','.js','.jsx','.mjs','.cjs','.json','.md','.txt','.css','.html','.svg','.yaml','.yml']);
 function safePath(path){
   const parts=path.split('/');
@@ -31,7 +31,7 @@ const brief=`# Start here: independent Nudge backend review
 
 This is a source-only review copy, not the active project. It has no Git history, private environment, database, installed dependencies, generated build, sponsor library distribution or credentials. No setup or installation has been performed. README run commands describe the original application; do not execute them for this first review.
 
-Read AGENTS.md, PROJECT_STATUS.md, ARCHITECTURE_REVIEW.md, PAYMENT_INTEGRITY.md, PROCESSING_RECOVERY.md, BRYNTUM_EVALUATION_PERMISSION.md and relevant source/tests. Some historical documents describe original-machine evidence and ignored receipts not included here; do not claim you reran those checks.
+Read AGENTS.md, docs/PROJECT_STATUS.md, docs/ARCHITECTURE_REVIEW.md, docs/PAYMENT_INTEGRITY.md, docs/PROCESSING_RECOVERY.md, docs/BRYNTUM_EVALUATION_PERMISSION.md and relevant source/tests. Some historical documents describe original-machine evidence and ignored receipts not included here; do not claim you reran those checks.
 
 Task: independently review the PayPal invoice/payment and human-approval backend. Prioritise authoritative amount/status handling, exact cents, auth/origin and client projection, webhook verification/deduplication, version/idempotency/concurrency, uncertain remote outcomes and recovery. Review existing tests for meaningful gaps. Separate actual defects from hypotheses, intentional prototype limits and already-documented open work.
 

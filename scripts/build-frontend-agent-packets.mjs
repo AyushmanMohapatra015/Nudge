@@ -70,10 +70,10 @@ Allowed output files are the three named new files ONLY; existing files_changed 
 `;
 const spec = mode === '--a' ? {
   file: 'FRONTEND_AGENT_A_PACKET.md', intro: visual,
-  files: ['FRONTEND_DESIGN_PLAN.md', 'FRONTEND_REFERENCE_REVIEW.md', 'lib/domain.ts', 'lib/client-invoice-presentation.ts', 'components/client-page.tsx'],
+  files: ['docs/FRONTEND_DESIGN_PLAN.md', 'docs/FRONTEND_REFERENCE_REVIEW.md', 'lib/domain.ts', 'lib/client-invoice-presentation.ts', 'components/client-page.tsx'],
 } : {
   file: 'FRONTEND_AGENT_B_PACKET.md', intro: contract,
-  files: ['FRONTEND_DESIGN_PLAN.md', 'package.json', 'lib/domain.ts', 'lib/browser-read.ts', 'lib/client-invoice-presentation.ts', 'components/workspace.tsx', 'components/client-page.tsx', 'components/brief-review.tsx', 'components/processing-recovery.tsx', 'components/client-link-settings.tsx', 'components/quote-explanation.tsx', 'app/api/workspace/route.ts', 'app/api/client/[token]/route.ts', 'tests/browser/workflow.spec.ts', 'tests/browser/connection-recovery.spec.ts', 'tests/browser/keyboard-journey.spec.ts', 'tests/browser/client-invoice-presentation.spec.ts'],
+  files: ['docs/FRONTEND_DESIGN_PLAN.md', 'package.json', 'lib/domain.ts', 'lib/browser-read.ts', 'lib/client-invoice-presentation.ts', 'components/workspace.tsx', 'components/client-page.tsx', 'components/brief-review.tsx', 'components/processing-recovery.tsx', 'components/client-link-settings.tsx', 'components/quote-explanation.tsx', 'app/api/workspace/route.ts', 'app/api/client/[token]/route.ts', 'tests/browser/workflow.spec.ts', 'tests/browser/connection-recovery.spec.ts', 'tests/browser/keyboard-journey.spec.ts', 'tests/browser/client-invoice-presentation.spec.ts'],
 };
 let output = spec.intro + '\n## Source snapshot\n\nOwn source/documentation only. SHA256 detects drift. Code/document line1 begins at the fenced block; no dependency or secret contents exported.\n';
 let bytes = 0;

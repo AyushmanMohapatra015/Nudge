@@ -1,8 +1,9 @@
 # Documentation
 
-Most project guides and historical reviews now live in this folder. A few root
-documents remain there because existing preparation tools read their exact paths;
-standard GitHub and agent instruction files also remain at the root.
+Project guides and historical reviews live in this folder. Preparation tools now
+read their documentation inputs here. Only `README.md` and the automatically
+discovered `AGENTS.md` remain as root Markdown files. GitHub's security and
+contribution guides live in `.github/`, and Claude instructions in `.claude/`.
 
 - [Thursday demo commands and walkthrough](THURSDAY_DEMO_RUNBOOK.md)
 - [Durable project handoff](MEGA_HANDOFF.md)
@@ -18,26 +19,26 @@ application URLs or provider configuration.
 
 - [Project and local setup](../README.md)
 - [Judge walkthrough and access](JUDGE_SETUP.md)
-- [Current status](../PROJECT_STATUS.md)
-- [Architecture](../ARCHITECTURE_REVIEW.md)
+- [Current status](PROJECT_STATUS.md)
+- [Architecture](ARCHITECTURE_REVIEW.md)
 - [Authoritative action plan](REVIEW_ACTION_PLAN.md)
 
 ## Integrations and data
 
-- [Payment integrity](../PAYMENT_INTEGRITY.md)
+- [Payment integrity](PAYMENT_INTEGRITY.md)
 - [Webhook evidence](WEBHOOK_VERIFICATION.md)
 - [Latest bounded Elastic checks](ELASTIC_LIVE_CHECKPOINT.md)
 - [AI evaluation](AI_EVALUATION.md)
 - [Client access](CLIENT_ACCESS.md)
-- [Database recovery](../DATABASE_RECOVERY.md)
-- [Render preparation](../RENDER_DEPLOYMENT.md)
+- [Database recovery](DATABASE_RECOVERY.md)
+- [Render preparation](RENDER_DEPLOYMENT.md)
 - [Actual sponsor contributions](SPONSOR_ATTRIBUTION.md)
 
 ## Verification and release
 
 - [Current publication/security review](PUBLICATION_SECURITY_REVIEW.md)
-- [Security reporting](../SECURITY.md)
-- [Contributing](../CONTRIBUTING.md)
+- [Security reporting](../.github/SECURITY.md)
+- [Contributing](../.github/CONTRIBUTING.md)
 - [Postman verification](POSTMAN_JUDGE_GUIDE.md)
 - [Backend release evidence](BACKEND_RELEASE_REVIEW.md)
 - [Manual accessibility checkpoint](ACCESSIBILITY_MANUAL_CHECKLIST.md)

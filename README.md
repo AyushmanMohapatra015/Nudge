@@ -6,24 +6,24 @@ For the pending Windows screen-reader, actual browser-zoom and physical-touch re
 
 Nudge is a scope and payments workspace for freelance designers. A client approves an agreement, AI compares a new request against the actual clauses, the freelancer sets a change price, and the client accepts that price before a PayPal invoice can be created. Payment follow-ups obey explicit rules and require human approval.
 
-This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](docs/JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
+This is a working hackathon prototype, not a production financial service. MIT licensed. Start with [JUDGE_SETUP.md](docs/JUDGE_SETUP.md) for a short, credential-free walkthrough; [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) distinguishes implemented features from live verification still pending.
 
-**Verified development example:** the same fictional USD300 booking extra has completed actual website Elastic assessment, human review, client acceptance, one PayPal sandbox invoice/send, owner-completed checkout and provider-backed PAID/$0 reconciliation with matching local Analytics. This was verified across sessions, not as a final uninterrupted video. The default local walkthrough remains labelled simulation; normal AI is paused. Broader model quality, fresh payment-triggered PAID webhook delivery, real-user usefulness, final judge access and publication remain unverified. See [sandbox evidence and limits](SANDBOX_REHEARSAL_PLAN.md) and [judge-access release gates](docs/JUDGE_SETUP.md#f5b--functional-judge-access-release-gate-reviewed-october25).
+**Verified development example:** the same fictional USD300 booking extra has completed actual website Elastic assessment, human review, client acceptance, one PayPal sandbox invoice/send, owner-completed checkout and provider-backed PAID/$0 reconciliation with matching local Analytics. This was verified across sessions, not as a final uninterrupted video. The default local walkthrough remains labelled simulation; normal AI is paused. Broader model quality, fresh payment-triggered PAID webhook delivery, real-user usefulness, final judge access and publication remain unverified. See [sandbox evidence and limits](docs/SANDBOX_REHEARSAL_PLAN.md) and [judge-access release gates](docs/JUDGE_SETUP.md#f5b--functional-judge-access-release-gate-reviewed-october25).
 
 [SPONSOR_ATTRIBUTION.md](docs/SPONSOR_ATTRIBUTION.md) records actual sponsor contributions, permitted claims and outstanding judge/licence/access confirmations. It separates working local integrations from paused AI, prospective Render hosting and unused sponsor candidates; source reproducibility does not itself clear publication or commercial evaluation rights.
 
-The MIT licence covers Nudge's original code. Bryntum is a separate proprietary dependency: the sponsor has permitted free hackathon evaluation and a public non-commercial judge demo through December15,2026; see [permission checkpoint](BRYNTUM_EVALUATION_PERMISSION.md). AG Studio public demo and judge licence coverage remain unconfirmed. See [THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json), [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt) and [Bryntum third-party notices](docs/THIRD_PARTY_BRYNTUM_NOTICES.md). Do not publish your evaluation key or vendor packages in the repository.
+The MIT licence covers Nudge's original code. Bryntum is a separate proprietary dependency: the sponsor has permitted free hackathon evaluation and a public non-commercial judge demo through December15,2026; see [permission checkpoint](docs/BRYNTUM_EVALUATION_PERMISSION.md). AG Studio public demo and judge licence coverage remain unconfirmed. See [THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md), [dependency inventory](DEPENDENCY_LICENSE_INVENTORY.json), [retained direct runtime notices](THIRD_PARTY_LICENSE_TEXTS.txt) and [Bryntum third-party notices](docs/THIRD_PARTY_BRYNTUM_NOTICES.md). Do not publish your evaluation key or vendor packages in the repository.
 
 Before sharing source, run `npm run privacy:check` and read [PUBLIC_SOURCE_REVIEW.md](docs/PUBLIC_SOURCE_REVIEW.md) for its scope and remaining history/artifact checks. The authoritative task sequence and sponsor integration gates are in [REVIEW_ACTION_PLAN.md](docs/REVIEW_ACTION_PLAN.md).
 
 Before making the repository public, follow [PUBLICATION_READINESS.md](docs/PUBLICATION_READINESS.md): older history disclosures, sponsor publication permissions and actual GitHub settings still need review. A clear current-source scan does not clear those gates.
 
-Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
+Payment reconciliation validates invoice identity, approved USD totals and consistent balances before recording payment. See [PAYMENT_INTEGRITY.md](docs/PAYMENT_INTEGRITY.md) for tested behavior and remaining sandbox verification.
 
 ## Run locally
 
 For navigation, see the [documentation index](docs/README.md),
-[contribution guide](CONTRIBUTING.md) and [security policy](SECURITY.md).
+[contribution guide](.github/CONTRIBUTING.md) and [security policy](.github/SECURITY.md).
 The latest [publication/security review](docs/PUBLICATION_SECURITY_REVIEW.md) records
 security updates and remaining release gates; the repository is not automatically
 cleared for publication by a passing dependency or source scan.
@@ -94,7 +94,7 @@ Run `npm run paypal:check` (`npm.cmd run paypal:check` in PowerShell) to verify 
 5. Open that link and pay with the sandbox personal buyer. Do not manually record an external payment as a substitute for demonstrating checkout.
 6. Click **Refresh status** to retrieve the authoritative invoice state. For automatic reconciliation, follow the webhook setup below.
 
-The earlier USD10 sandbox checkout and the later matched USD300 booking-extra journey both have authoritative PAID reconciliation evidence. Genuine signed delivery and deduplication were separately verified by redelivering an existing SENT event; a fresh payment-triggered PAID delivery remains pending. See [WEBHOOK_VERIFICATION.md](docs/WEBHOOK_VERIFICATION.md). Actual website Elastic assessment on the matched fictional booking example is verified; broader quality evaluation and final judging access remain pending. See [sandbox evidence](SANDBOX_REHEARSAL_PLAN.md) and [Elastic evidence](docs/ELASTIC_VERIFICATION.md). AI usage can incur charges outside confirmed allowances; an enable flag or request counter is not a billing cap. No paid services are provisioned by this repository.
+The earlier USD10 sandbox checkout and the later matched USD300 booking-extra journey both have authoritative PAID reconciliation evidence. Genuine signed delivery and deduplication were separately verified by redelivering an existing SENT event; a fresh payment-triggered PAID delivery remains pending. See [WEBHOOK_VERIFICATION.md](docs/WEBHOOK_VERIFICATION.md). Actual website Elastic assessment on the matched fictional booking example is verified; broader quality evaluation and final judging access remain pending. See [sandbox evidence](docs/SANDBOX_REHEARSAL_PLAN.md) and [Elastic evidence](docs/ELASTIC_VERIFICATION.md). AI usage can incur charges outside confirmed allowances; an enable flag or request counter is not a billing cap. No paid services are provisioned by this repository.
 
 ## Sponsor AI gateway setup
 
@@ -104,7 +104,7 @@ Scope adapters use a shared non-interactive policy with explicit handling of unk
 
 Current sponsor checkpoint: Elastic managed-model access has worked on the owner's free trial; the latest owner-reported banner ends November4,2026 at05:29UTC. Exact fair-use capacity, exhaustion behavior and judging access remain under review. Normal AI remains paused. Astropods is inactive with a mocked adapter; real gateway access remains unverified. Sponsor setup is optional for local simulation. See [SPONSOR_CHECKPOINTS.md](docs/SPONSOR_CHECKPOINTS.md) and [sponsor fit assessments](docs/SPONSOR_RESOURCES.md); do not activate billing or assume a trial covers future usage.
 
-Render hosting preparation is in [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md), with a review-only Blueprint, guarded startup and generic database health route. No deployment or sponsor-credit redemption is claimed. The SQLite design needs persistent storage and verified coverage through judging before hosted activation.
+Render hosting preparation is in [RENDER_DEPLOYMENT.md](docs/RENDER_DEPLOYMENT.md), with a review-only Blueprint, guarded startup and generic database health route. No deployment or sponsor-credit redemption is claimed. The SQLite design needs persistent storage and verified coverage through judging before hosted activation.
 
 Nudge can use Claude through Astropods without a separate paid Anthropic API key. The adapter supports the documented Anthropic passthrough endpoint, gateway-specific authentication, and Bedrock model IDs. The same clause validation and human approval rules apply. This integration has passed mocked tests; account authentication and a real model response remain to be verified.
 
@@ -166,7 +166,7 @@ Registration creates only an event subscription, not a payment. An empty event l
 - PayPal sandbox Invoicing adapter: draft creation, separate sending, status retrieval, and reminders.
 - Signature-verified webhook reconciliation and deduplication, verified with genuine redelivery of an existing sandbox event; fresh payment-triggered delivery remains pending.
 - A single server execution gate and persistent activity trail.
-- Same-host interrupted-process recovery, stale-result ownership checks and persisted uncertain-send blocking; see [PROCESSING_RECOVERY.md](PROCESSING_RECOVERY.md).
+- Same-host interrupted-process recovery, stale-result ownership checks and persisted uncertain-send blocking; see [PROCESSING_RECOVERY.md](docs/PROCESSING_RECOVERY.md).
 - Reminder template review, protected clients, maximum reminders, cooldown, overdue check, and confirmed payment promises.
 - Responsive freelancer/client UI, local persistence, sandbox administrator sign-in, and same-origin mutation checks.
 
@@ -174,9 +174,9 @@ Reminder drafting is currently a deterministic editable template, not AI-written
 
 ## Architecture
 
-See [the architecture and evidence audit](ARCHITECTURE_REVIEW.md) for source authority, actual sponsor use and the distinction between implemented, offline-tested and live-verified behavior.
+See [the architecture and evidence audit](docs/ARCHITECTURE_REVIEW.md) for source authority, actual sponsor use and the distinction between implemented, offline-tested and live-verified behavior.
 
-The owner-only **Delivery** page at `/delivery` supports owner-entered estimates after agreement acceptance, separate save-preview/apply/discard decisions, current/original/proposed date tables, an optional read-only Bryntum Gantt timeline and local payment context. It never checks PayPal or saves chart edits. A fresh workspace correctly shows no plan. Extra work must be reviewed and client-accepted before applying; stale or unconfirmed outcomes require refresh and review. The backend enforces server IDs, versions, scope, calendar and transaction checks. Unsaved edits stay in page memory and are lost on navigation. See [planning evidence](docs/DELIVERY_PLANNING_REVIEW.md), [delivery view evidence](docs/DELIVERY_VIEW_REVIEW.md), [API evidence](docs/DELIVERY_API_REVIEW.md) and [Bryntum integration plan](docs/BRYNTUM_PLAN.md). Bryntum public non-commercial judging permission is recorded in [BRYNTUM_EVALUATION_PERMISSION.md](BRYNTUM_EVALUATION_PERMISSION.md); technical expiry and separate local acquisition checks remain.
+The owner-only **Delivery** page at `/delivery` supports owner-entered estimates after agreement acceptance, separate save-preview/apply/discard decisions, current/original/proposed date tables, an optional read-only Bryntum Gantt timeline and local payment context. It never checks PayPal or saves chart edits. A fresh workspace correctly shows no plan. Extra work must be reviewed and client-accepted before applying; stale or unconfirmed outcomes require refresh and review. The backend enforces server IDs, versions, scope, calendar and transaction checks. Unsaved edits stay in page memory and are lost on navigation. See [planning evidence](docs/DELIVERY_PLANNING_REVIEW.md), [delivery view evidence](docs/DELIVERY_VIEW_REVIEW.md), [API evidence](docs/DELIVERY_API_REVIEW.md) and [Bryntum integration plan](docs/BRYNTUM_PLAN.md). Bryntum public non-commercial judging permission is recorded in [BRYNTUM_EVALUATION_PERMISSION.md](docs/BRYNTUM_EVALUATION_PERMISSION.md); technical expiry and separate local acquisition checks remain.
 
 ```mermaid
 flowchart LR
@@ -195,11 +195,11 @@ Amounts are stored as integer cents; USD only. AI has no payment credentials or 
 
 SQLite was chosen for the first local slice so it is runnable without infrastructure. Before deployment use **one Node instance with a persistent disk** and a database backup, or migrate to Postgres. Do not deploy this SQLite version on ephemeral/serverless storage or multiple replicas. The current build is a single-workspace prototype, not a multi-tenant SaaS.
 
-Local snapshot/verification/offline-recovery commands are documented in [DATABASE_RECOVERY.md](DATABASE_RECOVERY.md). They preserve webhook and remote-operation records and never replace the active database automatically. Maintenance needs Node 22.16+; Node 24 is recommended. Recovery copies contain private data and need remote-state review before any promotion.
+Local snapshot/verification/offline-recovery commands are documented in [DATABASE_RECOVERY.md](docs/DATABASE_RECOVERY.md). They preserve webhook and remote-operation records and never replace the active database automatically. Maintenance needs Node 22.16+; Node 24 is recommended. Recovery copies contain private data and need remote-state review before any promotion.
 
 ## Checks
 
-For offline comparison of saved lexical/plain-LLM/Nudge outputs, see [evaluation comparison guide](EVALUATION_COMPARISON_GUIDE.md). The companion reports matched coverage, invalid/missing/simulated outputs, repeated-run disagreement and reported telemetry without calling a provider. Its synthetic tool tests establish neither actual AI accuracy nor a billing allowance. [Storage assurance addendum](STORAGE_RECOVERY_ADDENDUM.md) records the reviewed snapshot consistency checks and remaining real-platform recovery gates.
+For offline comparison of saved lexical/plain-LLM/Nudge outputs, see [evaluation comparison guide](docs/EVALUATION_COMPARISON_GUIDE.md). The companion reports matched coverage, invalid/missing/simulated outputs, repeated-run disagreement and reported telemetry without calling a provider. Its synthetic tool tests establish neither actual AI accuracy nor a billing allowance. [Storage assurance addendum](docs/STORAGE_RECOVERY_ADDENDUM.md) records the reviewed snapshot consistency checks and remaining real-platform recovery gates.
 
 ```sh
 npm run typecheck

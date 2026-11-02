@@ -4,7 +4,7 @@ October 17, 2026. This is B2c's documented acquisition/setup path, not a new ins
 
 ## Permission and access boundaries
 
-The owner-supplied sponsor reply permits this project's free evaluation and publicly hosted, non-commercial judge demo through **December 15, 2026**, and permits publishing Nudge's own MIT source with Bryntum files/credentials excluded. It confirms no automatic paid conversion or payment obligation for that evaluation. All other applicable terms remain. See [permission summary](../BRYNTUM_EVALUATION_PERMISSION.md); the original email is retained privately.
+The owner-supplied sponsor reply permits this project's free evaluation and publicly hosted, non-commercial judge demo through **December 15, 2026**, and permits publishing Nudge's own MIT source with Bryntum files/credentials excluded. It confirms no automatic paid conversion or payment obligation for that evaluation. All other applicable terms remain. See [permission summary](BRYNTUM_EVALUATION_PERMISSION.md); the original email is retained privately.
 
 That project-specific permission is not a transferable personal licence for every reader or permission to redistribute the library. Local evaluators must obtain Bryntum separately under applicable evaluation terms. If your intended local use or access period is unclear, ask the project owner to coordinate clarification with Bryntum; do not buy access or use someone else's credentials to complete this walkthrough. A hosted judge demo is preferred by the sponsor, but Nudge has no verified hosted URL yet. AG Studio and AI-provider access are separate checkpoints.
 

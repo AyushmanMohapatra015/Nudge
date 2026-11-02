@@ -28,7 +28,7 @@ Next owner-dependent checkpoint is **A3b/D4b**: send or follow up the existing A
 
 ## Bryntum evaluation access
 
-The sponsor permits this project's public non-commercial judge demo through December15,2026; see [permission checkpoint](../BRYNTUM_EVALUATION_PERMISSION.md). Follow [Bryntum's separate local acquisition and setup guide](BRYNTUM_JUDGE_SETUP.md) for evaluation terms, the public npm path, exact Gantt/wrapper versions, full lifecycle commands and the fictional chart walkthrough. No owner credentials or vendor distribution is supplied by this repository. The current registry-install workflow is tested locally; independent judge acquisition, effective technical expiry and hosted access remain to verify. AG Studio and other provider permissions are separate.
+The sponsor permits this project's public non-commercial judge demo through December15,2026; see [permission checkpoint](BRYNTUM_EVALUATION_PERMISSION.md). Follow [Bryntum's separate local acquisition and setup guide](BRYNTUM_JUDGE_SETUP.md) for evaluation terms, the public npm path, exact Gantt/wrapper versions, full lifecycle commands and the fictional chart walkthrough. No owner credentials or vendor distribution is supplied by this repository. The current registry-install workflow is tested locally; independent judge acquisition, effective technical expiry and hosted access remain to verify. AG Studio and other provider permissions are separate.
 
 ## Setup
 

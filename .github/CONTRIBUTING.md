@@ -1,7 +1,7 @@
 # Contributing
 
-Start with [README.md](README.md), [judge setup](docs/JUDGE_SETUP.md) and the
-[documentation index](docs/README.md). Use Node 24 for the tested setup. Complete
+Start with [README.md](../README.md), [judge setup](../docs/JUDGE_SETUP.md) and the
+[documentation index](../docs/README.md). Use Node 24 for the tested setup. Complete
 all three dependency-install commands in README; commercial trial dependencies
 remain subject to their separate terms.
 
