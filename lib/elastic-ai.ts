@@ -43,11 +43,17 @@ export async function analyzeWithElastic(request: string, agreement: Agreement):
     if (data.status !== 'completed' || typeof data.conversation_id !== 'string' || !data.conversation_id ||
         !data.response || 'prompts' in data.response || typeof data.response.message !== 'string' || data.response.message.length > 16000 ||
         !Array.isArray(data.steps) || data.steps.some((s: unknown) => !s || typeof s !== 'object' || ('type' in s && ['tool_call', 'ask_user_question', 'confirmation', 'authorization'].includes(String(s.type))))) throw Error('Unsupported agent outcome.');
-    // Models sometimes add one Markdown JSON wrapper despite the requested transport.
-    // Accept only a complete single block; never extract JSON from prose or repair it.
+    // Accept raw JSON, one complete standalone Markdown wrapper, or one fenced JSON
+    // object surrounded by prose. Never salvage multiple blocks or repair output.
     const message = data.response.message.trim();
-    const fenced = /^```(?:json)?[ \t]*\r?\n([\s\S]*?)\r?\n```$/.exec(message);
-    const analysis = validateReferences(analysisSchema.strict().parse(JSON.parse(fenced ? fenced[1] : message)), agreement);
+    const fences = [...message.matchAll(/```([^\r\n`]*)\r?\n([\s\S]*?)\r?\n```/g)];
+    if (fences.length > 1) throw Error('Multiple fenced blocks.');
+    const fence = fences[0];
+    const label = fence?.[1].trim().toLowerCase();
+    const isStandalone = !!fence && fence.index === 0 && fence[0].length === message.length;
+    if (fence && label !== 'json' && !(isStandalone && label === '')) throw Error('Unsupported fenced block.');
+    const jsonText = fence ? fence[2] : message;
+    const analysis = validateReferences(analysisSchema.strict().parse(JSON.parse(jsonText)), agreement);
     return { ...analysis, source: 'elastic' };
   } catch { throw Error('Elastic returned incomplete, tool-using or invalid scope analysis. Review manually; no automatic retry.'); }
 }
