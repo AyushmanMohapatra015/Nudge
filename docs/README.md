@@ -3,7 +3,8 @@
 Project guides and historical reviews live in this folder. Preparation tools now
 read their documentation inputs here. Only `README.md` and the automatically
 discovered `AGENTS.md` remain as root Markdown files. GitHub's security and
-contribution guides live in `.github/`, and Claude instructions in `.claude/`.
+contribution guides live in `.github/`. Shared coding-agent instructions live
+in the root `AGENTS.md` file.
 
 - [Thursday demo commands and walkthrough](THURSDAY_DEMO_RUNBOOK.md)
 - [Durable project handoff](MEGA_HANDOFF.md)

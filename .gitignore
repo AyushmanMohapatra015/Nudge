@@ -10,6 +10,7 @@ test-results/
 /.aws/
 /.codex/
 /.agents/
+/.claude/
 *.pem
 *.key
 *.p12
